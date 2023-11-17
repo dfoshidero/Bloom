@@ -15,7 +15,7 @@ import Icon from "react-native-vector-icons/FontAwesome";
 import { backgrounds } from "../states/backgroundsConfig";
 import PlantPosition from "../components/PlantPosition";
 
-const HomeScreen = () => {
+const GameScreen = () => {
   const [currentBackground, setCurrentBackground] = useState(
     backgrounds.background4
   );
@@ -69,7 +69,7 @@ const HomeScreen = () => {
               key={position.id}
               style={{
                 position: "absolute",
-                top: position.top,
+                bottom: position.bottom,
                 left: position.left,
               }}
             />
@@ -113,9 +113,10 @@ const styles = StyleSheet.create({
   backgroundImage: {
     resizeMode: "cover",
     position: "absolute",
+    bottom: 0,
     width: "100%",
     height: "100%",
   },
 });
 
-export default HomeScreen;
+export default GameScreen;

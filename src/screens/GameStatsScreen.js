@@ -18,7 +18,7 @@ const fetchMasteryLevels = () => {
   ]);
 };
 
-const MasteryScreen = () => {
+const GameStatsScreen = () => {
   const [masteryLevels, setMasteryLevels] = useState([]);
 
   useEffect(() => {
@@ -100,4 +100,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default MasteryScreen;
+export default GameStatsScreen;

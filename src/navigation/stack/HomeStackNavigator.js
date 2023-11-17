@@ -1,7 +1,7 @@
 import React from "react";
 import { createStackNavigator } from "@react-navigation/stack";
-import HomeScreen from "../../screens/HomeScreen";
-import MasteryScreen from "../../screens/MasteryScreen";
+import GameScreen from "../../screens/GameScreen";
+import GameStatsScreen from "../../screens/GameStatsScreen";
 
 const Stack = createStackNavigator();
 
@@ -10,10 +10,10 @@ const HomeStackNavigator = () => {
     <Stack.Navigator initialRouteName="Home">
       <Stack.Screen
         name="Home"
-        component={HomeScreen}
+        component={GameScreen}
         options={{ headerShown: false, footerShown: false }}
       />
-      <Stack.Screen name="Mastery" component={MasteryScreen} />
+      <Stack.Screen name="Mastery" component={GameStatsScreen} />
       {/* Add other screens here */}
     </Stack.Navigator>
   );
