@@ -12,10 +12,11 @@ import {
 import { useNavigation } from "@react-navigation/native";
 import Icon from "react-native-vector-icons/FontAwesome";
 
-import { backgrounds } from "../states/backgroundsConfig";
-import PlantPosition from "../components/PlantPosition";
+import { backgrounds } from "../states/backgroundsConfig"; //import backgroundattributes to the game screen
+import PlantPosition from "../components/PlantPosition"; //import plant position attributes to the game screen
 
 const GameScreen = () => {
+  //set up background image to loop through (useState is use to indicate which background is the current one)
   const [currentBackground, setCurrentBackground] = useState(
     backgrounds.background4
   );
@@ -23,6 +24,7 @@ const GameScreen = () => {
   const [menuVisible, setMenuVisible] = useState(false);
   const navigation = useNavigation();
 
+  //functions to toggle menu (upper left corner) visibility 
   const toggleMenu = () => {
     setMenuVisible(!menuVisible);
   };
@@ -38,9 +40,9 @@ const GameScreen = () => {
       <TouchableOpacity style={styles.settingsIcon} onPress={toggleMenu}>
         <Icon name="bars" size={40} color="black" />
       </TouchableOpacity>
-
+      {/*Menu button*/}
       <Modal
-        animationType="slide"
+        animationType="Slide"
         transparent={true}
         visible={menuVisible}
         onPressOut={toggleMenu}
@@ -49,9 +51,11 @@ const GameScreen = () => {
         style={styles.backgroundImage}
         onPress={closeMenu}
       >
+        {/*Contents in the menu*/}
         <View style={styles.menuContainer}>
           <Text style={styles.menuItem}>Achievements</Text>
           <Text style={styles.menuItem}>Collection</Text>
+          <Text style={styles.menuItem}>Game Stats</Text> 
           <Text style={styles.menuItem}>Shop</Text>
           <Text style={styles.menuItem}>Account</Text>
         </View>
@@ -79,6 +83,8 @@ const GameScreen = () => {
   );
 };
 
+
+//formatting of the game screen
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -90,11 +96,14 @@ const styles = StyleSheet.create({
     zIndex: 1,
   },
   menuContainer: {
+    position: "absolute", //added these 2 lines to align with the meniu button itself
+    top: Platform.OS === "android" ? StatusBar.currentHeight + 15 : 60, //added these 2 lines to align with the meniu button itself
+    width: "100%",
     opacity: 0.7,
     backgroundColor: "white",
     borderRadius: 20,
-    paddingTop: 80,
-    paddingBottom: 10,
+    paddingTop: 30, //80 originally
+    paddingBottom: 20, //10 originally
     alignItems: "center",
     shadowColor: "#000",
     shadowOffset: {

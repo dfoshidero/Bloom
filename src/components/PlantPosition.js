@@ -5,6 +5,7 @@ import Icon from "react-native-vector-icons/FontAwesome"; // Replace with your i
 const PlantPosition = ({ style, onAddPlant, onOpenPlantMenu, hasPlant }) => {
   const [selectPlantModalVisible, setSelectPlantModalVisible] = useState(false);
 
+  // functions for when pressing plants and the menu
   const handleAddPlantPress = () => {
     setSelectPlantModalVisible(true);
   };
