@@ -55,7 +55,9 @@ const GameScreen = () => {
         <View style={styles.menuContainer}>
           <Text style={styles.menuItem}>Achievements</Text>
           <Text style={styles.menuItem}>Collection</Text>
-          <Text style={styles.menuItem}>Game Stats</Text> 
+          <TouchableOpacity onPress={() => {navigation.navigate("Mastery");closeMenu()}}>
+            <Text style={styles.menuItem}>Game Stats</Text> 
+          </TouchableOpacity>
           <Text style={styles.menuItem}>Shop</Text>
           <Text style={styles.menuItem}>Account</Text>
         </View>
