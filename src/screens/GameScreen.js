@@ -38,49 +38,58 @@ const GameScreen = () => {
   return (
     <View style={styles.container}>
       <TouchableOpacity style={styles.settingsIcon} onPress={toggleMenu}>
-        <Icon name="bars" size={40} color="black" />
+        <Icon
+          name="bars"
+          size={25}
+          color="black"
+          borderColor="white"
+          borderRadius="5px"
+          style={{ zIndex: 1, top: 45, left: 40 }}
+        />
+        <Image
+          source={require("../assets/oracle_edit/sun_normal.png")}
+          style={[{ width: 60, height: 60, position: "absolute" }]}
+        />
       </TouchableOpacity>
       {/*Menu button*/}
       <Modal
-        animationType='slide'
+        animationType="slide"
         transparent={true}
         visible={menuVisible}
         onPressOut={toggleMenu}
       >
-      <TouchableOpacity
-        style={styles.backgroundImage}
-        onPress={closeMenu}
-      >
-        {/*Contents in the menu*/}
-        <View style={styles.menuContainer}>
-          <Text style={styles.menuItem}>Achievements</Text>
-          <Text style={styles.menuItem}>Collection</Text>
-          <TouchableOpacity onPress={() => {navigation.navigate("Mastery");closeMenu()}}>
-            <Text style={styles.menuItem}>Game Stats</Text> 
-          </TouchableOpacity>
-          <Text style={styles.menuItem}>Shop</Text>
-          <Text style={styles.menuItem}>Account</Text>
-        </View>
-
-      </TouchableOpacity>
+        <TouchableOpacity style={styles.backgroundImage} onPress={closeMenu}>
+          {/*Contents in the menu*/}
+          <View style={styles.menuContainer}>
+            <Text style={styles.menuItem}>Achievements</Text>
+            <Text style={styles.menuItem}>Collection</Text>
+            <TouchableOpacity
+              onPress={() => {
+                navigation.navigate("Mastery");
+                closeMenu();
+              }}
+            >
+              <Text style={styles.menuItem}>Game Stats</Text>
+            </TouchableOpacity>
+            <Text style={styles.menuItem}>Shop</Text>
+            <Text style={styles.menuItem}>Account</Text>
+          </View>
+        </TouchableOpacity>
       </Modal>
 
       {/* Game interface!!! */}
-        <ImageBackground
-          source={backgroundImage}
-          style={styles.backgroundImage}
-        >
-          {currentBackground.plantPositions.map((position) => (
-            <PlantPosition
-              key={position.id}
-              style={{
-                position: "absolute",
-                bottom: position.bottom,
-                left: position.left,
-              }}
-            />
-          ))}
-        </ImageBackground>
+      <ImageBackground source={backgroundImage} style={styles.backgroundImage}>
+        {currentBackground.plantPositions.map((position) => (
+          <PlantPosition
+            key={position.id}
+            style={{
+              position: "absolute",
+              bottom: position.bottom,
+              left: position.left,
+            }}
+          />
+        ))}
+      </ImageBackground>
     </View>
   );
 };
@@ -93,7 +102,7 @@ const styles = StyleSheet.create({
   },
   settingsIcon: {
     position: "absolute",
-    top: Platform.OS === "android" ? StatusBar.currentHeight + 15 : 60,
+    top: Platform.OS === "android" ? StatusBar.currentHeight + 35 : 90,
     left: 25,
     zIndex: 1,
   },
