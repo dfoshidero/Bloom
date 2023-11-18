@@ -6,6 +6,7 @@ import {
   Modal,
   Text,
   ScrollView,
+  Image
 } from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome";
 
@@ -73,16 +74,40 @@ const PlantPosition = ({ style, onAddPlant, onOpenPlantMenu, hasPlant }) => {
 };
 
 const styles = StyleSheet.create({
-  scrollViewStyle: {
-    padding: 10,
+   modalOverlay: {
+    flex: 1,
+    justifyContent: 'flex-end', // Align the modal to the bottom
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
   },
+
+  modalView: {
+    backgroundColor: 'white',
+    borderTopLeftRadius: 20,
+    borderTopRightRadius: 20,
+    padding: 10,
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: -2, // Shadow for the top side of the modal
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
+    maxHeight: '40%', // Adjust this to control the modal height
+  },
+
+  scrollViewStyle: {
+    flexDirection: 'row', // Ensures horizontal layout
+    width: '100%', // Ensure full width within modal
+  },
+
   plantCard: {
     width: 100, // Adjust as needed
     height: 100, // Adjust as needed
-    justifyContent: "center",
-    alignItems: "center",
+    justifyContent: 'center',
+    alignItems: 'center',
     marginHorizontal: 5,
-    backgroundColor: "#eaeaea", // Choose your color
+    backgroundColor: '#eaeaea', // Choose your color
     borderRadius: 10,
     // Add other styling as needed
   },
@@ -103,12 +128,6 @@ const styles = StyleSheet.create({
     shadowOpacity: 1,
     shadowRadius: 8,
     elevation: 5,
-  },
-  modalOverlay: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "rgba(0, 0, 0, 0.5)",
   },
   addButton: {
     // Add your styles for the add button here
