@@ -7,17 +7,28 @@ import {
   TouchableOpacity,
 } from "react-native";
 
-import { plants } from "../states/plantsConfig";
+import plants from "../states/plantsConfig";
+
+ // Mock data original code in case if can't solve
+ /*return Promise.resolve([
+  { id: "1", name: "Ficus", level: "Beginner", progress: 0.3 },
+  { id: "2", name: "Monstera", level: "Intermediate", progress: 0.5 },
+  { id: "3", name: "Succulent", level: "Advanced", progress: 0.8 },
+  // ... more plants
+]);*/
 
 // This is a mock function that should ideally fetch the mastery levels from your backend or state management store.
 const fetchMasteryLevels = () => {
-  // Mock data
-  return Promise.resolve([
-    { id: "1", name: "Ficus", level: "Beginner", progress: 0.3 },
-    { id: "2", name: "Monstera", level: "Intermediate", progress: 0.5 },
-    { id: "3", name: "Succulent", level: "Advanced", progress: 0.8 },
-    // ... more plants
-  ]);
+  const masteryLevels = Object.values(plants).map((plant) => {
+    return {
+      id: plant.plantID,
+      name: plant.name,
+      level: plant.level,
+      progress: plant.progress,
+    };
+  });
+
+  return Promise.resolve(masteryLevels);
 };
 
 const GameStatsScreen = () => {
