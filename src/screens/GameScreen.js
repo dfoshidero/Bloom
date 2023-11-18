@@ -42,7 +42,7 @@ const GameScreen = () => {
       </TouchableOpacity>
       {/*Menu button*/}
       <Modal
-        animationType="Slide"
+        animationType='slide'
         transparent={true}
         visible={menuVisible}
         onPressOut={toggleMenu}
@@ -98,9 +98,12 @@ const styles = StyleSheet.create({
     zIndex: 1,
   },
   menuContainer: {
-    position: "absolute", //added these 2 lines to align with the meniu button itself
-    top: Platform.OS === "android" ? StatusBar.currentHeight + 15 : 60, //added these 2 lines to align with the meniu button itself
-    width: "100%",
+    //position: "absolute", //added these 2 lines to align with the meniu button itself
+    //top: Platform.OS === "android" ? StatusBar.currentHeight + 15 : 60, //added these 2 lines to align with the meniu button itself
+    top: "30%", //added these few lines to align to the center
+    left: "10%", //added these few lines to align to the center
+    right: "10%", //added these few lines to align to the center
+    width: "80%", //original 100%
     opacity: 0.7,
     backgroundColor: "white",
     borderRadius: 20,
