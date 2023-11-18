@@ -26,7 +26,7 @@ export const plants = {
         learned: true,
         difficulty: 0,
         experience: 0,
-        level: 1,
+        level: "Tutorial",
         actions: ["Water","Fertilise"],
         progress: 1
     },
@@ -57,7 +57,7 @@ export const plants = {
         learned: false,
         difficulty: 1,
         experience: 0,
-        level: 1,
+        level: "Beginner",
         actions: ["Water","Fertilise"],
         progress: 0
     }
