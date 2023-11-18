@@ -7,6 +7,8 @@ import {
   TouchableOpacity,
 } from "react-native";
 
+import { plants } from "../states/plantsConfig";
+
 // This is a mock function that should ideally fetch the mastery levels from your backend or state management store.
 const fetchMasteryLevels = () => {
   // Mock data
