@@ -1,7 +1,7 @@
 export const plants = {
     //list of plants that is avaliable whithin the whole game
     plant1: {
-        platID : "1",
+        plantID : "1",
         name: "Cactus",
         type: "Succulent",
         colours: ["Green", "Yellow"],
@@ -32,7 +32,7 @@ export const plants = {
     },
 
     plant2: {
-        platID : "2",
+        plantID : "2",
         name: "Lucky Bamboo",
         type: "tropical water lily",
         colours: ["Green"],

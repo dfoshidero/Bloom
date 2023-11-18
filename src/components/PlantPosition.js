@@ -1,6 +1,15 @@
 import React, { useState } from "react";
-import { View, TouchableOpacity, StyleSheet, Modal, Text, Animated } from "react-native";
-import Icon from "react-native-vector-icons/FontAwesome"; // Replace with your icon set
+import {
+  View,
+  TouchableOpacity,
+  StyleSheet,
+  Modal,
+  Text,
+  ScrollView,
+} from "react-native";
+import Icon from "react-native-vector-icons/FontAwesome";
+
+import { plants } from "../states/plantsConfig";
 
 const PlantPosition = ({ style, onAddPlant, onOpenPlantMenu, hasPlant }) => {
   const [selectPlantModalVisible, setSelectPlantModalVisible] = useState(false);
@@ -36,12 +45,19 @@ const PlantPosition = ({ style, onAddPlant, onOpenPlantMenu, hasPlant }) => {
       >
         <TouchableOpacity style={styles.modalOverlay} onPressOut={closeModal}>
           <View style={styles.modalView}>
-            {/* This should be replaced with the logic for selecting a plant */}
-            <Text>Select a plant to learn</Text>
-            <TouchableOpacity onPress={() => onAddPlant("Plant Name")}>
-              <Text>Add Plant</Text>
-              {/* Add more plants here */}
-            </TouchableOpacity>
+            <ScrollView horizontal={true} style={styles.scrollViewStyle}>
+              {Object.entries(plants).map(([key, plant]) => (
+                <TouchableOpacity
+                  key={key}
+                  onPress={() => onAddPlant(plant.name)}
+                >
+                  <View style={styles.plantCard}>
+                    <Text>{plant.name}</Text>
+                    {/* Include other plant details or an image here */}
+                  </View>
+                </TouchableOpacity>
+              ))}
+            </ScrollView>
           </View>
         </TouchableOpacity>
       </Modal>
@@ -57,6 +73,19 @@ const PlantPosition = ({ style, onAddPlant, onOpenPlantMenu, hasPlant }) => {
 };
 
 const styles = StyleSheet.create({
+  scrollViewStyle: {
+    padding: 10,
+  },
+  plantCard: {
+    width: 100, // Adjust as needed
+    height: 100, // Adjust as needed
+    justifyContent: "center",
+    alignItems: "center",
+    marginHorizontal: 5,
+    backgroundColor: "#eaeaea", // Choose your color
+    borderRadius: 10,
+    // Add other styling as needed
+  },
   plantPosition: {
     opacity: 0.8,
     backgroundColor: "rgba(0, 0, 0, 0.3)",
