@@ -74,18 +74,19 @@ const PlantPosition = ({ style, onAddPlant, onOpenPlantMenu, hasPlant }) => {
 };
 
 const styles = StyleSheet.create({
-   modalOverlay: {
+  modalOverlay: {
     flex: 1,
-    justifyContent: 'flex-end', // Align the modal to the bottom
-    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    justifyContent: "flex-end", // Align the modal to the bottom
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
   },
 
   modalView: {
-    backgroundColor: 'white',
-    borderTopLeftRadius: 20,
-    borderTopRightRadius: 20,
+    opacity: 0.8,
+    backgroundColor: "white",
+    borderRadius: 20,
+    alignItems: "center",
     padding: 10,
-    shadowColor: '#000',
+    shadowColor: "#000",
     shadowOffset: {
       width: 0,
       height: -2, // Shadow for the top side of the modal
@@ -93,21 +94,21 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.25,
     shadowRadius: 3.84,
     elevation: 5,
-    maxHeight: '40%', // Adjust this to control the modal height
+    maxHeight: "40%", // Adjust this to control the modal height
   },
 
   scrollViewStyle: {
-    flexDirection: 'row', // Ensures horizontal layout
-    width: '100%', // Ensure full width within modal
+    flexDirection: "row", // Ensures horizontal layout
+    width: "100%", // Ensure full width within modal
   },
 
   plantCard: {
     width: 100, // Adjust as needed
     height: 100, // Adjust as needed
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
     marginHorizontal: 5,
-    backgroundColor: '#eaeaea', // Choose your color
+    backgroundColor: "#eaeaea", // Choose your color
     borderRadius: 10,
     // Add other styling as needed
   },
@@ -142,7 +143,7 @@ const styles = StyleSheet.create({
   modalView: {
     // Add your styles for the modal here
     opacity: 0.8,
-    margin: 20,
+    margin: 10,
     backgroundColor: "white",
     borderRadius: 20,
     padding: 35,
