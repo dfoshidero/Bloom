@@ -1,26 +1,25 @@
 export const plants = {
-  //list of plants that is avaliable whithin the whole game
+  // Plant 1 details
   plant1: {
     plantID: "1",
     name: "Cactus",
-    icon: "path_to_plant_icon",
+    iconPath: require("../assets/plants/lucky_bamboo/lucky_bamboo_4.png"),
     type: "Succulent",
     colours: ["Green", "Yellow"],
     potID: 1,
     locationID: 1,
     height: 60,
     careIntructions: {
-      //instructions of how to take care the plant
       water: "Water once every two weeks",
       sunlight: "Full sunlight",
       soil: "Well-draining soil",
       temperature: "Warm temperature",
       humidity: "Any",
-      fertilising: "Dilluted, low-nitrogen fertiliser",
+      fertilising: "Diluted, low-nitrogen fertiliser",
     },
     challenges: {
       Pests: "Spider mites and mealybugs",
-      Sunbrun: "Excessive sunlight",
+      Sunburn: "Excessive sunlight",
     },
     health: 100,
     learned: true,
@@ -29,25 +28,38 @@ export const plants = {
     level: "Tutorial",
     actions: ["Water", "Fertilise"],
     progress: 1,
-    //Skins and growth images for each plant
     skins: [
       {
         name: "default",
         growth: [
-          { growthStage: 1, imagePath: "path_to_image" },
-          { growthStage: 2, imagePath: "path_to_image" },
-          { growthStage: 3, imagePath: "path_to_image" },
-          { growthStage: 4, imagePath: "path_to_image" },
+          {
+            growthStage: 0,
+            imagePath: require("../assets/plants/lucky_bamboo/lucky_bamboo_1.png"),
+          },
+          {
+            growthStage: 0.33,
+            imagePath: require("../assets/plants/lucky_bamboo/lucky_bamboo_2.png"),
+          },
+          {
+            growthStage: 0.66,
+            imagePath: require("../assets/plants/lucky_bamboo/lucky_bamboo_3.png"),
+          },
+          {
+            growthStage: 1.0,
+            imagePath: require("../assets/plants/lucky_bamboo/lucky_bamboo_4.png"),
+          },
         ],
         unlockCondition: null,
       },
     ],
+    selectedSkin: "default",
   },
 
+  // Plant 2 details
   plant2: {
     plantID: "2",
     name: "Lucky Bamboo",
-    icon: "path_to_plant_icon",
+    iconPath: require("../assets/plants/lucky_bamboo/lucky_bamboo_4.png"),
     type: "tropical water lily",
     colours: ["Green"],
     potID: 1,
@@ -63,7 +75,7 @@ export const plants = {
     },
     challenges: {
       Yellowing: "Yellow leaves caused by over-fertilizating",
-      Rottening: "Rooten root if water isn't changed regularly",
+      Rottening: "Rotten root if water isn't changed regularly",
     },
     health: 100,
     learned: false,
@@ -76,13 +88,29 @@ export const plants = {
       {
         name: "default",
         growth: [
-          { growthStage: 1, imagePath: "path_to_image" },
-          { growthStage: 2, imagePath: "path_to_image" },
-          { growthStage: 3, imagePath: "path_to_image" },
-          { growthStage: 4, imagePath: "path_to_image" },
+          {
+            growthStage: 0,
+            imagePath: require("../assets/plants/lucky_bamboo/lucky_bamboo_1.png"),
+          },
+          {
+            growthStage: 0.33,
+            imagePath: require("../assets/plants/lucky_bamboo/lucky_bamboo_2.png"),
+          },
+          {
+            growthStage: 0.66,
+            imagePath: require("../assets/plants/lucky_bamboo/lucky_bamboo_3.png"),
+          },
+          {
+            growthStage: 1.0,
+            imagePath: require("../assets/plants/lucky_bamboo/lucky_bamboo_4.png"),
+          },
         ],
         unlockCondition: null,
       },
     ],
+    selectedSkin: "default",
   },
 };
+
+// Example usage
+// const imagePath = plants.getGrowthStageImagePath('1', 0.5);
