@@ -7,7 +7,7 @@ import {
   TouchableOpacity,
 } from "react-native";
 
-import plants from "../states/plantsConfig";
+import {plants} from "../states/plantsConfig";
 
  // Mock data original code in case if can't solve
  /*return Promise.resolve([
@@ -19,6 +19,10 @@ import plants from "../states/plantsConfig";
 
 // This is a mock function that should ideally fetch the mastery levels from your backend or state management store.
 const fetchMasteryLevels = () => {
+  if (!plants) {
+    return Promise.reject("Plants data is undefined");
+  }
+
   const masteryLevels = Object.values(plants).map((plant) => {
     return {
       id: plant.plantID,
