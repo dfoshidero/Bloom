@@ -35,9 +35,6 @@ const MenuComponent = ({ menuVisible, closeMenu }) => {
 
 const styles = StyleSheet.create({
   menuContainer: {
-    top: "30%",
-    left: "10%",
-    right: "10%",
     width: "80%",
     opacity: 0.7,
     backgroundColor: "white",
@@ -45,6 +42,7 @@ const styles = StyleSheet.create({
     paddingTop: 30,
     paddingBottom: 20,
     alignItems: "center",
+    justifyContent: "center",
     shadowColor: "#000",
     shadowOffset: {
       width: 0,
