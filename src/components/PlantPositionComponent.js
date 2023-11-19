@@ -62,10 +62,10 @@ const PlantPosition = ({ style, onOpenPlantMenu }) => {
         </TouchableOpacity>
       ) : (
         <TouchableOpacity
-          style={styles.addButton}
+          style={styles.addButton, styles.plusIcon}
           onPress={handleAddPlantPress}
         >
-          <Icon name="plus" size={16} color="#fff" />
+          <Icon name="plus" size={16} color="#fff"/>
         </TouchableOpacity>
       )}
 

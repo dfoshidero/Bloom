@@ -10,7 +10,7 @@ import { toggleMenu } from '../utilities/menuUtilities'; // Adjust the import pa
 import gameStyles from '../styles/GameScreenStyles';
 
 const GameScreen = () => {
-    const [currentBackground, setCurrentBackground] = useState(backgrounds.background4);
+    const [currentBackground, setCurrentBackground] = useState(backgrounds.background2);
     const backgroundImage = currentBackground.image;
     const [menuVisible, setMenuVisible] = useState(false);
 

@@ -56,22 +56,11 @@ const styles = StyleSheet.create({
   },
 
   plantPosition: {
-    opacity: 0.8,
-    backgroundColor: "rgba(0, 0, 0, 0.3)",
     width: 60,
     height: 45,
-    borderRadius: 30,
     justifyContent: "center",
     alignItems: "center",
     position: "relative",
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 1,
-    },
-    shadowOpacity: 1,
-    shadowRadius: 8,
-    elevation: 5,
   },
 
   addButton: {
@@ -89,7 +78,25 @@ const styles = StyleSheet.create({
     width: 200,
     height: 200,
     bottom: 75,
-    opacity: 1,
+    opacity: 0.85,
+  },
+
+  plusIcon: {
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 1,
+    },
+    shadowOpacity: 1,
+    shadowRadius: 8,
+    borderRadius: 30,
+    backgroundColor: "rgba(0, 0, 0, 0.3)",
+    elevation: 5,
+    width: 60,
+    height: 45,
+    justifyContent: "center",
+    alignItems: "center",
+    position: "relative",
   },
 });
 
