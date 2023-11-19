@@ -31,7 +31,7 @@ const getPlantHitBox = (progress) => {
     width: 70,
     height: height,
     left: 65,
-    zIndex: 1,
+    zIndex: 2,
   };
 };
 

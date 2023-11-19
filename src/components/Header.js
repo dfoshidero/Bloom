@@ -15,12 +15,13 @@ const Header = () => {
 const styles = StyleSheet.create({
   container: {
     position: "absolute", // Set the position to absolute
-    bottom: 250,
     width: "100%",
+    bottom: 250,
     alignItems: "center",
     paddingTop: 10,
     paddingBottom: 10,
-    zIndex: 1,
+    zIndex: 999,
+    pointerEvents: "none",
   },
   image: {
     width: 350,

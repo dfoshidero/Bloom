@@ -32,7 +32,7 @@ const GameScreen = () => {
             color="black"
             borderColor="white"
             borderRadius="5px"
-            style={{ zIndex: 1, top: 35, left: 35 }}
+            style={{ top: 35, left: 35 }}
           />
           <Image
             source={require("../assets/oracle_edit/sun_normal.png")}
