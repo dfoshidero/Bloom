@@ -18,11 +18,11 @@ import { plants } from "../states/plantsConfig";
 const getPlantHitBox = (progress) => {
   let height;
   if (progress >= 1) {
-    height = 150; // Example height for progress > 0.75
+    height = 150; // Hitbox height for progress > 0.75
   } else if (progress >= 0.66) {
-    height = 125; // Example height for progress > 0.5
+    height = 125; // Hitbox height for progress > 0.5
   } else if (progress >= 0.33) {
-    height = 100; // Example height for progress > 0.25
+    height = 100; // Hitbox height for progress > 0.25
   } else {
     height = 80; // Default height
   }
@@ -31,7 +31,6 @@ const getPlantHitBox = (progress) => {
     width: 70,
     height: height,
     left: 65,
-    top: 80,
     zIndex: 1,
   };
 };
@@ -141,32 +140,34 @@ const PlantPosition = ({ style, onOpenPlantMenu }) => {
   return (
     <View style={[styles.plantPosition, style]}>
       {selectedPlant ? (
-        <View>
-          <TouchableOpacity
-            style={
-              selectedPlant
-                ? getPlantHitBox(selectedPlant.progress)
-                : {
-                    width: 70,
-                    height: 100,
-                    left: 65,
-                    top: 80,
-                    zIndex: 1,
-                  }
-            }
-            onPress={() => {
-              console.log("Plant pressed");
-              fadeOut();
-              setTimeout(fadeIn, 150);
-            }}
-          >
-            <View />
-          </TouchableOpacity>
-          <Animated.Image
-            source={getPlantImagePath()}
-            style={([styles.plantImage, { opacity: fadeAnim }])}
-            resizeMode="contain"
-          />
+        <View style={[{justifyContent: "flex-end"}, {top: 5}]}>
+          <View style={styles.touchPlantImageContainer}>
+            <TouchableOpacity
+              style={[
+                selectedPlant
+                  ? getPlantHitBox(selectedPlant.progress)
+                  : {
+                      width: 70,
+                      height: 100,
+                      left: 65,
+                      top: 80,
+                      zIndex: 1,
+                    },
+              ]}
+              onPress={() => {
+                console.log("Plant pressed");
+              }}
+              onPressIn={fadeOut}
+              onPressOut={fadeIn}
+            >
+              <View />
+            </TouchableOpacity>
+          </View>
+            <Animated.Image
+              source={getPlantImagePath()}
+              style={[styles.plantImage, { opacity: fadeAnim }]}
+              resizeMode="contain"
+            />
         </View>
       ) : (
         <TouchableOpacity
