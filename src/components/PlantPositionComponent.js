@@ -6,6 +6,8 @@ import {
   Text,
   ScrollView,
   Image,
+  TouchableHighlight,
+  Animated,
 } from "react-native";
 
 import Icon from "react-native-vector-icons/FontAwesome";
@@ -13,10 +15,32 @@ import Icon from "react-native-vector-icons/FontAwesome";
 import styles from "../styles/PlantPositionStyles";
 import { plants } from "../states/plantsConfig";
 
+const getPlantHitBox = (progress) => {
+  let height;
+  if (progress >= 1) {
+    height = 150; // Example height for progress > 0.75
+  } else if (progress >= 0.66) {
+    height = 125; // Example height for progress > 0.5
+  } else if (progress >= 0.33) {
+    height = 100; // Example height for progress > 0.25
+  } else {
+    height = 80; // Default height
+  }
+
+  return {
+    width: 70,
+    height: height,
+    left: 65,
+    top: 80,
+    zIndex: 1,
+  };
+};
+
 const PlantPosition = ({ style, onOpenPlantMenu }) => {
   const [selectPlantModalVisible, setSelectPlantModalVisible] = useState(false);
   const [plantMenuModalVisible, setPlantMenuModalVisible] = useState(false); // New state for plant menu modal visibility
   const [selectedPlant, setSelectedPlant] = useState(null);
+  const [fadeAnim] = useState(new Animated.Value(1)); // Initial value for opacity: 1
 
   const handleAddPlantPress = () => {
     setSelectPlantModalVisible(true);
@@ -58,7 +82,6 @@ const PlantPosition = ({ style, onOpenPlantMenu }) => {
       return { left: x + radius, top: y + radius }; // Adjust positions based on the radius
     });
 
-
     // Basic implementation of the plant menu
     return (
       <Modal visible={plantMenuModalVisible} transparent animationType="slide">
@@ -67,14 +90,14 @@ const PlantPosition = ({ style, onOpenPlantMenu }) => {
           onPressOut={() => setPlantMenuModalVisible(false)}
         >
           <View
-            style={
-              ([styles.modalPlantMenuView,
+            style={[
+              styles.modalPlantMenuView,
               {
                 width: radius * 2,
                 height: radius * 2,
                 borderRadius: radius,
-              }])
-            }
+              },
+            ]}
           >
             {positions.map((position, index) => (
               <TouchableOpacity
@@ -98,14 +121,53 @@ const PlantPosition = ({ style, onOpenPlantMenu }) => {
     );
   };
 
+  const fadeIn = () => {
+    Animated.timing(fadeAnim, {
+      toValue: 1,
+      duration: 75,
+      useNativeDriver: true, // Add this line
+    }).start();
+  };
+
+  const fadeOut = () => {
+    Animated.timing(fadeAnim, {
+      toValue: 0.5, // or any value less than 1
+      duration: 75,
+      useNativeDriver: true, // Add this line
+    }).start();
+  };
+
+
   return (
     <View style={[styles.plantPosition, style]}>
       {selectedPlant ? (
-        <TouchableOpacity
-          onPress={() => setPlantMenuModalVisible(true)} // Open the plant menu modal
-        >
-          <Image source={getPlantImagePath()} style={styles.plantImage} />
-        </TouchableOpacity>
+        <View>
+          <TouchableHighlight
+            style={
+              selectedPlant
+                ? getPlantHitBox(selectedPlant.progress)
+                : {
+                    width: 70,
+                    height: 100,
+                    left: 65,
+                    top: 80,
+                    zIndex: 1,
+                  }
+            }
+            onPress={() => {
+              console.log("Plant pressed");
+              fadeOut();
+              setTimeout(fadeIn, 150);
+            }}
+          >
+            <View />
+          </TouchableHighlight>
+          <Animated.Image
+            source={getPlantImagePath()}
+            style={([styles.plantImage, { opacity: fadeAnim }])}
+            resizeMode="contain"
+          />
+        </View>
       ) : (
         <TouchableOpacity
           style={(styles.addButton, styles.plusIcon)}
