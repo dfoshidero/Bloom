@@ -9,8 +9,8 @@ const gameStyles = StyleSheet.create({
   },
   settingsIcon: {
     position: "absolute",
-    top: Platform.OS === "android" ? StatusBar.currentHeight + 35 : 90,
-    left: 15,
+    top: Platform.OS === "android" ? StatusBar.currentHeight + 140 : 215,
+    left: 20,
     zIndex: 1,
   },
 });

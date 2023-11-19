@@ -13,6 +13,7 @@ const BackgroundImageComponent = ({ backgroundImage, plantPositions }) => {
             position: "absolute",
             bottom: position.bottom,
             left: position.left,
+            zIndex: 5,
           }}
         />
       ))}

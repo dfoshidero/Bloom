@@ -3,7 +3,7 @@ import { View, TouchableOpacity, Image } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import TouchableScale from "react-native-touchable-scale";
 
-
+import Header from '../components/Header';
 import { backgrounds } from '../states/backgroundsConfig';
 import MenuComponent from '../components/MenuComponent'; // Adjust the import path as needed
 import BackgroundImageComponent from '../components/BackgroundImageComponent'; // Adjust the import path as needed
@@ -21,6 +21,7 @@ const GameScreen = () => {
 
     return (
       <View style={gameStyles.container}>
+        <Header />
         <TouchableScale
           style={gameStyles.settingsIcon}
           onPress={handleToggleMenu}
@@ -31,11 +32,11 @@ const GameScreen = () => {
             color="black"
             borderColor="white"
             borderRadius="5px"
-            style={{ zIndex: 1, top: 45, left: 40 }}
+            style={{ zIndex: 1, top: 35, left: 35 }}
           />
           <Image
             source={require("../assets/oracle_edit/sun_normal.png")}
-            style={[{ width: 60, height: 60, position: "absolute" }]}
+            style={[{ width: 50, height: 50, position: "absolute" }]}
           />
         </TouchableScale>
 

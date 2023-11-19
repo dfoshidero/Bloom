@@ -5,7 +5,7 @@ const screenWidth = Dimensions.get("window").width;
 const screenHeight = Dimensions.get("window").height;
 
 const background1Image = require("../assets/backgrounds/1.png");
-const background2Image = require("../assets/backgrounds/2.png");
+const background2Image = require("../assets/backgrounds/2_edited.png");
 const background3Image = require("../assets/backgrounds/3.png");
 const background4Image = require("../assets/backgrounds/4.png");
 
