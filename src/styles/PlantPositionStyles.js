@@ -1,12 +1,12 @@
 import { StyleSheet } from "react-native";
 
 const styles = StyleSheet.create({
-  modalOverlay: {
+  modalSelectPlantOverlay: {
     flex: 1,
     justifyContent: "flex-end", // Align the modal to the bottom
   },
 
-  modalView: {
+  modalSelectPlantView: {
     opacity: 0.8,
     margin: 10,
     backgroundColor: "white",
@@ -23,7 +23,6 @@ const styles = StyleSheet.create({
     elevation: 5,
     maxHeight: "40%", // Adjust this to control the modal height
   },
-
   // modalView: {
   //   backgroundColor: "white",
   //   borderTopLeftRadius: 20,
@@ -39,6 +38,21 @@ const styles = StyleSheet.create({
   //   elevation: 5,
   //   maxHeight: "40%", // Adjust this to control the modal height
   // },
+
+  modalPlantMenuOverlay: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    right: 20,
+  },
+
+  modalPlantMenuView: {
+    justifyContent: "center",
+    alignItems: "center",
+    padding: 10,
+    margin: 10,
+    backgroundColor: "white",
+  },
 
   scrollViewStyle: {
     flexDirection: "row", // Ensures horizontal layout

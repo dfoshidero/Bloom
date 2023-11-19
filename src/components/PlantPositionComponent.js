@@ -15,8 +15,8 @@ import { plants } from "../states/plantsConfig";
 
 const PlantPosition = ({ style, onOpenPlantMenu }) => {
   const [selectPlantModalVisible, setSelectPlantModalVisible] = useState(false);
+  const [plantMenuModalVisible, setPlantMenuModalVisible] = useState(false); // New state for plant menu modal visibility
   const [selectedPlant, setSelectedPlant] = useState(null);
-
 
   const handleAddPlantPress = () => {
     setSelectPlantModalVisible(true);
@@ -45,42 +45,87 @@ const PlantPosition = ({ style, onOpenPlantMenu }) => {
   };
 
   const renderPlantMenu = () => {
-    // Implement the logic to render the plant menu
-    // Options: "water plant", "fertilize plant", "Mastery"
+    // Creation of circular menu.
+    // Adjust these values as needed
+    const radius = 100; // Radius of the circle
+    const numberOfItems = 5; // Number of items in the circle
+
+    // Calculate positions for each item
+    const positions = Array.from({ length: numberOfItems }, (_, index) => {
+      const angle = ((2 * Math.PI) / numberOfItems) * index; // Angle in radians
+      const x = radius * Math.cos(angle); // X position
+      const y = radius * Math.sin(angle); // Y position
+      return { left: x + radius, top: y + radius }; // Adjust positions based on the radius
+    });
+
+
+    // Basic implementation of the plant menu
+    return (
+      <Modal visible={plantMenuModalVisible} transparent animationType="slide">
+        <TouchableOpacity
+          style={styles.modalPlantMenuOverlay}
+          onPressOut={() => setPlantMenuModalVisible(false)}
+        >
+          <View
+            style={
+              ([styles.modalPlantMenuView,
+              {
+                width: radius * 2,
+                height: radius * 2,
+                borderRadius: radius,
+              }])
+            }
+          >
+            {positions.map((position, index) => (
+              <TouchableOpacity
+                key={index}
+                style={[
+                  {
+                    position: "absolute",
+                    left: position.left,
+                    top: position.top,
+                  },
+                  styles.menuItemStyle,
+                ]}
+                onPress={() => console.log("Menu Item", index)}
+              >
+                <Text>Item {index + 1}</Text>
+              </TouchableOpacity>
+            ))}
+          </View>
+        </TouchableOpacity>
+      </Modal>
+    );
   };
 
   return (
     <View style={[styles.plantPosition, style]}>
       {selectedPlant ? (
-        <TouchableOpacity 
-        onPress={renderPlantMenu}
+        <TouchableOpacity
+          onPress={() => setPlantMenuModalVisible(true)} // Open the plant menu modal
         >
-          <Image
-            source={getPlantImagePath()}
-            style={styles.plantImage}
-          />
+          <Image source={getPlantImagePath()} style={styles.plantImage} />
         </TouchableOpacity>
       ) : (
         <TouchableOpacity
-          style={styles.addButton, styles.plusIcon}
+          style={(styles.addButton, styles.plusIcon)}
           onPress={handleAddPlantPress}
         >
-          <Icon name="plus" size={16} color="#fff"/>
+          <Icon name="plus" size={16} color="#fff" />
         </TouchableOpacity>
       )}
 
       {/* Select Plant Modal */}
       <Modal
         visible={selectPlantModalVisible}
-        onRequestClose={() => setSelectPlantModalVisible(false)}
         transparent
         animationType="slide"
       >
         <TouchableOpacity
-          style={styles.modalOverlay}
+          style={styles.modalSelectPlantOverlay}
           onPressOut={() => setSelectPlantModalVisible(false)}
         >
-          <View style={styles.modalView}>
+          <View style={styles.modalSelectPlantView}>
             <ScrollView horizontal={true} style={styles.scrollViewStyle}>
               {Object.entries(plants).map(([key, plant]) => (
                 <TouchableOpacity
@@ -88,9 +133,9 @@ const PlantPosition = ({ style, onOpenPlantMenu }) => {
                   onPress={() => handleSelectPlant(plant.plantID)}
                 >
                   <View style={styles.plantCard}>
-                    <Image 
-                    source={plant.iconPath}
-                    style={{width: 75, height: 75}} 
+                    <Image
+                      source={plant.iconPath}
+                      style={{ width: 75, height: 75 }}
                     />
                     <Text>{plant.name}</Text>
                   </View>
