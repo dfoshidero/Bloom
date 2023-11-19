@@ -114,6 +114,7 @@ const GameStatsScreen = () => {
           {/*Contents in the menu*/}
 
           <View style={styles.plantDetailsContainer}>
+            <Text style={styles.plantName}>{getProperty('name')}</Text>
             <View style={styles.imageContainer}>
               <Image source={getPlantImagePath()} style={styles.plantImage} />
             </View>
@@ -126,7 +127,7 @@ const GameStatsScreen = () => {
                 {getProperty('colours').map((color, index) => (
                   <Text key={color} style={styles.plantDetailsItem}>
                     {color}
-                    {index !== item.colours.length - 1 ? ", " : ""}
+                    {(getProperty('colours').length > 1 && index !== getProperty('colours').length - 1) ? ", " : ""}
                   </Text>
                 ))}
               </>
@@ -176,6 +177,10 @@ const styles = StyleSheet.create({
     fontSize: 24,
     fontWeight: "bold",
     marginBottom: 20,
+  },
+  plantName: {
+    fontWeight: "bold",
+    fontSize: 24,
   },
   itemContainer_unlocked: {
     padding: 10,
