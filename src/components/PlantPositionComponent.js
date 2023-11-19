@@ -6,11 +6,11 @@ import {
   Text,
   ScrollView,
   Image,
-  TouchableHighlight,
   Animated,
 } from "react-native";
 
 import Icon from "react-native-vector-icons/FontAwesome";
+import TouchableScale from "react-native-touchable-scale";
 
 import styles from "../styles/PlantPositionStyles";
 import { plants } from "../states/plantsConfig";
@@ -120,27 +120,33 @@ const PlantPosition = ({ style, onOpenPlantMenu }) => {
     );
   };
 
-  const fadeIn = () => {
-    Animated.timing(fadeAnim, {
-      toValue: 1,
-      duration: 75,
-      useNativeDriver: true, // Add this line
+  // Define the scale animation value
+  const scaleAnim = useState(new Animated.Value(1))[0]; // Initial value for scale: 1
+
+  // Function to scale in with a bounce
+  const scaleIn = () => {
+    Animated.spring(scaleAnim, {
+      toValue: 1.1, // scale up to 120%
+      speed: 14,
+      bounciness: 20,
+      useNativeDriver: true,
     }).start();
   };
 
-  const fadeOut = () => {
-    Animated.timing(fadeAnim, {
-      toValue: 0.5, // or any value less than 1
-      duration: 75,
-      useNativeDriver: true, // Add this line
+  // Function to scale out to original size
+  const scaleOut = () => {
+    Animated.spring(scaleAnim, {
+      toValue: 1, // scale back to 100%
+      speed: 14,
+      bounciness: 20,
+      useNativeDriver: true,
     }).start();
   };
-
 
   return (
     <View style={[styles.plantPosition, style]}>
       {selectedPlant ? (
-        <View style={[{justifyContent: "flex-end"}, {top: 5}]}>
+        <View style={[{ justifyContent: "flex-end" }, { top: 5 }]}>
           <View style={styles.touchPlantImageContainer}>
             <TouchableOpacity
               style={[
@@ -157,25 +163,28 @@ const PlantPosition = ({ style, onOpenPlantMenu }) => {
               onPress={() => {
                 console.log("Plant pressed");
               }}
-              onPressIn={fadeOut}
-              onPressOut={fadeIn}
+              onPressIn={scaleIn}
+              onPressOut={scaleOut}
             >
               <View />
             </TouchableOpacity>
           </View>
-            <Animated.Image
-              source={getPlantImagePath()}
-              style={[styles.plantImage, { opacity: fadeAnim }]}
-              resizeMode="contain"
-            />
+          <Animated.Image
+            source={getPlantImagePath()}
+            style={[
+              styles.plantImage,
+              { opacity: fadeAnim, transform: [{ scale: scaleAnim }] },
+            ]}
+            resizeMode="contain"
+          />
         </View>
       ) : (
-        <TouchableOpacity
+        <TouchableScale
           style={(styles.addButton, styles.plusIcon)}
           onPress={handleAddPlantPress}
         >
           <Icon name="plus" size={16} color="#fff" />
-        </TouchableOpacity>
+        </TouchableScale>
       )}
 
       {/* Select Plant Modal */}
@@ -184,14 +193,14 @@ const PlantPosition = ({ style, onOpenPlantMenu }) => {
         transparent
         animationType="slide"
       >
-        <TouchableOpacity
+        <TouchableScale
           style={styles.modalSelectPlantOverlay}
           onPressOut={() => setSelectPlantModalVisible(false)}
         >
           <View style={styles.modalSelectPlantView}>
             <ScrollView horizontal={true} style={styles.scrollViewStyle}>
               {Object.entries(plants).map(([key, plant]) => (
-                <TouchableOpacity
+                <TouchableScale
                   key={plant.plantID}
                   onPress={() => handleSelectPlant(plant.plantID)}
                 >
@@ -202,11 +211,11 @@ const PlantPosition = ({ style, onOpenPlantMenu }) => {
                     />
                     <Text>{plant.name}</Text>
                   </View>
-                </TouchableOpacity>
+                </TouchableScale>
               ))}
             </ScrollView>
           </View>
-        </TouchableOpacity>
+        </TouchableScale>
       </Modal>
 
       {/* Render Plant Interaction Menu */}

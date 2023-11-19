@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { View, TouchableOpacity, Image } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import TouchableScale from "react-native-touchable-scale";
 
 
 import { backgrounds } from '../states/backgroundsConfig';
@@ -20,7 +21,7 @@ const GameScreen = () => {
 
     return (
       <View style={gameStyles.container}>
-        <TouchableOpacity
+        <TouchableScale
           style={gameStyles.settingsIcon}
           onPress={handleToggleMenu}
         >
@@ -36,7 +37,7 @@ const GameScreen = () => {
             source={require("../assets/oracle_edit/sun_normal.png")}
             style={[{ width: 60, height: 60, position: "absolute" }]}
           />
-        </TouchableOpacity>
+        </TouchableScale>
 
         <MenuComponent
           menuVisible={menuVisible}
