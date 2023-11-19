@@ -3,7 +3,7 @@ export const plants = {
   plant1: {
     plantID: "1",
     name: "Cactus",
-    iconPath: require("../assets/plants/lucky_bamboo/lucky_bamboo_4.png"),
+    iconPath: require("../assets/plants/cactus/default/cactus_4.png"),
     type: "Succulent",
     colours: ["Green", "Yellow"],
     potID: 1,
@@ -27,26 +27,49 @@ export const plants = {
     experience: 0,
     level: "Tutorial",
     actions: ["Water", "Fertilise"],
-    progress: 1,
+    progress: 0,
     skins: [
       {
         name: "default",
         growth: [
           {
             growthStage: 0,
-            imagePath: require("../assets/plants/lucky_bamboo/lucky_bamboo_1.png"),
+            imagePath: require("../assets/plants/cactus/default/cactus_1.png"),
           },
           {
             growthStage: 0.33,
-            imagePath: require("../assets/plants/lucky_bamboo/lucky_bamboo_2.png"),
+            imagePath: require("../assets/plants/cactus/default/cactus_2.png"),
           },
           {
             growthStage: 0.66,
-            imagePath: require("../assets/plants/lucky_bamboo/lucky_bamboo_3.png"),
+            imagePath: require("../assets/plants/cactus/default/cactus_3.png"),
           },
           {
             growthStage: 1.0,
-            imagePath: require("../assets/plants/lucky_bamboo/lucky_bamboo_4.png"),
+            imagePath: require("../assets/plants/cactus/default/cactus_4.png"),
+          },
+        ],
+        unlockCondition: null,
+      },
+
+      {
+        name: "floral",
+        growth: [
+          {
+            growthStage: 0,
+            imagePath: require("../assets/plants/cactus/floral_1/cactus_1.png"),
+          },
+          {
+            growthStage: 0.33,
+            imagePath: require("../assets/plants/cactus/floral_1/cactus_2.png"),
+          },
+          {
+            growthStage: 0.66,
+            imagePath: require("../assets/plants/cactus/floral_1/cactus_3.png"),
+          },
+          {
+            growthStage: 1.0,
+            imagePath: require("../assets/plants/cactus/floral_1/cactus_4.png"),
           },
         ],
         unlockCondition: null,
