@@ -27,7 +27,7 @@ export const plants = {
     experience: 0,
     level: "Tutorial",
     actions: ["Water", "Fertilise"],
-    progress: 0,
+    progress: 1,
     skins: [
       {
         name: "default",
@@ -101,12 +101,12 @@ export const plants = {
       Rottening: "Rotten root if water isn't changed regularly",
     },
     health: 100,
-    learned: false,
+    learned: true,
     difficulty: 1,
     experience: 0,
     level: "Beginner",
     actions: ["Water", "Fertilise"],
-    progress: 0,
+    progress: 1.0,
     skins: [
       {
         name: "default",

@@ -6,6 +6,7 @@ import {
   Modal,
   FlatList,
   TouchableOpacity,
+  Image,
 } from "react-native";
 
 import {plants} from "../states/plantsConfig";
@@ -35,6 +36,7 @@ const fetchMasteryLevels = () => {
       colours: plant.colours,
       height: plant.height,
       careIntructions: plant.careIntructions,
+      skins: plant.skins,
       //and more
     };
   });
@@ -44,6 +46,39 @@ const fetchMasteryLevels = () => {
 
 const GameStatsScreen = () => {
   const [plantDetailVisible, setPlantDetailVisible] = useState(false);
+  const [selectedPlant, setSelectedPlant] = useState(null);
+
+  const handleSelectPlant = (plantID) => {
+    const plant = plants[`plant${plantID}`];
+    setSelectedPlant(plant);
+  };
+
+  const disableSelectPlant = () => {
+    setSelectedPlant(null);
+  };
+
+  const getPlantImagePath = () => {
+    if (selectedPlant) {
+      const selectedSkin = selectedPlant.skins.find(
+        (skin) => skin.name === selectedPlant.selectedSkin
+      );
+      if (selectedSkin) {
+        // Find the correct growth stage based on progress
+        const currentGrowthStage = selectedSkin.growth.find(
+          (stage) => selectedPlant.progress <= stage.growthStage
+        );
+        return currentGrowthStage ? currentGrowthStage.imagePath : null;
+      }
+    }
+    return null;
+  };
+
+  const getProperty = (propertyName) => {
+    if (selectedPlant) {
+      return selectedPlant[propertyName];
+    }
+    return null;
+  };
 
   const show_plantdetails = () => {
     setPlantDetailVisible(!plantDetailVisible);
@@ -62,31 +97,46 @@ const GameStatsScreen = () => {
 
 
   const renderMasteryItem = ({ item }) => (
-    
     <TouchableOpacity style={[
       styles.itemContainer,
       item.learned ? styles.itemContainer_unlocked : styles.itemContainer_locked,
-    ]} onPress={item.learned ? show_plantdetails : null}>
+    ]} onPress={item.learned ? () => { show_plantdetails(); handleSelectPlant(item.id);} : null}>
 
-
+      
       <Modal
         animationType="fade"
         transparent={true}
         visible={plantDetailVisible}
-        onPressOut={show_plantdetails}
+        onPressOut= {show_plantdetails}
       >
-        <TouchableOpacity style={styles.backgroundImage} onPress={close_plantdetails}>
+        <TouchableOpacity style={styles.backgroundImage} onPress={() => {close_plantdetails() ; disableSelectPlant()}}>
 
           {/*Contents in the menu*/}
-          <View style={styles.plantDetailsContainer}>
-            {/*image add later*/}
-            <Text style={styles.plantDetailsItem}>Height: {item.height}</Text>
-            <Text style={styles.plantDetailsItem}>Type: {item.type}</Text>
-            <View style = {styles.multiItemContainer}>
-              <Text style={styles.plantDetailsItem}>Colors: </Text>{item.colours.map((color, index) => (<Text key={color} style={styles.plantDetailsItem}>{color}{index !== item.colours.length - 1 ? ", " : ""}</Text>))}
-            </View>
-            <Text style={styles.plantDetailsItem}>Care Instructions:</Text>{Object.entries(item.careIntructions).map(([key, instruction]) => (<Text key={key} style={styles.plantDetailsItem}>{`${key}: ${instruction}`}</Text>))}
 
+          <View style={styles.plantDetailsContainer}>
+            <View style={styles.imageContainer}>
+              <Image source={getPlantImagePath()} style={styles.plantImage} />
+            </View>
+            <Text style={styles.plantDetailsItem}>Height: {getProperty('height')}</Text>
+            <Text style={styles.plantDetailsItem}>Type: {getProperty('type')}</Text>
+            <View style = {styles.multiItemContainer}>
+            {getProperty('colours') ? (
+              <>
+                <Text style={styles.plantDetailsItem}>Colors: </Text>
+                {getProperty('colours').map((color, index) => (
+                  <Text key={color} style={styles.plantDetailsItem}>
+                    {color}
+                    {index !== item.colours.length - 1 ? ", " : ""}
+                  </Text>
+                ))}
+              </>
+            ) : null}
+            </View>
+            {getProperty('careIntructions') ? (
+              <>
+                <Text style={styles.plantDetailsItem}>Care Instructions:</Text>{Object.entries(getProperty('careIntructions')).map(([key, instruction]) => (<Text key={key} style={styles.plantDetailsItem}>{`${key}: ${instruction}`}</Text>))}
+              </>
+            ) : null}
           </View>
 
         </TouchableOpacity>
@@ -157,13 +207,22 @@ const styles = StyleSheet.create({
     shadowRadius: 3.84,
     elevation: 5,
   },
+  plantImage: {
+    width: 200,
+    height: 200,
+    resizeMode: 'contain',
+  },
+  imageContainer: {
+    left: "0%", //added these few lines to align to the center
+    right: "0%", //added these few lines to align to the center
+  },
   plantDetailsContainer: {
-    paddingLeft: 30,
+    alignItems: 'center',
     top: "30%", //added these few lines to align to the center
     left: "10%", //added these few lines to align to the center
     right: "10%", //added these few lines to align to the center
     width: "80%", //original 100%
-    opacity: 0.7,
+    opacity: 0.9,
     backgroundColor: "white",
     borderRadius: 20,
     paddingTop: 30, //80 originally
@@ -200,7 +259,7 @@ const styles = StyleSheet.create({
   plantDetailsItem: {
     marginBottom: 10,
     fontSize: 10,
-    textAlign: "left",
+    textAlign: "center",
   },
   backgroundImage: {
     resizeMode: "cover",
@@ -211,6 +270,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(0, 0, 0, 0.5)', // Adjust the alpha value to control darkness
   },
   multiItemContainer: {
+    alignItems: 'center',
     flexDirection: 'row',
   },
 });
