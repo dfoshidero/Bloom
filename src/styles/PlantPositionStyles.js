@@ -90,9 +90,11 @@ const styles = StyleSheet.create({
 
   plantImage: {
     width: 200,
-    height:200,
+    height: 200,
     bottom: 123,
     opacity: 0.85,
+    justifyContent: "center",
+    alignContent: "center",
   },
 
   plusIcon: {

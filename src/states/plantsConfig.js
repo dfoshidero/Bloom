@@ -27,11 +27,7 @@ export const plants = {
     experience: 0,
     level: "Tutorial",
     actions: ["Water", "Fertilise"],
-<<<<<<< HEAD
     progress: 1,
-=======
-    progress: 1,
->>>>>>> 7a8db3a97bc9e0bcaef2557a71e5c8d00c91d943
     skins: [
       {
         name: "default",
@@ -110,11 +106,7 @@ export const plants = {
     experience: 0,
     level: "Beginner",
     actions: ["Water", "Fertilise"],
-<<<<<<< HEAD
-    progress: 1.0,
-=======
-    progress: 1.0,
->>>>>>> 7a8db3a97bc9e0bcaef2557a71e5c8d00c91d943
+    progress: 0.33,
     skins: [
       {
         name: "default",

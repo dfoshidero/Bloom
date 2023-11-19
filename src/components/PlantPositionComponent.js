@@ -142,7 +142,7 @@ const PlantPosition = ({ style, onOpenPlantMenu }) => {
     <View style={[styles.plantPosition, style]}>
       {selectedPlant ? (
         <View>
-          <TouchableHighlight
+          <TouchableOpacity
             style={
               selectedPlant
                 ? getPlantHitBox(selectedPlant.progress)
@@ -161,7 +161,7 @@ const PlantPosition = ({ style, onOpenPlantMenu }) => {
             }}
           >
             <View />
-          </TouchableHighlight>
+          </TouchableOpacity>
           <Animated.Image
             source={getPlantImagePath()}
             style={([styles.plantImage, { opacity: fadeAnim }])}
