@@ -9,6 +9,8 @@ import {
   Image,
 } from "react-native";
 
+import TouchableScale from "react-native-touchable-scale";
+
 import {plants} from "../states/plantsConfig";
 
  // Mock data original code in case if can't solve
@@ -97,7 +99,7 @@ const GameStatsScreen = () => {
 
 
   const renderMasteryItem = ({ item }) => (
-    <TouchableOpacity style={[
+    <TouchableScale style={[
       styles.itemContainer,
       item.learned ? styles.itemContainer_unlocked : styles.itemContainer_locked,
     ]} onPress={item.learned ? () => { show_plantdetails(); handleSelectPlant(item.id);} : null}>
@@ -150,7 +152,7 @@ const GameStatsScreen = () => {
           style={[styles.progressBarFill, { width: `${item.progress * 100}%` }]}
         />
       </View>
-    </TouchableOpacity>
+    </TouchableScale>
   );
 
   return (
@@ -223,7 +225,7 @@ const styles = StyleSheet.create({
   },
   plantDetailsContainer: {
     alignItems: 'center',
-    top: "30%", //added these few lines to align to the center
+    top: "20%", //added these few lines to align to the center
     left: "10%", //added these few lines to align to the center
     right: "10%", //added these few lines to align to the center
     width: "80%", //original 100%
