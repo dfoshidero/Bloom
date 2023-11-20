@@ -3,7 +3,7 @@ import React from "react";
 import { Modal, ScrollView, Text, View, Image } from "react-native";
 import TouchableScale from "react-native-touchable-scale";
 import { plants } from "../states/plantsConfig";
-import styles from "../styles/PlantPositionStyles";
+import styles from "../styles/PlantStyles";
 
 const SelectPlantModal = ({ visible, onClose, handleSelectPlant }) => {
   return (

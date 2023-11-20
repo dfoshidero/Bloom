@@ -1,22 +1,17 @@
 import React, { useState, useEffect } from "react";
-import {
-  View,
-  TouchableOpacity,
-  Image,
-  Animated,
-} from "react-native";
+import { View, TouchableOpacity, Image, Animated } from "react-native";
 
 import Icon from "react-native-vector-icons/FontAwesome";
 import TouchableScale from "react-native-touchable-scale";
 
-import styles from "../styles/PlantPositionStyles";
+import styles from "../styles/PlantStyles";
 import { plants } from "../states/plantsConfig";
 import SelectPlantModal from "./PlantSelectionModal";
 import ScaleAnimation from "./ScaleAnimation";
 import { getPlantHitBox } from "./PlantHitbox";
-import FloatingMenu, { handleButtonPress } from "./CircularMenu";
+import FloatingMenu from "./CircularMenu";
 
-const PlantPosition = ({ style }) => {
+const Plant = ({ style }) => {
   // New state for PLANT SELECT modal visibility
   const [selectPlantModalVisible, setSelectPlantModalVisible] = useState(false);
   // New state for PLANT MENU modal visibility
@@ -30,9 +25,7 @@ const PlantPosition = ({ style }) => {
 
   const handlePressInPlant = () => {
     setIsActive(true);
-    setFloatingMenuVisible(true);
-    handleButtonPress(setFloatingMenuVisible); // Pass the setFloatingMenuVisible function
-};
+  };
 
   const handlePressOutPlant = () => {
     setIsActive(false);
@@ -40,6 +33,12 @@ const PlantPosition = ({ style }) => {
 
   const handleAddPlantPress = () => {
     setSelectPlantModalVisible(true);
+  };
+
+  const handleMenuItemPress = (item) => {
+    console.log("Menu item pressed", item);
+    setFloatingMenuVisible(false); // Close the menu
+    // Handle different actions based on the item pressed
   };
 
   const handleSelectPlant = (plantID) => {
@@ -74,24 +73,23 @@ const PlantPosition = ({ style }) => {
                 selectedPlant
                   ? getPlantHitBox(selectedPlant.progress)
                   : {
-                    width: 70,
-                    height: 100,
-                    left: 65,
-                    top: 80,
-                  },
+                      width: 70,
+                      height: 100,
+                      left: 65,
+                      top: 80,
+                    },
               ]}
               onPress={() => {
                 console.log("Plant pressed.");
+                setFloatingMenuVisible(true);
               }}
-              onPressIn = { handlePressInPlant }
-              onPressOut = { handlePressOutPlant }
+              onPressIn={handlePressInPlant}
+              onPressOut={handlePressOutPlant}
             >
               <View />
             </TouchableOpacity>
           </View>
-          <ScaleAnimation
-            isActive={isActive}
-          >
+          <ScaleAnimation isActive={isActive}>
             <View pointerEvents="none">
               <Image
                 source={getPlantImagePath()}
@@ -102,10 +100,7 @@ const PlantPosition = ({ style }) => {
           </ScaleAnimation>
         </View>
       ) : (
-        <TouchableScale
-          style={[styles.plusIcon,]}
-          onPress={handleAddPlantPress}
-        >
+        <TouchableScale style={[styles.plusIcon]} onPress={handleAddPlantPress}>
           <Icon name="plus" size={16} color="#fff" />
         </TouchableScale>
       )}
@@ -119,14 +114,10 @@ const PlantPosition = ({ style }) => {
 
       {/* Render Plant Interaction Menu */}
       {/* FloatingButton component */}
-      {floatingMenuVisible && (
+      <View style={{position: "absolute"}}>
         <FloatingMenu
-          onPress={() => {
-            // Handle the menu interaction here
-            console.log("FloatingButton pressed");
-            // Set the visibility of the FloatingButton back to false
-            setFloatingMenuVisible(false);
-          }}
+          visible={floatingMenuVisible}
+          onPress={handleMenuItemPress}
           menuItems={[
             // Customize menu items based on the calling object (selectedPlant)
             { icon: "cloud-upload", right: 20, isImage: false },
@@ -134,9 +125,9 @@ const PlantPosition = ({ style }) => {
             { icon: "share-alt", right: -20, isImage: false },
           ]}
         />
-      )}
+      </View>
     </View>
   );
 };
 
-export default PlantPosition;
+export default Plant;

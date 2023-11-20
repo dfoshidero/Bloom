@@ -28,7 +28,7 @@ const GameScreen = () => {
      useEffect(() => {
        // Setup the player when the app loads
        setupPlayer().then(() => {
-         console.log("Player is set up");
+         console.log("Audio player is set up.");
        });
 
        // Optionally, start playing music when the app loads

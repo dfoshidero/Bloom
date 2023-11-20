@@ -1,7 +1,7 @@
 // BackgroundImageComponent.js
 import React from "react";
 import { ImageBackground, StyleSheet } from "react-native";
-import PlantPosition from "./PlantPositionComponent"; // Adjust the import path as needed
+import Plant from "./PlantComponent"; // Adjust the import path as needed
 
 import { Dimensions } from "react-native";
 
@@ -12,7 +12,7 @@ const BackgroundImageComponent = ({ backgroundImage, plantPositions }) => {
   return (
     <ImageBackground source={backgroundImage} style={styles.backgroundImage}>
       {plantPositions.map((position) => (
-        <PlantPosition
+        <Plant
           key={position.id}
           style={{
             position: "absolute",

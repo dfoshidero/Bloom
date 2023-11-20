@@ -1,38 +1,32 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { View, StyleSheet, Animated, Easing, Image } from "react-native";
 import TouchableScale from "react-native-touchable-scale";
 import Icon from "react-native-vector-icons/FontAwesome";
+import { Modal, Dimensions } from "react-native";
 
-export function handleButtonPress(setFloatingMenuVisible) {
-    setFloatingMenuVisible(false);
-}
+const windowWidth = Dimensions.get("window").width;
+const windowHeight = Dimensions.get("window").height;
 
-
-const FloatingMenu = ({ onPress, menuItems }) => {
-  const [pop, setPop] = useState(false);
-  setPop(pop);
-
+const FloatingMenu = ({ visible, onPress, menuItems }) => {
   const scaleValue = useRef(new Animated.Value(0)).current;
 
-  const popIn = () => {
-    setPop(true);
-    Animated.timing(scaleValue, {
-      toValue: 1,
-      duration: 500,
-      easing: Easing.ease,
-      useNativeDriver: false,
-    }).start();
-  };
-
-  const popOut = () => {
-    setPop(false);
-    Animated.timing(scaleValue, {
-      toValue: 0,
-      duration: 500,
-      easing: Easing.ease,
-      useNativeDriver: false,
-    }).start();
-  };
+  useEffect(() => {
+    if (visible) {
+      Animated.timing(scaleValue, {
+        toValue: 1,
+        duration: 500,
+        easing: Easing.ease,
+        useNativeDriver: false,
+      }).start();
+    } else {
+      Animated.timing(scaleValue, {
+        toValue: 0,
+        duration: 500,
+        easing: Easing.ease,
+        useNativeDriver: false,
+      }).start();
+    }
+  }, [visible, scaleValue]);
 
   const getTransformStyle = (index) => {
     const numberOfItems = menuItems.length;
@@ -40,37 +34,40 @@ const FloatingMenu = ({ onPress, menuItems }) => {
 
     const translateX = scaleValue.interpolate({
       inputRange: [0, 1],
-      outputRange: [0, 80 * Math.cos(angle)], // Adjust the radius of the circle (80 in this case)
+      outputRange: [0, 80 * Math.cos(angle)], // Radius of the circle
     });
 
     const translateY = scaleValue.interpolate({
       inputRange: [0, 1],
-      outputRange: [0, 80 * Math.sin(angle)], // Adjust the radius of the circle (80 in this case)
+      outputRange: [0, 80 * Math.sin(angle)], // Radius of the circle
     });
 
     return {
-      transform: [
-        { scale: pop ? 1 : 0 },
-        { translateX },
-        { translateY },
-      ],
+      transform: [{ scale: scaleValue }, { translateX }, { translateY }],
     };
   };
 
   return (
-    <View style={styles.container}>
-      {menuItems.map((item, index) => (
-        <Animated.View key={index} style={[styles.circle, getTransformStyle(index)]}>
-          <TouchableScale onPress={() => onPress(item)}>
-            {item.isImage ? (
-              <Image source={item.icon} style={styles.iconImage} />
-            ) : (
-              <Icon name={item.icon} size={25} color="#FFFF" />
-            )}
-          </TouchableScale>
-        </Animated.View>
-      ))}
-    </View>
+    <Modal visible={visible} transparent={true} animationType="none">
+      <View
+        style={[styles.container, visible ? {} : { pointerEvents: "none" }]}
+      >
+        {menuItems.map((item, index) => (
+          <Animated.View
+            key={index}
+            style={[styles.circle, getTransformStyle(index)]}
+          >
+            <TouchableScale onPress={() => onPress(item)}>
+              {item.isImage ? (
+                <Image source={item.icon} style={styles.iconImage} />
+              ) : (
+                <Icon name={item.icon} size={25} color="#FFFF" />
+              )}
+            </TouchableScale>
+          </Animated.View>
+        ))}
+      </View>
+    </Modal>
   );
 };
 
@@ -83,20 +80,17 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   circle: {
-    backgroundColor: "#f52d56",
-    width: 60,
-    height: 60,
-    position: "absolute",
-    borderRadius: 50,
+    backgroundColor: "blue", // Set the background color to blue
+    width: 40, // Set a fixed width
+    height: 40, // Set a fixed height to match the width
+    borderRadius: 25, // Half of the width/height to make it a circle
+    right: 20,
     justifyContent: "center",
     alignItems: "center",
+
   },
-  centerButton: {
-    bottom: 40, // Adjust this value based on your design
-    right: 40, // Adjust this value based on your design
-  },
-  iconImage: {
-    width: 25,
-    height: 25,
-  },
+  // ... other styles
 });
+
+
+
