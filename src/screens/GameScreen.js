@@ -3,7 +3,7 @@ import { View, Image } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import TouchableScale from "react-native-touchable-scale";
 
-import Header from '../components/Header';
+import Header from '../components/HeaderComponent';
 import { backgrounds } from '../states/backgroundsConfig';
 import MenuComponent from '../components/MenuComponent'; // Adjust the import path as needed
 import BackgroundImageComponent from '../components/BackgroundImageComponent'; // Adjust the import path as needed
