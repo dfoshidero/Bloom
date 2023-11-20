@@ -122,26 +122,28 @@ const GameStatsScreen = () => {
             <View style={styles.imageContainer}>
               <Image source={getPlantImagePath()} style={styles.plantImage} />
             </View>
-            <Text style={styles.plantDetailsItem}>Height: {getProperty('height')}</Text>
-            <Text style={styles.plantDetailsItem}>Type: {getProperty('type')}</Text>
-            <View style = {styles.multiItemContainer}>
-            {getProperty('colours') ? (
-              <>
-                <Text style={styles.plantDetailsItem}>Colors: </Text>
-                {getProperty('colours').map((color, index) => (
-                  <Text key={color} style={styles.plantDetailsItem}>
-                    {color}
-                    {(getProperty('colours').length > 1 && index !== getProperty('colours').length - 1) ? ", " : ""}
-                  </Text>
-                ))}
-              </>
-            ) : null}
+            <View style={styles.plantDetailsTextContainer}>
+              <Text style={styles.plantDetailsItem}>Height: {getProperty('height')}</Text>
+              <Text style={styles.plantDetailsItem}>Type: {getProperty('type')}</Text>
+              <View style = {styles.multiItemContainer}>
+              {getProperty('colours') ? (
+                <>
+                  <Text style={styles.plantDetailsItem}>Colors: </Text>
+                  {getProperty('colours').map((color, index) => (
+                    <Text key={color} style={styles.plantDetailsItem}>
+                      {color}
+                      {(getProperty('colours').length > 1 && index !== getProperty('colours').length - 1) ? ", " : ""}
+                    </Text>
+                  ))}
+                </>
+              ) : null}
+              </View>
+              {getProperty('careIntructions') ? (
+                <>
+                  <Text style={styles.plantDetailsItem}>Care Instructions:</Text>{Object.entries(getProperty('careIntructions')).map(([key, instruction]) => (<Text key={key} style={styles.plantDetailsItem}>{`${key}: ${instruction}`}</Text>))}
+                </>
+              ) : null}
             </View>
-            {getProperty('careIntructions') ? (
-              <>
-                <Text style={styles.plantDetailsItem}>Care Instructions:</Text>{Object.entries(getProperty('careIntructions')).map(([key, instruction]) => (<Text key={key} style={styles.plantDetailsItem}>{`${key}: ${instruction}`}</Text>))}
-              </>
-            ) : null}
           </View>
 
         </TouchableOpacity>
@@ -255,6 +257,10 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.25,
     shadowRadius: 3.84,
     elevation: 5,
+  },
+  plantDetailsTextContainer:{
+    top: "1%",
+    alignItems: 'center',
   },
   plantName: {
     fontSize: 18,
