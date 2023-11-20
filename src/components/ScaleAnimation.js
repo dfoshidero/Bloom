@@ -1,42 +1,52 @@
 // ScaleAnimation.js
-import React, { useState } from "react";
-import { Animated, TouchableOpacity  } from "react-native";
+import React, { useState, useEffect } from "react";
+import { Animated, TouchableOpacity, View } from "react-native";
 
-const ScaleAnimation = ({ children }) => {
-  // Define the scale animation value
-const [scaleAnim] = useState(new Animated.Value(1)); // Initial value for scale: 1
+const ScaleAnimation = ({ children, isActive }) => {
+    const [scaleAnim] = useState(new Animated.Value(1)); // Initial value for scale: 1
 
-// Function to scale in with a bounce
-const scaleIn = () => {
-  Animated.spring(scaleAnim, {
-    toValue: 1.1, // scale up to 110%
-    speed: 20,
-    bounciness: 20,
-    useNativeDriver: true,
-  }).start();
-};
+    const opacity = scaleAnim.interpolate({
+        inputRange: [1, 1.1],
+        outputRange: [1, 0.5],
+    });
 
-// Function to scale out to original size
-const scaleOut = () => {
-  Animated.spring(scaleAnim, {
-    toValue: 1, // scale back to 100%
-    speed: 20,
-    bounciness: 20,
-    useNativeDriver: true,
-  }).start();
-};
+    useEffect(() => {
+        if (isActive) {
+            scaleIn();
+        } else {
+            scaleOut();
+        }
+    }, [isActive]);
 
-  return (
-    <TouchableOpacity activeOpacity={0.5}
-    onPressIn={scaleIn} 
-    onPressOut={scaleOut}>
-<Animated.View 
-    style={{ transform: [{ scale: scaleAnim }] }}
-    >
-      {children}
-    </Animated.View>
-    </TouchableOpacity>
-  );
+    const scaleIn = () => {
+        Animated.spring(scaleAnim, {
+            toValue: 1.1, // scale up to 110%
+            speed: 20,
+            bounciness: 20,
+            useNativeDriver: true,
+        }).start();
+    };
+
+    const scaleOut = () => {
+        Animated.spring(scaleAnim, {
+            toValue: 1, // scale back to 100%
+            speed: 20,
+            bounciness: 20,
+            useNativeDriver: true,
+        }).start();
+    };
+
+    return (
+        <View pointerEvents="none">
+            <TouchableOpacity
+                activeOpacity={opacity}
+            >
+                <Animated.View style={{ transform: [{ scale: scaleAnim }], opacity }}>
+                    {children}
+                </Animated.View>
+            </TouchableOpacity>
+        </View>
+    );
 };
 
 export default ScaleAnimation;

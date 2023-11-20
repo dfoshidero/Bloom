@@ -2,9 +2,6 @@ import React, { useState, useEffect } from "react";
 import {
   View,
   TouchableOpacity,
-  Modal,
-  Text,
-  ScrollView,
   Image,
   Animated,
 } from "react-native";
@@ -17,12 +14,27 @@ import { plants } from "../states/plantsConfig";
 import SelectPlantModal from "./PlantSelectionModal";
 import ScaleAnimation from "./ScaleAnimation";
 import { getPlantHitBox } from "./PlantHitbox";
+import FloatingMenu from "./CircularMenu";
 
 const PlantPosition = ({ style }) => {
+  // New state for PLANT SELECT modal visibility
   const [selectPlantModalVisible, setSelectPlantModalVisible] = useState(false);
-  const [plantMenuModalVisible, setPlantMenuModalVisible] = useState(false); // New state for plant menu modal visibility
+  // New state for PLANT MENU modal visibility
+  const [plantMenuModalVisible, setPlantMenuModalVisible] = useState(false);
+  // State for setting selecting plant
   const [selectedPlant, setSelectedPlant] = useState(null);
-  const [fadeAnim] = useState(new Animated.Value(1)); // Initial value for opacity: 1
+  // State for managing the visibility of the Floating Menu
+  const [floatingButtonVisible, setFloatingButtonVisible] = useState(false);
+  // State for scale animation
+  const [isActive, setIsActive] = useState(false);
+
+  const handlePressIn = () => {
+    setIsActive(true);
+  };
+
+  const handlePressOut = () => {
+    setIsActive(false);
+  };
 
   const handleAddPlantPress = () => {
     setSelectPlantModalVisible(true);
@@ -67,20 +79,24 @@ const PlantPosition = ({ style }) => {
                   },
               ]}
               onPress={() => {
-                console.log("Plant pressed");
+                console.log("Plant pressed.")
               }}
+              onPressIn = { handlePressIn }
+              onPressOut = { handlePressOut }
             >
               <View />
             </TouchableOpacity>
           </View>
-          <ScaleAnimation>
-          <View pointerEvents="none">
+          <ScaleAnimation
+            isActive={isActive}
+          >
+            <View pointerEvents="none">
               <Image
                 source={getPlantImagePath()}
                 style={[styles.plantImage]}
                 resizeMode="contain"
               />
-          </View>
+            </View>
           </ScaleAnimation>
         </View>
       ) : (
