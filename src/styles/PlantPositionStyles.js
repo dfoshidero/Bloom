@@ -8,7 +8,8 @@ const styles = StyleSheet.create({
 
   modalSelectPlantView: {
     opacity: 0.8,
-    margin: 10,
+    bottom: "3%",
+    margin: "5%",
     backgroundColor: "white",
     borderRadius: 20,
     alignItems: "center",
@@ -81,8 +82,8 @@ const styles = StyleSheet.create({
     borderRadius: 30,
     backgroundColor: "rgba(0, 0, 0, 0.3)",
     elevation: 5,
-    width: "80%",
-    height: "85%",
+    width: "85%",
+    height: "90%",
     justifyContent: "center",
     alignItems: "center",
     position: "relative",

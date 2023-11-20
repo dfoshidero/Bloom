@@ -32,11 +32,10 @@ const getPlantHitBox = (progress) => {
     width: 70,
     height: height,
     left: 65,
-    zIndex: 2,
   };
 };
 
-const PlantPosition = ({ style, onOpenPlantMenu }) => {
+const PlantPosition = ({ style }) => {
   const [selectPlantModalVisible, setSelectPlantModalVisible] = useState(false);
   const [plantMenuModalVisible, setPlantMenuModalVisible] = useState(false); // New state for plant menu modal visibility
   const [selectedPlant, setSelectedPlant] = useState(null);
@@ -147,7 +146,7 @@ const PlantPosition = ({ style, onOpenPlantMenu }) => {
   return (
     <View style={[styles.plantPosition, style]}>
       {selectedPlant ? (
-        <View style={[{ justifyContent: "flex-end" }, { top: 5 }]}>
+        <View style={[{ justifyContent: "flex-end" }, { top: 5}]}>
           <View style={styles.touchPlantImageContainer}>
             <TouchableOpacity
               style={[
@@ -158,7 +157,6 @@ const PlantPosition = ({ style, onOpenPlantMenu }) => {
                       height: 100,
                       left: 65,
                       top: 80,
-                      zIndex: 1,
                     },
               ]}
               onPress={() => {
@@ -173,17 +171,17 @@ const PlantPosition = ({ style, onOpenPlantMenu }) => {
           <View pointerEvents="none">
             <Animated.Image
               source={getPlantImagePath()}
-              style={[styles.plantImage, { transform: [{ scale: scaleAnim }] }]}
+              style={[styles.plantImage, { transform: [{ scale: scaleAnim }]}]}
               resizeMode="contain"
             />
           </View>
         </View>
       ) : (
         <TouchableScale
-          style={[styles.plusIcon, { zIndex: 3 }]}
+          style={[styles.plusIcon,]}
           onPress={handleAddPlantPress}
         >
-          <Icon name="plus" size={16} color="#fff" />
+          <Icon name="plus" size={16} color="#fff"  />
         </TouchableScale>
       )}
 
@@ -207,7 +205,7 @@ const PlantPosition = ({ style, onOpenPlantMenu }) => {
                   <View style={styles.plantCard}>
                     <Image
                       source={plant.iconPath}
-                      style={{ width: 75, height: 75 }}
+                      style={{ width: "80%", height: "80%" }}
                     />
                     <Text>{plant.name}</Text>
                   </View>
