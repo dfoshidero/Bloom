@@ -7,6 +7,7 @@ import {
   ScrollView,
   Image,
   Animated,
+  Dimensions
 } from "react-native";
 
 import Icon from "react-native-vector-icons/FontAwesome";
@@ -169,18 +170,17 @@ const PlantPosition = ({ style, onOpenPlantMenu }) => {
               <View />
             </TouchableOpacity>
           </View>
-          <Animated.Image
-            source={getPlantImagePath()}
-            style={[
-              styles.plantImage,
-              { opacity: fadeAnim, transform: [{ scale: scaleAnim }] },
-            ]}
-            resizeMode="contain"
-          />
+          <View pointerEvents="none">
+            <Animated.Image
+              source={getPlantImagePath()}
+              style={[styles.plantImage, { transform: [{ scale: scaleAnim }] }]}
+              resizeMode="contain"
+            />
+          </View>
         </View>
       ) : (
         <TouchableScale
-          style={(styles.addButton, styles.plusIcon)}
+          style={[styles.plusIcon, { zIndex: 3 }]}
           onPress={handleAddPlantPress}
         >
           <Icon name="plus" size={16} color="#fff" />

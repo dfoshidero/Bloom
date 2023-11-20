@@ -3,6 +3,11 @@ import React from "react";
 import { ImageBackground, StyleSheet } from "react-native";
 import PlantPosition from "./PlantPositionComponent"; // Adjust the import path as needed
 
+import { Dimensions } from "react-native";
+
+const screenWidth = Dimensions.get("window").width;
+const screenHeight = Dimensions.get("window").height;
+
 const BackgroundImageComponent = ({ backgroundImage, plantPositions }) => {
   return (
     <ImageBackground source={backgroundImage} style={styles.backgroundImage}>
@@ -23,9 +28,9 @@ const BackgroundImageComponent = ({ backgroundImage, plantPositions }) => {
 
 const styles = StyleSheet.create({
   backgroundImage: {
-    resizeMode: "cover",
+    resizeMode: "contain",
     position: "absolute",
-    bottom: 0,
+    top: 0,
     width: "100%",
     height: "100%",
   },

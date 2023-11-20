@@ -23,21 +23,6 @@ const styles = StyleSheet.create({
     elevation: 5,
     maxHeight: "40%", // Adjust this to control the modal height
   },
-  // modalView: {
-  //   backgroundColor: "white",
-  //   borderTopLeftRadius: 20,
-  //   borderTopRightRadius: 20,
-  //   padding: 10,
-  //   shadowColor: "#000",
-  //   shadowOffset: {
-  //     width: 0,
-  //     height: -2, // Shadow for the top side of the modal
-  //   },
-  //   shadowOpacity: 0.25,
-  //   shadowRadius: 3.84,
-  //   elevation: 5,
-  //   maxHeight: "40%", // Adjust this to control the modal height
-  // },
 
   modalPlantMenuOverlay: {
     flex: 1,
@@ -70,28 +55,17 @@ const styles = StyleSheet.create({
   },
 
   plantPosition: {
-    width: 60,
-    height: 45,
+    width: "15%",
+    height: "5.5%",
     justifyContent: "center",
     alignItems: "center",
     position: "relative",
   },
 
-  addButton: {
-    // Add your styles for the add button here
-    position: "absolute",
-    right: 15, // Adjust as needed to float the button
-    width: 30,
-    height: 30,
-    borderRadius: 15,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-
   plantImage: {
     width: 200,
     height: 200,
-    opacity: 0.85,
+    opacity: 0.95,
     justifyContent: "center",
     alignContent: "center",
   },
@@ -107,8 +81,8 @@ const styles = StyleSheet.create({
     borderRadius: 30,
     backgroundColor: "rgba(0, 0, 0, 0.3)",
     elevation: 5,
-    width: 60,
-    height: 45,
+    width: "80%",
+    height: "85%",
     justifyContent: "center",
     alignItems: "center",
     position: "relative",
@@ -117,7 +91,6 @@ const styles = StyleSheet.create({
   touchPlantImageContainer: {
     position: "absolute",
   },
-
 });
 
 export default styles;

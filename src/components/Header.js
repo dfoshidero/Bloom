@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Image, StyleSheet } from "react-native";
+import { View, Image, StyleSheet, StatusBar } from "react-native";
 
 const Header = () => {
   return (
