@@ -26,7 +26,14 @@ const MenuComponent = ({ menuVisible, closeMenu }) => {
             <Text style={styles.menuItem}>Game Stats</Text>
           </TouchableOpacity>
           <Text style={styles.menuItem}>Shop</Text>
-          <Text style={styles.menuItem}>Settings</Text>
+          <TouchableOpacity
+            onPress={() => {
+              navigation.navigate("Settings");
+              closeMenu();
+            }}
+          >
+            <Text style={styles.menuItem}>Settings</Text>
+          </TouchableOpacity>
           <Text style={styles.menuItem}>Account</Text>
         </View>
       </TouchableOpacity>
