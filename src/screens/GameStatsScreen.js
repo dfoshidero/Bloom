@@ -103,7 +103,6 @@ const GameStatsScreen = () => {
 
   const renderMasteryItem = ({ item }) => (
     <TouchableScale style={[
-      styles.itemContainer,
       item.learned ? styles.itemContainer_unlocked : styles.itemContainer_locked,
     ]} onPress={item.learned ? () => { show_plantdetails(); handleSelectPlant(item.id);} : null}>
 
@@ -161,12 +160,16 @@ const GameStatsScreen = () => {
   return (
     <View style={styles.container}>
       <ImageBackground source={menuBackgroundImage} style={styles.backgroundImage_bg}></ImageBackground>
-      <Text style={styles.title}>Plant Mastery Levels</Text>
-      <FlatList
-        data={masteryLevels}
-        renderItem={renderMasteryItem}
-        keyExtractor={(item) => item.id}
-      />
+      <View style={styles.titleContainer}>
+        <Text style={styles.title}>Plant Mastery Levels</Text>
+      </View>
+      <View style={styles.masteryContainer}>
+        <FlatList
+          data={masteryLevels}
+          renderItem={renderMasteryItem}
+          keyExtractor={(item) => item.id}
+        />
+      </View>
     </View>
   );
 };
@@ -177,10 +180,14 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
     alignItems: "center",
     justifyContent: "center",
-    //padding: 20,
+  },
+  titleContainer: {
+    top: "10%"
+  },
+  masteryContainer: {
+    top: "20%"
   },
   title: {
-    top: "2%",
     fontSize: 24,
     fontWeight: "bold",
     marginBottom: 20,
