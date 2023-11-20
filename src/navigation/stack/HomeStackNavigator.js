@@ -14,8 +14,9 @@ const HomeStackNavigator = () => {
         component={GameScreen}
         options={{ headerShown: false, footerShown: false }}
       />
-      <Stack.Screen name="Mastery" component={GameStatsScreen} />
+      <Stack.Screen name="Mastery" component={GameStatsScreen} options={{footerShown: false }}/>
       {/* Add other screens here */}
+      <Stack.Screen name="Settings" component={GameStatsScreen} options={{footerShown: false }}/>
     </Stack.Navigator>
   );
 };

@@ -7,9 +7,12 @@ import {
   FlatList,
   TouchableOpacity,
   Image,
+  ImageBackground,
 } from "react-native";
 
 import TouchableScale from "react-native-touchable-scale";
+
+import menuBackgroundImage from '../assets/backgrounds/misc/menu_bg.png';
 
 import {plants} from "../states/plantsConfig";
 
@@ -104,7 +107,7 @@ const GameStatsScreen = () => {
       item.learned ? styles.itemContainer_unlocked : styles.itemContainer_locked,
     ]} onPress={item.learned ? () => { show_plantdetails(); handleSelectPlant(item.id);} : null}>
 
-      
+
       <Modal
         animationType="fade"
         transparent={true}
@@ -157,6 +160,7 @@ const GameStatsScreen = () => {
 
   return (
     <View style={styles.container}>
+      <ImageBackground source={menuBackgroundImage} style={styles.backgroundImage_bg}></ImageBackground>
       <Text style={styles.title}>Plant Mastery Levels</Text>
       <FlatList
         data={masteryLevels}
@@ -173,12 +177,14 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
     alignItems: "center",
     justifyContent: "center",
-    padding: 20,
+    //padding: 20,
   },
   title: {
+    top: "2%",
     fontSize: 24,
     fontWeight: "bold",
     marginBottom: 20,
+    color: "#fff"
   },
   plantName: {
     fontWeight: "bold",
@@ -279,6 +285,13 @@ const styles = StyleSheet.create({
   multiItemContainer: {
     alignItems: 'center',
     flexDirection: 'row',
+  },
+  backgroundImage_bg: {
+    resizeMode: "contained",
+    position: "absolute",
+    top: 0,
+    width: "100%",
+    height: "100%",
   },
 });
 
