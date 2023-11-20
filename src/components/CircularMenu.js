@@ -5,7 +5,9 @@ import Icon from "react-native-vector-icons/FontAwesome";
 import { Modal, Dimensions } from "react-native";
 
 const windowWidth = Dimensions.get("window").width;
-const windowHeight = Dimensions.get("window").height;
+
+const iconSize = windowWidth * 0.15; // 10% of screen width, for example
+
 
 const FloatingMenu = ({ visible, onPress, menuItems }) => {
   const scaleValue = useRef(new Animated.Value(0)).current;
@@ -14,14 +16,14 @@ const FloatingMenu = ({ visible, onPress, menuItems }) => {
     if (visible) {
       Animated.timing(scaleValue, {
         toValue: 1,
-        duration: 500,
+        duration: 250,
         easing: Easing.ease,
         useNativeDriver: false,
       }).start();
     } else {
       Animated.timing(scaleValue, {
         toValue: 0,
-        duration: 500,
+        duration: 250,
         easing: Easing.ease,
         useNativeDriver: false,
       }).start();
@@ -80,14 +82,16 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   circle: {
-    backgroundColor: "blue", // Set the background color to blue
     width: 40, // Set a fixed width
     height: 40, // Set a fixed height to match the width
     borderRadius: 25, // Half of the width/height to make it a circle
     right: 20,
     justifyContent: "center",
     alignItems: "center",
-
+  },
+  iconImage: {
+    width: iconSize,
+    height: iconSize,
   },
   // ... other styles
 });

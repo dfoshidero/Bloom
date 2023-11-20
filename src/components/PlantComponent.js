@@ -11,11 +11,11 @@ import ScaleAnimation from "./ScaleAnimation";
 import { getPlantHitBox } from "./PlantHitbox";
 import FloatingMenu from "./CircularMenu";
 
+const iconContainer = require("../assets/icon_container.png");
+
 const Plant = ({ style }) => {
   // New state for PLANT SELECT modal visibility
   const [selectPlantModalVisible, setSelectPlantModalVisible] = useState(false);
-  // New state for PLANT MENU modal visibility
-  const [plantMenuModalVisible, setPlantMenuModalVisible] = useState(false);
   // State for setting selecting plant
   const [selectedPlant, setSelectedPlant] = useState(null);
   // State for managing the visibility of the Floating Menu
@@ -114,20 +114,22 @@ const Plant = ({ style }) => {
 
       {/* Render Plant Interaction Menu */}
       {/* FloatingButton component */}
-      <View style={{position: "absolute"}}>
+      <View style={{ position: "absolute" }}>
         <FloatingMenu
           visible={floatingMenuVisible}
           onPress={handleMenuItemPress}
           menuItems={[
             // Customize menu items based on the calling object (selectedPlant)
-            { icon: "cloud-upload", right: 20, isImage: false },
-            { icon: "print", right: 0, isImage: false },
-            { icon: "share-alt", right: -20, isImage: false },
+            { icon: iconContainer, right: 20, isImage: true },
+            { icon: iconContainer, right: 0, isImage: true },
+            { icon: iconContainer, right: -20, isImage: true },
+
           ]}
         />
       </View>
     </View>
   );
 };
+
 
 export default Plant;
