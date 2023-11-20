@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { View, TouchableOpacity, Image } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { View, Image } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import TouchableScale from "react-native-touchable-scale";
 
@@ -9,6 +9,12 @@ import MenuComponent from '../components/MenuComponent'; // Adjust the import pa
 import BackgroundImageComponent from '../components/BackgroundImageComponent'; // Adjust the import path as needed
 import { toggleMenu } from '../utilities/menuUtilities'; // Adjust the import path as needed
 import gameStyles from '../styles/GameScreenStyles';
+import {
+  playBackgroundMusic,
+  pauseBackgroundMusic,
+  stopBackgroundMusic,
+  setupPlayer,
+} from "../utilities/backgroundMusic";
 
 const GameScreen = () => {
     const [currentBackground, setCurrentBackground] = useState(backgrounds.background4);
@@ -18,6 +24,21 @@ const GameScreen = () => {
     const handleToggleMenu = () => {
         setMenuVisible(toggleMenu(menuVisible));
     };
+
+     useEffect(() => {
+       // Setup the player when the app loads
+       setupPlayer().then(() => {
+         console.log("Player is set up");
+       });
+
+       // Optionally, start playing music when the app loads
+       playBackgroundMusic();
+
+       return () => {
+         // Stop and clean up on app unmount
+         stopBackgroundMusic();
+       };
+     }, []);
 
     return (
       <View style={gameStyles.container}>

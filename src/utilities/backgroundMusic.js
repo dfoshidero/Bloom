@@ -1,42 +1,45 @@
-import Sound from "react-native-sound";
+import { Audio } from "expo-av";
 
-// Enable playback in silence mode (iOS only)
-Sound.setCategory("Playback");
-
-let backgroundMusic = null;
+// Function to setup the player
+async function setupPlayer() {
+  await Audio.setAudioModeAsync({
+    allowsRecordingIOS: false,
+    playsInSilentModeIOS: true,
+    shouldDuckAndroid: true,
+    playThroughEarpieceAndroid: false,
+    staysActiveInBackground: false,
+  });
+}
 
 // Function to load and play background music
-function playBackgroundMusic() {
-  backgroundMusic = new Sound(
-    "background_music.mp3",
-    Sound.MAIN_BUNDLE,
-    (error) => {
-      if (error) {
-        console.log("Failed to load the sound", error);
-        return;
-      }
-      // Play the sound in a loop
-      backgroundMusic.setNumberOfLoops(-1);
-      backgroundMusic.play();
+async function playBackgroundMusic() {
+  const { sound } = await Audio.Sound.createAsync(
+    require("../assets/sounds/music/feed-the-machine-classic-arcade-game-116846.mp3"),
+    {
+      shouldPlay: true,
+      isLooping: true,
     }
   );
+  this.backgroundMusic = sound;
 }
 
 // Function to pause background music
-function pauseBackgroundMusic() {
-  if (backgroundMusic) {
-    backgroundMusic.pause();
+async function pauseBackgroundMusic() {
+  if (this.backgroundMusic) {
+    await this.backgroundMusic.pauseAsync();
   }
 }
 
 // Function to stop and unload background music
-function stopBackgroundMusic() {
-  if (backgroundMusic) {
-    backgroundMusic.stop(() => {
-      backgroundMusic.release();
-      backgroundMusic = null;
-    });
+async function stopBackgroundMusic() {
+  if (this.backgroundMusic) {
+    await this.backgroundMusic.stopAsync();
+    await this.backgroundMusic.unloadAsync();
+    this.backgroundMusic = null;
   }
 }
 
-export { playBackgroundMusic, pauseBackgroundMusic, stopBackgroundMusic };
+// Call setupPlayer to initialize the player
+setupPlayer();
+
+export { playBackgroundMusic, pauseBackgroundMusic, stopBackgroundMusic, setupPlayer };
