@@ -14,7 +14,7 @@ import { plants } from "../states/plantsConfig";
 import SelectPlantModal from "./PlantSelectionModal";
 import ScaleAnimation from "./ScaleAnimation";
 import { getPlantHitBox } from "./PlantHitbox";
-import FloatingMenu from "./CircularMenu";
+import FloatingMenu, { handleButtonPress } from "./CircularMenu";
 
 const PlantPosition = ({ style }) => {
   // New state for PLANT SELECT modal visibility
@@ -24,15 +24,17 @@ const PlantPosition = ({ style }) => {
   // State for setting selecting plant
   const [selectedPlant, setSelectedPlant] = useState(null);
   // State for managing the visibility of the Floating Menu
-  const [floatingButtonVisible, setFloatingButtonVisible] = useState(false);
+  const [floatingMenuVisible, setFloatingMenuVisible] = useState(false);
   // State for scale animation
   const [isActive, setIsActive] = useState(false);
 
-  const handlePressIn = () => {
+  const handlePressInPlant = () => {
     setIsActive(true);
-  };
+    setFloatingMenuVisible(true);
+    handleButtonPress(setFloatingMenuVisible); // Pass the setFloatingMenuVisible function
+};
 
-  const handlePressOut = () => {
+  const handlePressOutPlant = () => {
     setIsActive(false);
   };
 
@@ -79,10 +81,10 @@ const PlantPosition = ({ style }) => {
                   },
               ]}
               onPress={() => {
-                console.log("Plant pressed.")
+                console.log("Plant pressed.");
               }}
-              onPressIn = { handlePressIn }
-              onPressOut = { handlePressOut }
+              onPressIn = { handlePressInPlant }
+              onPressOut = { handlePressOutPlant }
             >
               <View />
             </TouchableOpacity>
@@ -116,6 +118,23 @@ const PlantPosition = ({ style }) => {
       />
 
       {/* Render Plant Interaction Menu */}
+      {/* FloatingButton component */}
+      {floatingMenuVisible && (
+        <FloatingMenu
+          onPress={() => {
+            // Handle the menu interaction here
+            console.log("FloatingButton pressed");
+            // Set the visibility of the FloatingButton back to false
+            setFloatingMenuVisible(false);
+          }}
+          menuItems={[
+            // Customize menu items based on the calling object (selectedPlant)
+            { icon: "cloud-upload", right: 20, isImage: false },
+            { icon: "print", right: 0, isImage: false },
+            { icon: "share-alt", right: -20, isImage: false },
+          ]}
+        />
+      )}
     </View>
   );
 };
