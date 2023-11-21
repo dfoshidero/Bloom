@@ -184,7 +184,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   titleContainer: {
-    top: "10%"
+    top: "20%"
   },
   masteryContainer: {
     top: "20%"
@@ -305,6 +305,7 @@ const styles = StyleSheet.create({
     top: 0,
     width: "100%",
     height: "100%",
+    opacity: 0.7,
   },
 });
 
