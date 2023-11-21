@@ -1,10 +1,10 @@
 const LevelsConfig = {
   1: {
-    totalLevels: 5,
+    totalLevels: 3,
     completedLevels: [1, 2],
   },
   2: {
-    totalLevels: 3,
+    totalLevels: 9,
     completedLevels: [1],
   },
 };

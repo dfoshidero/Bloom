@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text, FlatList, StyleSheet } from "react-native";
 import TouchableScale from "react-native-touchable-scale";
 import LevelsConfig from "../states/levelsConfig";
 
@@ -7,59 +7,83 @@ const LevelSelectionScreen = ({ navigation, route }) => {
   const { selectedPlant } = route.params;
   const plantLevels = LevelsConfig[selectedPlant];
 
-  const renderLevel = (level, isCompleted) => (
+  const renderItem = ({ item }) => (
     <TouchableScale
-      key={level}
       onPress={() =>
-        navigation.navigate("QuizScreen", { selectedPlant, level })
+        navigation.navigate("QuizScreen", { selectedPlant, level: item })
       }
-      style={styles.levelContainer}
+      style={[
+        styles.levelContainer,
+        plantLevels.completedLevels.includes(item)
+          ? styles.completedLevel
+          : styles.incompleteLevel,
+      ]}
     >
-      <Text style={styles.levelText}>Level {level}</Text>
-      {isCompleted && <Text style={styles.completedIcon}>✓</Text>}
+      <Text style={styles.levelText}>Level {item}</Text>
+      <View style={styles.iconContainer}>
+        {plantLevels.completedLevels.includes(item) && (
+          <View style={styles.completedIcon} />
+        )}
+      </View>
     </TouchableScale>
   );
 
   return (
-    <View style={styles.container}>
-      {Array.from({ length: plantLevels.totalLevels }, (_, i) =>
-        renderLevel(i + 1, plantLevels.completedLevels.includes(i + 1))
-      )}
-    </View>
+    <FlatList
+      data={Array.from({ length: plantLevels.totalLevels }, (_, i) => i + 1)}
+      renderItem={renderItem}
+      keyExtractor={(item) => item.toString()}
+      numColumns={2}
+      contentContainerStyle={styles.grid}
+    />
   );
 };
 
-// Add a StyleSheet for styling
+// Enhanced StyleSheet
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: "center",
+  grid: {
+    flexGrow: 1,
     justifyContent: "center",
-    padding: 20,
+    padding: 10,
+    backgroundColor: "#f4f4f4",
   },
   levelContainer: {
-    backgroundColor: "#eaeaea", // Light grey background
-    borderRadius: 10,
-    padding: 15,
-    marginVertical: 8,
-    width: "80%",
+    borderRadius: 15,
+    paddingVertical: 25,
+    paddingHorizontal: 15,
+    margin: 10,
+    width: 160,
+    height: 100, // Fixed height for consistency
     alignItems: "center",
-    justifyContent: "center",
-    elevation: 3, // for Android shadow
-    shadowOpacity: 0.3, // for iOS shadow
-    shadowRadius: 5,
+    justifyContent: "space-between", // Distribute space between text and icon
+    elevation: 4,
+    shadowOpacity: 0.3,
+    shadowRadius: 6,
     shadowColor: "#000",
     shadowOffset: { width: 0, height: 2 },
+  },
+  completedLevel: {
+    backgroundColor: "#d4edda",
+  },
+  incompleteLevel: {
+    backgroundColor: "#f8d7da",
   },
   levelText: {
     fontSize: 18,
     fontWeight: "bold",
-    color: "#333", // Dark text color
+    color: "#333",
+  },
+  iconContainer: {
+    // Container for the icon to ensure alignment
+    height: 20, // Fixed height for the icon container
+    justifyContent: "center",
+    alignItems: "center",
   },
   completedIcon: {
-    fontSize: 18,
-    color: "green",
-    marginTop: 5,
+    width: 15,
+    height: 15,
+    borderRadius: 7.5,
+    backgroundColor: "green",
   },
 });
 
