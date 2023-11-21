@@ -7,7 +7,7 @@ import {
   TouchableOpacity,
 } from "react-native";
 
-//Get the questions and answers for this quiz
+//Get the answers for this quiz
 const getTriviaAnswers = () => {
     // Mock data
     return Promise.resolve([
@@ -30,7 +30,7 @@ const QuizScreen = ({ navigation, route }) => {
     );
     return (
       <View style={styles.container}>
-        <Text style={styles.title}>Question 2 of 3</Text>
+        <Text style={styles.title}>What is the correct soil mix for a potted cactus?</Text>
         <FlatList
             data={triviaAnswers}
             renderItem={renderAnswer}
