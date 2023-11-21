@@ -46,7 +46,7 @@ const Plant = ({ style }) => {
     console.log("Menu item pressed", item);
     setFloatingMenuVisible(false); 
     if (item.id == 1){
-      navigation.navigate("Trivia");
+      navigation.navigate("LevelSelectionScreen", { selectedPlant: selectedPlant.plantID });
     }
   };
 

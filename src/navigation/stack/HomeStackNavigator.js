@@ -7,7 +7,7 @@ import TouchableScale from "react-native-touchable-scale";
 import GameScreen from "../../screens/GameScreen";
 import GameStatsScreen from "../../screens/GameStatsScreen";
 import SettingsScreen from "../../screens/SettingsScreen";
-import TriviaScreen from "../../screens/LevelSelectScreen";
+import LevelSelectionScreen from "../../screens/LevelSelectScreen";
 
 const backButtonIcon = require("../../assets/icons/back_icon.png");
 
@@ -63,8 +63,8 @@ const HomeStackNavigator = () => {
         }}
       />
       <Stack.Screen
-        name="Trivia"
-        component={TriviaScreen}
+        name="LevelSelectionScreen"
+        component={LevelSelectionScreen}
         options={{
           headerLeft: () => <CustomBackButton />, // Use custom back button component
         }}
