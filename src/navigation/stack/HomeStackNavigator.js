@@ -8,6 +8,7 @@ import GameScreen from "../../screens/GameScreen";
 import GameStatsScreen from "../../screens/GameStatsScreen";
 import SettingsScreen from "../../screens/SettingsScreen";
 import LevelSelectionScreen from "../../screens/LevelSelectScreen";
+import QuizScreen from "../../screens/QuizScreen";
 
 const backButtonIcon = require("../../assets/icons/back_icon.png");
 
@@ -65,6 +66,13 @@ const HomeStackNavigator = () => {
       <Stack.Screen
         name="LevelSelectionScreen"
         component={LevelSelectionScreen}
+        options={{
+          headerLeft: () => <CustomBackButton />, // Use custom back button component
+        }}
+      />
+      <Stack.Screen
+        name="QuizScreen"
+        component={QuizScreen}
         options={{
           headerLeft: () => <CustomBackButton />, // Use custom back button component
         }}
