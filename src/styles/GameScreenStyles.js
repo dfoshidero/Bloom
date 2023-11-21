@@ -9,7 +9,7 @@ const gameStyles = StyleSheet.create({
   },
   settingsIcon: {
     position: "absolute",
-    top: Platform.OS === "android" ? StatusBar.currentHeight + 140 : 215,
+    top: "25%",
     left: 20,
     zIndex: 1,
   },
