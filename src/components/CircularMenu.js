@@ -1,51 +1,61 @@
-import React, { useState, useRef, useEffect } from "react";
-import { View, StyleSheet, Animated, Easing, Image } from "react-native";
+import React, { useRef, useEffect } from "react";
+import {
+  View,
+  StyleSheet,
+  Animated,
+  Easing,
+  Image,
+  Modal,
+  Dimensions,
+} from "react-native";
 import TouchableScale from "react-native-touchable-scale";
 import Icon from "react-native-vector-icons/FontAwesome";
-import { Modal, Dimensions } from "react-native";
 
 const windowWidth = Dimensions.get("window").width;
+const iconSize = windowWidth * 0.15; // 15% of screen width
 
-const iconSize = windowWidth * 0.15; // 15% of screen width, for example
-
-const FloatingMenu = ({ visible, onPress, menuItems }) => {
+const FloatingMenu = ({ visible, onPress, menuItems, centralIconIndex }) => {
   const scaleValue = useRef(new Animated.Value(0)).current;
 
   useEffect(() => {
-    if (visible) {
-      Animated.timing(scaleValue, {
-        toValue: 1,
-        duration: 250,
-        easing: Easing.ease,
-        useNativeDriver: false,
-      }).start();
-    } else {
-      Animated.timing(scaleValue, {
-        toValue: 0,
-        duration: 250,
-        easing: Easing.ease,
-        useNativeDriver: false,
-      }).start();
-    }
+    Animated.timing(scaleValue, {
+      toValue: visible ? 1 : 0,
+      duration: 250,
+      easing: Easing.ease,
+      useNativeDriver: true,
+    }).start();
   }, [visible, scaleValue]);
 
-  const getTransformStyle = (index) => {
-    const numberOfItems = menuItems.length;
-    const angle = (index * 2 * Math.PI) / numberOfItems;
-    const radius = 100; // You can adjust the radius to fit your design
+  const getTransformStyle = (item, index) => {
+    if (index === centralIconIndex) {
+      // Central icon positioning
+      return {
+        position: "absolute",
+        transform: [{ scale: scaleValue }],
+      };
+    }
+
+    // For other icons
+    const angleInRadians = (item.angle * Math.PI) / 180; // Convert angle to radians
+
+    const radius = 80; // Circle radius
 
     const translateX = scaleValue.interpolate({
       inputRange: [0, 1],
-      outputRange: [0, radius * Math.cos(angle)], // Radius of the circle
+      outputRange: [0, radius * Math.cos(angleInRadians)],
     });
 
     const translateY = scaleValue.interpolate({
       inputRange: [0, 1],
-      outputRange: [0, radius * Math.sin(angle)], // Radius of the circle
+      outputRange: [0, radius * Math.sin(angleInRadians)],
     });
 
     return {
-      transform: [{ scale: scaleValue }, { translateX }, { translateY }],
+      transform: [
+        { translateX: translateX },
+        { translateY: translateY },
+        { scale: scaleValue },
+      ],
     };
   };
 
@@ -57,11 +67,18 @@ const FloatingMenu = ({ visible, onPress, menuItems }) => {
         {menuItems.map((item, index) => (
           <Animated.View
             key={index}
-            style={[styles.circle, getTransformStyle(index)]}
+            style={[styles.circle, getTransformStyle(item, index)]}
           >
             <TouchableScale onPress={() => onPress(item)}>
               {item.isImage ? (
-                <Image source={item.icon} style={styles.iconImage} />
+                <Image
+                  source={item.icon}
+                  style={
+                    index === centralIconIndex
+                      ? styles.centralIconImage
+                      : styles.iconImage
+                  }
+                />
               ) : (
                 <Icon name={item.icon} size={25} color="#FFFF" />
               )}
@@ -73,25 +90,30 @@ const FloatingMenu = ({ visible, onPress, menuItems }) => {
   );
 };
 
-export default FloatingMenu;
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
+    top: "5%"
   },
   circle: {
-    width: 40, // Set a fixed width
-    height: 40, // Set a fixed height to match the width
-    borderRadius: 20, // Half of the width/height to make it a circle
+    width: 40,
+    height: 40,
+    borderRadius: 20,
     justifyContent: "center",
     alignItems: "center",
-    position: "absolute", // Added to allow free movement
+    position: "absolute",
   },
   iconImage: {
     width: iconSize,
     height: iconSize,
   },
-  // ... other styles
+  centralIconImage: {
+    width: iconSize * 1.5,
+    height: iconSize * 1.5,
+  },
+  // ... (other styles)
 });
+
+export default FloatingMenu;

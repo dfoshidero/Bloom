@@ -121,13 +121,13 @@ const Plant = ({ style }) => {
           menuItems={[
             // Customize menu items based on the calling object (selectedPlant)
             { icon: iconContainer, isImage: true },
-            { icon: iconContainer, isImage: true },
-            { icon: iconContainer, isImage: true },
-            { icon: iconContainer, isImage: true },
-            { icon: iconContainer, isImage: true },
-            { icon: iconContainer, isImage: true },
-            { icon: iconContainer, isImage: true },
+            { icon: iconContainer, isImage: true, angle: 300 },
+            { icon: iconContainer, isImage: true, angle: 240 },
+            { icon: iconContainer, isImage: true, angle: 0 },
+            { icon: iconContainer, isImage: true, angle: 180 },
+            { icon: iconContainer, isImage: true, angle: 90 },
           ]}
+          centralIconIndex={0}
         />
       </View>
     </View>
