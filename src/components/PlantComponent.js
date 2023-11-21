@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { View, TouchableOpacity, Image, Animated } from "react-native";
+import { useNavigation } from "@react-navigation/native";
 
 import Icon from "react-native-vector-icons/FontAwesome";
 import TouchableScale from "react-native-touchable-scale";
@@ -14,6 +15,7 @@ import FloatingMenu from "./CircularMenu";
 const iconContainer = require("../assets/icon_container.png");
 
 const Plant = ({ style }) => {
+  const navigation = useNavigation();
   // New state for PLANT SELECT modal visibility
   const [selectPlantModalVisible, setSelectPlantModalVisible] = useState(false);
   // State for setting selecting plant
@@ -37,8 +39,10 @@ const Plant = ({ style }) => {
 
   const handleMenuItemPress = (item) => {
     console.log("Menu item pressed", item);
-    setFloatingMenuVisible(false); // Close the menu
-    // Handle different actions based on the item pressed
+    setFloatingMenuVisible(false); 
+    if (item.id == 1){
+      navigation.navigate("Trivia");
+    }
   };
 
   const handleSelectPlant = (plantID) => {
@@ -120,12 +124,12 @@ const Plant = ({ style }) => {
           onPress={handleMenuItemPress}
           menuItems={[
             // Customize menu items based on the calling object (selectedPlant)
-            { icon: iconContainer, isImage: true },
-            { icon: iconContainer, isImage: true, angle: 300 },
-            { icon: iconContainer, isImage: true, angle: 240 },
-            { icon: iconContainer, isImage: true, angle: 0 },
-            { icon: iconContainer, isImage: true, angle: 180 },
-            { icon: iconContainer, isImage: true, angle: 90 },
+            { icon: iconContainer, isImage: true, id: 1 },
+            { icon: iconContainer, isImage: true, angle: 300, id: 2 },
+            { icon: iconContainer, isImage: true, angle: 240, id: 3 },
+            { icon: iconContainer, isImage: true, angle: 0, id: 4},
+            { icon: iconContainer, isImage: true, angle: 180, id: 5 },
+            { icon: iconContainer, isImage: true, angle: 90, id: 6 },
           ]}
           centralIconIndex={0}
         />

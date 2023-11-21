@@ -35,6 +35,14 @@ const MenuComponent = ({ menuVisible, closeMenu }) => {
             <Text style={styles.menuItem}>Settings</Text>
           </TouchableOpacity>
           <Text style={styles.menuItem}>Account</Text>
+          <TouchableOpacity
+            onPress={() => {
+              navigation.navigate("Trivia");
+              closeMenu();
+            }}
+          >
+            <Text style={styles.menuItem}>Trivia</Text>
+          </TouchableOpacity>
         </View>
       </TouchableOpacity>
     </Modal>
