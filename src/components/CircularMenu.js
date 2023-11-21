@@ -95,7 +95,8 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    top: "5%"
+    top: "5%",
+    backgroundColor: "rgba(0, 0, 0, 0.2)",
   },
   circle: {
     width: 40,

@@ -13,6 +13,11 @@ import { getPlantHitBox } from "./PlantHitbox";
 import FloatingMenu from "./CircularMenu";
 
 const iconContainer = require("../assets/icon_container.png");
+const closeIcon = require("../assets/icons/close_icon.png");
+const fertilizeIcon = require("../assets/icons/fertilize_icon.png");
+const learnIcon = require("../assets/icons/learn_icon.png");
+const waterIcon = require("../assets/icons/water_icon.png");
+const linkIcon = require("../assets/icons/link_icon.png");
 
 const Plant = ({ style }) => {
   const navigation = useNavigation();
@@ -124,12 +129,12 @@ const Plant = ({ style }) => {
           onPress={handleMenuItemPress}
           menuItems={[
             // Customize menu items based on the calling object (selectedPlant)
-            { icon: iconContainer, isImage: true, id: 1 },
+            { icon: learnIcon, isImage: true, id: 1 },
             { icon: iconContainer, isImage: true, angle: 300, id: 2 },
-            { icon: iconContainer, isImage: true, angle: 240, id: 3 },
-            { icon: iconContainer, isImage: true, angle: 0, id: 4},
-            { icon: iconContainer, isImage: true, angle: 180, id: 5 },
-            { icon: iconContainer, isImage: true, angle: 90, id: 6 },
+            { icon: waterIcon, isImage: true, angle: 240, id: 3 },
+            { icon: linkIcon, isImage: true, angle: 0, id: 4 },
+            { icon: fertilizeIcon, isImage: true, angle: 180, id: 5 },
+            { icon: closeIcon, isImage: true, angle: 90, id: 6 },
           ]}
           centralIconIndex={0}
         />
