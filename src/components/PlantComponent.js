@@ -120,10 +120,13 @@ const Plant = ({ style }) => {
           onPress={handleMenuItemPress}
           menuItems={[
             // Customize menu items based on the calling object (selectedPlant)
-            { icon: iconContainer, right: 20, isImage: true },
-            { icon: iconContainer, right: 0, isImage: true },
-            { icon: iconContainer, right: -20, isImage: true },
-
+            { icon: iconContainer, isImage: true },
+            { icon: iconContainer, isImage: true },
+            { icon: iconContainer, isImage: true },
+            { icon: iconContainer, isImage: true },
+            { icon: iconContainer, isImage: true },
+            { icon: iconContainer, isImage: true },
+            { icon: iconContainer, isImage: true },
           ]}
         />
       </View>

@@ -6,8 +6,7 @@ import { Modal, Dimensions } from "react-native";
 
 const windowWidth = Dimensions.get("window").width;
 
-const iconSize = windowWidth * 0.15; // 10% of screen width, for example
-
+const iconSize = windowWidth * 0.15; // 15% of screen width, for example
 
 const FloatingMenu = ({ visible, onPress, menuItems }) => {
   const scaleValue = useRef(new Animated.Value(0)).current;
@@ -33,15 +32,16 @@ const FloatingMenu = ({ visible, onPress, menuItems }) => {
   const getTransformStyle = (index) => {
     const numberOfItems = menuItems.length;
     const angle = (index * 2 * Math.PI) / numberOfItems;
+    const radius = 100; // You can adjust the radius to fit your design
 
     const translateX = scaleValue.interpolate({
       inputRange: [0, 1],
-      outputRange: [0, 80 * Math.cos(angle)], // Radius of the circle
+      outputRange: [0, radius * Math.cos(angle)], // Radius of the circle
     });
 
     const translateY = scaleValue.interpolate({
       inputRange: [0, 1],
-      outputRange: [0, 80 * Math.sin(angle)], // Radius of the circle
+      outputRange: [0, radius * Math.sin(angle)], // Radius of the circle
     });
 
     return {
@@ -84,10 +84,10 @@ const styles = StyleSheet.create({
   circle: {
     width: 40, // Set a fixed width
     height: 40, // Set a fixed height to match the width
-    borderRadius: 25, // Half of the width/height to make it a circle
-    right: 20,
+    borderRadius: 20, // Half of the width/height to make it a circle
     justifyContent: "center",
     alignItems: "center",
+    position: "absolute", // Added to allow free movement
   },
   iconImage: {
     width: iconSize,
@@ -95,6 +95,3 @@ const styles = StyleSheet.create({
   },
   // ... other styles
 });
-
-
-
