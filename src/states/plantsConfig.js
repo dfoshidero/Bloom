@@ -82,7 +82,7 @@ export const plants = {
   2: {
     plantID: 2,
     name: "Lucky Bamboo",
-    iconPath: require("../assets/plants/lucky_bamboo/lucky_bamboo_4.png"),
+    iconPath: require("../assets/plants/luckyBamboo/lucky_bamboo_4.png"),
     type: "tropical water lily",
     colours: ["Green"],
     potID: 1,
@@ -113,19 +113,19 @@ export const plants = {
         growth: [
           {
             growthStage: 0,
-            imagePath: require("../assets/plants/lucky_bamboo/lucky_bamboo_1.png"),
+            imagePath: require("../assets/plants/luckyBamboo/lucky_bamboo_1.png"),
           },
           {
             growthStage: 0.33,
-            imagePath: require("../assets/plants/lucky_bamboo/lucky_bamboo_2.png"),
+            imagePath: require("../assets/plants/luckyBamboo/lucky_bamboo_2.png"),
           },
           {
             growthStage: 0.66,
-            imagePath: require("../assets/plants/lucky_bamboo/lucky_bamboo_3.png"),
+            imagePath: require("../assets/plants/luckyBamboo/lucky_bamboo_3.png"),
           },
           {
             growthStage: 1.0,
-            imagePath: require("../assets/plants/lucky_bamboo/lucky_bamboo_4.png"),
+            imagePath: require("../assets/plants/luckyBamboo/lucky_bamboo_4.png"),
           },
         ],
         unlockCondition: null,
