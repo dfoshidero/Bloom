@@ -43,7 +43,8 @@ const HomeStackNavigator = () => {
         name="Home"
         component={GameScreen}
         options={{
-          headerShown: false,
+          title: "",
+          headerTransparent: true,
         }}
       />
       <Stack.Screen
