@@ -1,0 +1,94 @@
+// MenuComponent.js
+import React from "react";
+import { View, Text, TouchableOpacity, Modal, StyleSheet } from "react-native";
+import { useNavigation } from "@react-navigation/native";
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
+const MenuComponent = ({ menuVisible, closeMenu }) => {
+  const navigation = useNavigation();
+
+  const clearData = async () => {
+    try {
+      await AsyncStorage.getAllKeys()
+        .then(keys => AsyncStorage.multiRemove(keys))
+        .then(() => console.log('AsyncStorage successfully cleared!'));
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
+  return (
+    <Modal
+      animationType="slide"
+      transparent={true}
+      visible={menuVisible}
+      onRequestClose={closeMenu}
+    >
+      <TouchableOpacity style={styles.backgroundImage} onPress={closeMenu}>
+        <View style={styles.menuContainer}>
+          <Text style={styles.menuItem}>Achievements</Text>
+          <Text style={styles.menuItem}>Collection</Text>
+          <TouchableOpacity
+            onPress={() => {
+              navigation.navigate("Mastery");
+              closeMenu();
+            }}
+          >
+            <Text style={styles.menuItem}>Game Stats</Text>
+          </TouchableOpacity>
+          <Text style={styles.menuItem}>Shop</Text>
+          <TouchableOpacity
+            onPress={() => {
+              navigation.navigate("Settings");
+              closeMenu();
+            }}
+          >
+            <Text style={styles.menuItem}>Settings</Text>
+          </TouchableOpacity>
+          <Text style={styles.menuItem}>Account</Text>
+          <TouchableOpacity
+            onPress={() => {
+              clearData();
+              closeMenu();
+            }}
+          >
+            <Text style={styles.menuItem}>clear data</Text>
+          </TouchableOpacity>
+        </View>
+      </TouchableOpacity>
+    </Modal>
+  );
+};
+
+const styles = StyleSheet.create({
+  menuContainer: {
+    width: "80%",
+    opacity: 0.7,
+    backgroundColor: "white",
+    borderRadius: 20,
+    paddingTop: 30,
+    paddingBottom: 20,
+    alignItems: "center",
+    justifyContent: "center",
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
+  },
+  menuItem: {
+    marginBottom: 30,
+    fontSize: 18,
+    textAlign: "center",
+  },
+  backgroundImage: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+});
+
+export default MenuComponent;
