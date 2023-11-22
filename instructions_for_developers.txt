@@ -1,6 +1,6 @@
 Windows:
-3. Download Expo Go to your phone
-4. Clone the github repository to your computer
-5. In WSL, navigate to the local repository
-6. Use the command 'npx expo start --tunnel'
-7. Scan the QR code with your phone
+1. Download Expo Go to your phone
+2. Clone the github repository to your computer
+3. In WSL, navigate to the local repository
+4. Use the command 'npx expo start --tunnel'
+5. Scan the QR code with your phone
