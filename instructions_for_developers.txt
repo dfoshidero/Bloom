@@ -1,6 +1,4 @@
 Windows:
-1. Install WSL on your computer https://learn.microsoft.com/en-us/windows/wsl/install
-2. Install Node.js on your computer https://learn.microsoft.com/en-us/windows/dev-environment/javascript/nodejs-on-wsl
 3. Download Expo Go to your phone
 4. Clone the github repository to your computer
 5. In WSL, navigate to the local repository
