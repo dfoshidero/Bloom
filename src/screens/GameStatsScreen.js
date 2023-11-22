@@ -16,14 +16,6 @@ import menuBackgroundImage from '../assets/backgrounds/misc/menu_bg.png';
 
 import {plants} from "../states/plantsConfig";
 
- // Mock data original code in case if can't solve
- /*return Promise.resolve([
-  { id: "1", name: "Ficus", level: "Beginner", progress: 0.3 },
-  { id: "2", name: "Monstera", level: "Intermediate", progress: 0.5 },
-  { id: "3", name: "Succulent", level: "Advanced", progress: 0.8 },
-  // ... more plants
-]);*/
-
 // This is a mock function that should ideally fetch the mastery levels from your backend or state management store.
 const fetchMasteryLevels = () => {
   if (!plants) {
@@ -54,7 +46,7 @@ const GameStatsScreen = () => {
   const [selectedPlant, setSelectedPlant] = useState(null);
 
   const handleSelectPlant = (plantID) => {
-    const plant = plants[`plant${plantID}`];
+    const plant = plants[plantID];
     setSelectedPlant(plant);
   };
 
