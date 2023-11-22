@@ -4,6 +4,7 @@ import { useNavigation } from "@react-navigation/native";
 
 import Icon from "react-native-vector-icons/FontAwesome";
 import TouchableScale from "react-native-touchable-scale";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import styles from "../styles/PlantStyles";
 import { plants } from "../states/plantsConfig";
@@ -19,7 +20,7 @@ const learnIcon = require("../assets/icons/learn_icon.png");
 const waterIcon = require("../assets/icons/water_icon.png");
 const linkIcon = require("../assets/icons/link_icon.png");
 
-const Plant = ({ style }) => {
+const Plant = ({ id, style }) => {
   const navigation = useNavigation();
   // New state for PLANT SELECT modal visibility
   const [selectPlantModalVisible, setSelectPlantModalVisible] = useState(false);
@@ -50,11 +51,62 @@ const Plant = ({ style }) => {
     }
   };
 
-  const handleSelectPlant = (plantID) => {
+  const handleSelectPlant = async (plantID) => {
     const plant = plants[`plant${plantID}`];
     setSelectedPlant(plant);
     setSelectPlantModalVisible(false);
+  
+    try {
+      // Retrieve the existing saved plants array from AsyncStorage
+      const savedPlantsJSON = await AsyncStorage.getItem('savedPlants');
+      let savedPlants = [];
+      if (savedPlantsJSON) {
+        savedPlants = JSON.parse(savedPlantsJSON);
+      }
+  
+      // Add the new plant to the saved plants array
+      const newPlantData = {
+        plantPositionID: id.toString(),
+        plantID: plantID.toString(),
+      };
+      savedPlants.push(newPlantData);
+  
+      // Save the updated saved plants array in AsyncStorage
+      await AsyncStorage.setItem('savedPlants', JSON.stringify(savedPlants));
+      console.log('Plant data saved successfully.');
+  
+      // Retrieve and print the saved data
+      const savedPlantsJSONUpdated = await AsyncStorage.getItem('savedPlants');
+      const savedPlantsUpdated = JSON.parse(savedPlantsJSONUpdated);
+      console.log('Saved Plants:', savedPlantsUpdated);
+    } catch (error) {
+      console.log('Error saving plant data:', error);
+    }
   };
+
+
+  const loadSavedPlantData = async () => {
+    try {
+      const savedPlantsJSON = await AsyncStorage.getItem('savedPlants');
+      const savedPlants = JSON.parse(savedPlantsJSON);
+  
+      if (savedPlants) {
+        const savedPlant = savedPlants.find((plant) => plant.plantPositionID === id.toString());
+  
+        if (savedPlant) {
+          const plant = plants[`plant${savedPlant.plantID}`];
+          setSelectedPlant(plant);
+        }
+      }
+    } catch (error) {
+      console.log('Error loading saved plant data:', error);
+    }
+  };
+
+  useEffect(() => {
+    console.log('ID:', id);
+    loadSavedPlantData();
+  }, [id]);
 
   const getPlantImagePath = () => {
     if (selectedPlant) {

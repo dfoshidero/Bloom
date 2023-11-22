@@ -14,6 +14,7 @@ const BackgroundImageComponent = ({ backgroundImage, plantPositions }) => {
       {plantPositions.map((position) => (
         <Plant
           key={position.id}
+          id={position.id}
           style={{
             position: "absolute",
             bottom: position.bottom,

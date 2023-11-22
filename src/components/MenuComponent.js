@@ -2,9 +2,20 @@
 import React from "react";
 import { View, Text, TouchableOpacity, Modal, StyleSheet } from "react-native";
 import { useNavigation } from "@react-navigation/native";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const MenuComponent = ({ menuVisible, closeMenu }) => {
   const navigation = useNavigation();
+
+  const clearData = async () => {
+    try {
+      await AsyncStorage.getAllKeys()
+        .then(keys => AsyncStorage.multiRemove(keys))
+        .then(() => console.log('AsyncStorage successfully cleared!'));
+    } catch (e) {
+      console.error(e);
+    }
+  };
 
   return (
     <Modal
@@ -35,6 +46,14 @@ const MenuComponent = ({ menuVisible, closeMenu }) => {
             <Text style={styles.menuItem}>Settings</Text>
           </TouchableOpacity>
           <Text style={styles.menuItem}>Account</Text>
+          <TouchableOpacity
+            onPress={() => {
+              clearData();
+              closeMenu();
+            }}
+          >
+            <Text style={styles.menuItem}>clear data</Text>
+          </TouchableOpacity>
         </View>
       </TouchableOpacity>
     </Modal>

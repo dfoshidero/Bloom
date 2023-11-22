@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { View, Image } from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome";
 import TouchableScale from "react-native-touchable-scale";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import Header from "../components/HeaderComponent";
 import { backgrounds } from "../states/backgroundsConfig";
@@ -23,6 +24,7 @@ const GameScreen = () => {
   const backgroundImage = currentBackground.image;
   const [menuVisible, setMenuVisible] = useState(false);
 
+<<<<<<< HEAD
   const oracleNormal = require("../assets/oracle_edit/sun_normal.png");
   const oracleSmile1 = require("../assets/oracle_edit/sun_smile_1.png");
   const oracleSmile2 = require("../assets/oracle_edit/sun_smile_2.png");
@@ -84,6 +86,38 @@ const GameScreen = () => {
       }
 
       setTimeout(changeImage, (Math.random() * 25000) + 7000); // Schedule next regular image change
+=======
+    useEffect(() => {
+      const loadCurrentBackground = async () => {
+        try {
+          const savedBackground = await AsyncStorage.getItem('currentBackground');
+          if (savedBackground) {
+            setCurrentBackground(JSON.parse(savedBackground));
+          }
+        } catch (error) {
+          console.log('Failed to load the current background:', error);
+        }
+      };
+  
+      loadCurrentBackground();
+    }, []);
+
+    useEffect(() => {
+      const saveCurrentBackground = async () => {
+        try {
+          await AsyncStorage.setItem('currentBackground', JSON.stringify(currentBackground));
+          console.log('Current background saved:', currentBackground);
+        } catch (error) {
+          console.log('Failed to save the current background:', error);
+        }
+      };
+    
+      saveCurrentBackground();
+    }, [currentBackground]);
+
+    const handleToggleMenu = () => {
+        setMenuVisible(toggleMenu(menuVisible));
+>>>>>>> 8a246aef7e3f1c04cf04449425ce52f3ed000841
     };
 
     const performBlink = () => {
