@@ -1,4 +1,4 @@
-const LevelsConfig = {
+const levelsConfig = {
   1: {
     totalLevels: 3,
     completedLevels: [],
@@ -9,4 +9,4 @@ const LevelsConfig = {
   },
 };
 
-export default LevelsConfig;
+export default levelsConfig;

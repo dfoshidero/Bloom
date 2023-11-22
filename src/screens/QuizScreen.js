@@ -50,11 +50,15 @@ const QuizScreen = ({ navigation, route }) => {
   };
 
   const updateLevelsConfig = (plant, completedLevel) => {
+    const numericValue = completedLevel.replace(/\D/g, '');
+    const numericLevel = parseInt(numericValue, 10);
     if (
       levelsConfig[plant] &&
-      !levelsConfig[plant].completedLevels.includes(completedLevel)
+      !levelsConfig[plant].completedLevels.includes(numericLevel)
     ) {
-      levelsConfig[plant].completedLevels.push(completedLevel);
+      console.log(levelsConfig[plant]);
+      levelsConfig[plant].completedLevels.push(numericLevel);
+      console.log(levelsConfig[plant]);
     }
   };
 
