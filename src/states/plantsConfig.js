@@ -1,7 +1,7 @@
 export const plants = {
   // Plant 1 details
   1: {
-    plantID: "1",
+    plantID: 1,
     name: "Cactus",
     iconPath: require("../assets/plants/cactus/default/cactus_4.png"),
     type: "Succulent",
@@ -80,7 +80,7 @@ export const plants = {
 
   // Plant 2 details
   2: {
-    plantID: "2",
+    plantID: 2,
     name: "Lucky Bamboo",
     iconPath: require("../assets/plants/lucky_bamboo/lucky_bamboo_4.png"),
     type: "tropical water lily",

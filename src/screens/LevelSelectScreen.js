@@ -17,14 +17,14 @@ const LevelSelectionScreen = ({ navigation, route }) => {
       }
       style={[
         styles.levelContainer,
-        plantLevels.completedLevels.includes(`level${item}`)
+        plantLevels.completedLevels.includes(item)
           ? styles.completedLevel
           : styles.incompleteLevel,
       ]}
     >
       <Text style={styles.levelText}>Level {item}</Text>
       <View style={styles.iconContainer}>
-        {plantLevels.completedLevels.includes(`level${item}`) && (
+        {plantLevels.completedLevels.includes(item) && (
           <View style={styles.completedIcon} />
         )}
       </View>
