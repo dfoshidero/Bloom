@@ -4,24 +4,27 @@ import TouchableScale from "react-native-touchable-scale";
 import LevelsConfig from "../states/levelsConfig";
 
 const LevelSelectionScreen = ({ navigation, route }) => {
-  const { selectedPlant } = route.params;
-  const plantLevels = LevelsConfig[selectedPlant];
+  const { selectedPlantID } = route.params; // Renamed for clarity
+  const plantLevels = LevelsConfig[selectedPlantID]; // Using ID to access levels
 
   const renderItem = ({ item }) => (
     <TouchableScale
       onPress={() =>
-        navigation.navigate("QuizScreen", { selectedPlant, level: item })
+        navigation.navigate("QuizScreen", {
+          plant: selectedPlantID, // Passing the plant ID
+          level: `level${item}`,
+        })
       }
       style={[
         styles.levelContainer,
-        plantLevels.completedLevels.includes(item)
+        plantLevels.completedLevels.includes(`level${item}`)
           ? styles.completedLevel
           : styles.incompleteLevel,
       ]}
     >
       <Text style={styles.levelText}>Level {item}</Text>
       <View style={styles.iconContainer}>
-        {plantLevels.completedLevels.includes(item) && (
+        {plantLevels.completedLevels.includes(`level${item}`) && (
           <View style={styles.completedIcon} />
         )}
       </View>
@@ -32,7 +35,7 @@ const LevelSelectionScreen = ({ navigation, route }) => {
     <FlatList
       data={Array.from({ length: plantLevels.totalLevels }, (_, i) => i + 1)}
       renderItem={renderItem}
-      keyExtractor={(item) => item.toString()}
+      keyExtractor={(item) => `level${item}`}
       numColumns={2}
       contentContainerStyle={styles.grid}
     />

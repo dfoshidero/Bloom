@@ -1,6 +1,6 @@
 export const plants = {
   // Plant 1 details
-  plant1: {
+  1: {
     plantID: "1",
     name: "Cactus",
     iconPath: require("../assets/plants/cactus/default/cactus_4.png"),
@@ -27,7 +27,7 @@ export const plants = {
     experience: 0,
     level: "Tutorial",
     actions: ["Water", "Fertilise"],
-    progress: 1,
+    progress: 0,
     skins: [
       {
         name: "default",
@@ -79,7 +79,7 @@ export const plants = {
   },
 
   // Plant 2 details
-  plant2: {
+  2: {
     plantID: "2",
     name: "Lucky Bamboo",
     iconPath: require("../assets/plants/lucky_bamboo/lucky_bamboo_4.png"),
@@ -106,7 +106,7 @@ export const plants = {
     experience: 0,
     level: "Beginner",
     actions: ["Water", "Fertilise"],
-    progress: 0.33,
+    progress: 0,
     skins: [
       {
         name: "default",

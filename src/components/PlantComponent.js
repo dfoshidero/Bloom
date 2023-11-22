@@ -47,12 +47,13 @@ const Plant = ({ id, style }) => {
     console.log("Menu item pressed", item);
     setFloatingMenuVisible(false); 
     if (item.id == 1){
-      navigation.navigate("LevelSelectionScreen", { selectedPlant: selectedPlant.plantID });
+      console.log(selectedPlant.plantID)
+      navigation.navigate("LevelSelectionScreen", { selectedPlantID: selectedPlant.plantID });
     }
   };
 
   const handleSelectPlant = async (plantID) => {
-    const plant = plants[`plant${plantID}`];
+    const plant = plants[plantID];
     setSelectedPlant(plant);
     setSelectPlantModalVisible(false);
   
@@ -94,7 +95,7 @@ const Plant = ({ id, style }) => {
         const savedPlant = savedPlants.find((plant) => plant.plantPositionID === id.toString());
   
         if (savedPlant) {
-          const plant = plants[`plant${savedPlant.plantID}`];
+          const plant = plants[savedPlant.plantID];
           setSelectedPlant(plant);
         }
       }
