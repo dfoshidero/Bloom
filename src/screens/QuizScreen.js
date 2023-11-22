@@ -67,6 +67,7 @@ const QuizScreen = ({ navigation, route }) => {
       const totalLevels = levelsConfig[plant].totalLevels;
       const completedLevels = levelsConfig[plant].completedLevels.length;
       const progress = completedLevels / totalLevels;
+      console.log(progress);
       plants[plant].progress = progress;
     }
   };

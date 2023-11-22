@@ -117,13 +117,20 @@ const Plant = ({ id, style }) => {
       if (selectedSkin) {
         // Find the correct growth stage based on progress
         const currentGrowthStage = selectedSkin.growth.find(
-          (stage) => selectedPlant.progress <= stage.growthStage
+          (stage, index, array) => {
+            const nextStage = array[index + 1];
+            return (
+              selectedPlant.progress >= stage.growthStage &&
+              (!nextStage || selectedPlant.progress < nextStage.growthStage)
+            );
+          }
         );
         return currentGrowthStage ? currentGrowthStage.imagePath : null;
       }
     }
     return null;
   };
+  
 
   return (
     <View style={[styles.plantPosition, style]}>
