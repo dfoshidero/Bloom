@@ -10,6 +10,7 @@ import MenuComponent from "../components/MenuComponent";
 import BackgroundImageComponent from "../components/BackgroundImageComponent";
 import { toggleMenu } from "../utilities/menuUtilities";
 import gameStyles from "../styles/GameScreenStyles";
+import HeartsDisplay from "../components/HeartsComponent";
 import {
   playBackgroundMusic,
   pauseBackgroundMusic,
@@ -160,7 +161,7 @@ const GameScreen = () => {
           name="bars"
           size={25}
           color="black"
-          borderColor="white"
+          borderColor="black"
           borderRadius="5px"
           style={{ top: 35, left: 35 }}
         />
@@ -169,6 +170,8 @@ const GameScreen = () => {
           style={[{ width: 50, height: 50, position: "absolute" }]}
         />
       </TouchableScale>
+
+      <HeartsDisplay style={gameStyles.heartsIcon} />
 
       <MenuComponent
         menuVisible={menuVisible}

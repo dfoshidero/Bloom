@@ -10,8 +10,14 @@ const gameStyles = StyleSheet.create({
   settingsIcon: {
     position: "absolute",
     top: "25%",
-    left: 20,
+    left: "4.5%",
     zIndex: 1,
+  },
+  heartsIcon: {
+    zIndex: 1,
+    position: "absolute",
+    top: "32%",
+    left: "4.5%",
   },
 });
 
