@@ -350,6 +350,60 @@ export const plants = {
     ],
     selectedSkin: "default",
   },
+  7: {
+    plantID: 7,
+    name: "Aloe Vera",
+    iconPath: require("../assets/plants/aloe_vera/aloe_vera_4.png"),
+    type: "Succulent, herb, perennial",
+    colours: ["Green", "Yellow", "Orange"],
+    potID: 1,
+    locationID: 1,
+    height: 50,
+    careInstructions: {
+      Water: "Deeply but infrequently, allow soil to dry out",
+      Sunlight: "Bright, indirect light",
+      Soil: "Well-draining, cactus or succulent mix",
+      Temperature: "Prefer warm conditions, protect from frost",
+      Humidity: "Can tolerate low humidity",
+      Fertilising: "Diluted fertilizer during growing season",
+    },
+    challenges: {
+      RootRot: "From overwatering",
+      LeafScorch: "In direct sunlight",
+    },
+    health: 100,
+    learned: true,
+    difficulty: 2,
+    experience: 0,
+    level: "Medium",
+    actions: ["Water", "Fertilise"],
+    progress: 0,
+    skins: [
+      {
+        name: "default",
+        growth: [
+          {
+            growthStage: 0,
+            imagePath: require("../assets/plants/aloe_vera/aloe_vera_1.png"),
+          },
+          {
+            growthStage: 0.33,
+            imagePath: require("../assets/plants/aloe_vera/aloe_vera_2.png"),
+          },
+          {
+            growthStage: 0.66,
+            imagePath: require("../assets/plants/aloe_vera/aloe_vera_3.png"),
+          },
+          {
+            growthStage: 1.0,
+            imagePath: require("../assets/plants/aloe_vera/aloe_vera_4.png"),
+          },
+        ],
+        unlockCondition: null,
+      },
+    ],
+    selectedSkin: "default",
+  },
 };
 
 // Example usage
