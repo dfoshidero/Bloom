@@ -79,6 +79,16 @@ const HomeStackNavigator = () => {
           headerLeft: () => <CustomBackButton />, // Use custom back button component
         }}
       />
+      {/*  
+      <Stack.Screen
+        name="RealLife"
+        component={RealLife}
+        options={{
+          headerLeft: () => <CustomBackButton />, // Use custom back button component
+        }}
+      />
+      */}
+      
       <Stack.Screen
         name="CollectionScreen"
         component={CollectionScreen}
