@@ -4,8 +4,16 @@ const levelsConfig = {
     completedLevels: [],
   },
   2: {
-    totalLevels: 9,
-    completedLevels: [1],
+    totalLevels: 4,
+    completedLevels: [],
+  },
+  3: {
+    totalLevels: 4,
+    completedLevels: [],
+  },
+  4: {
+    totalLevels: 4,
+    completedLevels: [],
   },
 };
 
