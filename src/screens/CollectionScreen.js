@@ -8,33 +8,50 @@ import {
   Image,
   ImageBackground,
 } from "react-native";
+import React, { useState, useEffect } from "react";
 import Plant from "../components/PlantComponent";
 import menuBackgroundImage from '../assets/backgrounds/misc/menu_bg.png';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const CollectionScreen = () => {
+
+  const [archivedPlants, setArchivedPlants] = useState([]);
+
+  const loadSavedPlantData = async () => {
+    try {
+      const savedPlantsJSON = await AsyncStorage.getItem('savedPlants');
+      const savedPlants = JSON.parse(savedPlantsJSON);
+  
+      if (savedPlants) {
+        setArchivedPlants(savedPlants);
+      }
+    } catch (error) {
+      console.log('Error loading saved plant data:', error);
+    }
+  };
+
+  useEffect(() => {
+    loadSavedPlantData();
+  });
+
+  const renderArchivedPlant = (plant) => {
+    return <View><Plant
+      id={plant.plantID}
+      style = {{}}
+  /><Text>Placeholder</Text></View>
+  }
+
   return (
     <View style={styles.container}>
       <ImageBackground source={menuBackgroundImage} style={styles.backgroundImage_bg}></ImageBackground>
       <View style={styles.titleContainer}>
         <Text style={styles.title}>Collection</Text>
       </View>
-      <View style={styles.masteryContainer}>
-        <Plant
-            key={1}
-            id={1}
-            selectedPlant={true}
-            style={{
-              bottom: "10%",
-              left: "10%"
-            }}
+      <FlatList
+          data={archivedPlants}
+          renderItem={renderArchivedPlant}
+          keyExtractor={(item) => item.id}
         />
-        <Text
-            style={{
-              bottom: "10%",
-              left: "11%"
-            }}
-        >What</Text>
-      </View>
     </View>
   );
 };
