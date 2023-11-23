@@ -6,6 +6,8 @@ const heartIcon = require("../assets/icons/hearts_icon.png");
 
 const HeartsDisplay = ({ style }) => {
   const { playerConfig } = usePlayerConfig();
+  const textColor = playerConfig.hearts === 0 ? "black" : "white";
+  const shadowColor = playerConfig.hearts === 0 ? "white" : "black";
 
   return (
     <View style={[styles.container, style]}>
@@ -13,7 +15,14 @@ const HeartsDisplay = ({ style }) => {
         source={heartIcon}
         style={{ width: 38, height: 38, position: "absolute" }}
       />
-      <Text style={styles.text}>{playerConfig.hearts}</Text>
+      <Text
+        style={[
+          styles.text,
+          { color: textColor, textShadowColor: shadowColor },
+        ]}
+      >
+        {playerConfig.hearts}
+      </Text>
     </View>
   );
 };
@@ -25,7 +34,6 @@ const styles = StyleSheet.create({
     height: 50,
     alignItems: "center",
     justifyContent: "center",
-
     position: "absolute",
     top: "32%",
     left: "4.5%",
@@ -33,13 +41,11 @@ const styles = StyleSheet.create({
   text: {
     fontSize: 20,
     fontFamily: "PressStart2P-Regular",
-    color: "white",
     position: "absolute",
     left: 37,
     top: 27,
-    textShadowColor: "black",
     textShadowRadius: 1,
-    textShadowOffset: { width: -2, height: 2 },
+    textShadowOffset: { width: -1, height: 1 },
   },
 });
 

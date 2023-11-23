@@ -32,7 +32,7 @@ const fetchMasteryLevels = () => {
       type: plant.type,
       colours: plant.colours,
       height: plant.height,
-      careIntructions: plant.careIntructions,
+      careInstructions: plant.careInstructions,
       skins: plant.skins,
       //and more
     };
@@ -130,9 +130,9 @@ const GameStatsScreen = () => {
                 </>
               ) : null}
               </View>
-              {getProperty('careIntructions') ? (
+              {getProperty('careInstructions') ? (
                 <>
-                  <Text style={styles.plantDetailsItem}>Care Instructions:</Text>{Object.entries(getProperty('careIntructions')).map(([key, instruction]) => (<Text key={key} style={styles.plantDetailsItem}>{`${key}: ${instruction}`}</Text>))}
+                  <Text style={styles.plantDetailsItem}>Care Instructions:</Text>{Object.entries(getProperty('careInstructions')).map(([key, instruction]) => (<Text key={key} style={styles.plantDetailsItem}>{`${key}: ${instruction}`}</Text>))}
                 </>
               ) : null}
             </View>

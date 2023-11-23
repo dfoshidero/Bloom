@@ -9,7 +9,7 @@ const gameStyles = StyleSheet.create({
   },
   settingsIcon: {
     position: "absolute",
-    top: "27%",
+    top: "26%",
     left: "4.5%",
     zIndex: 1,
   },
