@@ -27,7 +27,14 @@ const MenuComponent = ({ menuVisible, closeMenu }) => {
       <TouchableOpacity style={styles.backgroundImage} onPress={closeMenu}>
         <View style={styles.menuContainer}>
           <Text style={styles.menuItem}>Achievements</Text>
-          <Text style={styles.menuItem}>Collection</Text>
+          <TouchableOpacity
+            onPress={() => {
+              navigation.navigate("CollectionScreen");
+              closeMenu();
+            }}
+          >
+            <Text style={styles.menuItem}>Collection</Text>
+          </TouchableOpacity>
           <TouchableOpacity
             onPress={() => {
               navigation.navigate("Mastery");
