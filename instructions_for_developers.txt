@@ -1,8 +1,13 @@
 Windows:
-1. Install Git https://git-scm.com/download/win
-2. Open Command Prompt and navigate to the folder where you want to put your local repository
-    (note that the repository's root folder will be INSIDE that folder)
-3. Create the local repository with the command: git clone https://github.com/dfoshidero/Bloom
-4. Enter that repository and enter the command: npm install
-5. Then build and run the app with the command: npx expo start
-6. Download Expo Go to your phone and scan the QR code
+Installations (first time only):
+    1. Install Node.js https://nodejs.org/en/download
+    2. Install Git https://git-scm.com/download/win
+    3. Download Expo Go to your phone
+Create the local repository (first time only):
+    4. Open Command Prompt and navigate to the folder where you want to put your local repository
+        (note that the repository's root folder will be INSIDE that folder)
+    5. Create the local repository with the command: git clone https://github.com/dfoshidero/Bloom
+Build and run:
+    6. Navigate inside the local repository's root folder and use the command: npm install
+    7. Build and run the app with the command: npx expo start
+    8. Scan the QR code with your phone
