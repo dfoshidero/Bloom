@@ -17,8 +17,16 @@ export const PlayerConfigProvider = ({ children }) => {
     setPlayerConfig({ ...playerConfig, ...newConfig });
   };
 
+  const decreaseHearts = () => {
+    if (playerConfig.hearts > 0) {
+      setPlayerConfig({ ...playerConfig, hearts: playerConfig.hearts - 1 });
+    }
+  };
+
   return (
-    <PlayerConfigContext.Provider value={{ playerConfig, updatePlayerConfig }}>
+    <PlayerConfigContext.Provider
+      value={{ playerConfig, updatePlayerConfig, decreaseHearts }}
+    >
       {children}
     </PlayerConfigContext.Provider>
   );

@@ -1,20 +1,33 @@
 import React from "react";
-import { View, Text, FlatList, StyleSheet } from "react-native";
+import { View, Text, FlatList, StyleSheet, Alert } from "react-native";
 import TouchableScale from "react-native-touchable-scale";
 import LevelsConfig from "../states/levelsConfig";
+import { usePlayerConfig } from "../states/playerConfigContext"; // Import the usePlayerConfig hook
 
 const LevelSelectionScreen = ({ navigation, route }) => {
-  const { selectedPlantID } = route.params; // Renamed for clarity
-  const plantLevels = LevelsConfig[selectedPlantID]; // Using ID to access levels
+  const { selectedPlantID } = route.params;
+  const plantLevels = LevelsConfig[selectedPlantID];
+
+  // Access player config using the usePlayerConfig hook
+  const { playerConfig } = usePlayerConfig();
+
+  // Function to handle press on a level
+  const handlePress = (item) => {
+    // Check if the player has hearts remaining
+    if (playerConfig.hearts > 0) {
+      navigation.navigate("QuizScreen", {
+        plant: selectedPlantID,
+        level: `level${item}`,
+      });
+    } else {
+      // Show an alert if the player has no hearts
+      Alert.alert("No Hearts Left", "You need more hearts to start a quiz!");
+    }
+  };
 
   const renderItem = ({ item }) => (
     <TouchableScale
-      onPress={() =>
-        navigation.navigate("QuizScreen", {
-          plant: selectedPlantID, // Passing the plant ID
-          level: `level${item}`,
-        })
-      }
+      onPress={() => handlePress(item)}
       style={[
         styles.levelContainer,
         plantLevels.completedLevels.includes(item)

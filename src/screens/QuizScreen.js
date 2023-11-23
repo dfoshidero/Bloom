@@ -10,6 +10,7 @@ import {
 import plantsTriviaConfig from "../states/plantsTriviaConfig";
 import levelsConfig from "../states/levelsConfig";
 import { plants } from "../states/plantsConfig";
+import { usePlayerConfig } from "../states/playerConfigContext";
 
 const QuizScreen = ({ navigation, route }) => {
   const { plant, level } = route.params;
@@ -17,6 +18,8 @@ const QuizScreen = ({ navigation, route }) => {
   const [questions, setQuestions] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [feedbackMessage, setFeedbackMessage] = useState("");
+  const [showGameOverModal, setShowGameOverModal] = useState(false);
+  const { playerConfig, decreaseHearts } = usePlayerConfig();
 
   useEffect(() => {
     const trivia = plantsTriviaConfig[plant]?.[level];
@@ -30,16 +33,26 @@ const QuizScreen = ({ navigation, route }) => {
   const handleAnswer = (isCorrect) => {
     if (isCorrect) {
       setFeedbackMessage("Correct! Moving to next question...");
-      setTimeout(() => {
+      const timer = setTimeout(() => {
         if (currentQuestionIndex < questions.length - 1) {
           setCurrentQuestionIndex(currentQuestionIndex + 1);
           setFeedbackMessage("");
         } else {
           completeQuiz();
         }
-      }, 1000); // Delay to display feedback before moving to next question
+      }, 1000);
+      return () => clearTimeout(timer); // Clear timeout if the component unmounts
     } else {
       setFeedbackMessage("Incorrect. Try again!");
+      decreasePlayerHearts();
+    }
+  };
+
+  const decreasePlayerHearts = () => {
+    decreaseHearts();
+
+    if (playerConfig.hearts - 1 <= 0) {
+      setShowGameOverModal(true);
     }
   };
 
@@ -50,15 +63,13 @@ const QuizScreen = ({ navigation, route }) => {
   };
 
   const updateLevelsConfig = (plant, completedLevel) => {
-    const numericValue = completedLevel.replace(/\D/g, '');
+    const numericValue = completedLevel.replace(/\D/g, "");
     const numericLevel = parseInt(numericValue, 10);
     if (
       levelsConfig[plant] &&
       !levelsConfig[plant].completedLevels.includes(numericLevel)
     ) {
-      console.log(levelsConfig[plant]);
       levelsConfig[plant].completedLevels.push(numericLevel);
-      console.log(levelsConfig[plant]);
     }
   };
 
@@ -67,7 +78,6 @@ const QuizScreen = ({ navigation, route }) => {
       const totalLevels = levelsConfig[plant].totalLevels;
       const completedLevels = levelsConfig[plant].completedLevels.length;
       const progress = completedLevels / totalLevels;
-      console.log(progress);
       plants[plant].progress = progress;
     }
   };
@@ -79,6 +89,28 @@ const QuizScreen = ({ navigation, route }) => {
     >
       <Text style={styles.buttonText}>{item.text}</Text>
     </TouchableOpacity>
+  );
+
+  const renderGameOverModal = () => (
+    <Modal
+      visible={showGameOverModal}
+      animationType="slide"
+      transparent={false}
+    >
+      <View style={styles.modalContainer}>
+        <Text style={styles.congratsText}>Game Over!</Text>
+        <Text>Your hearts have run out.</Text>
+        <TouchableOpacity
+          style={styles.button}
+          onPress={() => {
+            setShowGameOverModal(false);
+            navigation.navigate("Home");
+          }}
+        >
+          <Text style={styles.buttonText}>Back to Home</Text>
+        </TouchableOpacity>
+      </View>
+    </Modal>
   );
 
   return (
@@ -116,6 +148,7 @@ const QuizScreen = ({ navigation, route }) => {
           </TouchableOpacity>
         </View>
       </Modal>
+      {renderGameOverModal()}
     </View>
   );
 };
