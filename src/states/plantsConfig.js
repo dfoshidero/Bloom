@@ -242,6 +242,60 @@ export const plants = {
     ],
     selectedSkin: "default",
   },
+  5: {
+    plantID: 5,
+    name: "Maidenhair Fern",
+    iconPath: require("../assets/plants/maidenhair_fern/maidenhair_fern_4.png"),
+    type: "fern",
+    colours: ["Green"],
+    potID: 1,
+    locationID: 1,
+    height: 40,
+    careInstructions: {
+      Water: "Consistently moist, avoid drying out",
+      Sunlight: "Bright, indirect light",
+      Soil: "Rich, well-draining potting mix",
+      Temperature: "Prefers warmth, avoid cold drafts",
+      Humidity: "High",
+      Fertilising: "Diluted liquid fertilizer monthly during growing season",
+    },
+    challenges: {
+      DryLeaves: "From low humidity or under-watering",
+      Rottening: "From overwatering",
+    },
+    health: 100,
+    learned: true,
+    difficulty: 1,
+    experience: 0,
+    level: "Medium",
+    actions: ["Water", "Fertilise"],
+    progress: 0,
+    skins: [
+      {
+        name: "default",
+        growth: [
+          {
+            growthStage: 0,
+            imagePath: require("../assets/plants/maidenhair_fern/maidenhair_fern_1.png"),
+          },
+          {
+            growthStage: 0.33,
+            imagePath: require("../assets/plants/maidenhair_fern/maidenhair_fern_2.png"),
+          },
+          {
+            growthStage: 0.66,
+            imagePath: require("../assets/plants/maidenhair_fern/maidenhair_fern_3.png"),
+          },
+          {
+            growthStage: 1.0,
+            imagePath: require("../assets/plants/maidenhair_fern/maidenhair_fern_4.png"),
+          },
+        ],
+        unlockCondition: null,
+      },
+    ],
+    selectedSkin: "default",
+  },
 };
 
 // Example usage

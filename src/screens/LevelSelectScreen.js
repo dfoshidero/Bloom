@@ -7,18 +7,25 @@ import { usePlayerConfig } from "../states/playerConfigContext"; // Import the u
 const LevelSelectionScreen = ({ navigation, route }) => {
   const { selectedPlantID } = route.params;
   const plantLevels = LevelsConfig[selectedPlantID];
-
+  console.log("plant levels", plantLevels);
   // Access player config using the usePlayerConfig hook
   const { playerConfig } = usePlayerConfig();
 
   // Function to handle press on a level
   const handlePress = (item) => {
+    console.log("item ", item);
     // Check if the player has hearts remaining
     if (playerConfig.hearts > 0) {
-      navigation.navigate("QuizScreen", {
-        plant: selectedPlantID,
-        level: `level${item}`,
-      });
+      // Check if the clicked level is completed
+      if (plantLevels.completedLevels.includes(item - 1) || item === 1) {
+        navigation.navigate("QuizScreen", {
+          plant: selectedPlantID,
+          level: `level${item}`,
+        });
+      } else {
+        // Show an alert if the previous level is not completed
+        Alert.alert("Level Locked", "Complete the previous level to unlock.");
+      }
     } else {
       // Show an alert if the player has no hearts
       Alert.alert("No Hearts Left", "You need more hearts to start a quiz!");
@@ -30,9 +37,14 @@ const LevelSelectionScreen = ({ navigation, route }) => {
       onPress={() => handlePress(item)}
       style={[
         styles.levelContainer,
+        styles.lockedLevel,
+        item === 1 ? styles.incompleteLevel : null,
         plantLevels.completedLevels.includes(item)
           ? styles.completedLevel
-          : styles.incompleteLevel,
+          : null,
+        item === plantLevels.completedLevels.length + 1
+          ? styles.incompleteLevel
+          : null,
       ]}
     >
       <Text style={styles.levelText}>Level {item}</Text>
@@ -83,6 +95,9 @@ const styles = StyleSheet.create({
   },
   incompleteLevel: {
     backgroundColor: "#f8d7da",
+  },
+  lockedLevel: {
+    backgroundColor: "#808080",
   },
   levelText: {
     fontSize: 18,
