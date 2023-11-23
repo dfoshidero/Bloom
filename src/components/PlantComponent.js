@@ -20,7 +20,7 @@ const learnIcon = require("../assets/icons/learn_icon.png");
 const waterIcon = require("../assets/icons/water_icon.png");
 const linkIcon = require("../assets/icons/link_icon.png");
 
-const Plant = ({ id, style }) => {
+const Plant = ({ id, style, isArchived=false }) => {
   const navigation = useNavigation();
   // New state for PLANT SELECT modal visibility
   const [selectPlantModalVisible, setSelectPlantModalVisible] = useState(false);
@@ -53,10 +53,8 @@ const Plant = ({ id, style }) => {
 
     //Make a unique archiveID
     newArchiveID = 0
-    for (let i = 0; i < savedPlants.length; i++) {
-      if (newArchiveID.toString() === savedPlants[i].archiveID){
-        newArchiveID++
-      }
+    while (savedPlants.find(plant => plant.archiveID === newArchiveID.toString())) {
+      newArchiveID++
     }
 
     //Find this plant and edit its positionID and archiveID
@@ -104,7 +102,7 @@ const Plant = ({ id, style }) => {
       const newPlantData = {
         plantPositionID: id.toString(),
         plantID: plantID.toString(),
-        archiveID: plantID.toString()
+        archiveID: "null"
       };
       savedPlants.push(newPlantData);
   
@@ -128,7 +126,12 @@ const Plant = ({ id, style }) => {
       const savedPlants = JSON.parse(savedPlantsJSON);
   
       if (savedPlants) {
-        const savedPlant = savedPlants.find((plant) => plant.plantPositionID === id.toString());
+        let savedPlant = null;
+        if (isArchived) {
+          savedPlant = savedPlants.find((plant) => plant.archiveID === id.toString());
+        } else {
+          savedPlant = savedPlants.find((plant) => plant.plantPositionID === id.toString());
+        }
   
         if (savedPlant) {
           const plant = plants[savedPlant.plantID];
@@ -167,6 +170,18 @@ const Plant = ({ id, style }) => {
     return null;
   };
   
+  
+  let menuItemsList = [
+    { icon: learnIcon, isImage: true, id: 1 },
+    { icon: waterIcon, isImage: true, angle: 240, id: 3 },
+    { icon: linkIcon, isImage: true, angle: 0, id: 4 },
+    { icon: fertilizeIcon, isImage: true, angle: 180, id: 5 },
+    { icon: closeIcon, isImage: true, angle: 90, id: 6 }
+  ]
+  //Only add the archive button if the plant isn't already in the archive
+  if (!isArchived){
+    menuItemsList.push({ icon: iconContainer, isImage: true, angle: 300, id: 2 })
+  }
 
   return (
     <View style={[styles.plantPosition, style]}>
@@ -223,15 +238,8 @@ const Plant = ({ id, style }) => {
         <FloatingMenu
           visible={floatingMenuVisible}
           onPress={handleMenuItemPress}
-          menuItems={[
-            // Customize menu items based on the calling object (selectedPlant)
-            { icon: learnIcon, isImage: true, id: 1 },
-            { icon: iconContainer, isImage: true, angle: 300, id: 2 },
-            { icon: waterIcon, isImage: true, angle: 240, id: 3 },
-            { icon: linkIcon, isImage: true, angle: 0, id: 4 },
-            { icon: fertilizeIcon, isImage: true, angle: 180, id: 5 },
-            { icon: closeIcon, isImage: true, angle: 90, id: 6 },
-          ]}
+          // Customize menu items based on the calling object (selectedPlant)
+          menuItems={menuItemsList}
           centralIconIndex={0}
         />
       </View>
