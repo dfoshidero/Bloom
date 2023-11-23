@@ -3,6 +3,7 @@ import { View, Image } from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome";
 import TouchableScale from "react-native-touchable-scale";
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useNavigation } from '@react-navigation/native';
 
 import Header from "../components/HeaderComponent";
 import { backgrounds } from "../states/backgroundsConfig";
@@ -18,12 +19,14 @@ import {
   setupPlayer,
 } from "../utilities/backgroundMusic";
 
-const GameScreen = () => {
+const GameScreen = ({route}) => {
+  //const { updatedList } = route.params;
   const [currentBackground, setCurrentBackground] = useState(
     backgrounds.background4
   );
   const backgroundImage = currentBackground.image;
   const [menuVisible, setMenuVisible] = useState(false);
+
 
   useEffect(() => {
     const loadCurrentBackground = async () => {
@@ -181,6 +184,7 @@ const GameScreen = () => {
       />
 
       <BackgroundImageComponent
+        //updatedList = {updatedList}
         backgroundImage={backgroundImage}
         plantPositions={currentBackground.plantPositions}
       />

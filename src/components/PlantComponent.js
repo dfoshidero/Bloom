@@ -81,7 +81,7 @@ const Plant = ({ id, style, isArchived=false }) => {
     setFloatingMenuVisible(false); 
     if (item.id == 1){
       console.log(selectedPlant.plantID)
-      navigation.navigate("LevelSelectionScreen", { selectedPlantID: selectedPlant.plantID });
+      navigation.navigate("LevelSelectionScreen", { id: id, selectedPlantID: selectedPlant.plantID });
     }else if (item.id == 2){
       //Archive button pressed
       handleArchiveButtonPress()
@@ -106,7 +106,8 @@ const Plant = ({ id, style, isArchived=false }) => {
       const newPlantData = {
         plantPositionID: id.toString(),
         plantID: plantID.toString(),
-        archiveID: "null"
+        archiveID: "null",
+        progress: 0,
       };
       savedPlants.push(newPlantData);
   

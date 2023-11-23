@@ -5,7 +5,7 @@ import LevelsConfig from "../states/levelsConfig";
 import { usePlayerConfig } from "../states/playerConfigContext"; // Import the usePlayerConfig hook
 
 const LevelSelectionScreen = ({ navigation, route }) => {
-  const { selectedPlantID } = route.params;
+  const { id, selectedPlantID } = route.params;
   const plantLevels = LevelsConfig[selectedPlantID];
   console.log("plant levels", plantLevels);
   // Access player config using the usePlayerConfig hook
@@ -19,6 +19,7 @@ const LevelSelectionScreen = ({ navigation, route }) => {
       // Check if the clicked level is completed
       if (plantLevels.completedLevels.includes(item - 1) || item === 1) {
         navigation.navigate("QuizScreen", {
+          id: id,
           plant: selectedPlantID,
           level: `level${item}`,
         });
