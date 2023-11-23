@@ -92,6 +92,7 @@ const Plant = ({ id, style, isArchived=false }) => {
     const plant = plants[plantID];
     setSelectedPlant(plant);
     setSelectPlantModalVisible(false);
+    setSelectArchiveModalVisible(false);
   
     try {
       // Retrieve the existing saved plants array from AsyncStorage
@@ -122,11 +123,22 @@ const Plant = ({ id, style, isArchived=false }) => {
     }
   };
 
-  handleSelectFromArchive = async (archiveID) => {
+  handleSelectFromArchive = async () => {
     //Hide the species selection modal
     setSelectPlantModalVisible(false);
     //Show the archive selection modal
     setSelectArchiveModalVisible(true);
+  }
+
+  handleRemoveFromArchive = async (archiveID, plantID) => {
+    const savedPlantsJSON = await AsyncStorage.getItem('savedPlants');
+    const savedPlants = JSON.parse(savedPlantsJSON);
+
+    let newSavedPlants = savedPlants.filter((plant) => plant.archiveID !== archiveID.toString());
+
+    await AsyncStorage.setItem('savedPlants', JSON.stringify(newSavedPlants));
+
+    await handleSelectPlant(plantID)
   }
   
   const loadSavedPlantData = async () => {
@@ -247,6 +259,7 @@ const Plant = ({ id, style, isArchived=false }) => {
         visible={selectArchiveModalVisible}
         onClose={() => setSelectArchiveModalVisible(false)}
         handleSelectPlant={handleSelectPlant}
+        handleRemoveFromArchive={handleRemoveFromArchive}
       />
 
       {/* Render Plant Interaction Menu */}

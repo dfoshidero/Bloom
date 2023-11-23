@@ -6,7 +6,7 @@ import { plants } from "../states/plantsConfig";
 import styles from "../styles/PlantStyles";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const SelectFromArchiveModal = ({ visible, onClose, handleSelectPlant }) => {
+const SelectFromArchiveModal = ({ visible, onClose, handleSelectPlant, handleRemoveFromArchive }) => {
 
   const [archivedPlants, setArchivedPlants] = useState([]);
 
@@ -34,7 +34,6 @@ const SelectFromArchiveModal = ({ visible, onClose, handleSelectPlant }) => {
 
   //Updates saved plants
   useEffect(() => {
-    console.log("dream girl evil")
     loadSavedPlantData();
   }, [visible]);
 
@@ -53,7 +52,9 @@ const SelectFromArchiveModal = ({ visible, onClose, handleSelectPlant }) => {
               {Object.entries(archivedPlants).map(([key, plant]) => (
                 <TouchableScale
                   key={plant.archiveID}
-                  onPress={() => handleSelectPlant(plant.plantID)}
+                  onPress={() => {
+                    handleRemoveFromArchive(archiveID = plant.archiveID, plant.plantID);
+                  }}
                 >
                   <View style={styles.plantCard}>
                     <Image
