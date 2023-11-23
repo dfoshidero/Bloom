@@ -171,7 +171,9 @@ const GameScreen = () => {
         />
       </TouchableScale>
 
-      <HeartsDisplay style={gameStyles.heartsIcon} />
+      <TouchableScale style={gameStyles.heartsIcon}>
+        <HeartsDisplay />
+      </TouchableScale>
 
       <MenuComponent
         menuVisible={menuVisible}

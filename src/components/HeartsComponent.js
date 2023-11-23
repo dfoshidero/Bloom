@@ -38,12 +38,8 @@ const styles = StyleSheet.create({
     left: 37,
     top: 27,
     textShadowColor: "black",
-    textShadowOffset: { width: -1, height: 1 },
     textShadowRadius: 1,
-    // Add additional shadow offsets for a more defined border
-    textShadowOffset: { width: 1, height: 1 },
-    textShadowOffset: { width: -1, height: -1 },
-    textShadowOffset: { width: 1, height: -1 },
+    textShadowOffset: { width: -2, height: 2 },
   },
 });
 
