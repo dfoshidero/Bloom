@@ -34,11 +34,17 @@ const CollectionScreen = () => {
     loadSavedPlantData();
   });
 
+  //Renders each plant as an item in the list
   const renderArchivedPlant = (plant) => {
-    return <View><Plant
-      id={plant.plantID}
-      style = {{}}
-  /><Text>Placeholder</Text></View>
+    return (
+    <Plant
+      id={plant.item.plantID}
+      style = {{
+        left:"43%",
+        height: "20%"
+      }}
+    />
+    )
   }
 
   return (
@@ -47,11 +53,14 @@ const CollectionScreen = () => {
       <View style={styles.titleContainer}>
         <Text style={styles.title}>Collection</Text>
       </View>
-      <FlatList
-          data={archivedPlants}
-          renderItem={renderArchivedPlant}
-          keyExtractor={(item) => item.id}
+      <View style={height=10}>
+        <FlatList
+            data={archivedPlants}
+            renderItem={renderArchivedPlant}
+            keyExtractor={(item) => item.id}
+            style={{top:"20%"}}
         />
+      </View>
     </View>
   );
 };
