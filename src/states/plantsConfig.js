@@ -142,7 +142,7 @@ export const plants = {
     potID: 1,
     locationID: 1,
     height: 75,
-    careIntructions: {
+    careInstructions: {
       Water: "Water sparingly, allow soil to dry out completely",
       Sunlight: "Low to bright, indirect light",
       Soil: "Well-draining potting mix",
