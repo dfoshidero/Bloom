@@ -13,13 +13,14 @@ import { plants } from "../states/plantsConfig";
 import { usePlayerConfig } from "../states/playerConfigContext";
 
 const QuizScreen = ({ navigation, route }) => {
-  const { plant, level } = route.params;
+  const { plant, level, id } = route.params;
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [questions, setQuestions] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [feedbackMessage, setFeedbackMessage] = useState("");
   const [showGameOverModal, setShowGameOverModal] = useState(false);
   const { playerConfig, decreaseHearts } = usePlayerConfig();
+  const [updatedList, setUpdatedList] = useState(null);
 
   useEffect(() => {
     const trivia = plantsTriviaConfig[plant]?.[level];
@@ -29,6 +30,15 @@ const QuizScreen = ({ navigation, route }) => {
       console.log(`No trivia found for plant: ${plant}, level: ${level}`);
     }
   }, [plant, level]);
+
+  const arrangeData = (archiveID, plantID, plantPositionID, progress) => {
+    return {
+      archiveID: archiveID || "null",
+      plantID: plantID.toString(),
+      plantPositionID: plantPositionID.toString(),
+      progress: progress || 0,
+    };
+  };
 
   const handleAnswer = (isCorrect) => {
     if (isCorrect) {
@@ -59,8 +69,13 @@ const QuizScreen = ({ navigation, route }) => {
   const completeQuiz = () => {
     setShowModal(true);
     updateLevelsConfig(plant, level);
-    updatePlantsProgress(plant);
+    const list = updatePlantsProgress(plant);
+    setUpdatedList(list);
   };
+
+  useEffect(() => {
+    console.log(updatedList);
+  }, [updatedList]);
 
   const updateLevelsConfig = (plant, completedLevel) => {
     const numericValue = completedLevel.replace(/\D/g, "");
@@ -79,6 +94,8 @@ const QuizScreen = ({ navigation, route }) => {
       const completedLevels = levelsConfig[plant].completedLevels.length;
       const progress = completedLevels / totalLevels;
       plants[plant].progress = progress;
+      console.log(arrangeData(null,plant,id,progress));
+      return arrangeData(null,plant,id,progress);
     }
   };
 
@@ -104,7 +121,7 @@ const QuizScreen = ({ navigation, route }) => {
           style={styles.button}
           onPress={() => {
             setShowGameOverModal(false);
-            navigation.navigate("Home");
+            navigation.navigate("Home", {updatedList: null});
           }}
         >
           <Text style={styles.buttonText}>Back to Home</Text>
@@ -141,7 +158,7 @@ const QuizScreen = ({ navigation, route }) => {
             style={styles.button}
             onPress={() => {
               setShowModal(false);
-              navigation.navigate("Home");
+              navigation.navigate("Home", {updatedList: updatedList});
             }}
           >
             <Text style={styles.buttonText}>Go Back.</Text>

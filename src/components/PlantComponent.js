@@ -82,7 +82,7 @@ const Plant = ({ id, style, isArchived=false }) => {
     setFloatingMenuVisible(false); 
     if (item.id == 1){
       console.log(selectedPlant.plantID)
-      navigation.navigate("LevelSelectionScreen", { selectedPlantID: selectedPlant.plantID });
+      navigation.navigate("LevelSelectionScreen", { id: id, selectedPlantID: selectedPlant.plantID });
     }else if (item.id == 2){
       //Archive button pressed
       handleArchiveButtonPress()
@@ -93,6 +93,7 @@ const Plant = ({ id, style, isArchived=false }) => {
     const plant = plants[plantID];
     setSelectedPlant(plant);
     setSelectPlantModalVisible(false);
+    setSelectArchiveModalVisible(false);
   
     try {
       // Retrieve the existing saved plants array from AsyncStorage
@@ -106,7 +107,8 @@ const Plant = ({ id, style, isArchived=false }) => {
       const newPlantData = {
         plantPositionID: id.toString(),
         plantID: plantID.toString(),
-        archiveID: "null"
+        archiveID: "null",
+        progress: 0,
       };
       savedPlants.push(newPlantData);
   
@@ -123,11 +125,22 @@ const Plant = ({ id, style, isArchived=false }) => {
     }
   };
 
-  handleSelectFromArchive = async (archiveID) => {
+  handleSelectFromArchive = async () => {
     //Hide the species selection modal
     setSelectPlantModalVisible(false);
     //Show the archive selection modal
     setSelectArchiveModalVisible(true);
+  }
+
+  handleRemoveFromArchive = async (archiveID, plantID) => {
+    const savedPlantsJSON = await AsyncStorage.getItem('savedPlants');
+    const savedPlants = JSON.parse(savedPlantsJSON);
+
+    let newSavedPlants = savedPlants.filter((plant) => plant.archiveID !== archiveID.toString());
+
+    await AsyncStorage.setItem('savedPlants', JSON.stringify(newSavedPlants));
+
+    await handleSelectPlant(plantID)
   }
   
   const loadSavedPlantData = async () => {
@@ -248,6 +261,7 @@ const Plant = ({ id, style, isArchived=false }) => {
         visible={selectArchiveModalVisible}
         onClose={() => setSelectArchiveModalVisible(false)}
         handleSelectPlant={handleSelectPlant}
+        handleRemoveFromArchive={handleRemoveFromArchive}
       />
 
       {/* Render Plant Interaction Menu */}

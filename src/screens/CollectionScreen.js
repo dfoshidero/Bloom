@@ -64,7 +64,7 @@ const CollectionScreen = (timestamp) => {
         <FlatList
             data={archivedPlants}
             renderItem={renderArchivedPlant}
-            keyExtractor={(item) => item.id}
+            keyExtractor={(item) => item.archiveID}
             ListHeaderComponent={<View style={{height:100}}/>}
             ListFooterComponent={<View style={{height:100,bottom:1000}}/>}
         />
