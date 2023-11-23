@@ -19,11 +19,13 @@ const CollectionScreen = () => {
 
   const loadSavedPlantData = async () => {
     try {
+      //Load all saved plant data
       const savedPlantsJSON = await AsyncStorage.getItem('savedPlants');
       const savedPlants = JSON.parse(savedPlantsJSON);
-  
+      
       if (savedPlants) {
-        setArchivedPlants(savedPlants);
+        //Get only those saved plants which are in the archive
+        setArchivedPlants(savedPlants.filter(plant => plant.archiveID !== "null"));
       }
     } catch (error) {
       console.log('Error loading saved plant data:', error);
@@ -39,11 +41,14 @@ const CollectionScreen = () => {
   const renderArchivedPlant = (plant) => {
     return (
     <Plant
-      id={plant.item.plantPositionID}
+      key={plant.item.archiveID}
+      id={plant.item.archiveID}
       style = {{
         left:"43%",
-        height: "20%"
+        height:200,
+        bottom:100
       }}
+      isArchived={true}
     />
     )
   }
@@ -54,12 +59,13 @@ const CollectionScreen = () => {
       <View style={styles.titleContainer}>
         <Text style={styles.title}>Collection</Text>
       </View>
-      <View style={height=10}>
+      <View style={{flex:1,top:"20%", bottom:"90%"}}>
         <FlatList
             data={archivedPlants}
             renderItem={renderArchivedPlant}
             keyExtractor={(item) => item.id}
-            style={{top:"20%"}}
+            ListHeaderComponent={<View style={{height:100}}/>}
+            ListFooterComponent={<View style={{height:100,bottom:1000}}/>}
         />
       </View>
     </View>
