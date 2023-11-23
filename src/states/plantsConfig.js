@@ -167,19 +167,19 @@ export const plants = {
         growth: [
           {
             growthStage: 0,
-            imagePath: require("/Users/maratdanyarov/Documents/Projects/Java/Bloom/src/assets/plants/snake_plant/snake_plant_1.png"),
+            imagePath: require("../assets/plants/snake_plant/snake_plant_1.png"),
           },
           {
             growthStage: 0.33,
-            imagePath: require("/Users/maratdanyarov/Documents/Projects/Java/Bloom/src/assets/plants/snake_plant/snake_plant_2.png"),
+            imagePath: require("../assets/plants/snake_plant/snake_plant_2.png"),
           },
           {
             growthStage: 0.66,
-            imagePath: require("/Users/maratdanyarov/Documents/Projects/Java/Bloom/src/assets/plants/snake_plant/snake_plant_3.png"),
+            imagePath: require("../assets/plants/snake_plant/snake_plant_3.png"),
           },
           {
             growthStage: 1.0,
-            imagePath: require("/Users/maratdanyarov/Documents/Projects/Java/Bloom/src/assets/plants/snake_plant/snake_plant_4.png"),
+            imagePath: require("../assets/plants/snake_plant/snake_plant_4.png"),
           },
         ],
         unlockCondition: null,
