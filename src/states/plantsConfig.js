@@ -136,7 +136,7 @@ export const plants = {
   3: {
     plantID: 3,
     name: "Snake Plant",
-    iconPath: require("/Users/maratdanyarov/Documents/Projects/Java/Bloom/src/assets/plants/snake_plant/snake_plant_4.png"),
+    iconPath: require("../assets/plants/snake_plant/snake_plant_4.png"),
     type: "tropical flower plant",
     colours: ["Green", "Yellow"],
     potID: 1,
@@ -190,7 +190,7 @@ export const plants = {
   4: {
     plantID: 4,
     name: "Dragon Tree",
-    iconPath: require("/Users/maratdanyarov/Documents/Projects/Java/Bloom/src/assets/plants/dragon_tree/dragon_tree_4.png"),
+    iconPath: require("../assets/plants/dragon_tree/dragon_tree_4.png"),
     type: "subtropical tree",
     colours: ["Green", "Red"],
     potID: 1,
@@ -221,19 +221,19 @@ export const plants = {
         growth: [
           {
             growthStage: 0,
-            imagePath: require("/Users/maratdanyarov/Documents/Projects/Java/Bloom/src/assets/plants/dragon_tree/dragon_tree_1.png"),
+            imagePath: require("../assets/plants/dragon_tree/dragon_tree_1.png"),
           },
           {
             growthStage: 0.33,
-            imagePath: require("/Users/maratdanyarov/Documents/Projects/Java/Bloom/src/assets/plants/dragon_tree/dragon_tree_2.png"),
+            imagePath: require("../assets/plants/dragon_tree/dragon_tree_2.png"),
           },
           {
             growthStage: 0.66,
-            imagePath: require("/Users/maratdanyarov/Documents/Projects/Java/Bloom/src/assets/plants/dragon_tree/dragon_tree_3.png"),
+            imagePath: require("../assets/plants/dragon_tree/dragon_tree_3.png"),
           },
           {
             growthStage: 1.0,
-            imagePath: require("/Users/maratdanyarov/Documents/Projects/Java/Bloom/src/assets/plants/dragon_tree/dragon_tree_4.png"),
+            imagePath: require("../assets/plants/dragon_tree/dragon_tree_4.png"),
           },
         ],
         unlockCondition: null,
