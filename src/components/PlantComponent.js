@@ -9,6 +9,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import styles from "../styles/PlantStyles";
 import { plants } from "../states/plantsConfig";
 import SelectPlantModal from "./PlantSelectionModal";
+import SelectFromArchiveModal from "./ArchiveSelectionModal";
 import ScaleAnimation from "./ScaleAnimation";
 import { getPlantHitBox } from "./PlantHitbox";
 import FloatingMenu from "./CircularMenu";
@@ -24,6 +25,8 @@ const Plant = ({ id, style, isArchived=false }) => {
   const navigation = useNavigation();
   // New state for PLANT SELECT modal visibility
   const [selectPlantModalVisible, setSelectPlantModalVisible] = useState(false);
+  // State for archive selection modal visibility
+  const [selectArchiveModalVisible, setSelectArchiveModalVisible] = useState(false);
   // State for setting selecting plant
   const [selectedPlant, setSelectedPlant] = useState(null);
   // State for managing the visibility of the Floating Menu
@@ -119,7 +122,13 @@ const Plant = ({ id, style, isArchived=false }) => {
     }
   };
 
-
+  handleSelectFromArchive = async (archiveID) => {
+    //Hide the species selection modal
+    setSelectPlantModalVisible(false);
+    //Show the archive selection modal
+    setSelectArchiveModalVisible(true);
+  }
+  
   const loadSavedPlantData = async () => {
     try {
       const savedPlantsJSON = await AsyncStorage.getItem('savedPlants');
@@ -229,6 +238,14 @@ const Plant = ({ id, style, isArchived=false }) => {
       <SelectPlantModal
         visible={selectPlantModalVisible}
         onClose={() => setSelectPlantModalVisible(false)}
+        handleSelectPlant={handleSelectPlant}
+        handleSelectFromArchive={handleSelectFromArchive}
+      />
+
+      {/* Select from archive modal */}
+      <SelectFromArchiveModal
+        visible={selectArchiveModalVisible}
+        onClose={() => setSelectArchiveModalVisible(false)}
         handleSelectPlant={handleSelectPlant}
       />
 

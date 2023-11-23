@@ -5,7 +5,10 @@ import TouchableScale from "react-native-touchable-scale";
 import { plants } from "../states/plantsConfig";
 import styles from "../styles/PlantStyles";
 
-const SelectPlantModal = ({ visible, onClose, handleSelectPlant }) => {
+const archiveIcon = require("../assets/icon_container.png");
+
+const SelectPlantModal = ({ visible, onClose, handleSelectPlant, handleSelectFromArchive }) => {
+
   return (
     <Modal
         visible={visible}
@@ -18,6 +21,18 @@ const SelectPlantModal = ({ visible, onClose, handleSelectPlant }) => {
         >
           <View style={styles.modalSelectPlantView}>
             <ScrollView horizontal={true} style={styles.scrollViewStyle}>
+              <TouchableScale
+                key={0}
+                onPress={() => handleSelectFromArchive()}
+              >
+                <View style={styles.plantCard}>
+                  <Image
+                        source={archiveIcon}
+                        style={{ width: "80%", height: "80%" }}
+                      />
+                  <Text>From archive...</Text>
+                </View>
+              </TouchableScale>
               {Object.entries(plants).map(([key, plant]) => (
                 <TouchableScale
                   key={plant.plantID}
