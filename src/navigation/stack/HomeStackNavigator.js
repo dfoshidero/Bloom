@@ -83,6 +83,8 @@ const HomeStackNavigator = () => {
         name="CollectionScreen"
         component={CollectionScreen}
         options={{
+          title: "",
+          headerTransparent: true,
           headerLeft: () => <CustomBackButton />, // Use custom back button component
         }}
       />
