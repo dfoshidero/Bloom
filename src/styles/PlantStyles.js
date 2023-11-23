@@ -7,13 +7,15 @@ const styles = StyleSheet.create({
   },
 
   modalSelectPlantView: {
+    zIndex: 0,
     opacity: 0.8,
     bottom: "3%",
     margin: "5%",
     backgroundColor: "white",
     borderRadius: 20,
     alignItems: "center",
-    padding: 20,
+    paddingTop: 15,
+    paddingBottom: 15,
     shadowColor: "#000",
     shadowOffset: {
       width: 0,
@@ -43,6 +45,16 @@ const styles = StyleSheet.create({
   scrollViewStyle: {
     flexDirection: "row", // Ensures horizontal layout
     width: "100%", // Ensure full width within modal
+  },
+
+  archiveButton: {
+    zIndex: 1,
+    width: 100, // Adjust as needed
+    height: 100, // Adjust as needed
+    justifyContent: "center",
+    alignItems: "center",
+
+    borderRadius: 10,
   },
 
   plantCard: {

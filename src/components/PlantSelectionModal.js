@@ -5,52 +5,48 @@ import TouchableScale from "react-native-touchable-scale";
 import { plants } from "../states/plantsConfig";
 import styles from "../styles/PlantStyles";
 
-const archiveIcon = require("../assets/icon_container.png");
+const archiveIcon = require("../assets/icons/archive_icon_nbg.png");
 
 const SelectPlantModal = ({ visible, onClose, handleSelectPlant, handleSelectFromArchive }) => {
 
   return (
-    <Modal
-        visible={visible}
-        transparent
-        animationType="slide"
+    <Modal visible={visible} transparent animationType="slide">
+      <TouchableScale
+        style={styles.modalSelectPlantOverlay}
+        onPressOut={onClose}
       >
         <TouchableScale
-          style={styles.modalSelectPlantOverlay}
-          onPressOut={onClose}
+          onPress={() => handleSelectFromArchive()}
+          style={styles.archiveButton}
         >
-          <View style={styles.modalSelectPlantView}>
-            <ScrollView horizontal={true} style={styles.scrollViewStyle}>
+          <View style={styles.archiveButton}>
+            <Image
+              source={archiveIcon}
+              style={{ width: "100%", height: "100%", top: "45%", left: "5%" }}
+            />
+            <Text style={{top: "20%", left: "5%"}}>Collection</Text>
+          </View>
+        </TouchableScale>
+        <View style={styles.modalSelectPlantView}>
+          <ScrollView horizontal={true} style={styles.scrollViewStyle}>
+            {Object.entries(plants).map(([key, plant]) => (
               <TouchableScale
-                key={0}
-                onPress={() => handleSelectFromArchive()}
+                key={plant.plantID}
+                onPress={() => handleSelectPlant(plant.plantID)}
               >
                 <View style={styles.plantCard}>
                   <Image
-                        source={archiveIcon}
-                        style={{ width: "80%", height: "80%" }}
-                      />
-                  <Text>From archive...</Text>
+                    source={plant.iconPath}
+                    style={{ width: "80%", height: "80%" }}
+                  />
+                  <Text>{plant.name}</Text>
                 </View>
               </TouchableScale>
-              {Object.entries(plants).map(([key, plant]) => (
-                <TouchableScale
-                  key={plant.plantID}
-                  onPress={() => handleSelectPlant(plant.plantID)}
-                >
-                  <View style={styles.plantCard}>
-                    <Image
-                      source={plant.iconPath}
-                      style={{ width: "80%", height: "80%" }}
-                    />
-                    <Text>{plant.name}</Text>
-                  </View>
-                </TouchableScale>
-              ))}
-            </ScrollView>
-          </View>
-        </TouchableScale>
-      </Modal>
+            ))}
+          </ScrollView>
+        </View>
+      </TouchableScale>
+    </Modal>
   );
 };
       
