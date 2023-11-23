@@ -49,6 +49,9 @@ const Plant = ({ id, style }) => {
     if (item.id == 1){
       console.log(selectedPlant.plantID)
       navigation.navigate("LevelSelectionScreen", { selectedPlantID: selectedPlant.plantID });
+    }else if (item.id == 2){
+      console.log(selectedPlant.plantID)
+      navigation.navigate("CollectionScreen", { selectedPlantID: selectedPlant.plantID });
     }
   };
 
