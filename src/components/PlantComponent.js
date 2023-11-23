@@ -43,6 +43,38 @@ const Plant = ({ id, style }) => {
     setSelectPlantModalVisible(true);
   };
 
+  //Archive a plant
+  const handleArchiveButtonPress = async () => {
+    console.log("Archiving plant", id)
+
+    //Get saved plant data
+    const savedPlantsJSON = await AsyncStorage.getItem('savedPlants');
+    savedPlants = JSON.parse(savedPlantsJSON);
+
+    //Make a unique archiveID
+    newArchiveID = 0
+    for (let i = 0; i < savedPlants.length; i++) {
+      if (newArchiveID.toString() === savedPlants[i].archiveID){
+        newArchiveID++
+      }
+    }
+
+    //Find this plant and edit its positionID and archiveID
+    for (let i = 0; i < savedPlants.length; i++) {
+      if (savedPlants[i].plantPositionID === id.toString()) {
+        savedPlants[i].plantPositionID = "null";
+        savedPlants[i].archiveID = newArchiveID.toString();
+      }
+    }
+
+    //Save the changes
+    await AsyncStorage.setItem('savedPlants', JSON.stringify(savedPlants));
+
+    //Reset this plant to empty
+    setSelectedPlant(null)
+    console.log("hello", id, selectedPlant)
+  }
+
   const handleMenuItemPress = (item) => {
     console.log("Menu item pressed", item);
     setFloatingMenuVisible(false); 
@@ -50,8 +82,8 @@ const Plant = ({ id, style }) => {
       console.log(selectedPlant.plantID)
       navigation.navigate("LevelSelectionScreen", { selectedPlantID: selectedPlant.plantID });
     }else if (item.id == 2){
-      console.log(selectedPlant.plantID)
-      navigation.navigate("CollectionScreen", { selectedPlantID: selectedPlant.plantID });
+      //Archive button pressed
+      handleArchiveButtonPress()
     }
   };
 
@@ -72,6 +104,7 @@ const Plant = ({ id, style }) => {
       const newPlantData = {
         plantPositionID: id.toString(),
         plantID: plantID.toString(),
+        archiveID: plantID.toString()
       };
       savedPlants.push(newPlantData);
   

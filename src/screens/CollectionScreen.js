@@ -30,6 +30,7 @@ const CollectionScreen = () => {
     }
   };
 
+  //Gets saved plants
   useEffect(() => {
     loadSavedPlantData();
   });
@@ -38,7 +39,7 @@ const CollectionScreen = () => {
   const renderArchivedPlant = (plant) => {
     return (
     <Plant
-      id={plant.item.plantID}
+      id={plant.item.plantPositionID}
       style = {{
         left:"43%",
         height: "20%"
