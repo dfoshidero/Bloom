@@ -267,7 +267,7 @@ export const plants = {
     learned: true,
     difficulty: 1,
     experience: 0,
-    level: "Beginner",
+    level: "Medium",
     actions: ["Water", "Fertilise"],
     progress: 0,
     skins: [
