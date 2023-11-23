@@ -17,6 +17,7 @@ import FloatingMenu from "./CircularMenu";
 const iconContainer = require("../assets/icon_container.png");
 const closeIcon = require("../assets/icons/close_icon.png");
 const fertilizeIcon = require("../assets/icons/fertilize_icon.png");
+const archiveIcon = require("../assets/icons/archive_icon.png");
 const learnIcon = require("../assets/icons/learn_icon.png");
 const waterIcon = require("../assets/icons/water_icon.png");
 const linkIcon = require("../assets/icons/link_icon.png");
@@ -189,7 +190,7 @@ const Plant = ({ id, style, isArchived=false }) => {
   ]
   //Only add the archive button if the plant isn't already in the archive
   if (!isArchived){
-    menuItemsList.push({ icon: iconContainer, isImage: true, angle: 300, id: 2 })
+    menuItemsList.push({ icon: archiveIcon, isImage: true, angle: 300, id: 2 })
   }
 
   return (
