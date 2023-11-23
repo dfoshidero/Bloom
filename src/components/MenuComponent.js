@@ -17,6 +17,8 @@ const MenuComponent = ({ menuVisible, closeMenu }) => {
     }
   };
 
+  let navigationCounter = 0;
+
   return (
     <Modal
       animationType="slide"
@@ -29,7 +31,7 @@ const MenuComponent = ({ menuVisible, closeMenu }) => {
           <Text style={styles.menuItem}>Achievements</Text>
           <TouchableOpacity
             onPress={() => {
-              navigation.navigate("CollectionScreen");
+              navigation.navigate("CollectionScreen", {screen:"CollectionScreen",params:{timestamp:navigationCounter++}});
               closeMenu();
             }}
           >

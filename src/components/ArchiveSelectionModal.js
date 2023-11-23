@@ -34,8 +34,9 @@ const SelectFromArchiveModal = ({ visible, onClose, handleSelectPlant }) => {
 
   //Updates saved plants
   useEffect(() => {
+    console.log("dream girl evil")
     loadSavedPlantData();
-  });
+  }, [visible]);
 
   return (
     <Modal

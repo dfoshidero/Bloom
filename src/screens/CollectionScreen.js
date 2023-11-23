@@ -13,7 +13,7 @@ import Plant from "../components/PlantComponent";
 import menuBackgroundImage from '../assets/backgrounds/misc/menu_bg.png';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const CollectionScreen = () => {
+const CollectionScreen = (timestamp) => {
 
   const [archivedPlants, setArchivedPlants] = useState([]);
 
@@ -34,8 +34,9 @@ const CollectionScreen = () => {
 
   //Gets saved plants
   useEffect(() => {
+    console.log("hello")
     loadSavedPlantData();
-  });
+  }, [timestamp]);
 
   //Renders each plant as an item in the list
   const renderArchivedPlant = (plant) => {
