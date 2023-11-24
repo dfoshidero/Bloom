@@ -41,7 +41,7 @@
 
     useEffect(() => {
       const savedPlant = plantData.find(
-        (p) => p.plantPositionID === id.toString()
+        (p) => (isArchived ? p.archiveID : p.plantPositionID) === id.toString()
       );
       if (savedPlant) {
         const plant = plants[savedPlant.plantID];
