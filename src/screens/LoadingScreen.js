@@ -17,7 +17,7 @@ const LoadingScreen = ({ onFinishLoading }) => {
       try {
         // Simulate loading process with a delay
         setLoadingMessage("Loading plant data...");
-        await new Promise((resolve) => setTimeout(resolve, 2000)); // Adjust the delay as needed
+        await new Promise((resolve) => setTimeout(resolve, 1000)); // Adjust the delay as needed
 
         // Fetch or load your plant data
         const savedPlantsJSON = await AsyncStorage.getItem("savedPlants");

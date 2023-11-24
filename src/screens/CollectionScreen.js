@@ -106,8 +106,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
   },
-  firstPlant: {
-  },
+  firstPlant: {},
 });
 
 export default CollectionScreen;
