@@ -113,7 +113,7 @@
       setSelectedPlant(plant);
       setSelectPlantModalVisible(false);
       setSelectArchiveModalVisible(false);
-
+    
       try {
         // Retrieve the existing saved plants array from AsyncStorage
         const savedPlantsJSON = await AsyncStorage.getItem("savedPlants");
@@ -121,22 +121,30 @@
         if (savedPlantsJSON) {
           savedPlants = JSON.parse(savedPlantsJSON);
         }
-
-        // Add the new plant to the saved plants array
-        const newPlantData = {
-          plantPositionID: id.toString(),
-          plantID: plantID.toString(),
-          archiveID: "null",
-          progress: 0,
-        };
-        savedPlants.push(newPlantData);
-
+    
+        // Check if the plant already exists in the saved plants array
+        const existingPlantIndex = savedPlants.findIndex((savedPlant) => savedPlant.plantID === plantID.toString());
+    
+        if (existingPlantIndex !== -1) {
+          // If the plant already exists, increment the quantity
+          savedPlants[existingPlantIndex].quantity += 1;
+        } else {
+          // If the plant doesn't exist, add it to the saved plants array with quantity 1
+          const newPlantData = {
+            plantPositionID: id.toString(),
+            plantID: plantID.toString(),
+            archiveID: "null",
+            progress: 0,
+            quantity: 1, // Set the initial quantity to 1
+          };
+          savedPlants.push(newPlantData);
+        }
+    
         // Save the updated saved plants array in AsyncStorage
         await AsyncStorage.setItem("savedPlants", JSON.stringify(savedPlants));
-        updatePlantData([...plantData, newPlantData]);
+        updatePlantData([...plantData, savedPlants[existingPlantIndex] || savedPlants[savedPlants.length - 1]]);
         console.log("Plant data saved successfully.");
-        
-
+    
         // Retrieve and print the saved data
         const savedPlantsJSONUpdated = await AsyncStorage.getItem("savedPlants");
         const savedPlantsUpdated = JSON.parse(savedPlantsJSONUpdated);
