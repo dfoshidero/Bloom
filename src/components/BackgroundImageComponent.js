@@ -8,11 +8,12 @@ import { Dimensions } from "react-native";
 const screenWidth = Dimensions.get("window").width;
 const screenHeight = Dimensions.get("window").height;
 
-const BackgroundImageComponent = ({ backgroundImage, plantPositions }) => {
+const BackgroundImageComponent = ({ updatedList, backgroundImage, plantPositions }) => {
   return (
     <ImageBackground source={backgroundImage} style={styles.backgroundImage}>
       {plantPositions.map((position) => (
         <Plant
+          updatedList = {updatedList}
           key={position.id}
           id={position.id}
           style={{

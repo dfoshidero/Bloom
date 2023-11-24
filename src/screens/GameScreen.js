@@ -20,7 +20,7 @@ import {
 } from "../utilities/backgroundMusic";
 
 const GameScreen = ({route}) => {
-  //const { updatedList } = route.params;
+  const { updatedList = null } = route.params || {};
   const [currentBackground, setCurrentBackground] = useState(
     backgrounds.background4
   );
@@ -184,7 +184,7 @@ const GameScreen = ({route}) => {
       />
 
       <BackgroundImageComponent
-        //updatedList = {updatedList}
+        updatedList = {updatedList}
         backgroundImage={backgroundImage}
         plantPositions={currentBackground.plantPositions}
       />

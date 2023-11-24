@@ -158,7 +158,7 @@ const QuizScreen = ({ navigation, route }) => {
             style={styles.button}
             onPress={() => {
               setShowModal(false);
-              navigation.navigate("Home", {updatedList: updatedList});
+              navigation.navigate("Home", {updatedList});
             }}
           >
             <Text style={styles.buttonText}>Go Back.</Text>

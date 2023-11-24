@@ -21,7 +21,7 @@ const learnIcon = require("../assets/icons/learn_icon.png");
 const waterIcon = require("../assets/icons/water_icon.png");
 const linkIcon = require("../assets/icons/link_icon.png");
 
-const Plant = ({ id, style, isArchived=false }) => {
+const Plant = ({ updatedList, id, style, isArchived=false }) => {
   const navigation = useNavigation();
   // New state for PLANT SELECT modal visibility
   const [selectPlantModalVisible, setSelectPlantModalVisible] = useState(false);
@@ -33,6 +33,44 @@ const Plant = ({ id, style, isArchived=false }) => {
   const [floatingMenuVisible, setFloatingMenuVisible] = useState(false);
   // State for scale animation
   const [isActive, setIsActive] = useState(false);
+
+  const updateSavedList = async (updatedList) => {
+    if (updatedList !== null && typeof updatedList === 'object') {
+      try {
+        console.log("updating saved list");
+        console.log(updatedList);
+        // Get the saved list from AsyncStorage
+        const savedListString = await AsyncStorage.getItem('savedList');
+        let savedList = JSON.parse(savedListString) || [];
+  
+        // Find the matching item in the saved list
+        const { plantID, plantPositionID, progress } = updatedList;
+        const matchingIndex = savedList.findIndex(item => (
+          item.plantID === plantID && item.plantPositionID === plantPositionID
+        ));
+  
+        // If a match is found, update the progress of the item
+        if (matchingIndex !== -1) {
+          savedList[matchingIndex].progress = progress;
+        }
+  
+        // Save the updated list back to AsyncStorage
+        await AsyncStorage.setItem('savedList', JSON.stringify(savedList));
+      } catch (error) {
+        console.error('Error updating saved list:', error);
+      }
+    } else if (updatedList === null) {
+      //console.error('The updated list is null.');
+    } else {
+      console.error('Invalid updated list:', updatedList);
+    }
+  };
+
+  useEffect(() => {
+    console.log("Updated List accessed")
+    console.log(updatedList);
+    updateSavedList(updatedList);
+  }, [updatedList]);
 
   const handlePressInPlant = () => {
     setIsActive(true);
@@ -148,6 +186,8 @@ const Plant = ({ id, style, isArchived=false }) => {
       const savedPlants = JSON.parse(savedPlantsJSON);
   
       if (savedPlants) {
+        console.log('Saved Plants:', savedPlants); // Print the saved list
+        
         let savedPlant = null;
         if (isArchived) {
           savedPlant = savedPlants.find((plant) => plant.archiveID === id.toString());
@@ -156,8 +196,9 @@ const Plant = ({ id, style, isArchived=false }) => {
         }
   
         if (savedPlant) {
-          const plant = plants[savedPlant.plantID];
-          setSelectedPlant(plant);
+          const { plantID, progress } = savedPlant;
+          const plant = plants[plantID];
+          setSelectedPlant({ ...plant, progress: progress });
         }
       }
     } catch (error) {
