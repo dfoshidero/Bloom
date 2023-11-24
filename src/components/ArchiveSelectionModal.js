@@ -9,6 +9,7 @@ import {
 } from "react-native";
 import styles from "../styles/PlantStyles";
 import { PlantDataContext } from "../states/plantsDataContext";
+import { plants } from "../states/plantsConfig";
 
 import TouchableScale from "react-native-touchable-scale";
 
@@ -18,6 +19,12 @@ const SelectFromArchiveModal = ({
   handleRemoveFromArchive,
 }) => {
   const { plantData } = useContext(PlantDataContext);
+
+  for (let i = 0; i < plantData.length; i++){
+    let plantSpecies = plants[parseInt(plantData[i].plantID)];
+    plantData[i].iconPath = plantSpecies.iconPath;
+    plantData[i].name = plantSpecies.name;
+  }
 
   return (
     <Modal visible={visible} transparent animationType="slide">
