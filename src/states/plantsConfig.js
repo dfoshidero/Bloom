@@ -28,6 +28,7 @@ export const plants = {
     level: "Tutorial",
     actions: ["Water", "Fertilise"],
     progress: 0,
+    quantity: 0,
     skins: [
       {
         name: "default",
@@ -107,6 +108,7 @@ export const plants = {
     level: "Beginner",
     actions: ["Water", "Fertilise"],
     progress: 0,
+    quantity: 0,
     skins: [
       {
         name: "default",
@@ -162,6 +164,7 @@ export const plants = {
     level: "Beginner",
     actions: ["Water", "Fertilise"],
     progress: 0,
+    quantity: 0,
     skins: [
       {
         name: "default",
@@ -216,6 +219,7 @@ export const plants = {
     level: "Beginner",
     actions: ["Water", "Fertilise"],
     progress: 0,
+    quantity: 0,
     skins: [
       {
         name: "default",
@@ -270,6 +274,7 @@ export const plants = {
     level: "Medium",
     actions: ["Water", "Fertilise"],
     progress: 0,
+    quantity: 0,
     skins: [
       {
         name: "default",
@@ -324,6 +329,7 @@ export const plants = {
     level: "Medium",
     actions: ["Water", "Fertilise"],
     progress: 0,
+    quantity: 0,
     skins: [
       {
         name: "default",
@@ -378,6 +384,7 @@ export const plants = {
     level: "Medium",
     actions: ["Water", "Fertilise"],
     progress: 0,
+    quantity: 0,
     skins: [
       {
         name: "default",
