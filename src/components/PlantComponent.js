@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { View, TouchableOpacity, Image, Animated } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 
@@ -13,6 +13,8 @@ import SelectFromArchiveModal from "./ArchiveSelectionModal";
 import ScaleAnimation from "./ScaleAnimation";
 import { getPlantHitBox } from "./PlantHitbox";
 import FloatingMenu from "./CircularMenu";
+
+import { PlantDataProvider, PlantDataContext } from "../states/plantsDataContext";
 
 const iconContainer = require("../assets/icon_container.png");
 const closeIcon = require("../assets/icons/close_icon.png");
@@ -34,6 +36,8 @@ const Plant = ({ id, style, isArchived=false }) => {
   const [floatingMenuVisible, setFloatingMenuVisible] = useState(false);
   // State for scale animation
   const [isActive, setIsActive] = useState(false);
+
+  const { plantData, updatePlantData } = useContext(PlantDataContext);
 
   const handlePressInPlant = () => {
     setIsActive(true);
@@ -111,6 +115,7 @@ const Plant = ({ id, style, isArchived=false }) => {
         progress: 0,
       };
       savedPlants.push(newPlantData);
+      updatePlantData(savedPlants);
   
       // Save the updated saved plants array in AsyncStorage
       await AsyncStorage.setItem('savedPlants', JSON.stringify(savedPlants));
@@ -140,6 +145,8 @@ const Plant = ({ id, style, isArchived=false }) => {
 
     await AsyncStorage.setItem('savedPlants', JSON.stringify(newSavedPlants));
 
+    updatePlantData(newSavedPlants);
+    
     await handleSelectPlant(plantID)
   }
   
@@ -167,7 +174,7 @@ const Plant = ({ id, style, isArchived=false }) => {
   };
 
   useEffect(() => {
-    console.log('ID:', id);
+    console.log('Plant ID:', id, "loaded.");
     loadSavedPlantData();
   }, [id]);
 

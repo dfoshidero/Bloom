@@ -1,209 +1,112 @@
+import React, { useContext } from "react";
 import {
   View,
   Text,
-  StyleSheet,
-  Modal,
   FlatList,
-  TouchableOpacity,
-  Image,
   ImageBackground,
+  StyleSheet,
+  Dimensions,
 } from "react-native";
-import React, { useState, useEffect } from "react";
+import { PlantDataContext } from "../states/plantsDataContext";
 import Plant from "../components/PlantComponent";
-import menuBackgroundImage from '../assets/backgrounds/misc/menu_bg.png';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import menuBackgroundImage from "../assets/backgrounds/misc/menu_bg.png";
 
-const CollectionScreen = (timestamp) => {
+const windowWidth = Dimensions.get("window").width;
+const windowHeight = Dimensions.get("window").height;
 
-  const [archivedPlants, setArchivedPlants] = useState([]);
+const CollectionScreen = () => {
+  const { plantData } = useContext(PlantDataContext);
 
-  const loadSavedPlantData = async () => {
-    try {
-      //Load all saved plant data
-      const savedPlantsJSON = await AsyncStorage.getItem('savedPlants');
-      const savedPlants = JSON.parse(savedPlantsJSON);
-      
-      if (savedPlants) {
-        //Get only those saved plants which are in the archive
-        setArchivedPlants(savedPlants.filter(plant => plant.archiveID !== "null"));
-      }
-    } catch (error) {
-      console.log('Error loading saved plant data:', error);
-    }
-  };
+  const archivedPlants = plantData.filter(
+    (plant) => plant.archiveID !== "null"
+  );
 
-  //Gets saved plants
-  useEffect(() => {
-    console.log("hello")
-    loadSavedPlantData();
-  }, [timestamp]);
-
-  //Renders each plant as an item in the list
-  const renderArchivedPlant = (plant) => {
-    return (
+  const renderArchivedPlant = ({ item, index }) => (
     <Plant
-      key={plant.item.archiveID}
-      id={plant.item.archiveID}
-      style = {{
-        left:"43%",
-        height:200,
-        bottom:100
-      }}
+      key={item.archiveID}
+      id={item.archiveID}
+      style={[styles.plant, index === 0 && styles.firstPlant]}
       isArchived={true}
     />
-    )
-  }
+  );
+
+  const itemWidth = (windowWidth * 0.8) / 3 - 20;
+  const totalWidth =
+    archivedPlants.length * itemWidth + (archivedPlants.length - 1) * 60;
 
   return (
     <View style={styles.container}>
-      <ImageBackground source={menuBackgroundImage} style={styles.backgroundImage_bg}></ImageBackground>
+      <ImageBackground
+        source={menuBackgroundImage}
+        style={styles.backgroundImage}
+      />
       <View style={styles.titleContainer}>
         <Text style={styles.title}>Collection</Text>
       </View>
-      <View style={{flex:1,top:"20%", bottom:"90%"}}>
-        <FlatList
-            data={archivedPlants}
-            renderItem={renderArchivedPlant}
-            keyExtractor={(item) => item.archiveID}
-            ListHeaderComponent={<View style={{height:100}}/>}
-            ListFooterComponent={<View style={{height:100,bottom:1000}}/>}
-        />
-      </View>
+      <FlatList
+        data={archivedPlants}
+        renderItem={renderArchivedPlant}
+        keyExtractor={(item) => item.archiveID}
+        horizontal={true}
+        pagingEnabled={true}
+        showsHorizontalScrollIndicator={false}
+        decelerationRate="fast" // Faster deceleration for more pronounced paging effect
+        snapToInterval={itemWidth + 60} // The width of each item plus the margin
+        snapToAlignment="start" // Start scrolling immediately when you release the touch
+        style={[styles.flatList, { width: totalWidth }]}
+        contentContainerStyle={styles.flatListContent}
+      />
     </View>
   );
 };
 
-//Copied from GameStatsScreen.js
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
+    justifyContent: "center",
     alignItems: "center",
-    justifyContent: "top",
+  },
+  flatList: {
+    alignSelf: "center",
+  },
+  plant: {
+    padding: 20,
+    borderRadius: 15,
+    backgroundColor: "rgba(255, 255, 255, 0.8)",
+    shadowColor: "black",
+    shadowOffset: {
+      width: 0,
+      height: 6,
+    },
+    shadowOpacity: 0.1,
+    shadowRadius: 10,
+    elevation: 10,
+    width: (windowWidth * 0.8) / 3 - 20,
+    height: windowHeight * 0.2,
+    marginHorizontal: 30,
+  },
+  backgroundImage: {
+    resizeMode: "cover",
+    position: "absolute",
+    width: "100%",
+    height: "100%",
+    opacity: 0.5,
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
   },
   titleContainer: {
-    top: "20%"
-  },
-  masteryContainer: {
-    top: "20%"
+    top: "20%",
   },
   title: {
     fontSize: 24,
     fontWeight: "bold",
     marginBottom: 20,
-    color: "#fff"
+    color: "#fff",
   },
-  plantName: {
-    fontWeight: "bold",
-    fontSize: 24,
+  flatListContent: {
+    justifyContent: "center",
+    alignItems: "center",
   },
-  itemContainer_unlocked: {
-    padding: 10,
-    marginVertical: 8,
-    backgroundColor: "#f9f9f9",
-    borderRadius: 5,
-    width: "100%",
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 3.84,
-    elevation: 5,
-  },
-  itemContainer_locked: {
-    padding: 10,
-    marginVertical: 8,
-    backgroundColor: "#BFBFBF",
-    borderRadius: 5,
-    width: "100%",
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 3.84,
-    elevation: 5,
-  },
-  plantImage: {
-    width: 200,
-    height: 200,
-    resizeMode: 'contain',
-  },
-  imageContainer: {
-    left: "0%", //added these few lines to align to the center
-    right: "0%", //added these few lines to align to the center
-  },
-  plantDetailsContainer: {
-    alignItems: 'center',
-    top: "20%", //added these few lines to align to the center
-    left: "10%", //added these few lines to align to the center
-    right: "10%", //added these few lines to align to the center
-    width: "80%", //original 100%
-    opacity: 0.9,
-    backgroundColor: "white",
-    borderRadius: 20,
-    paddingTop: 30, //80 originally
-    paddingBottom: 20, //10 originally
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 3.84,
-    elevation: 5,
-  },
-  plantDetailsTextContainer:{
-    top: "1%",
-    alignItems: 'center',
-  },
-  plantName: {
-    fontSize: 18,
-    fontWeight: "bold",
-  },
-  level: {
-    fontSize: 14,
-    color: "#666",
-  },
-  progressBarBackground: {
-    height: 20,
-    width: "100%",
-    backgroundColor: "#ddd",
-    borderRadius: 10,
-    marginTop: 10,
-  },
-  progressBarFill: {
-    height: "100%",
-    backgroundColor: "green",
-    borderRadius: 10,
-  },
-  plantDetailsItem: {
-    marginBottom: 10,
-    fontSize: 10,
-    textAlign: "center",
-  },
-  backgroundImage: {
-    resizeMode: "cover",
-    position: "absolute",
-    bottom: 0,
-    width: "100%",
-    height: "100%",
-    backgroundColor: 'rgba(0, 0, 0, 0.5)', // Adjust the alpha value to control darkness
-  },
-  multiItemContainer: {
-    alignItems: 'center',
-    flexDirection: 'row',
-  },
-  backgroundImage_bg: {
-    resizeMode: "contained",
-    position: "absolute",
-    top: 0,
-    width: "100%",
-    height: "100%",
-    opacity: 0.7,
+  firstPlant: {
   },
 });
 
