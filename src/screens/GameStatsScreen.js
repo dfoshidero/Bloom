@@ -93,67 +93,100 @@ const GameStatsScreen = () => {
   }, []);
 
 
-  const renderMasteryItem = ({ item }) => (
-    <TouchableScale style={[
-      item.learned ? styles.itemContainer_unlocked : styles.itemContainer_locked,
-    ]} onPress={item.learned ? () => { show_plantdetails(); handleSelectPlant(item.id);} : null}>
-
-
-      <Modal
-        animationType="fade"
-        transparent={true}
-        visible={plantDetailVisible}
-        onPressOut= {show_plantdetails}
+const renderMasteryItem = ({ item }) => (
+  <TouchableScale
+    style={[
+      item.learned
+        ? styles.itemContainer_unlocked
+        : styles.itemContainer_locked,
+      { width: "29.5%", justifyContent: "space-between" }, // Adjust the width to occupy half of the available space
+    ]}
+    onPress={
+      item.learned
+        ? () => {
+            show_plantdetails();
+            handleSelectPlant(item.id);
+          }
+        : null
+    }
+  >
+    <Modal
+      animationType="fade"
+      transparent={true}
+      visible={plantDetailVisible}
+      onPressOut={show_plantdetails}
+    >
+      <TouchableOpacity
+        style={styles.backgroundImage}
+        onPress={() => {
+          close_plantdetails();
+          disableSelectPlant();
+        }}
       >
-        <TouchableOpacity style={styles.backgroundImage} onPress={() => {close_plantdetails() ; disableSelectPlant()}}>
+        {/*Contents in the menu*/}
 
-          {/*Contents in the menu*/}
-
-          <View style={styles.plantDetailsContainer}>
-            <Text style={styles.plantName}>{getProperty('name')}</Text>
-            <View style={styles.imageContainer}>
-              <Image source={getPlantImagePath()} style={styles.plantImage} />
-            </View>
-            <View style={styles.plantDetailsTextContainer}>
-              <Text style={styles.plantDetailsItem}>Height: {getProperty('height')}</Text>
-              <Text style={styles.plantDetailsItem}>Type: {getProperty('type')}</Text>
-              <View style = {styles.multiItemContainer}>
-              {getProperty('colours') ? (
+        <View style={styles.plantDetailsContainer}>
+          <Text style={styles.plantName}>{getProperty("name")}</Text>
+          <View style={styles.imageContainer}>
+            <Image source={getPlantImagePath()} style={styles.plantImage} />
+          </View>
+          <View style={styles.plantDetailsTextContainer}>
+            <Text style={styles.plantDetailsItem}>
+              Height: {getProperty("height")}
+            </Text>
+            <Text style={styles.plantDetailsItem}>
+              Type: {getProperty("type")}
+            </Text>
+            <View style={styles.multiItemContainer}>
+              {getProperty("colours") ? (
                 <>
                   <Text style={styles.plantDetailsItem}>Colors: </Text>
-                  {getProperty('colours').map((color, index) => (
+                  {getProperty("colours").map((color, index) => (
                     <Text key={color} style={styles.plantDetailsItem}>
                       {color}
-                      {(getProperty('colours').length > 1 && index !== getProperty('colours').length - 1) ? ", " : ""}
+                      {getProperty("colours").length > 1 &&
+                      index !== getProperty("colours").length - 1
+                        ? ", "
+                        : ""}
                     </Text>
                   ))}
                 </>
               ) : null}
-              </View>
-              {getProperty('careInstructions') ? (
-                <>
-                  <Text style={styles.plantDetailsItem}>Care Instructions:</Text>{Object.entries(getProperty('careInstructions')).map(([key, instruction]) => (<Text key={key} style={styles.plantDetailsItem}>{`${key}: ${instruction}`}</Text>))}
-                </>
-              ) : null}
             </View>
+            {getProperty("careInstructions") ? (
+              <>
+                <Text style={styles.plantDetailsItem}>Care Instructions:</Text>
+                {Object.entries(getProperty("careInstructions")).map(
+                  ([key, instruction]) => (
+                    <Text
+                      key={key}
+                      style={styles.plantDetailsItem}
+                    >{`${key}: ${instruction}`}</Text>
+                  )
+                )}
+              </>
+            ) : null}
           </View>
-
-        </TouchableOpacity>
-      </Modal>
-      <Text style={styles.plantName}>{item.name}</Text>
-      <Text style={styles.level}>{item.level}</Text>
-      {/* Progress can be represented by a simple view or a progress bar component */}
-      <View style={styles.progressBarBackground}>
-        <View
-          style={[styles.progressBarFill, { width: `${item.progress * 100}%` }]}
-        />
-      </View>
-    </TouchableScale>
-  );
+        </View>
+      </TouchableOpacity>
+    </Modal>
+    <Text style={styles.plantName}>{item.name}</Text>
+    <Text style={styles.level}>{item.level}</Text>
+    {/* Progress can be represented by a simple view or a progress bar component */}
+    <View style={styles.progressBarBackground}>
+      <View
+        style={[styles.progressBarFill, { width: `${item.progress * 100}%` }]}
+      />
+    </View>
+  </TouchableScale>
+);
 
   return (
     <View style={styles.container}>
-      <ImageBackground source={menuBackgroundImage} style={styles.backgroundImage_bg}></ImageBackground>
+      <ImageBackground
+        source={menuBackgroundImage}
+        style={styles.backgroundImage_bg}
+      ></ImageBackground>
       <View style={styles.titleContainer}>
         <Text style={styles.title}>Plant Mastery Levels</Text>
       </View>
@@ -162,6 +195,7 @@ const GameStatsScreen = () => {
           data={masteryLevels}
           renderItem={renderMasteryItem}
           keyExtractor={(item) => item.id}
+          numColumns={3} // Set the number of columns to 3
         />
       </View>
     </View>
@@ -176,16 +210,16 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   titleContainer: {
-    top: "20%"
+    top: "20%",
   },
   masteryContainer: {
-    top: "20%"
+    top: "20%",
   },
   title: {
     fontSize: 24,
     fontWeight: "bold",
     marginBottom: 20,
-    color: "#fff"
+    color: "#fff",
   },
   plantName: {
     fontWeight: "bold",
@@ -193,7 +227,7 @@ const styles = StyleSheet.create({
   },
   itemContainer_unlocked: {
     padding: 10,
-    marginVertical: 8,
+    margin: 8, // Add margin to create spacing between items
     backgroundColor: "#f9f9f9",
     borderRadius: 5,
     width: "100%",
@@ -208,7 +242,7 @@ const styles = StyleSheet.create({
   },
   itemContainer_locked: {
     padding: 10,
-    marginVertical: 8,
+    margin: 8, // Add margin to create spacing between items
     backgroundColor: "#BFBFBF",
     borderRadius: 5,
     width: "100%",
@@ -224,14 +258,14 @@ const styles = StyleSheet.create({
   plantImage: {
     width: 200,
     height: 200,
-    resizeMode: 'contain',
+    resizeMode: "contain",
   },
   imageContainer: {
     left: "0%", //added these few lines to align to the center
     right: "0%", //added these few lines to align to the center
   },
   plantDetailsContainer: {
-    alignItems: 'center',
+    alignItems: "center",
     top: "20%", //added these few lines to align to the center
     left: "10%", //added these few lines to align to the center
     right: "10%", //added these few lines to align to the center
@@ -250,9 +284,9 @@ const styles = StyleSheet.create({
     shadowRadius: 3.84,
     elevation: 5,
   },
-  plantDetailsTextContainer:{
+  plantDetailsTextContainer: {
     top: "1%",
-    alignItems: 'center',
+    alignItems: "center",
   },
   plantName: {
     fontSize: 18,
@@ -285,11 +319,11 @@ const styles = StyleSheet.create({
     bottom: 0,
     width: "100%",
     height: "100%",
-    backgroundColor: 'rgba(0, 0, 0, 0.5)', // Adjust the alpha value to control darkness
+    backgroundColor: "rgba(0, 0, 0, 0.5)", // Adjust the alpha value to control darkness
   },
   multiItemContainer: {
-    alignItems: 'center',
-    flexDirection: 'row',
+    alignItems: "center",
+    flexDirection: "row",
   },
   backgroundImage_bg: {
     resizeMode: "contained",
@@ -298,6 +332,14 @@ const styles = StyleSheet.create({
     width: "100%",
     height: "100%",
     opacity: 0.7,
+  },
+  progressBarBackground: {
+    justifyContent: "flex-end", // Justify the progress bar to the bottom
+    height: 20,
+    width: "100%",
+    backgroundColor: "#ddd",
+    borderRadius: 10,
+    marginTop: 10,
   },
 });
 

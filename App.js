@@ -1,35 +1,18 @@
-import React, { useState, useEffect } from "react";
-import { Platform, StatusBar, View, ActivityIndicator } from "react-native";
+import React, { useState } from "react";
+import { Platform, StatusBar, View } from "react-native";
 import { SafeAreaView, SafeAreaProvider } from "react-native-safe-area-context";
 import { NavigationContainer } from "@react-navigation/native";
 import HomeStackNavigator from "./src/navigation/stack/HomeStackNavigator";
 import { PlayerConfigProvider } from "./src/states/playerConfigContext";
-import * as Font from "expo-font";
-
-const fetchFonts = () => {
-  return Font.loadAsync({
-    "PressStart2P-Regular": require("./src/assets/fonts/PressStart2P-Regular.ttf"),
-  });
-};
+import { PlantDataProvider } from "./src/states/plantsDataContext";
+import LoadingScreen from "./src/screens/LoadingScreen"; // Update the path
 
 const App = () => {
-  const [fontsLoaded, setFontsLoaded] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
 
-  useEffect(() => {
-    fetchFonts()
-      .then(() => {
-        setFontsLoaded(true);
-      })
-      .catch((err) => console.log("Error loading fonts:", err));
-  }, []);
-
-  if (!fontsLoaded) {
-    return (
-      <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-        <ActivityIndicator size="large" />
-      </View>
-    );
-  }
+  const handleFinishLoading = () => {
+    setIsLoading(false);
+  };
 
   return (
     <SafeAreaProvider>
@@ -42,9 +25,15 @@ const App = () => {
       >
         <StatusBar setHidden={true} />
         <PlayerConfigProvider>
-          <NavigationContainer>
-            <HomeStackNavigator />
-          </NavigationContainer>
+          <PlantDataProvider>
+            {isLoading ? (
+              <LoadingScreen onFinishLoading={handleFinishLoading} />
+            ) : (
+              <NavigationContainer>
+                <HomeStackNavigator />
+              </NavigationContainer>
+            )}
+          </PlantDataProvider>
         </PlayerConfigProvider>
       </SafeAreaView>
     </SafeAreaProvider>
