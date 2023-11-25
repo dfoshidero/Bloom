@@ -62,6 +62,8 @@ const HomeStackNavigator = () => {
         name="Settings"
         component={SettingsScreen}
         options={{
+          title: "",
+          headerTransparent: true,
           headerLeft: () => <CustomBackButton />, // Use custom back button component
         }}
       />
@@ -78,6 +80,8 @@ const HomeStackNavigator = () => {
         name="QuizScreen"
         component={QuizScreen}
         options={{
+          title: "",
+          headerTransparent: true,
           headerLeft: () => <CustomBackButton />, // Use custom back button component
         }}
       />
