@@ -285,6 +285,7 @@
         <RealLifeScreenComponent
           realLifeScreenVisible={realLifeScreenVisible}
           closeRealLifeScreen={() => setRealLifeScreenVisible(false)}
+          plantID={selectedPlant?.plantID}
         />
       </View>
     );
