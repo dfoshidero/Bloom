@@ -14,6 +14,8 @@
   import { getPlantHitBox } from "./PlantHitbox";
   import FloatingMenu from "./CircularMenu";
   import { PlantDataContext } from "../states/plantsDataContext";
+  import RealLifeScreenComponent from "../components/RealLife";
+
 
   const iconContainer = require("../assets/icon_container.png");
   const closeIcon = require("../assets/icons/close_icon.png");
@@ -24,6 +26,14 @@
   const linkIcon = require("../assets/icons/link_icon.png");
 
   const Plant = ({ id, style, isArchived = false }) => {
+
+    const [realLifeScreenVisible, setRealLifeScreenVisible] = useState(false);
+
+    //function for testing link to real life modal should be deleted later
+    const handleToggleRealLifeScreen = () => {
+      setRealLifeScreenVisible(handleToggleRealLifeScreen(realLifeScreenVisible));
+    };
+
     const navigation = useNavigation();
     // New state for PLANT SELECT modal visibility
     const [selectPlantModalVisible, setSelectPlantModalVisible] = useState(false);
