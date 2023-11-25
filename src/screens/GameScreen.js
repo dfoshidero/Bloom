@@ -11,6 +11,7 @@ import MenuComponent from "../components/MenuComponent";
 import BackgroundImageComponent from "../components/BackgroundImageComponent";
 import { toggleMenu } from "../utilities/menuUtilities";
 import gameStyles from "../styles/GameScreenStyles";
+import Oracle from "../components/OracleComponent"
 import HeartsDisplay from "../components/HeartsComponent";
 import {
   playBackgroundMusic,
@@ -55,48 +56,9 @@ const GameScreen = ({route}) => {
     saveCurrentBackground();
   }, [currentBackground]);
 
-  const oracleNormal = require("../assets/oracle_edit/sun_normal.png");
-  const oracleSmile1 = require("../assets/oracle_edit/sun_smile_1.png");
-  const oracleSmile2 = require("../assets/oracle_edit/sun_smile_2.png");
-  const oracleBigSmile1 = require("../assets/oracle_edit/sun_big_smile_1.png");
-  const oracleBigSmile2 = require("../assets/oracle_edit/sun_big_smile_2.png");
-  const oracleSad = require("../assets/oracle_edit/sun_sad.png");
-  const oracleSurprise = require("../assets/oracle_edit/sun_surprise.png");
-
-  const [oracleImage, setOracleImage] = useState(oracleNormal);
-
   const handleToggleMenu = () => {
     setMenuVisible(toggleMenu(menuVisible));
   };
-
-  const oracleImages = [
-    oracleNormal,
-    oracleBigSmile1,
-    oracleBigSmile2,
-    oracleSurprise,
-  ];
-  const blinkImages = [oracleSmile1, oracleSmile2];
-
-  const getRandomImage = () => {
-    return oracleImages[Math.floor(Math.random() * oracleImages.length)];
-  };
-
-  const getRandomBlinkImage = () => {
-    return blinkImages[Math.floor(Math.random() * blinkImages.length)];
-  };
-
-  const getCooldownDuration = (imageType) => {
-    switch (imageType) {
-      case "blink":
-        return Math.random() * 200 + 100;
-      case "normal":
-        return Math.random() * 5000 + 3000;
-      default:
-        return 3000;
-    }
-  };
-
-  const [isBlinking, setIsBlinking] = useState(false);
 
   useEffect(() => {
     setupPlayer().then(() => {
@@ -104,49 +66,6 @@ const GameScreen = ({route}) => {
     });
 
     playBackgroundMusic();
-
-    const changeImage = () => {
-      if (!isBlinking) {
-        const nextImage = getRandomImage();
-        setOracleImage(nextImage);
-
-        setTimeout(() => {
-          setOracleImage(oracleNormal);
-        }, 2000); // Display time for regular image
-      }
-
-      setTimeout(changeImage, (Math.random() * 25000) + 7000); // Schedule next regular image change
-    };
-
-    const performBlink = () => {
-      const nextBlinkImage = getRandomBlinkImage();
-      setOracleImage(nextBlinkImage); // Start blink
-
-      setTimeout(() => {
-        setOracleImage(oracleNormal); // End blink
-        // Wait a bit after the blink ends before allowing another image change
-        setTimeout(() => setIsBlinking(false), 3000);
-      }, Math.random() * 300 + 100); // Blink duration (100 to 400 milliseconds)
-    };
-
-    const blink = () => {
-      setIsBlinking(true);
-      performBlink();
-
-      const blinkTwiceChance = Math.random();
-      if (blinkTwiceChance < 0.1) {
-        // 10% chance to blink twice
-        setTimeout(() => {
-          setIsBlinking(true);
-          performBlink();
-        }, 400); // Wait a bit before the second blink
-      }
-
-      setTimeout(blink, Math.random() * 8000 + 2000); // Random interval for next blink (2 to 10 seconds)
-    };
-
-    changeImage(); // Start changing images
-    blink(); // Start blinking
 
     return () => {
       stopBackgroundMusic();
@@ -168,10 +87,7 @@ const GameScreen = ({route}) => {
           borderRadius="5px"
           style={{ top: 35, left: 35 }}
         />
-        <Image
-          source={oracleImage}
-          style={[{ width: 50, height: 50, position: "absolute" }]}
-        />
+        <Oracle />
       </TouchableScale>
 
       <TouchableScale style={gameStyles.heartsIcon}>

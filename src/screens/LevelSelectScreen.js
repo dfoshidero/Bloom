@@ -15,6 +15,8 @@ import GameText from "../styles/GameText";
 import LevelsConfig from "../states/levelsConfig";
 import { usePlayerConfig } from "../states/playerConfigContext";
 
+import Oracle from "../components/OracleComponent";
+
 const backgroundImage = require("../assets/backgrounds/misc/level_select.png");
 const upIcon = require("../assets/icons/up_icon.png");
 const downIcon = require("../assets/icons/down_icon.png");
@@ -120,6 +122,7 @@ const LevelSelectionScreen = ({ navigation, route }) => {
 
   return (
     <ImageBackground source={backgroundImage} style={styles.backgroundImage}>
+    <Oracle />
       <Animated.View
         style={[
           styles.scrollIndicator,
