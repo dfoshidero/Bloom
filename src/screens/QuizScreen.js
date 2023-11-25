@@ -28,19 +28,24 @@ const QuizScreen = ({ navigation, route }) => {
     const trivia = plantsTriviaConfig[plant]?.[level];
     if (trivia) {
       const currentLevelIndex = parseInt(level.slice(-1)); // Extract the level number
-      const previousLevel =
-        plantsTriviaConfig[plant]?.[`level${currentLevelIndex - 1}`];
-      const previousLevelQuestions = previousLevel
-        ? previousLevel.questions
-        : [];
+      // Collect questions from all previous levels
+      const allPreviousQuestions = [];
+      for (let i = 1; i < currentLevelIndex; i++) {
+        const previousLevel = plantsTriviaConfig[plant]?.[`level${i}`];
+        const previousLevelQuestions = previousLevel
+          ? previousLevel.questions
+          : [];
+        allPreviousQuestions.push(...previousLevelQuestions);
+      }
 
-      // Shuffle the questions from the previous level
-      const shuffledQuestions = previousLevelQuestions.sort(
+      // Shuffle all previous questions
+      const shuffledAllPreviousQuestions = allPreviousQuestions.sort(
         () => Math.random() - 0.5
       );
 
       // Select two random questions from the shuffled array
-      const randomQuestions = shuffledQuestions.slice(0, 2);
+      const randomQuestions = shuffledAllPreviousQuestions.slice(0, 2);
+
       console.log("random questions\n", randomQuestions);
 
       // Select the remaining questions from the current level
