@@ -71,6 +71,12 @@ const LevelSelectionScreen = ({ navigation, route }) => {
   const { id, selectedPlantID } = route.params;
   const plantLevels = LevelsConfig[selectedPlantID];
 
+  // Calculate the index of the latest unlocked level
+  const latestUnlockedLevelIndex = Math.max(
+    0,
+    plantLevels.completedLevels.length
+  );
+
   const { playerConfig } = usePlayerConfig();
 
   const handlePress = (item) => {
@@ -126,7 +132,7 @@ const LevelSelectionScreen = ({ navigation, route }) => {
 
   return (
     <ImageBackground source={backgroundImage} style={styles.backgroundImage}>
-    <Oracle style={styles.oracle} />
+      <Oracle style={styles.oracle} />
       <Animated.View
         style={[
           styles.scrollIndicator,
@@ -141,6 +147,7 @@ const LevelSelectionScreen = ({ navigation, route }) => {
         orientation="vertical"
         onPageScroll={handlePageScroll}
         ref={viewPagerRef}
+        initialPage={latestUnlockedLevelIndex}
       >
         {Array.from({ length: plantLevels.totalLevels }, (_, i) => i + 1).map(
           (item) => (

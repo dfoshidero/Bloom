@@ -222,7 +222,9 @@ const QuizScreen = ({ navigation, route }) => {
             style={styles.button}
             onPress={() => {
               setShowModal(false);
-              navigation.navigate("Home", { updatedList: updatedList });
+              navigation.navigate("LevelSelectionScreen", {
+                updatedList: updatedList,
+              });
             }}
           >
             <GameText style={styles.buttonText}>Go Back.</GameText>
