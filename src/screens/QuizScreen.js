@@ -222,7 +222,7 @@ const QuizScreen = ({ navigation, route }) => {
             style={styles.button}
             onPress={() => {
               setShowModal(false);
-              navigation.navigate("LevelSelectionScreen", {
+              navigation.navigate("Home", {
                 updatedList: updatedList,
               });
             }}

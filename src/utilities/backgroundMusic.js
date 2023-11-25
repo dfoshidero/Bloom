@@ -3,7 +3,6 @@ import { Audio } from "expo-av";
 // Define an array of song files
 const songs = [
   require("../assets/sounds/music/8-bit-arcade.mp3"),
-  require("../assets/sounds/music/dial-up-blues-classic-arcade-game.mp3"),
   require("../assets/sounds/music/feed-the-machine-classic-arcade-game.mp3"),
   require("../assets/sounds/music/short-circuits-classic-arcade-game.mp3"),
 ];
