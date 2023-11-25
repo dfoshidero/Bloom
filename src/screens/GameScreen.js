@@ -14,7 +14,7 @@ import gameStyles from "../styles/GameScreenStyles";
 import Oracle from "../components/OracleComponent"
 import HeartsDisplay from "../components/HeartsComponent";
 import {
-  playBackgroundMusic,
+  playRandomBackgroundMusic,
   pauseBackgroundMusic,
   stopBackgroundMusic,
   setupPlayer,
@@ -65,7 +65,7 @@ const GameScreen = ({route}) => {
       console.log("Audio player is set up.");
     });
 
-    playBackgroundMusic();
+    playRandomBackgroundMusic();
 
     return () => {
       stopBackgroundMusic();
