@@ -75,12 +75,19 @@ const RealLifeScreen = ({ realLifeScreenVisible, closeRealLifeScreen, plantID })
           </View>
           <View style={styles.inputContainer}>
             <Text style={styles.label}>Plant:</Text>
-            <Text style={styles.label}>{name}</Text>
+            <Text style={styles.content}>{name}</Text>
           </View>
-          {/*<View style={styles.careInstructionsContainer}>
+          <View style={styles.careInstructionsContainer}>
             <Text style={styles.labelCare}>Care Instructions:</Text>
-            <Text style={styles.label}>{careInstructions}</Text>
-          </View>*/}
+            <Text style={styles.content}>{Object.entries(careInstructions).map(
+                  ([key, instruction]) => (
+                    <Text
+                      key={key}
+                      style={styles.plantDetailsItem}
+                    >{`${key}: ${instruction}`}</Text>
+                  )
+                )}</Text>
+          </View>
         </View>
         {isEditing ? (
           <TouchableOpacity
@@ -145,10 +152,10 @@ const styles = StyleSheet.create({
   buttonText: {
   fontSize: 16,
   fontWeight: "bold",
+  color: "black"
   },
   textContainer: {
   marginTop: "20%",
-  // Removed alignItems: "center"
   },
   
   inputContainer: {
@@ -161,6 +168,10 @@ const styles = StyleSheet.create({
   label: {
   marginRight: 10,
   fontWeight: "bold",
+  },
+
+  content: {
+    marginRight: 10,
   },
   labelCare: {
   marginRight: 10,
@@ -177,19 +188,12 @@ const styles = StyleSheet.create({
   textAlignVertical: "top", // Added to align the text at the top of the input
   },
   editButton: {
-  position: "absolute",
-  bottom: 20,
-  left: 20,
-  paddingHorizontal: 10,
-  paddingVertical: 5,
-  backgroundColor: "#ccc",
-  borderRadius: 5,
+    left: "5%",
+    bottom: "10%"
   },
   saveButton: {
-  marginBottom: 20,
-  padding: 10,
-  backgroundColor: "#ccc",
-  borderRadius: 5,
+    left: "5%",
+    bottom: "10%",
   },
   });
 
