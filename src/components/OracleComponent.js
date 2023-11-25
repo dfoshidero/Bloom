@@ -91,7 +91,7 @@ const Oracle = ({
         setOracleImage(getRandomImage());
         setTimeout(() => setOracleImage(oracleNormal), 2000);
       }
-      setTimeout(changeImage, Math.random() * 25000 + 7000);
+      setTimeout(changeImage, Math.random() * 20000 + 7000);
     };
 
     const performBlink = () => {

@@ -6,6 +6,7 @@ import {
   Alert,
   ImageBackground,
   Image,
+  Dimensions,
   Animated,
 } from "react-native";
 import ViewPager from "react-native-pager-view";
@@ -16,6 +17,9 @@ import LevelsConfig from "../states/levelsConfig";
 import { usePlayerConfig } from "../states/playerConfigContext";
 
 import Oracle from "../components/OracleComponent";
+
+const deviceWidth = Dimensions.get("window").width;
+const deviceHeight = Dimensions.get("window").height;
 
 const backgroundImage = require("../assets/backgrounds/misc/level_select.png");
 const upIcon = require("../assets/icons/up_icon.png");
@@ -122,7 +126,7 @@ const LevelSelectionScreen = ({ navigation, route }) => {
 
   return (
     <ImageBackground source={backgroundImage} style={styles.backgroundImage}>
-    <Oracle />
+    <Oracle style={styles.oracle} />
       <Animated.View
         style={[
           styles.scrollIndicator,
@@ -169,6 +173,11 @@ const styles = StyleSheet.create({
   },
   scrollIndicatorTop: {
     top: "32%",
+  },
+  oracle: {
+   left: ((deviceWidth / 2) - 25) - (deviceWidth * 0.1),
+    top: ((deviceHeight / 2)- 25) - (deviceHeight * 0.06),
+    zIndex: 1
   },
   scrollIndicatorBottom: {
     bottom: "35%",
