@@ -17,19 +17,35 @@ const QuizScreen = ({ navigation, route }) => {
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [questions, setQuestions] = useState([]);
   const [showModal, setShowModal] = useState(false);
+  const [showInstructions, setShowInstructions] = useState(true);
   const [feedbackMessage, setFeedbackMessage] = useState("");
   const [showGameOverModal, setShowGameOverModal] = useState(false);
   const { playerConfig, decreaseHearts } = usePlayerConfig();
   const [updatedList, setUpdatedList] = useState(null);
+  const [currentInstructions, setCurrentInstructions] = useState("");
 
+  // useEffect(() => {
+  //   const trivia = plantsTriviaConfig[plant]?.[level];
+  //   if (trivia) {
+  //     setQuestions(trivia);
+  //   } else {
+  //     console.log(`No trivia found for plant: ${plant}, level: ${level}`);
+  //   }
+  // }, [plant, level]);
   useEffect(() => {
     const trivia = plantsTriviaConfig[plant]?.[level];
     if (trivia) {
-      setQuestions(trivia);
+      setQuestions(trivia.questions);
+      setCurrentInstructions(trivia.instructions || "");
+      setShowInstructions(true); // Show instructions when questions are loaded
     } else {
       console.log(`No trivia found for plant: ${plant}, level: ${level}`);
     }
   }, [plant, level]);
+
+  const handleStartQuiz = () => {
+    setShowInstructions(false);
+  };
 
   const arrangeData = (archiveID, plantID, plantPositionID, progress) => {
     return {
@@ -94,8 +110,8 @@ const QuizScreen = ({ navigation, route }) => {
       const completedLevels = levelsConfig[plant].completedLevels.length;
       const progress = completedLevels / totalLevels;
       plants[plant].progress = progress;
-      console.log(arrangeData(null,plant,id,progress));
-      return arrangeData(null,plant,id,progress);
+      console.log(arrangeData(null, plant, id, progress));
+      return arrangeData(null, plant, id, progress);
     }
   };
 
@@ -121,7 +137,7 @@ const QuizScreen = ({ navigation, route }) => {
           style={styles.button}
           onPress={() => {
             setShowGameOverModal(false);
-            navigation.navigate("Home", {updatedList: null});
+            navigation.navigate("Home", { updatedList: null });
           }}
         >
           <Text style={styles.buttonText}>Back to Home</Text>
@@ -132,6 +148,17 @@ const QuizScreen = ({ navigation, route }) => {
 
   return (
     <View style={styles.container}>
+      {showInstructions && (
+        <Modal visible={showInstructions} animationType="slide">
+          <View style={styles.modalContainer}>
+            <Text style={styles.congratsText}>Instructions</Text>
+            <Text style={styles.instructionsText}>{currentInstructions}</Text>
+            <TouchableOpacity style={styles.button} onPress={handleStartQuiz}>
+              <Text style={styles.buttonText}>Start Quiz</Text>
+            </TouchableOpacity>
+          </View>
+        </Modal>
+      )}
       {feedbackMessage ? (
         <Text style={styles.feedbackText}>{feedbackMessage}</Text>
       ) : null}
@@ -158,7 +185,7 @@ const QuizScreen = ({ navigation, route }) => {
             style={styles.button}
             onPress={() => {
               setShowModal(false);
-              navigation.navigate("Home", {updatedList: updatedList});
+              navigation.navigate("Home", { updatedList: updatedList });
             }}
           >
             <Text style={styles.buttonText}>Go Back.</Text>
@@ -193,6 +220,12 @@ const styles = StyleSheet.create({
   loadingText: {
     fontSize: 18,
     color: "#333",
+  },
+  instructionsText: {
+    fontSize: 16,
+    color: "#333",
+    textAlign: "center",
+    marginBottom: 20,
   },
   button: {
     backgroundColor: "#d4edda",
