@@ -69,6 +69,8 @@ const HomeStackNavigator = () => {
         name="LevelSelectionScreen"
         component={LevelSelectionScreen}
         options={{
+          title: "",
+          headerTransparent: true,
           headerLeft: () => <CustomBackButton />, // Use custom back button component
         }}
       />
@@ -79,7 +81,7 @@ const HomeStackNavigator = () => {
           headerLeft: () => <CustomBackButton />, // Use custom back button component
         }}
       />
-      
+
       <Stack.Screen
         name="CollectionScreen"
         component={CollectionScreen}

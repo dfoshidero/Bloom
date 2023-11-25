@@ -1,22 +1,73 @@
-import React from "react";
-import { View, Text, FlatList, StyleSheet, Alert } from "react-native";
+import React, { useState, useEffect, useRef } from "react";
+import {
+  View,
+  Text,
+  StyleSheet,
+  Alert,
+  ImageBackground,
+  Image,
+  Animated,
+} from "react-native";
+import ViewPager from "react-native-pager-view";
 import TouchableScale from "react-native-touchable-scale";
 import LevelsConfig from "../states/levelsConfig";
-import { usePlayerConfig } from "../states/playerConfigContext"; // Import the usePlayerConfig hook
+import Icon from "react-native-vector-icons/FontAwesome";
+import { usePlayerConfig } from "../states/playerConfigContext";
+
+const backgroundImage = require("../assets/backgrounds/misc/level_select.png");
+const upIcon = require("../assets/icons/up_icon.png");
+const downIcon = require("../assets/icons/down_icon.png");
 
 const LevelSelectionScreen = ({ navigation, route }) => {
+  const [scrollIndicatorTopOpacity] = useState(new Animated.Value(1));
+  const [scrollIndicatorBottomOpacity] = useState(new Animated.Value(1));
+
+  const viewPagerRef = useRef(null);
+
+  const fadeOutScrollIndicators = () => {
+    Animated.timing(scrollIndicatorTopOpacity, {
+      toValue: 0,
+      duration: 1000,
+      useNativeDriver: true,
+    }).start();
+
+    Animated.timing(scrollIndicatorBottomOpacity, {
+      toValue: 0,
+      duration: 1000,
+      useNativeDriver: true,
+    }).start();
+  };
+
+  const resetScrollIndicators = () => {
+    Animated.timing(scrollIndicatorTopOpacity, {
+      toValue: 1,
+      duration: 0,
+      useNativeDriver: true,
+    }).start();
+
+    Animated.timing(scrollIndicatorBottomOpacity, {
+      toValue: 1,
+      duration: 0,
+      useNativeDriver: true,
+    }).start();
+  };
+
+  useEffect(() => {
+    const delay = 2500;
+    const timer = setTimeout(() => {
+      fadeOutScrollIndicators();
+    }, delay);
+
+    return () => clearTimeout(timer);
+  }, []);
+
   const { id, selectedPlantID } = route.params;
   const plantLevels = LevelsConfig[selectedPlantID];
-  console.log("plant levels", plantLevels);
-  // Access player config using the usePlayerConfig hook
+
   const { playerConfig } = usePlayerConfig();
 
-  // Function to handle press on a level
   const handlePress = (item) => {
-    console.log("item ", item);
-    // Check if the player has hearts remaining
     if (playerConfig.hearts > 0) {
-      // Check if the clicked level is completed
       if (plantLevels.completedLevels.includes(item - 1) || item === 1) {
         navigation.navigate("QuizScreen", {
           id: id,
@@ -24,16 +75,25 @@ const LevelSelectionScreen = ({ navigation, route }) => {
           level: `level${item}`,
         });
       } else {
-        // Show an alert if the previous level is not completed
         Alert.alert("Level Locked", "Complete the previous level to unlock.");
       }
     } else {
-      // Show an alert if the player has no hearts
       Alert.alert("No Hearts Left", "You need more hearts to start a quiz!");
     }
   };
 
-  const renderItem = ({ item }) => (
+  const handlePageScroll = (e) => {
+    resetScrollIndicators();
+
+    // Additional logic can be added here if needed
+
+    const fadeOutDelay = 1500;
+    setTimeout(() => {
+      fadeOutScrollIndicators();
+    }, fadeOutDelay);
+  };
+
+  const renderPage = (item) => (
     <TouchableScale
       onPress={() => handlePress(item)}
       style={[
@@ -58,47 +118,95 @@ const LevelSelectionScreen = ({ navigation, route }) => {
   );
 
   return (
-    <FlatList
-      data={Array.from({ length: plantLevels.totalLevels }, (_, i) => i + 1)}
-      renderItem={renderItem}
-      keyExtractor={(item) => `level${item}`}
-      numColumns={2}
-      contentContainerStyle={styles.grid}
-    />
+    <ImageBackground source={backgroundImage} style={styles.backgroundImage}>
+      <Animated.View
+        style={[
+          styles.scrollIndicator,
+          styles.scrollIndicatorTop,
+          { opacity: scrollIndicatorTopOpacity },
+        ]}
+      >
+        <Image source={upIcon} style={{ width: 80, height: 80 }} />
+      </Animated.View>
+      <ViewPager
+        style={styles.viewPager}
+        orientation="vertical"
+        onPageScroll={handlePageScroll}
+        ref={viewPagerRef}
+      >
+        {Array.from({ length: plantLevels.totalLevels }, (_, i) => i + 1).map(
+          (item) => (
+            <View key={`level${item}`} style={styles.page}>
+              {renderPage(item)}
+            </View>
+          )
+        )}
+      </ViewPager>
+      <Animated.View
+        style={[
+          styles.scrollIndicator,
+          styles.scrollIndicatorBottom,
+          { opacity: scrollIndicatorBottomOpacity },
+        ]}
+      >
+        <Image source={downIcon} style={{ width: 80, height: 80 }} />
+      </Animated.View>
+    </ImageBackground>
   );
 };
 
-// Enhanced StyleSheet
+
 const styles = StyleSheet.create({
-  grid: {
-    flexGrow: 1,
+  scrollIndicator: {
+    position: "absolute",
+    width: "100%",
+    alignItems: "center",
     justifyContent: "center",
-    padding: 10,
-    backgroundColor: "#f4f4f4",
+  },
+  scrollIndicatorTop: {
+    top: "32%",
+  },
+  scrollIndicatorBottom: {
+    bottom: "35%",
+  },
+  backgroundImage: {
+    resizeMode: "cover",
+    flex: 1,
+    width: "100%",
+    height: "100%",
+  },
+  viewPager: {
+    flex: 1,
+  },
+  page: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
   },
   levelContainer: {
     borderRadius: 15,
-    paddingVertical: 25,
-    paddingHorizontal: 15,
-    margin: 10,
-    width: 160,
-    height: 100, // Fixed height for consistency
+    width: "20%",
+    aspectRatio: 1, // Ensure it's a square
     alignItems: "center",
-    justifyContent: "space-between", // Distribute space between text and icon
+    justifyContent: "center",
     elevation: 4,
     shadowOpacity: 0.3,
     shadowRadius: 6,
     shadowColor: "#000",
     shadowOffset: { width: 0, height: 2 },
+    marginBottom: 20,
   },
   completedLevel: {
     backgroundColor: "#d4edda",
+    opacity: 0.9,
   },
   incompleteLevel: {
     backgroundColor: "#f8d7da",
+    opacity: 0.9,
   },
   lockedLevel: {
     backgroundColor: "#808080",
+    opacity: 0.9,
   },
   levelText: {
     fontSize: 18,
@@ -106,8 +214,7 @@ const styles = StyleSheet.create({
     color: "#333",
   },
   iconContainer: {
-    // Container for the icon to ensure alignment
-    height: 20, // Fixed height for the icon container
+    height: 20,
     justifyContent: "center",
     alignItems: "center",
   },
