@@ -411,6 +411,116 @@ export const plants = {
     ],
     selectedSkin: "default",
   },
+  8: {
+    plantID: 8,
+    name: "Anthurium",
+    iconPath: require("../assets/plants/anthurium/anthurium_4.png"),
+    type: "Herbaceous, perennial",
+    colours: ["Red", "White", "Pink"],
+    potID: 1,
+    locationID: 1,
+    height: 60,
+    careInstructions: {
+      Water: "Consistently moist, avoid waterlogging",
+      Sunlight: "Bright, indirect light",
+      Soil: "Well-draining, rich mix",
+      Temperature: "Prefer warm conditions",
+      Humidity: "High",
+      Fertilising: "Balanced fertilizer every 6-8 weeks",
+    },
+    challenges: {
+      YellowLeaves: "From overwatering",
+      BrowningEdges: "From low humidity",
+    },
+    health: 100,
+    learned: true,
+    difficulty: 3,
+    experience: 0,
+    level: "High",
+    actions: ["Water", "Fertilise"],
+    progress: 0,
+    quantity: 0,
+    skins: [
+      {
+        name: "default",
+        growth: [
+          {
+            growthStage: 0,
+            imagePath: require("../assets/plants/anthurium/anthurium_1.png"),
+          },
+          {
+            growthStage: 0.33,
+            imagePath: require("../assets/plants/anthurium/anthurium_2.png"),
+          },
+          {
+            growthStage: 0.66,
+            imagePath: require("../assets/plants/anthurium/anthurium_3.png"),
+          },
+          {
+            growthStage: 1.0,
+            imagePath: require("../assets/plants/anthurium/anthurium_4.png"),
+          },
+        ],
+        unlockCondition: null,
+      },
+    ],
+    selectedSkin: "default",
+  },
+  9: {
+    plantID: 9,
+    name: "Lemon Tree",
+    iconPath: require("../assets/plants/lemon_tree/lemon_tree_4.png"),
+    type: "Broadleaf evergreen",
+    colours: ["Green", "Yellow"],
+    potID: 1,
+    locationID: 1,
+    height: 180,
+    careInstructions: {
+      Water: "Evenly moist, well-drained soil",
+      Sunlight: "Bright, direct sunlight",
+      Soil: "Well-draining, slightly acidic",
+      Temperature: "Warm, protect from cold",
+      Humidity: "Moderate",
+      Fertilising: "Citrus-specific fertilizer during growing season",
+    },
+    challenges: {
+      YellowLeaves: "Nutrient deficiency or water issues",
+      Pests: "Spider mites and scale insects",
+    },
+    health: 100,
+    learned: true,
+    difficulty: 3,
+    experience: 0,
+    level: "High",
+    actions: ["Water", "Fertilise"],
+    progress: 0,
+    quantity: 0,
+    skins: [
+      {
+        name: "default",
+        growth: [
+          {
+            growthStage: 0,
+            imagePath: require("../assets/plants/lemon_tree/lemon_tree_1.png"),
+          },
+          {
+            growthStage: 0.33,
+            imagePath: require("../assets/plants/lemon_tree/lemon_tree_2.png"),
+          },
+          {
+            growthStage: 0.66,
+            imagePath: require("../assets/plants/lemon_tree/lemon_tree_3.png"),
+          },
+          {
+            growthStage: 1.0,
+            imagePath: require("../assets/plants/lemon_tree/lemon_tree_4.png"),
+          },
+        ],
+        unlockCondition: null,
+      },
+    ],
+    selectedSkin: "default",
+  },
 };
 
 // Example usage
