@@ -10,6 +10,7 @@ import {
 import { PlantDataContext } from "../states/plantsDataContext";
 import Plant from "../components/PlantComponent";
 import menuBackgroundImage from "../assets/backgrounds/misc/menu_bg.png";
+import GameText from "../styles/GameText";
 
 const windowWidth = Dimensions.get("window").width;
 const windowHeight = Dimensions.get("window").height;
@@ -41,7 +42,7 @@ const CollectionScreen = () => {
         style={styles.backgroundImage}
       />
       <View style={styles.titleContainer}>
-        <Text style={styles.title}>Collection</Text>
+        <GameText style={styles.title}>Collection</GameText>
       </View>
       <FlatList
         data={archivedPlants}
@@ -97,8 +98,7 @@ const styles = StyleSheet.create({
     top: "20%",
   },
   title: {
-    fontSize: 24,
-    fontWeight: "bold",
+    fontSize: 20,
     marginBottom: 20,
     color: "#fff",
   },

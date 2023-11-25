@@ -4,6 +4,7 @@ import { Modal, ScrollView, Text, View, Image } from "react-native";
 import TouchableScale from "react-native-touchable-scale";
 import { plants } from "../states/plantsConfig";
 import styles from "../styles/PlantStyles";
+import GameText from "../styles/GameText";
 
 const archiveIcon = require("../assets/icons/archive_icon_nbg.png");
 
@@ -24,7 +25,7 @@ const SelectPlantModal = ({ visible, onClose, handleSelectPlant, handleSelectFro
               source={archiveIcon}
               style={{ width: "100%", height: "100%", top: "45%", left: "5%" }}
             />
-            <Text style={{top: "20%", left: "5%"}}>Collection</Text>
+            <GameText style={{top: "25%", left: "5%", fontSize: 10, textAlign: "center"}}>Collection</GameText>
           </View>
         </TouchableScale>
         <View style={styles.modalSelectPlantView}>
@@ -39,7 +40,7 @@ const SelectPlantModal = ({ visible, onClose, handleSelectPlant, handleSelectFro
                     source={plant.iconPath}
                     style={{ width: "80%", height: "80%" }}
                   />
-                  <Text>{plant.name}</Text>
+                  <GameText style={{fontSize: 10, textAlign: "center"}}>{plant.name}</GameText>
                 </View>
               </TouchableScale>
             ))}

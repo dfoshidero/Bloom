@@ -10,6 +10,7 @@ import {
 import styles from "../styles/PlantStyles";
 import { PlantDataContext } from "../states/plantsDataContext";
 import { plants } from "../states/plantsConfig";
+import GameText from "../styles/GameText";
 
 import TouchableScale from "react-native-touchable-scale";
 
@@ -48,7 +49,7 @@ const SelectFromArchiveModal = ({
                       source={plant.iconPath}
                       style={{ width: "80%", height: "80%" }}
                     />
-                    <Text>{plant.name}</Text>
+                    <GameText style={{fontSize: 10, textAlign: "center"}}>{plant.name}</GameText>
                   </View>
                 </TouchableScale>
               ))}

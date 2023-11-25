@@ -13,6 +13,7 @@ import {
 import TouchableScale from "react-native-touchable-scale";
 
 import menuBackgroundImage from '../assets/backgrounds/misc/menu_bg.png';
+import GameText from "../styles/GameText";
 
 import {plants} from "../states/plantsConfig";
 
@@ -126,42 +127,44 @@ const renderMasteryItem = ({ item }) => (
         {/*Contents in the menu*/}
 
         <View style={styles.plantDetailsContainer}>
-          <Text style={styles.plantName}>{getProperty("name")}</Text>
+          <GameText style={styles.plantName}>{getProperty("name")}</GameText>
           <View style={styles.imageContainer}>
             <Image source={getPlantImagePath()} style={styles.plantImage} />
           </View>
           <View style={styles.plantDetailsTextContainer}>
-            <Text style={styles.plantDetailsItem}>
+            <GameText style={styles.plantDetailsItem}>
               Height: {getProperty("height")}
-            </Text>
-            <Text style={styles.plantDetailsItem}>
+            </GameText>
+            <GameText style={styles.plantDetailsItem}>
               Type: {getProperty("type")}
-            </Text>
+            </GameText>
             <View style={styles.multiItemContainer}>
               {getProperty("colours") ? (
                 <>
-                  <Text style={styles.plantDetailsItem}>Colors: </Text>
+                  <GameText style={styles.plantDetailsItem}>Colors: </GameText>
                   {getProperty("colours").map((color, index) => (
-                    <Text key={color} style={styles.plantDetailsItem}>
+                    <GameText key={color} style={styles.plantDetailsItem}>
                       {color}
                       {getProperty("colours").length > 1 &&
                       index !== getProperty("colours").length - 1
                         ? ", "
                         : ""}
-                    </Text>
+                    </GameText>
                   ))}
                 </>
               ) : null}
             </View>
             {getProperty("careInstructions") ? (
               <>
-                <Text style={styles.plantDetailsItem}>Care Instructions:</Text>
+                <GameText style={styles.plantDetailsItem}>
+                  Care Instructions:
+                </GameText>
                 {Object.entries(getProperty("careInstructions")).map(
                   ([key, instruction]) => (
-                    <Text
+                    <GameText
                       key={key}
                       style={styles.plantDetailsItem}
-                    >{`${key}: ${instruction}`}</Text>
+                    >{`${key}: ${instruction}`}</GameText>
                   )
                 )}
               </>
@@ -170,10 +173,10 @@ const renderMasteryItem = ({ item }) => (
         </View>
       </TouchableOpacity>
     </Modal>
-    <Text style={styles.plantName}>{item.name}</Text>
-    <Text style={styles.level}>{item.level}</Text>
+    <GameText style={styles.plantName}>{item.name}</GameText>
     {/* Progress can be represented by a simple view or a progress bar component */}
     <View style={styles.progressBarBackground}>
+      <GameText style={styles.level}>{item.level}</GameText>
       <View
         style={[styles.progressBarFill, { width: `${item.progress * 100}%` }]}
       />
@@ -188,7 +191,7 @@ const renderMasteryItem = ({ item }) => (
         style={styles.backgroundImage_bg}
       ></ImageBackground>
       <View style={styles.titleContainer}>
-        <Text style={styles.title}>Plant Mastery Levels</Text>
+        <GameText style={styles.title}>Plant Mastery Levels</GameText>
       </View>
       <View style={styles.masteryContainer}>
         <FlatList
@@ -211,19 +214,16 @@ const styles = StyleSheet.create({
   },
   titleContainer: {
     top: "20%",
+    width: "75%"
   },
   masteryContainer: {
     top: "20%",
   },
   title: {
-    fontSize: 24,
-    fontWeight: "bold",
+    fontSize: 20,
+    textAlign: "center",
     marginBottom: 20,
     color: "#fff",
-  },
-  plantName: {
-    fontWeight: "bold",
-    fontSize: 24,
   },
   itemContainer_unlocked: {
     padding: 10,
@@ -289,12 +289,13 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   plantName: {
-    fontSize: 18,
-    fontWeight: "bold",
+    fontSize: 10,
+    textAlign: "center",
   },
   level: {
-    fontSize: 14,
+    fontSize: 10,
     color: "#666",
+    textAlign: "center",
   },
   progressBarBackground: {
     height: 20,
@@ -339,7 +340,7 @@ const styles = StyleSheet.create({
     width: "100%",
     backgroundColor: "#ddd",
     borderRadius: 10,
-    marginTop: 10,
+    marginTop: "25%",
   },
 });
 

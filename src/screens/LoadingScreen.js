@@ -66,7 +66,6 @@ const LoadingScreen = ({ onFinishLoading }) => {
           resizeMode="contain" // Ensure the image maintains its aspect ratio
           style={{ flex: 1 }}
         />
-        <Text>{loadingMessage}</Text>
       </Animated.View>
     </View>
   );

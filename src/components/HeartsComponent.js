@@ -1,6 +1,7 @@
 import React from "react";
 import { View, Text, StyleSheet, Image } from "react-native";
 import { usePlayerConfig } from "../states/playerConfigContext";
+import GameText from "../styles/GameText";
 
 const heartIcon = require("../assets/icons/hearts_icon.png");
 
@@ -15,14 +16,14 @@ const HeartsDisplay = ({ style }) => {
         source={heartIcon}
         style={{ width: 38, height: 38, position: "absolute" }}
       />
-      <Text
+      <GameText
         style={[
           styles.text,
           { color: textColor, textShadowColor: shadowColor },
         ]}
       >
         {playerConfig.hearts}
-      </Text>
+      </GameText>
     </View>
   );
 };
@@ -40,7 +41,6 @@ const styles = StyleSheet.create({
   },
   text: {
     fontSize: 20,
-    fontFamily: "PressStart2P-Regular",
     position: "absolute",
     left: 37,
     top: 27,

@@ -10,8 +10,9 @@ import {
 } from "react-native";
 import ViewPager from "react-native-pager-view";
 import TouchableScale from "react-native-touchable-scale";
+
+import GameText from "../styles/GameText";
 import LevelsConfig from "../states/levelsConfig";
-import Icon from "react-native-vector-icons/FontAwesome";
 import { usePlayerConfig } from "../states/playerConfigContext";
 
 const backgroundImage = require("../assets/backgrounds/misc/level_select.png");
@@ -108,7 +109,7 @@ const LevelSelectionScreen = ({ navigation, route }) => {
           : null,
       ]}
     >
-      <Text style={styles.levelText}>Level {item}</Text>
+      <GameText style={styles.levelText}>Level {item}</GameText>
       <View style={styles.iconContainer}>
         {plantLevels.completedLevels.includes(item) && (
           <View style={styles.completedIcon} />
@@ -209,8 +210,8 @@ const styles = StyleSheet.create({
     opacity: 0.9,
   },
   levelText: {
-    fontSize: 18,
-    fontWeight: "bold",
+    fontSize: 12,
+    textAlign: "center",
     color: "#333",
   },
   iconContainer: {

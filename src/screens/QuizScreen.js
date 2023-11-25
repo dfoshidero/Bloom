@@ -7,6 +7,8 @@ import {
   StyleSheet,
   FlatList,
 } from "react-native";
+
+import GameText from "../styles/GameText";
 import plantsTriviaConfig from "../states/plantsTriviaConfig";
 import levelsConfig from "../states/levelsConfig";
 import { plants } from "../states/plantsConfig";
@@ -155,7 +157,7 @@ const QuizScreen = ({ navigation, route }) => {
       style={styles.button}
       onPress={() => handleAnswer(item.isCorrect)}
     >
-      <Text style={styles.buttonText}>{item.text}</Text>
+      <GameText style={styles.buttonText}>{item.text}</GameText>
     </TouchableOpacity>
   );
 
@@ -166,8 +168,8 @@ const QuizScreen = ({ navigation, route }) => {
       transparent={false}
     >
       <View style={styles.modalContainer}>
-        <Text style={styles.congratsText}>Game Over!</Text>
-        <Text>Your hearts have run out.</Text>
+        <GameText style={styles.congratsText}>Game Over!</GameText>
+        <GameText>Your hearts have run out.</GameText>
         <TouchableOpacity
           style={styles.button}
           onPress={() => {
@@ -175,7 +177,7 @@ const QuizScreen = ({ navigation, route }) => {
             navigation.navigate("Home", { updatedList: null });
           }}
         >
-          <Text style={styles.buttonText}>Back to Home</Text>
+          <GameText style={styles.buttonText}>Back to Home</GameText>
         </TouchableOpacity>
       </View>
     </Modal>
@@ -186,22 +188,22 @@ const QuizScreen = ({ navigation, route }) => {
       {showInstructions && (
         <Modal visible={showInstructions} animationType="slide">
           <View style={styles.modalContainer}>
-            <Text style={styles.congratsText}>Instructions</Text>
-            <Text style={styles.instructionsText}>{currentInstructions}</Text>
+            <GameText style={styles.congratsText}>Instructions</GameText>
+            <GameText style={styles.instructionsText}>{currentInstructions}</GameText>
             <TouchableOpacity style={styles.button} onPress={handleStartQuiz}>
-              <Text style={styles.buttonText}>Start Quiz</Text>
+              <GameText style={styles.buttonText}>Start Quiz</GameText>
             </TouchableOpacity>
           </View>
         </Modal>
       )}
       {feedbackMessage ? (
-        <Text style={styles.feedbackText}>{feedbackMessage}</Text>
+        <GameText style={styles.feedbackText}>{feedbackMessage}</GameText>
       ) : null}
       {questions.length > 0 ? (
         <View style={styles.quizContainer}>
-          <Text style={styles.questionText}>
+          <GameText style={styles.questionText}>
             {questions[currentQuestionIndex].question}
-          </Text>
+          </GameText>
           <FlatList
             data={questions[currentQuestionIndex].answers}
             renderItem={renderItem}
@@ -209,13 +211,13 @@ const QuizScreen = ({ navigation, route }) => {
           />
         </View>
       ) : (
-        <Text style={styles.loadingText}>Loading questions...</Text>
+        <GameText style={styles.loadingText}>Loading questions...</GameText>
       )}
       <Modal visible={showModal} animationType="slide">
         <View style={styles.modalContainer}>
-          <Text style={styles.congratsText}>
+          <GameText style={styles.congratsText}>
             Congratulations! You've completed the quiz!
-          </Text>
+          </GameText>
           <TouchableOpacity
             style={styles.button}
             onPress={() => {
@@ -223,7 +225,7 @@ const QuizScreen = ({ navigation, route }) => {
               navigation.navigate("Home", { updatedList: updatedList });
             }}
           >
-            <Text style={styles.buttonText}>Go Back.</Text>
+            <GameText style={styles.buttonText}>Go Back.</GameText>
           </TouchableOpacity>
         </View>
       </Modal>
@@ -246,8 +248,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   questionText: {
-    fontSize: 18,
-    fontWeight: "bold",
+    fontSize: 16,
     color: "#333",
     textAlign: "center",
     marginBottom: 20,
@@ -257,7 +258,7 @@ const styles = StyleSheet.create({
     color: "#333",
   },
   instructionsText: {
-    fontSize: 16,
+    fontSize: 12,
     color: "#333",
     textAlign: "center",
     marginBottom: 20,
@@ -276,8 +277,7 @@ const styles = StyleSheet.create({
     elevation: 4,
   },
   buttonText: {
-    fontSize: 16,
-    fontWeight: "500",
+    fontSize: 12,
     color: "#333",
     textAlign: "center",
   },
@@ -288,8 +288,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#f4f4f4",
   },
   congratsText: {
-    fontSize: 20,
-    fontWeight: "bold",
+    fontSize: 18,
     color: "#333",
     textAlign: "center",
     marginBottom: 20,

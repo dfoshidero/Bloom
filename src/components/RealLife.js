@@ -11,6 +11,7 @@ import {
   Image,
 } from "react-native";
 import TouchableScale from "react-native-touchable-scale";
+import GameText from "../styles/GameText";
 import { plants } from "../states/plantsConfig";
 
 const backButtonIcon = require("../assets/icons/back_icon.png");
@@ -60,11 +61,11 @@ const RealLifeScreen = ({ realLifeScreenVisible, closeRealLifeScreen, plantID })
           style={styles.photoButton}
           onPress={() => console.log("Add photo clicked")}
         >
-          <Text style={styles.buttonText}>Click to Add Photo</Text>
+          <GameText style={styles.buttonText}>Click to Add Photo</GameText>
         </TouchableOpacity>
         <View style={styles.textContainer}>
           <View style={styles.inputContainer}>
-            <Text style={styles.label}>Name:</Text>
+            <GameText style={styles.label}>Name:</GameText>
             <TextInput
               style={styles.input}
               placeholder="Name"
@@ -74,19 +75,19 @@ const RealLifeScreen = ({ realLifeScreenVisible, closeRealLifeScreen, plantID })
             />
           </View>
           <View style={styles.inputContainer}>
-            <Text style={styles.label}>Plant:</Text>
-            <Text style={styles.content}>{name}</Text>
+            <GameText style={styles.label}>Plant:</GameText>
+            <GameText style={styles.content}>{name}</GameText>
           </View>
           <View style={styles.careInstructionsContainer}>
-            <Text style={styles.labelCare}>Care Instructions:</Text>
-            <Text style={styles.content}>{Object.entries(careInstructions).map(
+            <GameText style={styles.labelCare}>Care Instructions:</GameText>
+            <GameText style={styles.content}>{Object.entries(careInstructions).map(
                   ([key, instruction]) => (
-                    <Text
+                    <GameText
                       key={key}
                       style={styles.plantDetailsItem}
-                    >{`${key}: ${instruction}`}</Text>
+                    >{`${key}: ${instruction}`}</GameText>
                   )
-                )}</Text>
+                )}</GameText>
           </View>
         </View>
         {isEditing ? (
@@ -94,14 +95,14 @@ const RealLifeScreen = ({ realLifeScreenVisible, closeRealLifeScreen, plantID })
             style={styles.saveButton}
             onPress={handleSaveButtonPress}
           >
-            <Text style={styles.buttonText}>Save</Text>
+            <GameText style={styles.buttonText}>Save</GameText>
           </TouchableOpacity>
         ) : (
           <TouchableOpacity
             style={styles.editButton}
             onPress={handleEditButtonPress}
           >
-            <Text style={styles.buttonText}>Edit</Text>
+            <GameText style={styles.buttonText}>Edit</GameText>
           </TouchableOpacity>
         )}
       </View>
@@ -111,90 +112,95 @@ const RealLifeScreen = ({ realLifeScreenVisible, closeRealLifeScreen, plantID })
 
 const styles = StyleSheet.create({
   container: {
-  width: "100%",
-  height: "100%",
-  alignItems: "center",
-  alignSelf: "center", // Center horizontally
-  marginTop: "10%", // Adjust the top margin if needed
+    width: "100%",
+    height: "100%",
+    alignItems: "center",
+    alignSelf: "center", // Center horizontally
+    marginTop: "10%", // Adjust the top margin if needed
   },
   backButtonIcon: {
-  width: backButtonSize,
-  height: backButtonSize,
-  top: "35%",
-  left: "5%",
+    width: backButtonSize,
+    height: backButtonSize,
+    top: "35%",
+    left: "5%",
   },
-  
+  plantDetailsItem: {
+    fontSize: 12,
+    color: "black",
+  },
+
   careInstructionsContainer: {
-  width: "100%",
-  height: "30%",
-  marginBottom: 20,
-  width: "70%",
+    width: "100%",
+    height: "30%",
+    marginBottom: 20,
+    width: "70%",
   },
-  
+
   photoButton: {
-  top: "10%",
-  alignItems: "center",
-  marginBottom: 20,
-  backgroundColor: "#ccc",
-  borderRadius: 5,
-  width: "80%",
-  height: "30%",
-  justifyContent: "center",
-  shadowColor: "#000",
-  shadowOffset: {
-  width: 0,
-  height: 2,
-  },
-  shadowOpacity: 0.25,
-  shadowRadius: 3.84,
-  elevation: 5,
+    top: "10%",
+    alignItems: "center",
+    marginBottom: 20,
+    backgroundColor: "#ccc",
+    borderRadius: 5,
+    width: "80%",
+    height: "30%",
+    justifyContent: "center",
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
   },
   buttonText: {
-  fontSize: 16,
-  fontWeight: "bold",
-  color: "black"
+    fontSize: 16,
+    color: "black",
   },
   textContainer: {
-  marginTop: "20%",
+    marginTop: "20%",
   },
-  
+
   inputContainer: {
-  flexDirection: "row",
-  alignItems: "center",
-  marginBottom: 20,
-  width: "70%",
+    flexDirection: "row",
+    alignItems: "center",
+    marginBottom: 20,
+    width: "70%",
   },
-  
+
   label: {
-  marginRight: 10,
-  fontWeight: "bold",
+    marginRight: 10,
+    fontSize: 12,
   },
 
   content: {
     marginRight: 10,
+    fontSize: 12,
   },
   labelCare: {
-  marginRight: 10,
-  fontWeight: "bold",
-  marginBottom: 10,
+    marginRight: 10,
+    marginBottom: 10,
+    fontSize: 12,
   },
   input: {
-  flex: 1,
-  height: 40,
-  borderWidth: 1,
-  borderColor: "#ccc",
-  borderRadius: 5,
-  paddingHorizontal: 10,
-  textAlignVertical: "top", // Added to align the text at the top of the input
+    flex: 1,
+    height: 40,
+    borderWidth: 1,
+    borderColor: "#ccc",
+    borderRadius: 5,
+    paddingHorizontal: 10,
+    fontSize: 12,
+    textAlignVertical: "center", // Added to align the text at the top of the input
   },
   editButton: {
     left: "5%",
-    bottom: "10%"
+    bottom: "10%",
   },
   saveButton: {
     left: "5%",
     bottom: "10%",
   },
-  });
+});
 
 export default RealLifeScreen;

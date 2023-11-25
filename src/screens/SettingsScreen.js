@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import { View, Text, Switch, StyleSheet } from "react-native";
+
+import GameText from "../styles/GameText";
 import {
     playBackgroundMusic,
     pauseBackgroundMusic,
@@ -25,9 +27,9 @@ const SettingsScreen = () => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Settings</Text>
+      <GameText style={styles.title}>Settings</GameText>
       <View style={styles.settingContainer}>
-        <Text style={styles.settingText}>Music</Text>
+        <GameText style={styles.settingText}>Music</GameText>
         <Switch
           value={musicEnabled}
           onValueChange={toggleMusicSwitch}
@@ -47,8 +49,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
   },
   title: {
-    fontSize: 24,
-    fontWeight: "bold",
+    fontSize: 20,
     marginBottom: 20,
   },
   settingContainer: {
@@ -59,7 +60,7 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   settingText: {
-    fontSize: 18,
+    fontSize: 16,
   },
 });
 

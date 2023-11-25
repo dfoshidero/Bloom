@@ -3,6 +3,7 @@ import React from "react";
 import { View, Text, TouchableOpacity, Modal, StyleSheet } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import GameText from "../styles/GameText";
 
 const MenuComponent = ({ menuVisible, closeMenu }) => {
   const navigation = useNavigation();
@@ -28,14 +29,14 @@ const MenuComponent = ({ menuVisible, closeMenu }) => {
     >
       <TouchableOpacity style={styles.backgroundImage} onPress={closeMenu}>
         <View style={styles.menuContainer}>
-          <Text style={styles.menuItem}>Achievements</Text>
+          <GameText style={styles.menuItem}>Achievements</GameText>
           <TouchableOpacity
             onPress={() => {
               navigation.navigate("CollectionScreen", {screen:"CollectionScreen",params:{timestamp:navigationCounter++}});
               closeMenu();
             }}
           >
-            <Text style={styles.menuItem}>Collection</Text>
+            <GameText style={styles.menuItem}>Collection</GameText>
           </TouchableOpacity>
           <TouchableOpacity
             onPress={() => {
@@ -43,25 +44,25 @@ const MenuComponent = ({ menuVisible, closeMenu }) => {
               closeMenu();
             }}
           >
-            <Text style={styles.menuItem}>Game Stats</Text>
+            <GameText style={styles.menuItem}>Game Stats</GameText>
           </TouchableOpacity>
-          <Text style={styles.menuItem}>Shop</Text>
+          <GameText style={styles.menuItem}>Shop</GameText>
           <TouchableOpacity
             onPress={() => {
               navigation.navigate("Settings");
               closeMenu();
             }}
           >
-            <Text style={styles.menuItem}>Settings</Text>
+            <GameText style={styles.menuItem}>Settings</GameText>
           </TouchableOpacity>
-          <Text style={styles.menuItem}>Account</Text>
+          <GameText style={styles.menuItem}>Account</GameText>
           <TouchableOpacity
             onPress={() => {
               clearData();
               closeMenu();
             }}
           >
-            <Text style={styles.menuItem}>clear data</Text>
+            <GameText style={styles.menuItem}>clear data</GameText>
           </TouchableOpacity>
         </View>
       </TouchableOpacity>
