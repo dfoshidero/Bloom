@@ -14,7 +14,10 @@
 - **Real-time Management**: Features like watering timers to remind players of real-life plant care tasks.
 - **Rewards and Achievements**: Earning experience points, unlocking mastery levels, and receiving achievements for various milestones.
 
-## Installation and Setup
+## Technologies Used
+- **Programming Language:** JavaScript(ES6+)
+- **Frameworks:** React, React-Native, Expo
+- **Additional Tools:** Node.js, Git
 
 #### First-Time Installations:
 1. Install [Node.js](https://nodejs.org/en/download)
