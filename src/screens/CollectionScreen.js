@@ -1,12 +1,6 @@
 import React, { useContext } from "react";
-import {
-  View,
-  Text,
-  FlatList,
-  ImageBackground,
-  StyleSheet,
-  Dimensions,
-} from "react-native";
+import { View, StyleSheet, Dimensions, ImageBackground } from "react-native";
+import PagerView from "react-native-pager-view";
 import { PlantDataContext } from "../states/plantsDataContext";
 import Plant from "../components/PlantComponent";
 import menuBackgroundImage from "../assets/backgrounds/misc/menu_bg.png";
@@ -22,19 +16,6 @@ const CollectionScreen = () => {
     (plant) => plant.archiveID !== "null"
   );
 
-  const renderArchivedPlant = ({ item, index }) => (
-    <Plant
-      key={item.archiveID}
-      id={item.archiveID}
-      style={[styles.plant, index === 0 && styles.firstPlant]}
-      isArchived={true}
-    />
-  );
-
-  const itemWidth = (windowWidth * 0.8) / 3 - 20;
-  const totalWidth =
-    archivedPlants.length * itemWidth + (archivedPlants.length - 1) * 60;
-
   return (
     <View style={styles.container}>
       <ImageBackground
@@ -44,19 +25,17 @@ const CollectionScreen = () => {
       <View style={styles.titleContainer}>
         <GameText style={styles.title}>Collection</GameText>
       </View>
-      <FlatList
-        data={archivedPlants}
-        renderItem={renderArchivedPlant}
-        keyExtractor={(item) => item.archiveID}
-        horizontal={true}
-        pagingEnabled={true}
-        showsHorizontalScrollIndicator={false}
-        decelerationRate="fast" // Faster deceleration for more pronounced paging effect
-        snapToInterval={itemWidth + 60} // The width of each item plus the margin
-        snapToAlignment="start" // Start scrolling immediately when you release the touch
-        style={[styles.flatList, { width: totalWidth }]}
-        contentContainerStyle={styles.flatListContent}
-      />
+      <PagerView style={styles.pagerView} initialPage={0} >
+        {archivedPlants.map((plant, index) => (
+          <View key={plant.archiveID} style={styles.page}>
+            <Plant
+              id={plant.archiveID}
+              isArchived={true}
+              style={[styles.plant]}
+            />
+          </View>
+        ))}
+      </PagerView>
     </View>
   );
 };
@@ -67,8 +46,10 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
   },
-  flatList: {
-    alignSelf: "center",
+  pagerView: {
+    flex: 1,
+    width: windowWidth,
+    height: windowHeight * 0.6, // Adjust the height as needed
   },
   plant: {
     padding: 20,
@@ -82,8 +63,8 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.1,
     shadowRadius: 10,
     elevation: 10,
-    width: (windowWidth * 0.8) / 3 - 20,
-    height: windowHeight * 0.2,
+    width: windowWidth * 0.6,
+    height: windowHeight * 0.4,
     marginHorizontal: 30,
   },
   backgroundImage: {
@@ -102,7 +83,7 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     color: "#fff",
   },
-  flatListContent: {
+  page: {
     justifyContent: "center",
     alignItems: "center",
   },
