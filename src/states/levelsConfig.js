@@ -35,6 +35,10 @@ const levelsConfig = {
     totalLevels: 4,
     completedLevels: [],
   },
+  10: {
+    totalLevels: 4,
+    completedLevels: [],
+  }
 };
 
 export default levelsConfig;

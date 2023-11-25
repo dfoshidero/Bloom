@@ -521,6 +521,61 @@ export const plants = {
     ],
     selectedSkin: "default",
   },
+  10: {
+    plantID: 10,
+    name: "Olive Tree",
+    iconPath: require("../assets/plants/olive_tree/olive_tree_4.png"),
+    type: "Tree",
+    colours: ["Green", "Silver"],
+    potID: 1,
+    locationID: 1,
+    height: 150,
+    careInstructions: {
+      Water: "Allow soil to dry between waterings",
+      Sunlight: "Full sun, 6-8 hours of direct light",
+      Soil: "Well-draining, suitable for cacti or citrus",
+      Temperature: "Tolerant to a range of temperatures, avoid extreme cold",
+      Humidity: "Moderate",
+      Fertilising: "Use a balanced fertilizer during the growing season",
+    },
+    challenges: {
+      Overwatering: "Can lead to yellowing leaves and root rot",
+      Pests: "Susceptible to pests like scale and aphids",
+    },
+    health: 100,
+    learned: true,
+    difficulty: 3,
+    experience: 0,
+    level: "High",
+    actions: ["Water", "Fertilise"],
+    progress: 0,
+    quantity: 0,
+    skins: [
+      {
+        name: "default",
+        growth: [
+          {
+            growthStage: 0,
+            imagePath: require("../assets/plants/olive_tree/olive_tree_1.png"),
+          },
+          {
+            growthStage: 0.33,
+            imagePath: require("../assets/plants/olive_tree/olive_tree_2.png"),
+          },
+          {
+            growthStage: 0.66,
+            imagePath: require("../assets/plants/olive_tree/olive_tree_3.png"),
+          },
+          {
+            growthStage: 1.0,
+            imagePath: require("../assets/plants/olive_tree/olive_tree_4.png"),
+          },
+        ],
+        unlockCondition: null,
+      },
+    ],
+    selectedSkin: "default",
+  }
 };
 
 // Example usage
