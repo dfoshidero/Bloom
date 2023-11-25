@@ -24,18 +24,53 @@ const QuizScreen = ({ navigation, route }) => {
   const [updatedList, setUpdatedList] = useState(null);
   const [currentInstructions, setCurrentInstructions] = useState("");
 
-  // useEffect(() => {
-  //   const trivia = plantsTriviaConfig[plant]?.[level];
-  //   if (trivia) {
-  //     setQuestions(trivia);
-  //   } else {
-  //     console.log(`No trivia found for plant: ${plant}, level: ${level}`);
-  //   }
-  // }, [plant, level]);
   useEffect(() => {
     const trivia = plantsTriviaConfig[plant]?.[level];
     if (trivia) {
-      setQuestions(trivia.questions);
+      const currentLevelIndex = parseInt(level.slice(-1)); // Extract the level number
+      // Collect questions from all previous levels
+      const allPreviousQuestions = [];
+      for (let i = 1; i < currentLevelIndex; i++) {
+        const previousLevel = plantsTriviaConfig[plant]?.[`level${i}`];
+        const previousLevelQuestions = previousLevel
+          ? previousLevel.questions
+          : [];
+        allPreviousQuestions.push(...previousLevelQuestions);
+      }
+
+      // Shuffle all previous questions
+      const shuffledAllPreviousQuestions = allPreviousQuestions.sort(
+        () => Math.random() - 0.5
+      );
+
+      // Select two random questions from the shuffled array
+      const randomQuestions = shuffledAllPreviousQuestions.slice(0, 2);
+
+      console.log("random questions\n", randomQuestions);
+
+      // Select the remaining questions from the current level
+      const remainingQuestions = trivia.questions.slice(0, 3);
+      console.log("R3emaining questions\n", remainingQuestions);
+      // Combine the selected questions with the current level's questions
+      const combinedQuestions = [...remainingQuestions, ...randomQuestions];
+      console.log("combined questions\n", combinedQuestions);
+
+      const finalQuestions = combinedQuestions.map((question) => {
+        // Shuffle the answers array for each question
+        const shuffledAnswers = question.answers.sort(
+          () => Math.random() - 0.5
+        );
+
+        // Return the question with shuffled answers
+        return {
+          ...question,
+          answers: shuffledAnswers,
+        };
+      });
+
+      // Shuffle the combined array to randomize the order of questions
+      finalQuestions.sort(() => Math.random() - 0.5);
+      setQuestions(finalQuestions);
       setCurrentInstructions(trivia.instructions || "");
       setShowInstructions(true); // Show instructions when questions are loaded
     } else {
