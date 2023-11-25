@@ -31,7 +31,7 @@
 
     //function for testing link to real life modal should be deleted later
     const handleToggleRealLifeScreen = () => {
-      setRealLifeScreenVisible(handleToggleRealLifeScreen(realLifeScreenVisible));
+      setRealLifeScreenVisible(!realLifeScreenVisible);
     };
 
     const navigation = useNavigation();
@@ -97,7 +97,7 @@
 
       //Save the changes
       await AsyncStorage.setItem("savedPlants", JSON.stringify(savedPlants));
-  updatePlantData(savedPlants);
+      updatePlantData(savedPlants);
       //Reset this plant to empty
       setSelectedPlant(null);
       console.log("hello", id, selectedPlant);
@@ -115,6 +115,9 @@
       } else if (item.id == 2) {
         //Archive button pressed
         handleArchiveButtonPress();
+      }else if (item.id == 4) {
+        //Archive button pressed
+        handleToggleRealLifeScreen();
       }
     };
 
@@ -279,6 +282,10 @@
             centralIconIndex={0}
           />
         </View>
+        <RealLifeScreenComponent
+          realLifeScreenVisible={realLifeScreenVisible}
+          closeRealLifeScreen={() => setRealLifeScreenVisible(false)}
+        />
       </View>
     );
   };

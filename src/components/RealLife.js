@@ -7,7 +7,15 @@ import {
   TouchableOpacity,
   Keyboard,
   Modal,
+  Dimensions,
+  Image,
 } from "react-native";
+import TouchableScale from "react-native-touchable-scale";
+
+const backButtonIcon = require("../assets/icons/back_icon.png");
+
+const windowWidth = Dimensions.get("window").width;
+const backButtonSize = windowWidth * 0.25;
 
 const RealLifeScreen = ({ realLifeScreenVisible, closeRealLifeScreen }) => {
   const [name, setName] = useState("");
@@ -30,6 +38,10 @@ const RealLifeScreen = ({ realLifeScreenVisible, closeRealLifeScreen }) => {
       animationType="slide"
       onRequestClose={closeRealLifeScreen}
     >
+      <TouchableScale onPress={closeRealLifeScreen}>
+        <Image source={backButtonIcon} style={styles.backButtonIcon} />
+      </TouchableScale>
+
       <View style={styles.container}>
         <TouchableOpacity
           style={styles.photoButton}
@@ -92,8 +104,17 @@ const RealLifeScreen = ({ realLifeScreenVisible, closeRealLifeScreen }) => {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    width: "70%",
+    height: "70%",
     alignItems: "center",
+    alignSelf: "center", // Center horizontally
+    marginTop: "10%", // Adjust the top margin if needed
+  },
+  backButtonIcon: {
+    width: backButtonSize,
+    height: backButtonSize,
+    top: "35%",
+    left: "5%",
   },
   careInstructionsContainer: {
     width: "100%",
