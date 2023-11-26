@@ -24,6 +24,9 @@ const deviceHeight = Dimensions.get("window").height;
 const backgroundImage = require("../assets/backgrounds/misc/level_select.png");
 const upIcon = require("../assets/icons/up_icon.png");
 const downIcon = require("../assets/icons/down_icon.png");
+const levelCompleteIcon = require("../assets/icons/level_icon_complete.png");
+const levelLockedIcon = require("../assets/icons/level_icon_locked.png");
+const levelUnlocekdIcon = require("../assets/icons/level_icon_unlocked.png");
 
 const LevelSelectionScreen = ({ navigation, route }) => {
   const [scrollIndicatorTopOpacity] = useState(new Animated.Value(1));
@@ -72,10 +75,7 @@ const LevelSelectionScreen = ({ navigation, route }) => {
   const plantLevels = LevelsConfig[selectedPlantID];
 
   // Calculate the index of the latest unlocked level
-  const latestUnlockedLevelIndex = Math.max(
-    0,
-    plantLevels.completedLevels.length
-  );
+  const latestUnlockedLevelIndex = Math.max(0, plantLevels.completedLevels.length);
 
   const { playerConfig } = usePlayerConfig();
 
@@ -106,29 +106,32 @@ const LevelSelectionScreen = ({ navigation, route }) => {
     }, fadeOutDelay);
   };
 
-  const renderPage = (item) => (
+  const renderPage = (item) => {
+
+     let iconSource;
+
+  if (plantLevels.completedLevels.includes(item)) {
+    // If the level is completed
+    iconSource = levelCompleteIcon;
+  } else if (item <= plantLevels.completedLevels.length + 1) {
+    // If the level is unlocked but not completed
+    iconSource = levelUnlocekdIcon;
+  } else {
+    // If the level is locked
+    iconSource = levelLockedIcon;
+  }
+  return (
     <TouchableScale
       onPress={() => handlePress(item)}
       style={[
-        styles.levelContainer,
-        styles.lockedLevel,
-        item === 1 ? styles.incompleteLevel : null,
-        plantLevels.completedLevels.includes(item)
-          ? styles.completedLevel
-          : null,
-        item === plantLevels.completedLevels.length + 1
-          ? styles.incompleteLevel
-          : null,
+        styles.levelContainer
       ]}
     >
-      <GameText style={styles.levelText}>Level {item}</GameText>
-      <View style={styles.iconContainer}>
-        {plantLevels.completedLevels.includes(item) && (
-          <View style={styles.completedIcon} />
-        )}
-      </View>
+      <Image source={iconSource} style={{width: "120%", height: "120%"}}></Image>
+        <GameText style={styles.levelText}>Level {item}</GameText>
     </TouchableScale>
   );
+    };
 
   return (
     <ImageBackground source={backgroundImage} style={styles.backgroundImage}>
@@ -183,7 +186,7 @@ const styles = StyleSheet.create({
   },
   oracle: {
    left: ((deviceWidth / 2) - 25) - (deviceWidth * 0.1),
-    top: ((deviceHeight / 2)- 25) - (deviceHeight * 0.06),
+    top: ((deviceHeight / 2)- 25) - (deviceHeight * 0.075),
     zIndex: 1
   },
   scrollIndicatorBottom: {
@@ -216,19 +219,9 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 2 },
     marginBottom: 20,
   },
-  completedLevel: {
-    backgroundColor: "#d4edda",
-    opacity: 0.9,
-  },
-  incompleteLevel: {
-    backgroundColor: "#f8d7da",
-    opacity: 0.9,
-  },
-  lockedLevel: {
-    backgroundColor: "#808080",
-    opacity: 0.9,
-  },
   levelText: {
+    position: "absolute",
+    top: "9%",
     fontSize: 12,
     textAlign: "center",
     color: "#333",
