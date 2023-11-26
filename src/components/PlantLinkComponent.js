@@ -29,6 +29,8 @@ const RealLifeScreen = ({ realLifeScreenVisible, closeRealLifeScreen, plantID })
   const [photoUri, setPhotoUri] = useState(null);
   const [buttonContent, setButtonContent] = useState(null);
   const [isSelectionModalVisible, setIsSelectionModalVisible] = useState(false);
+  const [isNicknameModalVisible, setIsNicknameModalVisible] = useState(false);
+  const [nicknameInput, setNicknameInput] = useState("");
 
   useEffect(() => {
     // Retrieve plant data from plantsConfig.js based on plantID
@@ -41,13 +43,17 @@ const RealLifeScreen = ({ realLifeScreenVisible, closeRealLifeScreen, plantID })
     }
   }, [plantID]);
 
-  const handleEditButtonPress = () => {
-    setIsEditing(true);
+  const toggleNicknameModal = () => {
+    setIsNicknameModalVisible(!isNicknameModalVisible);
   };
 
-  const handleSaveButtonPress = () => {
-    setIsEditing(false);
-    Keyboard.dismiss();
+  const handleSaveNickname = () => {
+    setNickname(nicknameInput);
+    toggleNicknameModal();
+  };
+
+  const handleEditButtonPress = () => {
+    toggleNicknameModal();
   };
 
   // Option for users to choose photo from gallery
@@ -63,6 +69,12 @@ const RealLifeScreen = ({ realLifeScreenVisible, closeRealLifeScreen, plantID })
         allowsEditing: true,
         aspect: [4, 3],
       });
+
+      if (result.canceled !== undefined ? result.canceled : true) {
+        console.log("Gallery camcelled")
+        // Handle cancellation or do nothing
+        return;
+      }
   
       if (!result.canceled) {
         if (result.assets[0].uri) {
@@ -172,6 +184,23 @@ const RealLifeScreen = ({ realLifeScreenVisible, closeRealLifeScreen, plantID })
           </View>
         </Modal>
 
+        <Modal visible={isNicknameModalVisible} 
+          transparent={true}
+          animationType="slide" 
+          onRequestClose={toggleNicknameModal}>
+          <View style={styles.modalContainer}>
+            <TextInput
+              style={styles.input}
+              placeholder="Nickname"
+              value={nicknameInput}
+              onChangeText={setNicknameInput}
+            />
+            <TouchableScale style={styles.modalOption} onPress={handleSaveNickname}>
+              <GameText style={styles.modalOptionText}>Save</GameText>
+            </TouchableScale>
+          </View>
+        </Modal>
+
       <View style={styles.container}>
       <TouchableScale
         style={styles.photoButton}
@@ -186,45 +215,32 @@ const RealLifeScreen = ({ realLifeScreenVisible, closeRealLifeScreen, plantID })
         <View style={styles.textContainer}>
           <View style={styles.inputContainer}>
             <GameText style={styles.label}>Name:</GameText>
-            <TextInput
-              style={styles.input}
-              placeholder="Name"
-              value={nickname}
-              onChangeText={setNickname}
-              editable={isEditing}
-            />
+            <GameText style={styles.label}>{nickname}</GameText>
           </View>
           <View style={styles.inputContainer}>
             <GameText style={styles.label}>Plant:</GameText>
             <GameText style={styles.content}>{name}</GameText>
           </View>
+          <View style={styles.inputContainer}>
+            <GameText style={styles.label}>Care Instructions:</GameText>
+          </View>
           <View style={styles.careInstructionsContainer}>
-            <GameText style={styles.labelCare}>Care Instructions:</GameText>
-            <GameText style={styles.content}>{Object.entries(careInstructions).map(
+            <GameText style={styles.plantDetailsItem}>{Object.entries(careInstructions).map(
                   ([key, instruction]) => (
                     <GameText
                       key={key}
                       style={styles.plantDetailsItem}
-                    >{`${key}: ${instruction}`}</GameText>
+                    >{`${key}: ${instruction}\n`}</GameText>
                   )
                 )}</GameText>
           </View>
         </View>
-        {isEditing ? (
-          <TouchableOpacity
-            style={styles.saveButton}
-            onPress={handleSaveButtonPress}
-          >
-            <GameText style={styles.buttonText}>Save</GameText>
-          </TouchableOpacity>
-        ) : (
           <TouchableOpacity
             style={styles.editButton}
             onPress={handleEditButtonPress}
           >
             <GameText style={styles.buttonText}>Edit</GameText>
           </TouchableOpacity>
-        )}
       </View>
     </Modal>
   );
@@ -245,25 +261,23 @@ const styles = StyleSheet.create({
     left: "5%",
   },
   plantDetailsItem: {
-    fontSize: 12,
+    fontSize: 10,
     color: "black",
   },
 
   careInstructionsContainer: {
-    width: "100%",
+    width: "90%",
     height: "30%",
-    marginBottom: 20,
     width: "70%",
   },
 
   photoButton: {
-    top: "10%",
     alignItems: "center",
     marginBottom: 20,
     backgroundColor: "#ccc",
     borderRadius: 5,
     width: "80%",
-    height: "30%",
+    height: "40%",
     justifyContent: "center",
     shadowColor: "#000",
     shadowOffset: {
@@ -274,12 +288,16 @@ const styles = StyleSheet.create({
     shadowRadius: 3.84,
     elevation: 5,
   },
+
   buttonText: {
     fontSize: 16,
     color: "black",
   },
+
   textContainer: {
-    marginTop: "20%",
+    marginTop: "5%",
+    //alignItems: "center",
+    //height: "50%"
   },
 
   inputContainer: {
@@ -295,43 +313,39 @@ const styles = StyleSheet.create({
   },
 
   content: {
-    marginRight: 10,
     fontSize: 12,
   },
-  labelCare: {
-    marginRight: 10,
-    marginBottom: 10,
-    fontSize: 12,
-  },
+  
   input: {
-    flex: 1,
-    height: 40,
+    width: "30%",
     borderWidth: 1,
     borderColor: "#ccc",
     borderRadius: 5,
     paddingHorizontal: 10,
-    fontSize: 12,
+    fontSize: 16,
     textAlignVertical: "center", // Added to align the text at the top of the input
+    marginBottom : 10,
   },
+
   editButton: {
-    left: "5%",
+    left: "50",
     bottom: "10%",
   },
   saveButton: {
-    left: "5%",
-    bottom: "10%",
+    left: "5%"
   },
   photoImage: {
     width: '100%',
     height: '100%',
     borderRadius: 5,
   },
+
   modalContainer: {
     alignItems: "center",
     top: "30%", //added these few lines to align to the center
     left: "10%", //added these few lines to align to the center
     right: "10%", //added these few lines to align to the center
-    width: "80%", //original 100%
+    width: "80%",
     opacity: 0.9,
     backgroundColor: "white",
     borderRadius: 20,
@@ -346,12 +360,14 @@ const styles = StyleSheet.create({
     shadowRadius: 3.84,
     elevation: 5,
   },
+
   modalOption: {
     paddingVertical: 10,
     paddingHorizontal: 40,
     marginBottom: 10,
     borderRadius: 5,
   },
+  
   modalOptionText: {
     fontSize: 16,
     fontWeight: "bold",
