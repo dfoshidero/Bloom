@@ -13,6 +13,7 @@ import {
 import TouchableScale from "react-native-touchable-scale";
 import GameText from "../styles/GameText";
 import { plants } from "../states/plantsConfig";
+import * as ImagePicker from 'expo-image-picker';
 
 const backButtonIcon = require("../assets/icons/back_icon.png");
 
@@ -25,6 +26,8 @@ const RealLifeScreen = ({ realLifeScreenVisible, closeRealLifeScreen, plantID })
   const [plant, setPlant] = useState("");
   const [careInstructions, setCareInstructions] = useState("");
   const [isEditing, setIsEditing] = useState(false);
+  const [photoUri, setPhotoUri] = useState(null);
+  const [buttonContent, setButtonContent] = useState(null);
 
   useEffect(() => {
     // Retrieve plant data from plantsConfig.js based on plantID
@@ -46,6 +49,42 @@ const RealLifeScreen = ({ realLifeScreenVisible, closeRealLifeScreen, plantID })
     Keyboard.dismiss();
   };
 
+  const openCamera = async () => {
+    try {
+      // Ask for permission to access the camera
+      const { status } = await ImagePicker.requestCameraPermissionsAsync();
+      if (status !== 'granted') {
+        alert('Camera permission is required to take photos!');
+        return;
+      }
+  
+      // Launch the camera to capture an image
+      const result = await ImagePicker.launchCameraAsync({
+        allowsEditing: true,
+        aspect: [4, 3],
+      });
+  
+      // Check if the result indicates that the user cancelled or not
+      if (result.canceled !== undefined ? result.canceled : true) {
+        // Handle cancellation or do nothing
+        return;
+      }
+  
+      if (result.assets && result.assets.length > 0) {
+        // Access the first asset's URI
+        setPhotoUri(result.assets[0].uri);
+        setButtonContent(<Image source={{ uri: result.assets[0].uri }} style={styles.photoImage} />);
+      } else {
+        // Handle the case where no assets are available
+        console.warn('No assets selected.');
+      }
+      // Change the button content to the image
+      // setButtonContent(<Image source={{ uri: result.assets[0].uri }} style={styles.photoImage} />);
+    } catch (error) {
+      console.error('Error opening camera:', error);
+    }
+  };
+
   return (
     <Modal
       visible={realLifeScreenVisible}
@@ -57,12 +96,16 @@ const RealLifeScreen = ({ realLifeScreenVisible, closeRealLifeScreen, plantID })
       </TouchableScale>
 
       <View style={styles.container}>
-        <TouchableOpacity
-          style={styles.photoButton}
-          onPress={() => console.log("Add photo clicked")}
-        >
-          <GameText style={styles.buttonText}>Click to Add Photo</GameText>
-        </TouchableOpacity>
+      <TouchableScale
+        style={styles.photoButton}
+        onPress={openCamera}
+      >
+        {buttonContent ? (
+          buttonContent
+        ) : (
+          <GameText style={styles.buttonText}>Add Photo</GameText>
+        )}
+      </TouchableScale>
         <View style={styles.textContainer}>
           <View style={styles.inputContainer}>
             <GameText style={styles.label}>Name:</GameText>
@@ -200,6 +243,11 @@ const styles = StyleSheet.create({
   saveButton: {
     left: "5%",
     bottom: "10%",
+  },
+  photoImage: {
+    width: '100%',
+    height: '100%',
+    borderRadius: 5,
   },
 });
 
