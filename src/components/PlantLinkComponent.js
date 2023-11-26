@@ -28,6 +28,7 @@ const RealLifeScreen = ({ realLifeScreenVisible, closeRealLifeScreen, plantID })
   const [isEditing, setIsEditing] = useState(false);
   const [photoUri, setPhotoUri] = useState(null);
   const [buttonContent, setButtonContent] = useState(null);
+  const [isSelectionModalVisible, setIsSelectionModalVisible] = useState(false);
 
   useEffect(() => {
     // Retrieve plant data from plantsConfig.js based on plantID
@@ -49,12 +50,44 @@ const RealLifeScreen = ({ realLifeScreenVisible, closeRealLifeScreen, plantID })
     Keyboard.dismiss();
   };
 
+  // Option for users to choose photo from gallery
+  const openGallery = async () => {
+    try {
+      const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
+      if (status !== 'granted') {
+        alert('Gallery permission is required to choose photos!');
+        return;
+      }
+  
+      const result = await ImagePicker.launchImageLibraryAsync({
+        allowsEditing: true,
+        aspect: [4, 3],
+      });
+  
+      if (!result.canceled) {
+        if (result.assets[0].uri) {
+          console.log('Selected image URI:', result.assets[0].uri);
+          setPhotoUri(result.assets[0].uri);
+          setButtonContent(<Image source={{ uri: result.assets[0].uri }} style={styles.photoImage} />);
+        } else {
+          console.warn('Selected image URI is undefined.');
+        }
+      } else {
+        console.warn('No image selected.');
+      }
+    } catch (error) {
+      console.error('Error selecting image:', error);
+    }
+  };
+
+  //option for users to take a photo
   const openCamera = async () => {
     try {
       // Ask for permission to access the camera
       const { status } = await ImagePicker.requestCameraPermissionsAsync();
       if (status !== 'granted') {
         alert('Camera permission is required to take photos!');
+        toggleModal();
         return;
       }
   
@@ -66,23 +99,32 @@ const RealLifeScreen = ({ realLifeScreenVisible, closeRealLifeScreen, plantID })
   
       // Check if the result indicates that the user cancelled or not
       if (result.canceled !== undefined ? result.canceled : true) {
+        console.log("Camera camcelled")
         // Handle cancellation or do nothing
+        toggleModal();
         return;
       }
   
       if (result.assets && result.assets.length > 0) {
         // Access the first asset's URI
         setPhotoUri(result.assets[0].uri);
+        toggleModal();
         setButtonContent(<Image source={{ uri: result.assets[0].uri }} style={styles.photoImage} />);
       } else {
         // Handle the case where no assets are available
         console.warn('No assets selected.');
+        toggleModal();
       }
       // Change the button content to the image
       // setButtonContent(<Image source={{ uri: result.assets[0].uri }} style={styles.photoImage} />);
     } catch (error) {
       console.error('Error opening camera:', error);
+      toggleModal();
     }
+  };
+
+  const toggleModal = () => {
+    setIsSelectionModalVisible(!isSelectionModalVisible);
   };
 
   return (
@@ -95,10 +137,45 @@ const RealLifeScreen = ({ realLifeScreenVisible, closeRealLifeScreen, plantID })
         <Image source={backButtonIcon} style={styles.backButtonIcon} />
       </TouchableScale>
 
+      <Modal
+          visible={isSelectionModalVisible}
+          transparent={true}
+          animationType="slide"
+          onRequestClose={toggleModal}
+        >
+          <View style={styles.modalContainer}>
+            <TouchableOpacity
+              style={styles.modalOption}
+              onPress={() => {
+                openGallery();
+                toggleModal();
+              }}
+            >
+              <GameText style={styles.modalOptionText}>Gallery</GameText>
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              style={styles.modalOption}
+              onPress={() => {
+                openCamera();
+              }}
+            >
+              <GameText style={styles.modalOptionText}>Camera</GameText>
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              style={styles.modalOption}
+              onPress={toggleModal}
+            >
+              <GameText style={styles.modalOptionText}>Cancel</GameText>
+            </TouchableOpacity>
+          </View>
+        </Modal>
+
       <View style={styles.container}>
       <TouchableScale
         style={styles.photoButton}
-        onPress={openCamera}
+        onPress={toggleModal}
       >
         {buttonContent ? (
           buttonContent
@@ -248,6 +325,36 @@ const styles = StyleSheet.create({
     width: '100%',
     height: '100%',
     borderRadius: 5,
+  },
+  modalContainer: {
+    alignItems: "center",
+    top: "30%", //added these few lines to align to the center
+    left: "10%", //added these few lines to align to the center
+    right: "10%", //added these few lines to align to the center
+    width: "80%", //original 100%
+    opacity: 0.9,
+    backgroundColor: "white",
+    borderRadius: 20,
+    paddingTop: 30, //80 originally
+    paddingBottom: 20, //10 originally
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
+  },
+  modalOption: {
+    paddingVertical: 10,
+    paddingHorizontal: 40,
+    marginBottom: 10,
+    borderRadius: 5,
+  },
+  modalOptionText: {
+    fontSize: 16,
+    fontWeight: "bold",
   },
 });
 
