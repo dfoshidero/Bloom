@@ -29,10 +29,35 @@ const levelLockedIcon = require("../assets/icons/level_icon_locked.png");
 const levelUnlocekdIcon = require("../assets/icons/level_icon_unlocked.png");
 
 const LevelSelectionScreen = ({ navigation, route }) => {
-  const [scrollIndicatorTopOpacity] = useState(new Animated.Value(1));
-  const [scrollIndicatorBottomOpacity] = useState(new Animated.Value(1));
+  const [scrollIndicatorTopOpacity] = useState(new Animated.Value(0.8));
+  const [scrollIndicatorBottomOpacity] = useState(new Animated.Value(0.8));
 
   const viewPagerRef = useRef(null);
+
+   const [swipeTextOpacity, setSwipeTextOpacity] = useState(1);
+
+   useEffect(() => {
+     let blinkInterval;
+     let blinkCount = 0;
+
+     const startBlinking = () => {
+       blinkInterval = setInterval(() => {
+         setSwipeTextOpacity((prevOpacity) => (prevOpacity === 0 ? 1 : 0));
+         blinkCount++;
+
+         if (blinkCount >= 10) {
+           clearInterval(blinkInterval); // Stop blinking after three cycles
+         }
+       }, 200);
+     };
+
+     startBlinking();
+
+     return () => {
+       clearInterval(blinkInterval);
+       setSwipeTextOpacity(0.8); // Ensure the text is visible after blinking
+     };
+   }, []);
 
   const fadeOutScrollIndicators = () => {
     Animated.timing(scrollIndicatorTopOpacity, {
@@ -50,13 +75,13 @@ const LevelSelectionScreen = ({ navigation, route }) => {
 
   const resetScrollIndicators = () => {
     Animated.timing(scrollIndicatorTopOpacity, {
-      toValue: 1,
+      toValue: 0.8,
       duration: 0,
       useNativeDriver: true,
     }).start();
 
     Animated.timing(scrollIndicatorBottomOpacity, {
-      toValue: 1,
+      toValue: 0.8,
       duration: 0,
       useNativeDriver: true,
     }).start();
@@ -168,6 +193,19 @@ const LevelSelectionScreen = ({ navigation, route }) => {
         ]}
       >
         <Image source={downIcon} style={{ width: 80, height: 80 }} />
+        <GameText
+          style={{
+            fontSize: 12,
+            color: "#d19c0a",
+            textShadowColor: "#000000",
+            textShadowRadius: 1,
+            textShadowOffset: { width: -2, height: 2 },
+            shadowColor: "#000000",
+            opacity: swipeTextOpacity,
+          }}
+        >
+          Swipe To Choose Level
+        </GameText>
       </Animated.View>
     </ImageBackground>
   );
