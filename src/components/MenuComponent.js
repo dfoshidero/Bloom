@@ -30,22 +30,22 @@ const MenuComponent = ({ menuVisible, closeMenu }) => {
       <TouchableOpacity style={styles.backgroundImage} onPress={closeMenu}>
         <View style={styles.menuContainer}>
           <GameText style={styles.menuItem}>Achievements</GameText>
-          <TouchableOpacity
-            onPress={() => {
-              navigation.navigate("CollectionScreen", {screen:"CollectionScreen",params:{timestamp:navigationCounter++}});
-              closeMenu();
-            }}
-          >
-            <GameText style={styles.menuItem}>Collection</GameText>
-          </TouchableOpacity>
-          <TouchableOpacity
-            onPress={() => {
-              navigation.navigate("Mastery");
-              closeMenu();
-            }}
-          >
-            <GameText style={styles.menuItem}>Game Stats</GameText>
-          </TouchableOpacity>
+          {/*<TouchableOpacity*/}
+          {/*  onPress={() => {*/}
+          {/*    navigation.navigate("CollectionScreen", {screen:"CollectionScreen",params:{timestamp:navigationCounter++}});*/}
+          {/*    closeMenu();*/}
+          {/*  }}*/}
+          {/*>*/}
+          {/*  <GameText style={styles.menuItem}>Collection</GameText>*/}
+          {/*</TouchableOpacity>*/}
+          {/*<TouchableOpacity*/}
+          {/*  onPress={() => {*/}
+          {/*    navigation.navigate("Mastery");*/}
+          {/*    closeMenu();*/}
+          {/*  }}*/}
+          {/*>*/}
+          {/*  <GameText style={styles.menuItem}>Game Stats</GameText>*/}
+          {/*</TouchableOpacity>*/}
           <GameText style={styles.menuItem}>Shop</GameText>
           <TouchableOpacity
             onPress={() => {

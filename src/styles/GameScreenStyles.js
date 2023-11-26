@@ -19,6 +19,18 @@ const gameStyles = StyleSheet.create({
     top: "33%",
     left: "4.6%",
   },
+  collectionIcon: {
+    zIndex: 1,
+    position: "absolute",
+    top: "40%",
+    left: "4.5%%",
+  },
+  gameStatsIcon: {
+    zIndex: 1,
+    position: "absolute",
+    top: "47%",
+    left: "4.5%%",
+  },
 });
 
 export default gameStyles;
