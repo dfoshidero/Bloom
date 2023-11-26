@@ -11,6 +11,8 @@ import LevelSelectionScreen from "../../screens/LevelSelectScreen";
 import QuizScreen from "../../screens/QuizScreen";
 import CollectionScreen from "../../screens/CollectionScreen";
 
+import QuizQuitButton from "../../components/QuizQuitButton";
+
 const backButtonIcon = require("../../assets/icons/back_icon.png");
 
 const windowWidth = Dimensions.get("window").width;
@@ -82,7 +84,7 @@ const HomeStackNavigator = () => {
         options={{
           title: "",
           headerTransparent: true,
-          headerLeft: () => <CustomBackButton />, // Use custom back button component
+          headerLeft: () => <QuizQuitButton />, // Use custom back button component
         }}
       />
 

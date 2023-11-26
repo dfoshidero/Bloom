@@ -104,21 +104,41 @@ const LevelSelectionScreen = ({ navigation, route }) => {
 
   const { playerConfig } = usePlayerConfig();
 
-  const handlePress = (item) => {
-    if (playerConfig.hearts > 0) {
-      if (plantLevels.completedLevels.includes(item - 1) || item === 1) {
-        navigation.navigate("QuizScreen", {
-          id: id,
-          plant: selectedPlantID,
-          level: `level${item}`,
-        });
-      } else {
-        Alert.alert("Level Locked", "Complete the previous level to unlock.");
-      }
+const handlePress = (item) => {
+  if (playerConfig.hearts > 0) {
+    if (plantLevels.completedLevels.includes(item - 1) || item === 1) {
+      Alert.alert(
+        "Are you ready?",
+        "The quiz will begin once you press start.",
+        [
+          {
+            text: "Cancel",
+            onPress: () => {
+              // User canceled, do nothing
+            },
+            style: "cancel",
+          },
+          {
+            text: "Start",
+            onPress: () => {
+              // User confirmed, navigate to the quiz screen
+              navigation.navigate("QuizScreen", {
+                id: id,
+                plant: selectedPlantID,
+                level: `level${item}`,
+              });
+            },
+          },
+        ],
+        { cancelable: false }
+      );
     } else {
-      Alert.alert("No Hearts Left", "You need more hearts to start a quiz!");
+      Alert.alert("Level Locked", "Complete the previous level to unlock.");
     }
-  };
+  } else {
+    Alert.alert("No Hearts Left", "You need more hearts to start a quiz!");
+  }
+};
 
   const handlePageScroll = (e) => {
     resetScrollIndicators();
