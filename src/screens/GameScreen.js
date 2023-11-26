@@ -8,7 +8,7 @@ import { useNavigation } from '@react-navigation/native';
 import Header from "../components/HeaderComponent";
 import { backgrounds } from "../states/backgroundsConfig";
 import MenuComponent from "../components/MenuComponent";
-import BackgroundImageComponent from "../components/BackgroundImageComponent";
+import TwoDimSpace from "../components/2DSpaceComponent";
 import { toggleMenu } from "../utilities/menuUtilities";
 import gameStyles from "../styles/GameScreenStyles";
 import Oracle from "../components/OracleComponent"
@@ -99,7 +99,7 @@ const GameScreen = ({route}) => {
         closeMenu={() => setMenuVisible(false)}
       />
 
-      <BackgroundImageComponent
+      <TwoDimSpace
         //updatedList = {updatedList}
         backgroundImage={backgroundImage}
         plantPositions={currentBackground.plantPositions}

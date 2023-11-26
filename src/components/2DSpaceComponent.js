@@ -8,7 +8,7 @@ import { Dimensions } from "react-native";
 const screenWidth = Dimensions.get("window").width;
 const screenHeight = Dimensions.get("window").height;
 
-const BackgroundImageComponent = ({ backgroundImage, plantPositions }) => {
+const TwoDimSpace = ({ backgroundImage, plantPositions }) => {
   return (
     <ImageBackground source={backgroundImage} style={styles.backgroundImage}>
       {plantPositions.map((position) => (
@@ -36,4 +36,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default BackgroundImageComponent;
+export default TwoDimSpace;

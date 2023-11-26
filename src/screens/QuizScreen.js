@@ -5,6 +5,7 @@ import {
   TouchableOpacity,
   Modal,
   StyleSheet,
+  ScrollView,
   FlatList,
 } from "react-native";
 
@@ -186,13 +187,24 @@ const QuizScreen = ({ navigation, route }) => {
   return (
     <View style={styles.container}>
       {showInstructions && (
-        <Modal visible={showInstructions} animationType="slide">
+        <Modal
+          visible={showInstructions}
+          animationType="slide"
+          transparent={true}
+          statusBarTranslucent={true}
+        >
           <View style={styles.modalContainer}>
-            <GameText style={styles.congratsText}>Instructions</GameText>
-            <GameText style={styles.instructionsText}>{currentInstructions}</GameText>
-            <TouchableOpacity style={styles.button} onPress={handleStartQuiz}>
-              <GameText style={styles.buttonText}>Start Quiz</GameText>
-            </TouchableOpacity>
+            <View style={styles.modalBox}>
+              <GameText style={styles.congratsText}>Instructions</GameText>
+              <ScrollView style={styles.instructionsScrollView}>
+                <GameText style={styles.instructionsText}>
+                  {currentInstructions}
+                </GameText>
+              </ScrollView>
+              <TouchableOpacity style={styles.button} onPress={handleStartQuiz}>
+                <GameText style={styles.buttonText}>Start Quiz</GameText>
+              </TouchableOpacity>
+            </View>
           </View>
         </Modal>
       )}
@@ -244,6 +256,23 @@ const styles = StyleSheet.create({
     padding: 10,
     backgroundColor: "#f4f4f4",
   },
+  modalContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "rgba(0, 0, 0, 0.5)", // Semi-transparent background
+  },
+  modalBox: {
+    backgroundColor: "#fff",
+    padding: 20,
+    borderRadius: 10,
+    width: 300, // Adjust the width as needed
+    maxHeight: 400, // Maximum height for the box
+    overflow: "hidden", // Enable hidden overflow
+  },
+  instructionsScrollView: {
+    maxHeight: "70%", // Maximum height for the instructions text
+  },
   quizContainer: {
     width: "100%",
     alignItems: "center",
@@ -265,6 +294,9 @@ const styles = StyleSheet.create({
     textAlign: "center",
     marginBottom: 20,
   },
+  buttonContainer: {
+    alignItems: "center", // Center the button horizontally
+  },
   button: {
     backgroundColor: "#d4edda",
     paddingVertical: 15,
@@ -282,12 +314,6 @@ const styles = StyleSheet.create({
     fontSize: 12,
     color: "#333",
     textAlign: "center",
-  },
-  modalContainer: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "#f4f4f4",
   },
   congratsText: {
     fontSize: 18,
