@@ -289,8 +289,9 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   plantName: {
-    fontSize: 10,
+    fontSize: 9,
     textAlign: "center",
+    marginBottom: "1%"
   },
   level: {
     fontSize: 10,
