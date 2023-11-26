@@ -1,13 +1,14 @@
 import React, { useState } from "react";
 import { View, Text, Switch, StyleSheet } from "react-native";
 
-import GameText from "../styles/GameText";
 import {
-    playBackgroundMusic,
-    pauseBackgroundMusic,
-    stopBackgroundMusic,
-    setupPlayer,
+  playRandomBackgroundMusic,
+  pauseBackgroundMusic,
+  stopBackgroundMusic,
+  setupPlayer,
 } from "../utilities/backgroundMusic";
+
+import GameText from "../styles/GameText";
 
 const SettingsScreen = () => {
   const [musicEnabled, setMusicEnabled] = useState(true);
@@ -15,7 +16,7 @@ const SettingsScreen = () => {
   const toggleMusicSwitch = () => {
     setMusicEnabled((prevState) => {
         if (!prevState) {
-          playBackgroundMusic();
+          playRandomBackgroundMusic();
         } else {
           stopBackgroundMusic();
         }
