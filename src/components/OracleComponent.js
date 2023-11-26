@@ -86,30 +86,57 @@ const Oracle = ({
 
     let isBlinking = false;
 
-    const changeImage = () => {
-      if (!isBlinking) {
-        setOracleImage(getRandomImage());
-        setTimeout(() => setOracleImage(oracleNormal), 2000);
+const performBlink = () => {
+  const blinkDuration = 100; // Duration of each blink phase in milliseconds
+  const minBlinkDelay = 4000; // Minimum delay between blinks in milliseconds
+  const maxAdditionalDelay = 4000; // Maximum additional random delay
+  const doubleBlinkProbability = 0.5; // Probability of a double blink
+
+  const isDoubleBlink = Math.random() < doubleBlinkProbability;
+
+  // First phase: Close the eyes
+  setOracleImage(oracleNormal);
+  setTimeout(() => {
+    // Second phase: Blinked eyes
+    setOracleImage(getRandomBlinkImage());
+    setTimeout(() => {
+      // Third phase: Return to normal
+      setOracleImage(oracleNormal);
+
+      if (isDoubleBlink) {
+        // Schedule a second blink after a short delay
+        setTimeout(() => {
+          performBlink();
+        }, blinkDuration);
+      } else {
+        // Calculate the next blink interval with some randomness
+        const nextBlinkDelay =
+          minBlinkDelay + Math.random() * maxAdditionalDelay;
+
+        // Schedule the next blink
+        setTimeout(() => {
+          performBlink();
+        }, nextBlinkDelay);
       }
-      setTimeout(changeImage, Math.random() * 20000 + 7000);
-    };
+    }, blinkDuration);
+  }, blinkDuration);
+};
 
-    const performBlink = () => {
-      isBlinking = true;
-      setOracleImage(getRandomBlinkImage());
-
-      setTimeout(() => {
-        setOracleImage(oracleNormal);
-        setTimeout(() => (isBlinking = false), 3000);
-      }, Math.random() * 300 + 100);
-    };
 
     const blink = () => {
       if (Math.random() < 0.1) {
         performBlink();
         setTimeout(performBlink, 400);
       }
-      setTimeout(blink, Math.random() * 8000 + 2000);
+      setTimeout(blink, Math.random() * 5000 + 2000);
+    };
+
+    const changeImage = () => {
+      if (!isBlinking) {
+        setOracleImage(getRandomImage());
+        setTimeout(() => setOracleImage(oracleNormal), 2000);
+      }
+      setTimeout(changeImage, Math.random() * 20000 + 7000);
     };
 
     changeImage();
