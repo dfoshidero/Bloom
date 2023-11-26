@@ -14,7 +14,7 @@
   import { getPlantHitBox } from "./PlantHitbox";
   import FloatingMenu from "./CircularMenu";
   import { PlantDataContext } from "../states/plantsDataContext";
-  import RealLifeScreenComponent from "../components/RealLife";
+  import RealLifeScreenComponent from "../components/PlantLinkComponent";
 
 
   const iconContainer = require("../assets/icon_container.png");
