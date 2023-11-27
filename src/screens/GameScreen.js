@@ -95,7 +95,12 @@ const GameScreen = ({route}) => {
       <TouchableScale style={gameStyles.heartsIcon}>
         <HeartsDisplay />
       </TouchableScale>
-
+      <TouchableScale style={gameStyles.collectionIcon}>
+        <CollectionButton />
+      </TouchableScale>
+      <TouchableScale style={gameStyles.gameStatsIcon}>
+        <GameStatsButton />
+      </TouchableScale>
       <MenuComponent
         menuVisible={menuVisible}
         closeMenu={() => setMenuVisible(false)}
@@ -106,12 +111,6 @@ const GameScreen = ({route}) => {
         backgroundImage={backgroundImage}
         plantPositions={currentBackground.plantPositions}
       />
-      <TouchableScale style={gameStyles.collectionIcon}>
-        <CollectionButton />
-      </TouchableScale>
-      <TouchableScale style={gameStyles.gameStatsIcon}>
-        <GameStatsButton />
-      </TouchableScale>
 
     </View>
   );

@@ -23,13 +23,13 @@ const gameStyles = StyleSheet.create({
     zIndex: 1,
     position: "absolute",
     top: "40%",
-    left: "4.5%%",
+    left: "4.5%",
   },
   gameStatsIcon: {
     zIndex: 1,
     position: "absolute",
     top: "47%",
-    left: "4.5%%",
+    left: "4.5%",
   },
 });
 
