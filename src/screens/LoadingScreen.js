@@ -46,6 +46,7 @@ const LoadingScreen = ({ onFinishLoading }) => {
         setLoadingMessage("Loading fonts...");
         await Font.loadAsync({
           "PressStart2P-Regular": require("../assets/fonts/PressStart2P-Regular.ttf"),
+          "DotGothic16": require("../assets/fonts/DotGothic16-Regular.ttf"),
         });
       } catch (error) {
         console.error("Error loading fonts:", error);

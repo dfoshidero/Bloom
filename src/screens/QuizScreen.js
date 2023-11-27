@@ -1,13 +1,12 @@
 import React, { useState, useEffect } from "react";
 import {
   View,
-  Text,
+  Image,
   Modal,
   StyleSheet,
   ImageBackground,
   ScrollView,
   FlatList,
-  PixelRatio,
 } from "react-native";
 import { RFPercentage, RFValue } from "react-native-responsive-fontsize";
 import TouchableScale from "react-native-touchable-scale";
@@ -20,6 +19,7 @@ import { plants } from "../states/plantsConfig";
 import { usePlayerConfig } from "../states/playerConfigContext";
 
 const quizBackground = require("../assets/backgrounds/misc/quiz_screen.png")
+const textBox = require("../assets/icons/text_box.png")
 
 const buttonFontSize = RFValue(10);
 const textSize = RFValue(14);
@@ -164,10 +164,12 @@ const QuizScreen = ({ navigation, route }) => {
 
   const renderItem = ({ item }) => (
     <TouchableScale
-      style={styles.button}
+      style={styles.answerButton}
       onPress={() => handleAnswer(item.isCorrect)}
     >
-      <GameText style={styles.buttonText}>{item.text}</GameText>
+      <ImageBackground source={textBox} style={styles.textBox}>
+        <GameText style={styles.buttonText}>{item.text}</GameText>
+      </ImageBackground>
     </TouchableScale>
   );
 
@@ -197,9 +199,9 @@ const QuizScreen = ({ navigation, route }) => {
     <View style={styles.container}>
       <ImageBackground
         source={quizBackground}
-        style={{ width: "100%", height: "100%", resizeMode: "contain"}}
+        style={{ width: "100%", height: "100%", resizeMode: "contain" }}
       >
-      <Oracle style={{position: "absolute", left: "18%", top: "20%", width: "15%", height: "15%", resizeMode: "contain"}}/>
+        <Oracle style={{ position: "absolute", left: "18%", top: "20%", width: "15%", height: "15%", resizeMode: "contain" }} />
         {showInstructions && (
           <Modal
             visible={showInstructions}
@@ -230,19 +232,20 @@ const QuizScreen = ({ navigation, route }) => {
         ) : null}
         {questions.length > 0 ? (
           <View style={styles.quizContainer}>
-            <GameText style={styles.questionText}>
+            <GameText style={styles.centerText}>
               {questions[currentQuestionIndex].question}
             </GameText>
             <FlatList
               data={questions[currentQuestionIndex].answers}
               renderItem={renderItem}
               keyExtractor={(item, index) => index.toString()}
-              numColumns={2} // Set the number of columns to 2
               style={styles.answerList}
             />
           </View>
         ) : (
-          <GameText style={styles.loadingText}>Loading questions...</GameText>
+          <View style={styles.quizContainer}>
+            <GameText style={styles.centerText}>Loading questions...</GameText>
+          </View>
         )}
         <Modal visible={showModal} animationType="fade">
           <View style={styles.modalContainer}>
@@ -292,7 +295,8 @@ const styles = StyleSheet.create({
   },
   answerList: {
     position: "absolute",
-    bottom: "10%",
+    width: "100%",
+    bottom: "5%",
   },
   instructionsScrollView: {
     maxHeight: "70%", // Maximum height for the instructions text
@@ -302,7 +306,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
   },
-  questionText: {
+  centerText: {
     position: "absolute",
     top: "30%",
     fontSize: textSize,
@@ -311,15 +315,12 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     width: "35%",
   },
-  loadingText: {
-    fontSize: 18,
-    color: "#333",
-  },
   instructionsText: {
     fontSize: buttonFontSize,
     color: "#333",
     textAlign: "center",
     marginBottom: 20,
+    lineHeight: 24
   },
   buttonContainer: {
     alignItems: "center", // Center the button horizontally
@@ -338,17 +339,25 @@ const styles = StyleSheet.create({
     elevation: 4,
     margin: 10,
   },
+  answerButton: {
+    justifyContent: "center",
+    alignContent: "center",
+  },
   buttonText: {
     fontSize: buttonFontSize,
     color: "#333",
     textAlign: "center",
-    marginBottom: 20,
+    margin: "10%",
+  },
+  textBox:
+  {
+    width: "100%",
+    resizeMode: "contain",
   },
   congratsText: {
     fontSize: textSize,
     color: "#333",
     textAlign: "center",
-    marginBottom: 20,
   },
   feedbackText: {
     fontSize: textSize,
