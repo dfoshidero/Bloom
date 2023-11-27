@@ -1,7 +1,9 @@
 import React from "react";
-import {View, Text, StyleSheet, Image, TouchableOpacity} from "react-native";
+import {View, Text, StyleSheet, Image} from "react-native";
 import GameText from "../styles/GameText";
 import {useNavigation} from "@react-navigation/native";
+
+import TouchableScale from "react-native-touchable-scale";
 
 
 const collectionIcon = require("../assets/icons/collection_icon.png");
@@ -14,12 +16,12 @@ const CollectionButton = ({style}) => {
     };
 
     return (
-        <TouchableOpacity onPress={handlePress} style={[styles.container, style]}>
+        <TouchableScale onPress={handlePress} style={[styles.container, style]}>
             <Image
                 source={collectionIcon}
                 style={{ width: 62, height: 62 }}
             />
-        </TouchableOpacity>
+        </TouchableScale>
     );
 };
 const styles = StyleSheet.create({
