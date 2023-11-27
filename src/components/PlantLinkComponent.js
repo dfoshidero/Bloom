@@ -71,6 +71,7 @@ const RealLifeScreen = ({ realLifeScreenVisible, closeRealLifeScreen, plantID })
       });
 
       if (result.canceled !== undefined ? result.canceled : true) {
+        toggleModal();
         console.log("Gallery camcelled")
         // Handle cancellation or do nothing
         return;
@@ -79,16 +80,20 @@ const RealLifeScreen = ({ realLifeScreenVisible, closeRealLifeScreen, plantID })
       if (!result.canceled) {
         if (result.assets[0].uri) {
           console.log('Selected image URI:', result.assets[0].uri);
+          toggleModal();
           setPhotoUri(result.assets[0].uri);
           setButtonContent(<Image source={{ uri: result.assets[0].uri }} style={styles.photoImage} />);
         } else {
           console.warn('Selected image URI is undefined.');
+          toggleModal();
         }
       } else {
         console.warn('No image selected.');
+        toggleModal();
       }
     } catch (error) {
       console.error('Error selecting image:', error);
+      toggleModal();
     }
   };
 
@@ -160,7 +165,6 @@ const RealLifeScreen = ({ realLifeScreenVisible, closeRealLifeScreen, plantID })
               style={styles.modalOption}
               onPress={() => {
                 openGallery();
-                toggleModal();
               }}
             >
               <GameText style={styles.modalOptionText}>Gallery</GameText>
