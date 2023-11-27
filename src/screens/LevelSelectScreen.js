@@ -11,6 +11,7 @@ import {
 } from "react-native";
 import ViewPager from "react-native-pager-view";
 import TouchableScale from "react-native-touchable-scale";
+import { RFPercentage, RFValue } from "react-native-responsive-fontsize";
 
 import GameText from "../styles/GameText";
 import LevelsConfig from "../states/levelsConfig";
@@ -20,6 +21,9 @@ import Oracle from "../components/OracleComponent";
 
 const deviceWidth = Dimensions.get("window").width;
 const deviceHeight = Dimensions.get("window").height;
+
+const textSizeBig = RFValue(12);
+const textSizeSmall = RFValue(10);
 
 const backgroundImage = require("../assets/backgrounds/misc/level_select.png");
 const upIcon = require("../assets/icons/up_icon.png");
@@ -215,7 +219,7 @@ const handlePress = (item) => {
         <Image source={downIcon} style={{ width: 80, height: 80 }} />
         <GameText
           style={{
-            fontSize: 12,
+            fontSize: textSizeBig,
             color: "#d19c0a",
             textShadowColor: "#000000",
             textShadowRadius: 1,
@@ -243,9 +247,9 @@ const styles = StyleSheet.create({
     top: "32%",
   },
   oracle: {
-   left: ((deviceWidth / 2) - 25) - (deviceWidth * 0.1),
-    top: ((deviceHeight / 2)- 25) - (deviceHeight * 0.075),
-    zIndex: 1
+    left: deviceWidth / 2 - 25 - deviceWidth * 0.1,
+    top: deviceHeight / 2 - 25 - deviceHeight * 0.075,
+    zIndex: 1,
   },
   scrollIndicatorBottom: {
     bottom: "35%",
@@ -279,8 +283,8 @@ const styles = StyleSheet.create({
   },
   levelText: {
     position: "absolute",
-    top: "9%",
-    fontSize: 12,
+    top: "8%",
+    fontSize: textSizeSmall,
     textAlign: "center",
     color: "#333",
   },

@@ -7,6 +7,8 @@ const songs = [
   require("../assets/sounds/music/short-circuits-classic-arcade-game.mp3"),
 ];
 
+let lastPlayedIndex = null; // Variable to store the index of the last played song
+
 // Function to setup the player
 async function setupPlayer() {
   await Audio.setAudioModeAsync({
@@ -15,22 +17,37 @@ async function setupPlayer() {
     shouldDuckAndroid: true,
     playThroughEarpieceAndroid: false,
     staysActiveInBackground: false,
-    volume: 0.2
+    volume: 0.2,
   });
 }
 
 // Function to play a random background music
 async function playRandomBackgroundMusic() {
-  // Select a random song from the array
-  const randomIndex = Math.floor(Math.random() * songs.length);
+  let randomIndex;
+  do {
+    randomIndex = Math.floor(Math.random() * songs.length);
+  } while (randomIndex === lastPlayedIndex); // Ensure the new song is different from the last played song
+
+  lastPlayedIndex = randomIndex; // Update the last played song index
   const randomSong = songs[randomIndex];
+
+  if (this.backgroundMusic) {
+    await this.backgroundMusic.unloadAsync(); // Unload the current song if any
+  }
 
   const { sound } = await Audio.Sound.createAsync(randomSong, {
     shouldPlay: true,
-    isLooping: true,
-    volume: 0.2, // Set the initial volume to 10% (low volume)
+    isLooping: false, // Set isLooping to false
+    volume: 0.2,
   });
   this.backgroundMusic = sound;
+
+  // Set an event listener to play a new song after the current song finishes
+  this.backgroundMusic.setOnPlaybackStatusUpdate(async (status) => {
+    if (status.didJustFinish) {
+      await playRandomBackgroundMusic();
+    }
+  });
 }
 
 // Function to pause background music

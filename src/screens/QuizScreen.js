@@ -2,18 +2,27 @@ import React, { useState, useEffect } from "react";
 import {
   View,
   Text,
-  TouchableOpacity,
   Modal,
   StyleSheet,
+  ImageBackground,
   ScrollView,
   FlatList,
+  PixelRatio,
 } from "react-native";
+import { RFPercentage, RFValue } from "react-native-responsive-fontsize";
+import TouchableScale from "react-native-touchable-scale";
 
+import Oracle from "../components/OracleComponent"
 import GameText from "../styles/GameText";
 import plantsTriviaConfig from "../states/plantsTriviaConfig";
 import levelsConfig from "../states/levelsConfig";
 import { plants } from "../states/plantsConfig";
 import { usePlayerConfig } from "../states/playerConfigContext";
+
+const quizBackground = require("../assets/backgrounds/misc/quiz_screen.png")
+
+const buttonFontSize = RFValue(10);
+const textSize = RFValue(14);
 
 const QuizScreen = ({ navigation, route }) => {
   const { plant, level, id } = route.params;
@@ -53,7 +62,7 @@ const QuizScreen = ({ navigation, route }) => {
 
       // Select the remaining questions from the current level
       const remainingQuestions = trivia.questions.slice(0, 3);
-      console.log("R3emaining questions\n", remainingQuestions);
+      console.log("Remaining questions\n", remainingQuestions);
       // Combine the selected questions with the current level's questions
       const combinedQuestions = [...remainingQuestions, ...randomQuestions];
       console.log("combined questions\n", combinedQuestions);
@@ -154,24 +163,24 @@ const QuizScreen = ({ navigation, route }) => {
   };
 
   const renderItem = ({ item }) => (
-    <TouchableOpacity
+    <TouchableScale
       style={styles.button}
       onPress={() => handleAnswer(item.isCorrect)}
     >
       <GameText style={styles.buttonText}>{item.text}</GameText>
-    </TouchableOpacity>
+    </TouchableScale>
   );
 
   const renderGameOverModal = () => (
     <Modal
       visible={showGameOverModal}
-      animationType="slide"
+      animationType="fade"
       transparent={false}
     >
       <View style={styles.modalContainer}>
         <GameText style={styles.congratsText}>Game Over!</GameText>
         <GameText>Your hearts have run out.</GameText>
-        <TouchableOpacity
+        <TouchableScale
           style={styles.button}
           onPress={() => {
             setShowGameOverModal(false);
@@ -179,71 +188,82 @@ const QuizScreen = ({ navigation, route }) => {
           }}
         >
           <GameText style={styles.buttonText}>Back to Home</GameText>
-        </TouchableOpacity>
+        </TouchableScale>
       </View>
     </Modal>
   );
 
   return (
     <View style={styles.container}>
-      {showInstructions && (
-        <Modal
-          visible={showInstructions}
-          animationType="slide"
-          transparent={true}
-          statusBarTranslucent={true}
-        >
-          <View style={styles.modalContainer}>
-            <View style={styles.modalBox}>
-              <GameText style={styles.congratsText}>Instructions</GameText>
-              <ScrollView style={styles.instructionsScrollView}>
-                <GameText style={styles.instructionsText}>
-                  {currentInstructions}
-                </GameText>
-              </ScrollView>
-              <TouchableOpacity style={styles.button} onPress={handleStartQuiz}>
-                <GameText style={styles.buttonText}>Start Quiz</GameText>
-              </TouchableOpacity>
+      <ImageBackground
+        source={quizBackground}
+        style={{ width: "100%", height: "100%", resizeMode: "contain"}}
+      >
+      <Oracle style={{position: "absolute", left: "18%", top: "20%", width: "15%", height: "15%", resizeMode: "contain"}}/>
+        {showInstructions && (
+          <Modal
+            visible={showInstructions}
+            animationType="fade"
+            transparent={true}
+            statusBarTranslucent={true}
+          >
+            <View style={styles.modalContainer}>
+              <View style={styles.modalBox}>
+                <GameText style={styles.congratsText}>Instructions</GameText>
+                <ScrollView style={styles.instructionsScrollView}>
+                  <GameText style={styles.instructionsText}>
+                    {currentInstructions}
+                  </GameText>
+                </ScrollView>
+                <TouchableScale
+                  style={styles.button}
+                  onPress={handleStartQuiz}
+                >
+                  <GameText style={styles.buttonText}>Start Quiz</GameText>
+                </TouchableScale>
+              </View>
             </View>
+          </Modal>
+        )}
+        {feedbackMessage ? (
+          <GameText style={styles.feedbackText}>{feedbackMessage}</GameText>
+        ) : null}
+        {questions.length > 0 ? (
+          <View style={styles.quizContainer}>
+            <GameText style={styles.questionText}>
+              {questions[currentQuestionIndex].question}
+            </GameText>
+            <FlatList
+              data={questions[currentQuestionIndex].answers}
+              renderItem={renderItem}
+              keyExtractor={(item, index) => index.toString()}
+              numColumns={2} // Set the number of columns to 2
+              style={styles.answerList}
+            />
+          </View>
+        ) : (
+          <GameText style={styles.loadingText}>Loading questions...</GameText>
+        )}
+        <Modal visible={showModal} animationType="fade">
+          <View style={styles.modalContainer}>
+            <GameText style={styles.congratsText}>
+              Congratulations! You've completed the quiz!
+            </GameText>
+            <TouchableScale
+              style={styles.button}
+              onPress={() => {
+                setShowModal(false);
+                navigation.navigate("Home", {
+                  updatedList: updatedList,
+                });
+              }}
+            >
+              <GameText style={styles.buttonText}>Go Back.</GameText>
+            </TouchableScale>
           </View>
         </Modal>
-      )}
-      {feedbackMessage ? (
-        <GameText style={styles.feedbackText}>{feedbackMessage}</GameText>
-      ) : null}
-      {questions.length > 0 ? (
-        <View style={styles.quizContainer}>
-          <GameText style={styles.questionText}>
-            {questions[currentQuestionIndex].question}
-          </GameText>
-          <FlatList
-            data={questions[currentQuestionIndex].answers}
-            renderItem={renderItem}
-            keyExtractor={(item, index) => index.toString()}
-          />
-        </View>
-      ) : (
-        <GameText style={styles.loadingText}>Loading questions...</GameText>
-      )}
-      <Modal visible={showModal} animationType="slide">
-        <View style={styles.modalContainer}>
-          <GameText style={styles.congratsText}>
-            Congratulations! You've completed the quiz!
-          </GameText>
-          <TouchableOpacity
-            style={styles.button}
-            onPress={() => {
-              setShowModal(false);
-              navigation.navigate("Home", {
-                updatedList: updatedList,
-              });
-            }}
-          >
-            <GameText style={styles.buttonText}>Go Back.</GameText>
-          </TouchableOpacity>
-        </View>
-      </Modal>
-      {renderGameOverModal()}
+        {renderGameOverModal()}
+      </ImageBackground>
     </View>
   );
 };
@@ -253,14 +273,12 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    padding: 10,
-    backgroundColor: "#f4f4f4",
   },
   modalContainer: {
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "rgba(0, 0, 0, 0.5)", // Semi-transparent background
+    backgroundColor: "rgba(0, 0, 0, 0.8)", // Semi-transparent background
   },
   modalBox: {
     backgroundColor: "#fff",
@@ -269,27 +287,36 @@ const styles = StyleSheet.create({
     width: 300, // Adjust the width as needed
     maxHeight: 400, // Maximum height for the box
     overflow: "hidden", // Enable hidden overflow
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  answerList: {
+    position: "absolute",
+    bottom: "10%",
   },
   instructionsScrollView: {
     maxHeight: "70%", // Maximum height for the instructions text
   },
   quizContainer: {
-    width: "100%",
+    flex: 1, // Add flex: 1 to make the quizContainer take up all available space
     alignItems: "center",
     justifyContent: "center",
   },
   questionText: {
-    fontSize: 16,
+    position: "absolute",
+    top: "30%",
+    fontSize: textSize,
     color: "#333",
     textAlign: "center",
     marginBottom: 20,
+    width: "35%",
   },
   loadingText: {
     fontSize: 18,
     color: "#333",
   },
   instructionsText: {
-    fontSize: 12,
+    fontSize: buttonFontSize,
     color: "#333",
     textAlign: "center",
     marginBottom: 20,
@@ -298,34 +325,37 @@ const styles = StyleSheet.create({
     alignItems: "center", // Center the button horizontally
   },
   button: {
+    justifyContent: "center",
+    alignContent: "center",
     backgroundColor: "#d4edda",
-    paddingVertical: 15,
-    paddingHorizontal: 25,
+    padding: 15,
     borderRadius: 15,
-    marginVertical: 10,
     width: 160,
     shadowColor: "#000",
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.3,
     shadowRadius: 6,
     elevation: 4,
+    margin: 10,
   },
   buttonText: {
-    fontSize: 12,
+    fontSize: buttonFontSize,
     color: "#333",
     textAlign: "center",
+    marginBottom: 20,
   },
   congratsText: {
-    fontSize: 18,
+    fontSize: textSize,
     color: "#333",
     textAlign: "center",
     marginBottom: 20,
   },
   feedbackText: {
-    fontSize: 18,
+    fontSize: textSize,
     color: "red",
     marginBottom: 20,
   },
 });
+
 
 export default QuizScreen;
