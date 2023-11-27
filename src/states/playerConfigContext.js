@@ -10,6 +10,7 @@ export const PlayerConfigProvider = ({ children }) => {
     xp: 0, // Experience points
     level: 1, // Player level
     // Add additional player-related properties here
+    coin: 0, // Initial amount of coin the player have
   });
 
   // Function to update player config
