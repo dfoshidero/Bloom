@@ -19,6 +19,8 @@ import {
   stopBackgroundMusic,
   setupPlayer,
 } from "../utilities/backgroundMusic";
+import CollectionButton from "../components/CollectionComponent";
+import GameStatsButton from "../components/GameStatsComponent";
 
 const GameScreen = ({route}) => {
   //const { updatedList } = route.params;
@@ -104,8 +106,17 @@ const GameScreen = ({route}) => {
         backgroundImage={backgroundImage}
         plantPositions={currentBackground.plantPositions}
       />
+      <TouchableScale style={gameStyles.collectionIcon}>
+        <CollectionButton />
+      </TouchableScale>
+      <TouchableScale style={gameStyles.gameStatsIcon}>
+        <GameStatsButton />
+      </TouchableScale>
+
     </View>
   );
+
+
 };
 
 export default GameScreen;

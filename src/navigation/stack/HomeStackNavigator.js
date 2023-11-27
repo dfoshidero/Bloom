@@ -87,7 +87,6 @@ const HomeStackNavigator = () => {
           headerLeft: () => <QuizQuitButton />, // Use custom back button component
         }}
       />
-
       <Stack.Screen
         name="CollectionScreen"
         component={CollectionScreen}
@@ -97,6 +96,15 @@ const HomeStackNavigator = () => {
           headerLeft: () => <CustomBackButton />, // Use custom back button component
         }}
       />
+        <Stack.Screen
+            name="GameStatsScreen"
+            component={GameStatsScreen}
+            options={{
+                title: "",
+                headerTransparent: true,
+                headerLeft: () => <CustomBackButton />, // Use custom back button component
+            }}
+        />
     </Stack.Navigator>
   );
 };
