@@ -6,7 +6,7 @@ import { plants } from "../states/plantsConfig";
 import styles from "../styles/PlantStyles";
 import GameText from "../styles/GameText";
 
-const archiveIcon = require("../assets/icons/archive_icon_nbg.png");
+const archiveIcon = require("../assets/icons/collection_icon.png");
 
 const SelectPlantModal = ({ visible, onClose, handleSelectPlant, handleSelectFromArchive }) => {
 
@@ -23,9 +23,9 @@ const SelectPlantModal = ({ visible, onClose, handleSelectPlant, handleSelectFro
           <View style={styles.archiveButton}>
             <Image
               source={archiveIcon}
-              style={{ width: "100%", height: "100%", top: "45%", left: "5%" }}
+              style={{ width: "65%", height: "65%", top: "40%", left: "5%" }}
             />
-            <GameText style={{top: "25%", left: "5%", fontSize: 10, textAlign: "center"}}>Collection</GameText>
+            <GameText style={{top: "35%", left: "5%", fontSize: 10, textAlign: "center"}}>Collection</GameText>
           </View>
         </TouchableScale>
         <View style={styles.modalSelectPlantView}>
