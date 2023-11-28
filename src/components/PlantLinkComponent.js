@@ -9,6 +9,7 @@ import {
   Modal,
   Dimensions,
   Image,
+  Alert,
 } from "react-native";
 import TouchableScale from "react-native-touchable-scale";
 import GameText from "../styles/GameText";
@@ -31,15 +32,18 @@ const RealLifeScreen = ({ realLifeScreenVisible, closeRealLifeScreen, plantID })
   const [isSelectionModalVisible, setIsSelectionModalVisible] = useState(false);
   const [isNicknameModalVisible, setIsNicknameModalVisible] = useState(false);
   const [nicknameInput, setNicknameInput] = useState("");
+  const [Stage, setStage] = useState("");
+  const [stageAdvice, setStageAdvice] = useState("");
 
   useEffect(() => {
     // Retrieve plant data from plantsConfig.js based on plantID
     const plantData = plants[plantID];
     if (plantData) {
-      const { name: plantName, careInstructions: plantCareInstructions } = plantData;
+      const { name: plantName, careInstructions: plantCareInstructions, stageAdvice: stageAdvice } = plantData;
       // Set initial values for name and careInstructions
       setName(plantName);
       setCareInstructions(plantCareInstructions);
+      setStageAdvice(stageAdvice);
     }
   }, [plantID]);
 
@@ -49,11 +53,26 @@ const RealLifeScreen = ({ realLifeScreenVisible, closeRealLifeScreen, plantID })
 
   const handleSaveNickname = () => {
     setNickname(nicknameInput);
+    setStage(Stage);
     toggleNicknameModal();
   };
 
   const handleEditButtonPress = () => {
     toggleNicknameModal();
+  };
+
+  const showTips = () => {
+    Alert.alert(
+      "Tips on stage",
+      stageAdvice,
+      [{
+        text: "OK",
+        onPress: () => {
+          // User canceled, do nothing
+        },
+        style: "cancel",
+      }]
+    )
   };
 
   // Option for users to choose photo from gallery
@@ -193,12 +212,24 @@ const RealLifeScreen = ({ realLifeScreenVisible, closeRealLifeScreen, plantID })
           animationType="slide" 
           onRequestClose={toggleNicknameModal}>
           <View style={styles.modalContainer}>
-            <TextInput
-              style={styles.input}
-              placeholder="Nickname"
-              value={nicknameInput}
-              onChangeText={setNicknameInput}
-            />
+            <View style={styles.inputContainer}>
+              <GameText style={styles.label}>Name:</GameText>
+              <TextInput
+                style={styles.input}
+                placeholder="Name"
+                value={nicknameInput}
+                onChangeText={setNicknameInput}
+              />
+            </View>
+            <View style={styles.inputContainer}>
+              <GameText style={styles.label}>Stage:</GameText>
+              <TextInput
+                style={styles.input}
+                placeholder="Stage"
+                value={Stage}
+                onChangeText={setStage}
+              />
+            </View>
             <TouchableScale style={styles.modalOption} onPress={handleSaveNickname}>
               <GameText style={styles.modalOptionText}>Save</GameText>
             </TouchableScale>
@@ -224,6 +255,12 @@ const RealLifeScreen = ({ realLifeScreenVisible, closeRealLifeScreen, plantID })
           <View style={styles.inputContainer}>
             <GameText style={styles.label}>Plant:</GameText>
             <GameText style={styles.content}>{name}</GameText>
+          </View>
+          <View style={styles.inputContainer}>
+            <TouchableScale style={styles.labelTouch} onPress={showTips}>
+              <GameText style={styles.label}>Stage:</GameText>
+            </TouchableScale>
+            <GameText style={styles.label}>{Stage}</GameText>
           </View>
           <View style={styles.inputContainer}>
             <GameText style={styles.label}>Care Instructions:</GameText>
@@ -300,8 +337,6 @@ const styles = StyleSheet.create({
 
   textContainer: {
     marginTop: "5%",
-    //alignItems: "center",
-    //height: "50%"
   },
 
   inputContainer: {
@@ -309,6 +344,17 @@ const styles = StyleSheet.create({
     alignItems: "center",
     marginBottom: 20,
     width: "70%",
+  },
+
+  labelTouch: {
+    marginRight: 10,
+  },
+
+  superScript: {
+    fontSize: 9,
+    lineHeight: 9,
+    position: 'relative',
+    top: -7,
   },
 
   label: {
@@ -321,7 +367,6 @@ const styles = StyleSheet.create({
   },
   
   input: {
-    width: "30%",
     borderWidth: 1,
     borderColor: "#ccc",
     borderRadius: 5,
@@ -333,7 +378,7 @@ const styles = StyleSheet.create({
 
   editButton: {
     left: "50",
-    bottom: "10%",
+    bottom: "15%",
   },
   saveButton: {
     left: "5%"
