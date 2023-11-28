@@ -15,6 +15,7 @@ import TouchableScale from "react-native-touchable-scale";
 import GameText from "../styles/GameText";
 import { plants } from "../states/plantsConfig";
 import * as ImagePicker from 'expo-image-picker';
+import Oracle from "../components/OracleComponent";
 
 const backButtonIcon = require("../assets/icons/back_icon.png");
 
@@ -34,6 +35,7 @@ const RealLifeScreen = ({ realLifeScreenVisible, closeRealLifeScreen, plantID })
   const [nicknameInput, setNicknameInput] = useState("");
   const [Stage, setStage] = useState("");
   const [stageAdvice, setStageAdvice] = useState("");
+  const [isHowToModalVisible, setIsHowToModalVisible] = useState(false);
 
   useEffect(() => {
     // Retrieve plant data from plantsConfig.js based on plantID
@@ -51,6 +53,10 @@ const RealLifeScreen = ({ realLifeScreenVisible, closeRealLifeScreen, plantID })
     setIsNicknameModalVisible(!isNicknameModalVisible);
   };
 
+  const toggleHowToModal = () => {
+    setIsHowToModalVisible(!isHowToModalVisible);
+  };
+
   const handleSaveNickname = () => {
     setNickname(nicknameInput);
     setStage(Stage);
@@ -59,6 +65,10 @@ const RealLifeScreen = ({ realLifeScreenVisible, closeRealLifeScreen, plantID })
 
   const handleEditButtonPress = () => {
     toggleNicknameModal();
+  };
+
+  const handleHowToButtonPress = () => {
+    toggleHowToModal();
   };
 
   const showTips = () => {
@@ -179,6 +189,11 @@ const RealLifeScreen = ({ realLifeScreenVisible, closeRealLifeScreen, plantID })
           animationType="slide"
           onRequestClose={toggleModal}
         >
+          <TouchableOpacity
+            style={styles.modalBackground}
+            activeOpacity={1}
+            onPress={toggleModal}
+          >
           <View style={styles.modalContainer}>
             <TouchableOpacity
               style={styles.modalOption}
@@ -205,12 +220,37 @@ const RealLifeScreen = ({ realLifeScreenVisible, closeRealLifeScreen, plantID })
               <GameText style={styles.modalOptionText}>Cancel</GameText>
             </TouchableOpacity>
           </View>
+          </TouchableOpacity>
+        </Modal>
+
+
+        <Modal
+          visible={isHowToModalVisible}
+          transparent={true}
+          animationType="slide"
+          onRequestClose={toggleHowToModal}
+        >
+          <TouchableOpacity
+            style={styles.modalBackground}
+            activeOpacity={1}
+            onPress={toggleHowToModal}
+          >
+            <View style={styles.tipsContainer}>
+              <GameText style={styles.label}>Tips:</GameText>
+              <GameText style={styles.label}>{stageAdvice}</GameText>
+            </View>
+          </TouchableOpacity>
         </Modal>
 
         <Modal visible={isNicknameModalVisible} 
           transparent={true}
           animationType="slide" 
           onRequestClose={toggleNicknameModal}>
+          <TouchableOpacity
+            style={styles.modalBackground}
+            activeOpacity={1}
+            onPress={toggleNicknameModal}
+          >
           <View style={styles.modalContainer}>
             <View style={styles.inputContainer}>
               <GameText style={styles.label}>Name:</GameText>
@@ -234,9 +274,14 @@ const RealLifeScreen = ({ realLifeScreenVisible, closeRealLifeScreen, plantID })
               <GameText style={styles.modalOptionText}>Save</GameText>
             </TouchableScale>
           </View>
+          </TouchableOpacity>
         </Modal>
 
       <View style={styles.container}>
+        <TouchableScale style={styles.oracleContainer}>
+          <Oracle />
+        </TouchableScale>
+
       <TouchableScale
         style={styles.photoButton}
         onPress={toggleModal}
@@ -257,9 +302,7 @@ const RealLifeScreen = ({ realLifeScreenVisible, closeRealLifeScreen, plantID })
             <GameText style={styles.content}>{name}</GameText>
           </View>
           <View style={styles.inputContainer}>
-            <TouchableScale style={styles.labelTouch} onPress={showTips}>
-              <GameText style={styles.label}>Stage:</GameText>
-            </TouchableScale>
+            <GameText style={styles.label}>Stage:</GameText>
             <GameText style={styles.label}>{Stage}</GameText>
           </View>
           <View style={styles.inputContainer}>
@@ -276,18 +319,38 @@ const RealLifeScreen = ({ realLifeScreenVisible, closeRealLifeScreen, plantID })
                 )}</GameText>
           </View>
         </View>
-          <TouchableOpacity
+
+        <View style={styles.buttons}>
+          <TouchableScale
             style={styles.editButton}
             onPress={handleEditButtonPress}
           >
             <GameText style={styles.buttonText}>Edit</GameText>
-          </TouchableOpacity>
+          </TouchableScale>
+          <TouchableScale
+            style={styles.howToButton}
+            onPress={handleHowToButtonPress}
+          >
+            <GameText style={styles.buttonText}>How to</GameText>
+          </TouchableScale>
+        </View>
       </View>
     </Modal>
   );
 };
 
 const styles = StyleSheet.create({
+  oracleContainer: {
+    position: "absolute",
+    top: "-3%",
+    left: "82%",
+    zIndex: 1,
+  },
+
+  modalBackground: {
+    flex: 1,
+  },
+
   container: {
     width: "100%",
     height: "100%",
@@ -376,10 +439,21 @@ const styles = StyleSheet.create({
     marginBottom : 10,
   },
 
-  editButton: {
-    left: "50",
-    bottom: "15%",
+  buttons:{
+    flexDirection: "row",
+    bottom: "30%",
+    width: "100%",
+    justifyContent: "center",
   },
+
+  editButton: {
+    right: "120%",
+  },
+
+  howToButton: {
+    left: "120%",
+  },
+
   saveButton: {
     left: "5%"
   },
@@ -395,6 +469,26 @@ const styles = StyleSheet.create({
     left: "10%", //added these few lines to align to the center
     right: "10%", //added these few lines to align to the center
     width: "80%",
+    opacity: 0.9,
+    backgroundColor: "white",
+    borderRadius: 20,
+    paddingTop: 30, //80 originally
+    paddingBottom: 20, //10 originally
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
+  },
+
+  tipsContainer: {
+    alignItems: "center",
+    top: "10%", //added these few lines to align to the center
+    left: "15%", //added these few lines to align to the center
+    width: "65%",
     opacity: 0.9,
     backgroundColor: "white",
     borderRadius: 20,
