@@ -10,7 +10,7 @@ export const PlayerConfigProvider = ({ children }) => {
     xp: 0, // Experience points
     level: 1, // Player level
     // Add additional player-related properties here
-    coin: 0, // Initial amount of coin the player have
+    coins: 10, // Initial amount of coin the player have
   });
 
   // Function to update player config
@@ -24,9 +24,16 @@ export const PlayerConfigProvider = ({ children }) => {
     }
   };
 
+  const addCoins = (amount) => {
+    setPlayerConfig((prevConfig) => ({
+      ...prevConfig,
+      coins: prevConfig.coins + amount,
+    }));
+  };
+
   return (
     <PlayerConfigContext.Provider
-      value={{ playerConfig, updatePlayerConfig, decreaseHearts }}
+      value={{ playerConfig, updatePlayerConfig, decreaseHearts, addCoins }}
     >
       {children}
     </PlayerConfigContext.Provider>
