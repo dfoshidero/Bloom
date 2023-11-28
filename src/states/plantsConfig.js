@@ -102,7 +102,7 @@ export const plants = {
       Yellowing: "Yellow leaves caused by over-fertilizating",
       Rottening: "Rotten root if water isn't changed regularly",
     },
-    stageAdvice: "Height of cactus:\n stage 1: 10 cm\nstage 2: 15 cm\nstage 3: 30cm\nstage 4: above 30cm",
+    stageAdvice: "Height of lucky bamboo:\n stage 1: 30 cm\nstage 2: 60 cm\nstage 3: 90 cm\nstage 4: above 90cm",
     health: 100,
     learned: true,
     difficulty: 1,
