@@ -227,7 +227,7 @@ const RealLifeScreen = ({ realLifeScreenVisible, closeRealLifeScreen, plantID })
         <Modal
           visible={isHowToModalVisible}
           transparent={true}
-          animationType="slide"
+          animationType="fade"
           onRequestClose={toggleHowToModal}
         >
           <TouchableOpacity
