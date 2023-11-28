@@ -4,7 +4,6 @@
 
   import Icon from "react-native-vector-icons/FontAwesome";
   import TouchableScale from "react-native-touchable-scale";
-  import AsyncStorage from "@react-native-async-storage/async-storage";
 
   import styles from "../styles/PlantStyles";
   import { plants } from "../states/plantsConfig";
@@ -75,32 +74,27 @@
     const handleArchiveButtonPress = async () => {
       console.log("Archiving plant", id);
 
-      //Get saved plant data
-      const savedPlantsJSON = await AsyncStorage.getItem("savedPlants");
-      savedPlants = JSON.parse(savedPlantsJSON);
-
       //Make a unique archiveID
       newArchiveID = 0;
       while (
-        savedPlants.find((plant) => plant.archiveID === newArchiveID.toString())
+        plantData.find((plant) => plant.archiveID === newArchiveID.toString())
       ) {
         newArchiveID++;
       }
 
       //Find this plant and edit its positionID and archiveID
-      for (let i = 0; i < savedPlants.length; i++) {
-        if (savedPlants[i].plantPositionID === id.toString()) {
-          savedPlants[i].plantPositionID = "null";
-          savedPlants[i].archiveID = newArchiveID.toString();
+      let modifiedPlantData = plantData;
+      for (let i = 0; i < plantData.length; i++) {
+        if (plantData[i].plantPositionID === id.toString()) {
+          modifiedPlantData[i].plantPositionID = "null";
+          modifiedPlantData[i].archiveID = newArchiveID.toString();
         }
       }
 
       //Save the changes
-      await AsyncStorage.setItem("savedPlants", JSON.stringify(savedPlants));
-      updatePlantData(savedPlants);
+      updatePlantData(modifiedPlantData);
       //Reset this plant to empty
       setSelectedPlant(null);
-      console.log("hello", id, selectedPlant);
     };
 
     const handleMenuItemPress = (item) => {
@@ -125,38 +119,18 @@
       const plant = plants[plantID];
       setSelectedPlant(plant);
       setSelectPlantModalVisible(false);
-      setSelectArchiveModalVisible(false);
 
-      try {
-        // Retrieve the existing saved plants array from AsyncStorage
-        const savedPlantsJSON = await AsyncStorage.getItem("savedPlants");
-        let savedPlants = [];
-        if (savedPlantsJSON) {
-          savedPlants = JSON.parse(savedPlantsJSON);
-        }
+      // Add the new plant to the saved plants array
+      const newPlantData = {
+        plantPositionID: id.toString(),
+        plantID: plantID.toString(),
+        archiveID: "null",
+        progress: 0,
+      };
 
-        // Add the new plant to the saved plants array
-        const newPlantData = {
-          plantPositionID: id.toString(),
-          plantID: plantID.toString(),
-          archiveID: "null",
-          progress: 0,
-        };
-        savedPlants.push(newPlantData);
-
-        // Save the updated saved plants array in AsyncStorage
-        await AsyncStorage.setItem("savedPlants", JSON.stringify(savedPlants));
-        updatePlantData([...plantData, newPlantData]);
-        console.log("Plant data saved successfully.");
-        
-
-        // Retrieve and print the saved data
-        const savedPlantsJSONUpdated = await AsyncStorage.getItem("savedPlants");
-        const savedPlantsUpdated = JSON.parse(savedPlantsJSONUpdated);
-        console.log("Saved Plants:", savedPlantsUpdated);
-      } catch (error) {
-        console.log("Error saving plant data:", error);
-      }
+      // Save the updated saved plants array in AsyncStorage
+      updatePlantData([...plantData, newPlantData]);
+      console.log("Plant data saved successfully.");
     };
 
     handleSelectFromArchive = async () => {
@@ -167,16 +141,27 @@
     };
 
     handleRemoveFromArchive = async (archiveID, plantID) => {
-      const savedPlantsJSON = await AsyncStorage.getItem("savedPlants");
-      const savedPlants = JSON.parse(savedPlantsJSON);
+      setSelectArchiveModalVisible(false);
+      setSelectedPlant(plants[plantID]);
 
-      let newSavedPlants = savedPlants.filter(
-        (plant) => plant.archiveID !== archiveID.toString()
-      );
+      console.log("Archive ID: ", archiveID.toString());
+      console.log("Plant data:");
+      plantData.forEach(plant => {console.log(plant);});
 
-      await AsyncStorage.setItem("savedPlants", JSON.stringify(newSavedPlants));
+      //Find this plant and edit its positionID and archiveID
+      let modifiedPlantData = plantData;
+      for (let i = 0; i < plantData.length; i++) {
+        if (plantData[i].archiveID === archiveID.toString()) {
+          modifiedPlantData[i].plantPositionID = id.toString();
+          modifiedPlantData[i].archiveID = "null";
+        }
+      }
 
-      await handleSelectPlant(plantID);
+      //Save the changes
+      updatePlantData(modifiedPlantData);
+      
+      console.log("New plant data:");
+      plantData.forEach(plant => {console.log(plant);});
     };
 
     const getPlantImagePath = () => {
