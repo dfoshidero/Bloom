@@ -1,7 +1,6 @@
 // GameScreenStyles.js
 import { StyleSheet, StatusBar } from "react-native";
 
-
 //formatting of the game screen
 const gameStyles = StyleSheet.create({
   container: {
@@ -29,6 +28,12 @@ const gameStyles = StyleSheet.create({
     zIndex: 1,
     position: "absolute",
     top: "47%",
+    left: "4.5%",
+  },
+  coinIcon: {
+    zIndex: 1,
+    position: "absolute",
+    top: "54%",
     left: "4.5%",
   },
 });

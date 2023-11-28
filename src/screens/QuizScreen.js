@@ -11,20 +11,21 @@ import {
 import { RFPercentage, RFValue } from "react-native-responsive-fontsize";
 import TouchableScale from "react-native-touchable-scale";
 
-import Oracle from "../components/OracleComponent"
+import Oracle from "../components/OracleComponent";
 import GameText from "../styles/GameText";
 import plantsTriviaConfig from "../states/plantsTriviaConfig";
 import levelsConfig from "../states/levelsConfig";
 import { plants } from "../states/plantsConfig";
 import { usePlayerConfig } from "../states/playerConfigContext";
 
-const quizBackground = require("../assets/backgrounds/misc/quiz_screen.png")
-const textBox = require("../assets/icons/text_box.png")
+const quizBackground = require("../assets/backgrounds/misc/quiz_screen.png");
+const textBox = require("../assets/icons/text_box.png");
 
 const buttonFontSize = RFValue(10);
 const textSize = RFValue(14);
 
 const QuizScreen = ({ navigation, route }) => {
+  const [showRewardMessage, setShowRewardMessage] = useState(false);
   const { plant, level, id } = route.params;
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [questions, setQuestions] = useState([]);
@@ -32,7 +33,7 @@ const QuizScreen = ({ navigation, route }) => {
   const [showInstructions, setShowInstructions] = useState(true);
   const [feedbackMessage, setFeedbackMessage] = useState("");
   const [showGameOverModal, setShowGameOverModal] = useState(false);
-  const { playerConfig, decreaseHearts } = usePlayerConfig();
+  const { playerConfig, decreaseHearts, addCoins } = usePlayerConfig();
   const [updatedList, setUpdatedList] = useState(null);
   const [currentInstructions, setCurrentInstructions] = useState("");
 
@@ -131,8 +132,39 @@ const QuizScreen = ({ navigation, route }) => {
 
   const completeQuiz = () => {
     setShowModal(true);
-    updateLevelsConfig(plant, level);
+    const numericPlant = parseInt(plant, 10);
+
+    if (
+      !levelsConfig[numericPlant].completedLevels.includes(
+        parseInt(level.slice(-1), 10)
+      )
+    ) {
+      console.log("parse int ", parseInt(level.slice(-1), 10));
+      updateLevelsConfig(plant, level);
+      // Add coins when the user completes a quiz
+      const coinsReward = 5;
+      addCoins(coinsReward);
+      // Check if all three levels are completed
+
+      console.log("numeric plants ", numericPlant);
+      console.log(
+        "completed levels length ",
+        levelsConfig[numericPlant].completedLevels.length
+      );
+      console.log("total levels ", levelsConfig[numericPlant].totalLevels);
+      if (
+        levelsConfig[numericPlant].completedLevels.length ===
+        levelsConfig[numericPlant].totalLevels
+      ) {
+        // Add extra coins when all three levels are completed
+        const extraCoinsReward = 5;
+        addCoins(extraCoinsReward);
+        setShowRewardMessage(true); // Set the state to show the reward message
+        console.log("Coins added. Checking component state...");
+      }
+    }
     const list = updatePlantsProgress(plant);
+
     setUpdatedList(list);
   };
 
@@ -174,11 +206,7 @@ const QuizScreen = ({ navigation, route }) => {
   );
 
   const renderGameOverModal = () => (
-    <Modal
-      visible={showGameOverModal}
-      animationType="fade"
-      transparent={false}
-    >
+    <Modal visible={showGameOverModal} animationType="fade" transparent={false}>
       <View style={styles.modalContainer}>
         <GameText style={styles.congratsText}>Game Over!</GameText>
         <GameText>Your hearts have run out.</GameText>
@@ -201,7 +229,16 @@ const QuizScreen = ({ navigation, route }) => {
         source={quizBackground}
         style={{ width: "100%", height: "100%", resizeMode: "contain" }}
       >
-        <Oracle style={{ position: "absolute", left: "18%", top: "20%", width: "15%", height: "15%", resizeMode: "contain" }} />
+        <Oracle
+          style={{
+            position: "absolute",
+            left: "18%",
+            top: "20%",
+            width: "15%",
+            height: "15%",
+            resizeMode: "contain",
+          }}
+        />
         {showInstructions && (
           <Modal
             visible={showInstructions}
@@ -217,10 +254,7 @@ const QuizScreen = ({ navigation, route }) => {
                     {currentInstructions}
                   </GameText>
                 </ScrollView>
-                <TouchableScale
-                  style={styles.button}
-                  onPress={handleStartQuiz}
-                >
+                <TouchableScale style={styles.button} onPress={handleStartQuiz}>
                   <GameText style={styles.buttonText}>Start Quiz</GameText>
                 </TouchableScale>
               </View>
@@ -252,6 +286,11 @@ const QuizScreen = ({ navigation, route }) => {
             <GameText style={styles.congratsText}>
               Congratulations! You've completed the quiz!
             </GameText>
+            {showRewardMessage && (
+              <GameText style={styles.rewardMessage}>
+                Congratulations! You've been rewarded with 5 extra coins!
+              </GameText>
+            )}
             <TouchableScale
               style={styles.button}
               onPress={() => {
@@ -320,7 +359,7 @@ const styles = StyleSheet.create({
     color: "#333",
     textAlign: "center",
     marginBottom: 20,
-    lineHeight: 24
+    lineHeight: 24,
   },
   buttonContainer: {
     alignItems: "center", // Center the button horizontally
@@ -349,8 +388,7 @@ const styles = StyleSheet.create({
     textAlign: "center",
     margin: "10%",
   },
-  textBox:
-  {
+  textBox: {
     width: "100%",
     resizeMode: "contain",
   },
@@ -365,6 +403,5 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
 });
-
 
 export default QuizScreen;
