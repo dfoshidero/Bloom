@@ -34,9 +34,11 @@ const GameScreen = ({ route }) => {
     const loadCurrentBackground = async () => {
       try {
         const savedBackground = await AsyncStorage.getItem("currentBackground");
+        console.log("Current background JSON: ", currentBackground);
         if (savedBackground) {
           setCurrentBackground(JSON.parse(savedBackground));
         }
+        console.log("Loaded current background: ", currentBackground);
       } catch (error) {
         console.log("Failed to load the current background:", error);
       }
