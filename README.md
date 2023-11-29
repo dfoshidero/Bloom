@@ -51,3 +51,5 @@ Team members can contribute by pulling the latest changes from the main branch, 
 - Yan Chun (Ivan) Yeung
 - Siqi (Claire) He
 - Udit Bhatia
+
+DALL·E 3 by OpenAI was used to create image assets. The developers claim ownership of all such images, as per OpenAI's terms of use (accessible at https://openai.com/policies/terms-of-use).
