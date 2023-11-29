@@ -62,7 +62,7 @@ const MenuComponent = ({ menuVisible, closeMenu }) => {
               closeMenu();
             }}
           >
-            <GameText style={styles.menuItem}>clear data</GameText>
+            <GameText style={styles.menuItem}>Reset Game</GameText>
           </TouchableOpacity>
         </View>
       </TouchableOpacity>
