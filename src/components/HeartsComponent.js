@@ -14,7 +14,7 @@ const HeartsDisplay = ({ style }) => {
     <View style={[styles.container, style]}>
       <Image
         source={heartIcon}
-        style={{ width: 38, height: 38, position: "absolute" }}
+        style={{ width: 40, height: 40, position: "absolute" }}
       />
       <GameText
         style={[
@@ -40,7 +40,7 @@ const styles = StyleSheet.create({
     left: "4.5%",
   },
   text: {
-    fontSize: 20,
+    fontSize: 16,
     position: "absolute",
     left: 37,
     top: 27,

@@ -5,7 +5,7 @@ import { View, Text, StyleSheet, Image } from "react-native";
 import { usePlayerConfig } from "../states/playerConfigContext";
 import GameText from "../styles/GameText";
 
-const coinIcon = require("../assets/icon_container.png");
+const coinIcon = require("../assets/icons/coin_icon.png");
 
 const CoinDisplay = ({ style }) => {
   const { playerConfig } = usePlayerConfig();
@@ -16,7 +16,7 @@ const CoinDisplay = ({ style }) => {
     <View style={[styles.container, style]}>
       <Image
         source={coinIcon}
-        style={{ width: 60, height: 60, position: "absolute" }}
+        style={{ width: 48, height: 48, position: "absolute" }}
       />
       <GameText
         style={[
@@ -32,17 +32,14 @@ const CoinDisplay = ({ style }) => {
 
 const styles = StyleSheet.create({
   container: {
-    borderRadius: 5,
     width: 50,
     height: 50,
     alignItems: "center",
     justifyContent: "center",
     position: "absolute",
-    top: "32%",
-    left: "15%", // Adjust the position as needed
   },
   text: {
-    fontSize: 20,
+    fontSize: 16,
     position: "absolute",
     left: 37,
     top: 27,

@@ -18,23 +18,23 @@ const gameStyles = StyleSheet.create({
     top: "33%",
     left: "4.6%",
   },
-  collectionIcon: {
+  coinIcon: {
     zIndex: 1,
     position: "absolute",
     top: "40%",
     left: "4.5%",
   },
+  collectionIcon: {
+    zIndex: 1,
+    position: "absolute",
+    top: "26%",
+    left: "85%",
+  },
   gameStatsIcon: {
     zIndex: 1,
     position: "absolute",
-    top: "47%",
-    left: "4.5%",
-  },
-  coinIcon: {
-    zIndex: 1,
-    position: "absolute",
-    top: "54%",
-    left: "4.5%",
+    top: "33%",
+    left: "85%",
   },
 });
 
