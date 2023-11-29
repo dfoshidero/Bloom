@@ -6,10 +6,10 @@ import GameText from "../styles/GameText";
 const heartIcon = require("../assets/icons/hearts_icon.png");
 
 const HeartsDisplay = ({ style }) => {
-  const { playerConfig } = usePlayerConfig();
-  const textColor = playerConfig.hearts === 0 ? "black" : "white";
-  const shadowColor = playerConfig.hearts === 0 ? "white" : "black";
-
+   const { hearts } = usePlayerConfig();
+  
+  const textColor = hearts === 0 ? "black" : "white";
+  const shadowColor = hearts === 0 ? "white" : "black";
   return (
     <View style={[styles.container, style]}>
       <Image
@@ -22,7 +22,7 @@ const HeartsDisplay = ({ style }) => {
           { color: textColor, textShadowColor: shadowColor },
         ]}
       >
-        {playerConfig.hearts}
+        {hearts}
       </GameText>
     </View>
   );

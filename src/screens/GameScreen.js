@@ -25,7 +25,7 @@ import GameStatsButton from "../components/GameStatsComponent";
 const GameScreen = ({ route }) => {
   //const { updatedList } = route.params;
   const [currentBackground, setCurrentBackground] = useState(
-    backgrounds.background4
+    backgrounds.background1
   );
   const backgroundImage = currentBackground.image;
   const [menuVisible, setMenuVisible] = useState(false);

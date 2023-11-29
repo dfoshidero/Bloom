@@ -33,6 +33,8 @@ const levelLockedIcon = require("../assets/icons/level_icon_locked.png");
 const levelUnlocekdIcon = require("../assets/icons/level_icon_unlocked.png");
 
 const LevelSelectionScreen = ({ navigation, route }) => {
+  const { hearts, xp, level } = usePlayerConfig();
+
   const [scrollIndicatorTopOpacity] = useState(new Animated.Value(0.8));
   const [scrollIndicatorBottomOpacity] = useState(new Animated.Value(0.8));
 
@@ -109,7 +111,7 @@ const LevelSelectionScreen = ({ navigation, route }) => {
   const { playerConfig } = usePlayerConfig();
 
 const handlePress = (item) => {
-  if (playerConfig.hearts > 0) {
+  if (hearts > 0) {
     if (plantLevels.completedLevels.includes(item - 1) || item === 1) {
       Alert.alert(
         "Are you ready?",
