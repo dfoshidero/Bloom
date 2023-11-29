@@ -140,7 +140,7 @@ export const plants = {
   3: {
     plantID: 3,
     name: "Snake Plant",
-    iconPath: require("../assets/plants/snake_plant/snake_plant_4.png"),
+    iconPath: require("../assets/plants/snake_plant/snake_plant_4(2).png"),
     type: "tropical flower plant",
     colours: ["Green", "Yellow"],
     potID: 1,
@@ -174,19 +174,19 @@ export const plants = {
         growth: [
           {
             growthStage: 0,
-            imagePath: require("../assets/plants/snake_plant/snake_plant_1.png"),
+            imagePath: require("../assets/plants/snake_plant/snake_plant_1(2).png"),
           },
           {
             growthStage: 0.33,
-            imagePath: require("../assets/plants/snake_plant/snake_plant_2.png"),
+            imagePath: require("../assets/plants/snake_plant/snake_plant_2(2).png"),
           },
           {
             growthStage: 0.66,
-            imagePath: require("../assets/plants/snake_plant/snake_plant_3.png"),
+            imagePath: require("../assets/plants/snake_plant/snake_plant_3(2).png"),
           },
           {
             growthStage: 1.0,
-            imagePath: require("../assets/plants/snake_plant/snake_plant_4.png"),
+            imagePath: require("../assets/plants/snake_plant/snake_plant_4(2).png"),
           },
         ],
         unlockCondition: null,
@@ -197,7 +197,7 @@ export const plants = {
   4: {
     plantID: 4,
     name: "Dragon Tree",
-    iconPath: require("../assets/plants/dragon_tree/dragon_tree_4.png"),
+    iconPath: require("../assets/plants/dragon_tree/dragon_tree_4(2).png"),
     type: "subtropical tree",
     colours: ["Green", "Red"],
     potID: 1,
@@ -230,19 +230,19 @@ export const plants = {
         growth: [
           {
             growthStage: 0,
-            imagePath: require("../assets/plants/dragon_tree/dragon_tree_1.png"),
+            imagePath: require("../assets/plants/dragon_tree/dragon_tree_1(2).png"),
           },
           {
             growthStage: 0.33,
-            imagePath: require("../assets/plants/dragon_tree/dragon_tree_2.png"),
+            imagePath: require("../assets/plants/dragon_tree/dragon_tree_2(2).png"),
           },
           {
             growthStage: 0.66,
-            imagePath: require("../assets/plants/dragon_tree/dragon_tree_3.png"),
+            imagePath: require("../assets/plants/dragon_tree/dragon_tree_3(2).png"),
           },
           {
             growthStage: 1.0,
-            imagePath: require("../assets/plants/dragon_tree/dragon_tree_4.png"),
+            imagePath: require("../assets/plants/dragon_tree/dragon_tree_4(2).png"),
           },
         ],
         unlockCondition: null,
@@ -253,7 +253,7 @@ export const plants = {
   5: {
     plantID: 5,
     name: "Maidenhair Fern",
-    iconPath: require("../assets/plants/maidenhair_fern/maidenhair_fern_4.png"),
+    iconPath: require("../assets/plants/maidenhair_fern/maidenhair_fern_4(2).png"),
     type: "fern",
     colours: ["Green"],
     potID: 1,
@@ -286,19 +286,19 @@ export const plants = {
         growth: [
           {
             growthStage: 0,
-            imagePath: require("../assets/plants/maidenhair_fern/maidenhair_fern_1.png"),
+            imagePath: require("../assets/plants/maidenhair_fern/maidenhair_fern_1(2).png"),
           },
           {
             growthStage: 0.33,
-            imagePath: require("../assets/plants/maidenhair_fern/maidenhair_fern_2.png"),
+            imagePath: require("../assets/plants/maidenhair_fern/maidenhair_fern_2(2).png"),
           },
           {
             growthStage: 0.66,
-            imagePath: require("../assets/plants/maidenhair_fern/maidenhair_fern_3.png"),
+            imagePath: require("../assets/plants/maidenhair_fern/maidenhair_fern_3(2).png"),
           },
           {
             growthStage: 1.0,
-            imagePath: require("../assets/plants/maidenhair_fern/maidenhair_fern_4.png"),
+            imagePath: require("../assets/plants/maidenhair_fern/maidenhair_fern_4(2).png"),
           },
         ],
         unlockCondition: null,
