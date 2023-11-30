@@ -40,6 +40,8 @@ const RealLifeScreen = ({ realLifeScreenVisible, closeRealLifeScreen, plantID })
   const [watered, setWatered] = useState("");
   const [hasInstructionsModalOpened, setHasInstructionsModalOpened] = useState(false);
   const [isHowToModalVisible, setIsHowToModalVisible] = useState(true);
+  const [isLinkedModallVisible, setLinkedModalVisible] = useState(false);
+
 
   useEffect(() => {
     // Retrieve plant data from plantsConfig.js based on plantID
@@ -58,6 +60,10 @@ const RealLifeScreen = ({ realLifeScreenVisible, closeRealLifeScreen, plantID })
     setIsNicknameModalVisible(!isNicknameModalVisible);
   };
 
+  const toggleLinkedModal = () => {
+    setLinkedModalVisible(!isLinkedModallVisible);
+  };
+
   const toggleHowToModal = () => {
     if (hasInstructionsModalOpened) {
       setIsHowToModalVisible(!isHowToModalVisible);
@@ -72,6 +78,7 @@ const RealLifeScreen = ({ realLifeScreenVisible, closeRealLifeScreen, plantID })
     setStage(Stage);
     setWatered(watered);
     toggleNicknameModal();
+    toggleLinkedModal();
   };
 
   const handleEditButtonPress = () => {
@@ -256,6 +263,24 @@ const RealLifeScreen = ({ realLifeScreenVisible, closeRealLifeScreen, plantID })
           </TouchableOpacity>
         </Modal>
 
+
+        <Modal
+          visible={isLinkedModallVisible}
+          transparent={true}
+          animationType="slide"
+          onRequestClose={toggleLinkedModal}
+        >
+          <TouchableOpacity
+            style={styles.modalBackground}
+            activeOpacity={1}
+            onPress={toggleLinkedModal}
+          >
+            <View style={styles.modalContainer}>
+              <GameText style={styles.tipsContent}>Plant Linked Successfully!</GameText>
+              <GameText style={styles.tipsContent}>Tap anywhere to close!</GameText>
+            </View>
+          </TouchableOpacity>
+        </Modal>
 
         <Modal
           visible={isHowToModalVisible}
