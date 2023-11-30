@@ -36,16 +36,20 @@ const RealLifeScreen = ({ realLifeScreenVisible, closeRealLifeScreen, plantID })
   const [Stage, setStage] = useState("");
   const [stageAdvice, setStageAdvice] = useState("");
   const [isHowToModalVisible, setIsHowToModalVisible] = useState(false);
+  const [timer, setTimer] = useState("");
+  const [countdown, setCountdown] = useState(0);
+  const [watered, setWatered] = useState("");
 
   useEffect(() => {
     // Retrieve plant data from plantsConfig.js based on plantID
     const plantData = plants[plantID];
     if (plantData) {
-      const { name: plantName, careInstructions: plantCareInstructions, stageAdvice: stageAdvice } = plantData;
+      const { name: plantName, careInstructions: plantCareInstructions, stageAdvice: stageAdvice, timer: timer } = plantData;
       // Set initial values for name and careInstructions
       setName(plantName);
       setCareInstructions(plantCareInstructions);
       setStageAdvice(stageAdvice);
+      setTimer(timer);
     }
   }, [plantID]);
 
@@ -60,6 +64,7 @@ const RealLifeScreen = ({ realLifeScreenVisible, closeRealLifeScreen, plantID })
   const handleSaveNickname = () => {
     setNickname(nicknameInput);
     setStage(Stage);
+    setWatered(watered);
     toggleNicknameModal();
   };
 
@@ -71,18 +76,36 @@ const RealLifeScreen = ({ realLifeScreenVisible, closeRealLifeScreen, plantID })
     toggleHowToModal();
   };
 
-  const showTips = () => {
-    Alert.alert(
-      "Tips on stage",
-      stageAdvice,
-      [{
-        text: "OK",
-        onPress: () => {
-          // User canceled, do nothing
-        },
-        style: "cancel",
-      }]
-    )
+  //in game timer
+  const startCountdown = () => {
+    const seconds = (timer - parseInt(watered)) * 3600;
+    console.log(timer)
+    setCountdown(seconds);
+  };
+
+  useEffect(() => {
+    let intervalId;
+
+    if (countdown > 0) {
+      intervalId = setInterval(() => {
+        setCountdown(prevCountdown => prevCountdown - 1);
+      }, 1000);
+    }
+
+    return () => clearInterval(intervalId);
+  }, [countdown]);
+
+  const formatCountdownTime = () => {
+    const days = Math.floor(countdown / (3600 * 24));
+    const hours = Math.floor((countdown % (3600 * 24)) / 3600);
+    const minutes = Math.floor((countdown % 3600) / 60);
+    const seconds = countdown % 60;
+  
+    if (days > 0) {
+      return `${days} days`;
+    } else {
+      return `${hours} hours ${minutes} minutes ${seconds} seconds`;
+    }
   };
 
   // Option for users to choose photo from gallery
@@ -236,8 +259,9 @@ const RealLifeScreen = ({ realLifeScreenVisible, closeRealLifeScreen, plantID })
             onPress={toggleHowToModal}
           >
             <View style={styles.tipsContainer}>
-              <GameText style={styles.label}>Tips:</GameText>
-              <GameText style={styles.label}>{stageAdvice}</GameText>
+              <GameText style={styles.tipsContent}>Tips:</GameText>
+              <GameText style={styles.tipsContent}>{stageAdvice}</GameText>
+              <GameText style={styles.tipsContent}>Enter last time watered in hours</GameText>
             </View>
           </TouchableOpacity>
         </Modal>
@@ -268,6 +292,15 @@ const RealLifeScreen = ({ realLifeScreenVisible, closeRealLifeScreen, plantID })
                 placeholder="Stage"
                 value={Stage}
                 onChangeText={setStage}
+              />
+            </View>
+            <View style={styles.inputContainer}>
+              <GameText style={styles.label}>Last time watered:</GameText>
+              <TextInput
+                style={styles.input}
+                placeholder="Watered"
+                value={watered}
+                onChangeText={setWatered}
               />
             </View>
             <TouchableScale style={styles.modalOption} onPress={handleSaveNickname}>
@@ -306,6 +339,10 @@ const RealLifeScreen = ({ realLifeScreenVisible, closeRealLifeScreen, plantID })
             <GameText style={styles.label}>{Stage}</GameText>
           </View>
           <View style={styles.inputContainer}>
+            <GameText style={styles.label}>Water:</GameText>
+            <GameText style={styles.plantDetailsItem}>{formatCountdownTime()}</GameText>
+          </View>
+          <View style={styles.inputContainer}>
             <GameText style={styles.label}>Care Instructions:</GameText>
           </View>
           <View style={styles.careInstructionsContainer}>
@@ -332,6 +369,12 @@ const RealLifeScreen = ({ realLifeScreenVisible, closeRealLifeScreen, plantID })
             onPress={handleHowToButtonPress}
           >
             <GameText style={styles.buttonText}>How to</GameText>
+          </TouchableScale>
+          <TouchableScale
+            style={styles.timerButton}
+            onPress={startCountdown}
+          >
+            <GameText style={styles.buttonText}>Timer</GameText>
           </TouchableScale>
         </View>
       </View>
@@ -375,6 +418,11 @@ const styles = StyleSheet.create({
     width: "70%",
   },
 
+  tipsContent: {
+    fontSize: 12,
+    marginBottom: 10,
+  },
+
   photoButton: {
     alignItems: "center",
     marginBottom: 20,
@@ -405,7 +453,7 @@ const styles = StyleSheet.create({
   inputContainer: {
     flexDirection: "row",
     alignItems: "center",
-    marginBottom: 20,
+    marginBottom: 15,
     width: "70%",
   },
 
@@ -447,12 +495,17 @@ const styles = StyleSheet.create({
   },
 
   editButton: {
-    right: "120%",
+    right: "170%",
   },
 
   howToButton: {
-    left: "120%",
+    
   },
+
+  timerButton: {
+    left: "170%",
+  },
+
 
   saveButton: {
     left: "5%"

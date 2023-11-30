@@ -9,6 +9,7 @@ export const plants = {
     potID: 1,
     locationID: 1,
     height: 60,
+    timer: 336,
     careInstructions: {
       Water: "Water once every two weeks",
       Sunlight: "Full sunlight",
@@ -90,6 +91,7 @@ export const plants = {
     potID: 1,
     locationID: 1,
     height: 70,
+    timer: 336,
     careInstructions: {
       Water: "Water once every two weeks",
       Sunlight: "Moderate sunlight",
@@ -146,6 +148,7 @@ export const plants = {
     potID: 1,
     locationID: 1,
     height: 75,
+    timer: 48,
     careInstructions: {
       Water: "Water sparingly, allow soil to dry out completely",
       Sunlight: "Low to bright, indirect light",
@@ -203,6 +206,7 @@ export const plants = {
     potID: 1,
     locationID: 1,
     height: 120,
+    timer: 48,
     careInstructions: {
       Water: "Allow top soil to dry out between waterings",
       Sunlight: "Bright, indirect light",
@@ -259,6 +263,7 @@ export const plants = {
     potID: 1,
     locationID: 1,
     height: 40,
+    timer: 24,
     careInstructions: {
       Water: "Consistently moist, avoid drying out",
       Sunlight: "Bright, indirect light",
@@ -315,6 +320,7 @@ export const plants = {
     potID: 1,
     locationID: 1,
     height: 15,
+    timer: 24,
     careInstructions: {
       Water: "Consistently moist soil",
       Sunlight: "Bright, indirect light",
@@ -371,6 +377,7 @@ export const plants = {
     potID: 1,
     locationID: 1,
     height: 50,
+    timer: 48,
     careInstructions: {
       Water: "Deeply but infrequently, allow soil to dry out",
       Sunlight: "Bright, indirect light",
@@ -427,6 +434,7 @@ export const plants = {
     potID: 1,
     locationID: 1,
     height: 60,
+    timer: 24,
     careInstructions: {
       Water: "Consistently moist, avoid waterlogging",
       Sunlight: "Bright, indirect light",
@@ -483,6 +491,7 @@ export const plants = {
     potID: 1,
     locationID: 1,
     height: 180,
+    timer: 24,
     careInstructions: {
       Water: "Evenly moist, well-drained soil",
       Sunlight: "Bright, direct sunlight",
@@ -539,6 +548,7 @@ export const plants = {
     potID: 1,
     locationID: 1,
     height: 150,
+    timer: 24,
     careInstructions: {
       Water: "Allow soil to dry between waterings",
       Sunlight: "Full sun, 6-8 hours of direct light",
