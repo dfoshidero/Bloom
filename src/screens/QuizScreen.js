@@ -19,6 +19,7 @@ import { plants } from "../states/plantsConfig";
 import { usePlayerConfig } from "../states/playerConfigContext";
 
 const quizBackground = require("../assets/backgrounds/misc/quiz_screen.png");
+const congratsBackground = require("../assets/backgrounds/misc/congrats_screen.jpeg");
 const textBox = require("../assets/icons/text_box.png");
 
 const buttonFontSize = RFValue(10);
@@ -36,6 +37,10 @@ const QuizScreen = ({ navigation, route }) => {
   const [showGameOverModal, setShowGameOverModal] = useState(false);
   const [updatedList, setUpdatedList] = useState(null);
   const [currentInstructions, setCurrentInstructions] = useState("");
+  const [currentLevel, setCurrentLevel] = useState("");
+  const [currentPlant, setCurrentPlant] = useState("");
+  const [showConratsBackground, setShowCongratsBackground] = useState(false);
+
 
   const { xp, decreaseHearts, addCoins, addXP } = usePlayerConfig();
 
@@ -43,6 +48,8 @@ const QuizScreen = ({ navigation, route }) => {
     const trivia = plantsTriviaConfig[plant]?.[level];
     if (trivia) {
       const currentLevelIndex = parseInt(level.slice(-1)); // Extract the level number
+      setCurrentLevel(level.slice(-1));
+      setCurrentPlant(plants[1].name);
       // Collect questions from all previous levels
       const allPreviousQuestions = [];
       for (let i = 1; i < currentLevelIndex; i++) {
@@ -131,6 +138,7 @@ const QuizScreen = ({ navigation, route }) => {
 
   const completeQuiz = () => {
     setShowModal(true);
+    setShowCongratsBackground(true);
     const numericPlant = parseInt(plant, 10);
     const levelIndex = parseInt(level.slice(-1), 10);
 
@@ -270,27 +278,39 @@ const QuizScreen = ({ navigation, route }) => {
             <GameText style={styles.centerText}>Loading questions...</GameText>
           </View>
         )}
-        <Modal visible={showModal} animationType="fade">
+
+        <Modal visible={showConratsBackground} animationType="fade" transparent={false}>
           <View style={styles.modalContainer}>
-            <GameText style={styles.congratsText}>
-              Congratulations! You've completed the quiz!
-            </GameText>
-            {showRewardMessage && (
-              <GameText style={styles.rewardMessage}>
-                Congratulations! You've been rewarded with 5 extra coins!
-              </GameText>
-            )}
-            <TouchableScale
-              style={styles.button}
-              onPress={() => {
-                setShowModal(false);
-                navigation.navigate("Home", {
-                  updatedList: updatedList,
-                });
-              }}
-            >
-              <GameText style={styles.buttonText}>Go Back.</GameText>
-            </TouchableScale>
+            <ImageBackground
+              source={congratsBackground}
+              style={{ width: "100%", height: "100%", resizeMode: "contain" }}
+            ></ImageBackground>
+
+            <Modal visible={showModal} animationType="fade" transparent={true}>
+              <View style={styles.congratsModalContainer}>
+                <GameText style={styles.congratsText}>
+                  You've passed {currentPlant} level {currentLevel} !
+                </GameText>
+                {showRewardMessage && (
+                  <GameText style={styles.rewardMessage}>
+                    Congratulations! You've been rewarded with 5 extra coins!
+                  </GameText>
+                )}
+                <TouchableScale
+                  style={styles.button}
+                  onPress={() => {
+                    setShowModal(false);
+                    setShowCongratsBackground(false);
+                    navigation.navigate("Home", {
+                      updatedList: updatedList,
+                    });
+                  }}
+                >
+                  <GameText style={styles.buttonText}>Go Back.</GameText>
+                </TouchableScale>
+              </View>
+            </Modal>
+
           </View>
         </Modal>
         {renderGameOverModal()}
@@ -311,6 +331,28 @@ const styles = StyleSheet.create({
     alignItems: "center",
     backgroundColor: "rgba(0, 0, 0, 0.8)", // Semi-transparent background
   },
+  congratsModalContainer: {
+    position: "absolute",
+    zIndex: 1,
+    alignItems: "center",
+    top: "40%", //added these few lines to align to the center
+    left: "10%", //added these few lines to align to the center
+    right: "10%", //added these few lines to align to the center
+    width: "80%",
+    opacity: 0.9,
+    backgroundColor: "white",
+    borderRadius: 20,
+    padding: 20,
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
+  },
+
   modalBox: {
     backgroundColor: "#fff",
     padding: 20,
