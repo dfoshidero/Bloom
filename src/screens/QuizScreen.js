@@ -37,7 +37,7 @@ const QuizScreen = ({ navigation, route }) => {
   const [updatedList, setUpdatedList] = useState(null);
   const [currentInstructions, setCurrentInstructions] = useState("");
 
-  const { playerState, decreaseHearts, addCoins, addXP } = usePlayerConfig();
+  const { xp, decreaseHearts, addCoins, addXP } = usePlayerConfig();
 
   useEffect(() => {
     const trivia = plantsTriviaConfig[plant]?.[level];
