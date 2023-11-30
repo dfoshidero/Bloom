@@ -16,7 +16,7 @@ const CoinDisplay = ({ style }) => {
     <View style={[styles.container, style]}>
       <Image
         source={coinIcon}
-        style={{ width: 48, height: 48, position: "absolute" }}
+        style={{ width: 45, height: 45, position: "absolute" }}
       />
       <GameText
         style={[
