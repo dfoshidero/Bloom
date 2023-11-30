@@ -15,6 +15,7 @@ import { RFPercentage, RFValue } from "react-native-responsive-fontsize";
 
 import GameText from "../styles/GameText";
 import LevelsConfig from "../states/levelsConfig";
+import HeartsDisplay from "../components/HeartsComponent";
 import { usePlayerConfig } from "../states/playerConfigContext";
 
 import Oracle from "../components/OracleComponent";
@@ -184,7 +185,12 @@ const handlePress = (item) => {
 
   return (
     <ImageBackground source={backgroundImage} style={styles.backgroundImage}>
-      <Oracle style={styles.oracle} />
+      <TouchableScale style={styles.oracle}>
+      <Oracle  />
+      </TouchableScale>
+      <TouchableScale style = {styles.heart}>
+      <HeartsDisplay />
+      </TouchableScale>
       <Animated.View
         style={[
           styles.scrollIndicator,
@@ -247,6 +253,7 @@ const styles = StyleSheet.create({
     top: "32%",
   },
   oracle: {
+    position: "absolute",
     left: deviceWidth / 2 - 25 - deviceWidth * 0.1,
     top: deviceHeight / 2 - 25 - deviceHeight * 0.075,
     zIndex: 1,
@@ -299,6 +306,12 @@ const styles = StyleSheet.create({
     borderRadius: 7.5,
     backgroundColor: "green",
   },
+  heart: {
+    position: "absolute",
+    left: deviceWidth / 2 - 25 + deviceWidth * 0.36,
+    top: deviceHeight / 2 - 25 - deviceHeight * 0.42,
+    zIndex: 1,
+  }
 });
 
 export default LevelSelectionScreen;
