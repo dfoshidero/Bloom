@@ -78,8 +78,12 @@ const RealLifeScreen = ({ realLifeScreenVisible, closeRealLifeScreen, plantID })
 
   //in game timer
   const startCountdown = () => {
-    const seconds = (timer - parseInt(watered)) * 3600;
-    console.log(timer)
+    let seconds;
+    if (watered === "") {
+      seconds = timer * 3600;
+    } else {
+      seconds = (timer - parseInt(watered)) * 3600;
+    }
     setCountdown(seconds);
   };
 
