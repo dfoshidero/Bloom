@@ -9,6 +9,7 @@ export const plants = {
     potID: 1,
     locationID: 1,
     height: 60,
+    timer: 336,
     careInstructions: {
       Water: "Water once every two weeks",
       Sunlight: "Full sunlight",
@@ -90,6 +91,7 @@ export const plants = {
     potID: 1,
     locationID: 1,
     height: 70,
+    timer: 336,
     careInstructions: {
       Water: "Water once every two weeks",
       Sunlight: "Moderate sunlight",
@@ -140,12 +142,13 @@ export const plants = {
   3: {
     plantID: 3,
     name: "Snake Plant",
-    iconPath: require("../assets/plants/snake_plant/snake_plant_4.png"),
+    iconPath: require("../assets/plants/snake_plant/snake_plant_4(2).png"),
     type: "tropical flower plant",
     colours: ["Green", "Yellow"],
     potID: 1,
     locationID: 1,
     height: 75,
+    timer: 48,
     careInstructions: {
       Water: "Water sparingly, allow soil to dry out completely",
       Sunlight: "Low to bright, indirect light",
@@ -174,19 +177,19 @@ export const plants = {
         growth: [
           {
             growthStage: 0,
-            imagePath: require("../assets/plants/snake_plant/snake_plant_1.png"),
+            imagePath: require("../assets/plants/snake_plant/snake_plant_1(2).png"),
           },
           {
             growthStage: 0.33,
-            imagePath: require("../assets/plants/snake_plant/snake_plant_2.png"),
+            imagePath: require("../assets/plants/snake_plant/snake_plant_2(2).png"),
           },
           {
             growthStage: 0.66,
-            imagePath: require("../assets/plants/snake_plant/snake_plant_3.png"),
+            imagePath: require("../assets/plants/snake_plant/snake_plant_3(2).png"),
           },
           {
             growthStage: 1.0,
-            imagePath: require("../assets/plants/snake_plant/snake_plant_4.png"),
+            imagePath: require("../assets/plants/snake_plant/snake_plant_4(2).png"),
           },
         ],
         unlockCondition: null,
@@ -197,12 +200,13 @@ export const plants = {
   4: {
     plantID: 4,
     name: "Dragon Tree",
-    iconPath: require("../assets/plants/dragon_tree/dragon_tree_4.png"),
+    iconPath: require("../assets/plants/dragon_tree/dragon_tree_4(2).png"),
     type: "subtropical tree",
     colours: ["Green", "Red"],
     potID: 1,
     locationID: 1,
     height: 120,
+    timer: 48,
     careInstructions: {
       Water: "Allow top soil to dry out between waterings",
       Sunlight: "Bright, indirect light",
@@ -230,19 +234,19 @@ export const plants = {
         growth: [
           {
             growthStage: 0,
-            imagePath: require("../assets/plants/dragon_tree/dragon_tree_1.png"),
+            imagePath: require("../assets/plants/dragon_tree/dragon_tree_1(2).png"),
           },
           {
             growthStage: 0.33,
-            imagePath: require("../assets/plants/dragon_tree/dragon_tree_2.png"),
+            imagePath: require("../assets/plants/dragon_tree/dragon_tree_2(2).png"),
           },
           {
             growthStage: 0.66,
-            imagePath: require("../assets/plants/dragon_tree/dragon_tree_3.png"),
+            imagePath: require("../assets/plants/dragon_tree/dragon_tree_3(2).png"),
           },
           {
             growthStage: 1.0,
-            imagePath: require("../assets/plants/dragon_tree/dragon_tree_4.png"),
+            imagePath: require("../assets/plants/dragon_tree/dragon_tree_4(2).png"),
           },
         ],
         unlockCondition: null,
@@ -253,12 +257,13 @@ export const plants = {
   5: {
     plantID: 5,
     name: "Maidenhair Fern",
-    iconPath: require("../assets/plants/maidenhair_fern/maidenhair_fern_4.png"),
+    iconPath: require("../assets/plants/maidenhair_fern/maidenhair_fern_4(2).png"),
     type: "fern",
     colours: ["Green"],
     potID: 1,
     locationID: 1,
     height: 40,
+    timer: 24,
     careInstructions: {
       Water: "Consistently moist, avoid drying out",
       Sunlight: "Bright, indirect light",
@@ -286,19 +291,19 @@ export const plants = {
         growth: [
           {
             growthStage: 0,
-            imagePath: require("../assets/plants/maidenhair_fern/maidenhair_fern_1.png"),
+            imagePath: require("../assets/plants/maidenhair_fern/maidenhair_fern_1(2).png"),
           },
           {
             growthStage: 0.33,
-            imagePath: require("../assets/plants/maidenhair_fern/maidenhair_fern_2.png"),
+            imagePath: require("../assets/plants/maidenhair_fern/maidenhair_fern_2(2).png"),
           },
           {
             growthStage: 0.66,
-            imagePath: require("../assets/plants/maidenhair_fern/maidenhair_fern_3.png"),
+            imagePath: require("../assets/plants/maidenhair_fern/maidenhair_fern_3(2).png"),
           },
           {
             growthStage: 1.0,
-            imagePath: require("../assets/plants/maidenhair_fern/maidenhair_fern_4.png"),
+            imagePath: require("../assets/plants/maidenhair_fern/maidenhair_fern_4(2).png"),
           },
         ],
         unlockCondition: null,
@@ -315,6 +320,7 @@ export const plants = {
     potID: 1,
     locationID: 1,
     height: 15,
+    timer: 24,
     careInstructions: {
       Water: "Consistently moist soil",
       Sunlight: "Bright, indirect light",
@@ -371,6 +377,7 @@ export const plants = {
     potID: 1,
     locationID: 1,
     height: 50,
+    timer: 48,
     careInstructions: {
       Water: "Deeply but infrequently, allow soil to dry out",
       Sunlight: "Bright, indirect light",
@@ -427,6 +434,7 @@ export const plants = {
     potID: 1,
     locationID: 1,
     height: 60,
+    timer: 24,
     careInstructions: {
       Water: "Consistently moist, avoid waterlogging",
       Sunlight: "Bright, indirect light",
@@ -483,6 +491,7 @@ export const plants = {
     potID: 1,
     locationID: 1,
     height: 180,
+    timer: 24,
     careInstructions: {
       Water: "Evenly moist, well-drained soil",
       Sunlight: "Bright, direct sunlight",
@@ -539,6 +548,7 @@ export const plants = {
     potID: 1,
     locationID: 1,
     height: 150,
+    timer: 24,
     careInstructions: {
       Water: "Allow soil to dry between waterings",
       Sunlight: "Full sun, 6-8 hours of direct light",

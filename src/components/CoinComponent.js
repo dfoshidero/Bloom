@@ -8,9 +8,9 @@ import GameText from "../styles/GameText";
 const coinIcon = require("../assets/icons/coin_icon.png");
 
 const CoinDisplay = ({ style }) => {
-  const { playerConfig } = usePlayerConfig();
-  const textColor = playerConfig.coins === 0 ? "black" : "white";
-  const shadowColor = playerConfig.coins === 0 ? "white" : "black";
+  const { coins } = usePlayerConfig();
+  const textColor = coins === 0 ? "black" : "white";
+  const shadowColor = coins === 0 ? "white" : "black";
 
   return (
     <View style={[styles.container, style]}>
@@ -24,11 +24,12 @@ const CoinDisplay = ({ style }) => {
           { color: textColor, textShadowColor: shadowColor },
         ]}
       >
-        {playerConfig.coins}
+        {coins}
       </GameText>
     </View>
   );
 };
+
 
 const styles = StyleSheet.create({
   container: {

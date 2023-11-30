@@ -42,12 +42,24 @@ After setting up the project, use `npx expo start` to run the app. Scan the prov
 
 Team members can contribute by pulling the latest changes from the main branch, creating a new branch for their features or fixes, and submitting a pull request upon completion.
 
+## Developers
+
+- Udit Bhatia
+- Pang Hoi (Eddy) Chan
+- Marat Danyarov
+- Siqi (Claire) He
+- Alec Mason
+- Daniel-Favour Oshidero
+- Yan Chun (Ivan) Yeung
+
 ## Acknowledgments
 
-- Daniel-Favour Oshidero
-- Pang Hoi (Eddy) Chan
-- Alec Mason
-- Marat Danyarov
-- Yan Chun (Ivan) Yeung
-- Siqi (Claire) He
-- Udit Bhatia
+The developers would like to thank the following individuals for their assistance:
+- Dr Julian Padget, Reader in Artificial Intelligence at University of Bath
+- Madalin Facino, Postgraduate Research Student at University of Bath
+- Tory Frame, Postgraduate Research Student at University of Bath
+- Fahid Mohammed, Postgraduate Research Student at University of Bath
+- Elena Safrygina, Postgraduate Research Student at University of Bath
+- Jinha Yoon, Postgraduate Research Student at University of Bath
+
+DALL·E 3 by OpenAI was used to create image assets. The developers claim ownership of all such images, as per OpenAI's terms of use (accessible at https://openai.com/policies/terms-of-use).
