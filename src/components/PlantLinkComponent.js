@@ -35,10 +35,11 @@ const RealLifeScreen = ({ realLifeScreenVisible, closeRealLifeScreen, plantID })
   const [nicknameInput, setNicknameInput] = useState("");
   const [Stage, setStage] = useState("");
   const [stageAdvice, setStageAdvice] = useState("");
-  const [isHowToModalVisible, setIsHowToModalVisible] = useState(false);
   const [timer, setTimer] = useState("");
   const [countdown, setCountdown] = useState(0);
   const [watered, setWatered] = useState("");
+  const [hasInstructionsModalOpened, setHasInstructionsModalOpened] = useState(false);
+  const [isHowToModalVisible, setIsHowToModalVisible] = useState(true);
 
   useEffect(() => {
     // Retrieve plant data from plantsConfig.js based on plantID
@@ -58,7 +59,12 @@ const RealLifeScreen = ({ realLifeScreenVisible, closeRealLifeScreen, plantID })
   };
 
   const toggleHowToModal = () => {
-    setIsHowToModalVisible(!isHowToModalVisible);
+    if (hasInstructionsModalOpened) {
+      setIsHowToModalVisible(!isHowToModalVisible);
+    } else {
+      setIsHowToModalVisible(true);
+      setHasInstructionsModalOpened(true);
+    }
   };
 
   const handleSaveNickname = () => {
@@ -254,7 +260,7 @@ const RealLifeScreen = ({ realLifeScreenVisible, closeRealLifeScreen, plantID })
         <Modal
           visible={isHowToModalVisible}
           transparent={true}
-          animationType="fade"
+          animationType="slide"
           onRequestClose={toggleHowToModal}
         >
           <TouchableOpacity
@@ -263,9 +269,11 @@ const RealLifeScreen = ({ realLifeScreenVisible, closeRealLifeScreen, plantID })
             onPress={toggleHowToModal}
           >
             <View style={styles.tipsContainer}>
-              <GameText style={styles.tipsContent}>Tips:</GameText>
+              <GameText style={styles.tipsTitle}>Tips:</GameText>
+              <GameText style={styles.tipsContent}>1. Tap Add Photo to add a photo of your plant.</GameText>
+              <GameText style={styles.tipsContent}>2. Tap Edit to add the details of your plant.</GameText>
+              <GameText style={styles.tipsContent}>Guidance of how to determine stages:</GameText>
               <GameText style={styles.tipsContent}>{stageAdvice}</GameText>
-              <GameText style={styles.tipsContent}>Enter last time watered in hours</GameText>
             </View>
           </TouchableOpacity>
         </Modal>
@@ -299,7 +307,7 @@ const RealLifeScreen = ({ realLifeScreenVisible, closeRealLifeScreen, plantID })
               />
             </View>
             <View style={styles.inputContainer}>
-              <GameText style={styles.label}>Last time watered:</GameText>
+              <GameText style={styles.label}>Last time watered (hours):</GameText>
               <TextInput
                 style={styles.input}
                 placeholder="Watered"
@@ -422,6 +430,11 @@ const styles = StyleSheet.create({
     width: "70%",
   },
 
+  tipsTitle: {
+    fontSize: 20,
+    marginBottom: 20,
+  },
+
   tipsContent: {
     fontSize: 12,
     marginBottom: 10,
@@ -529,8 +542,7 @@ const styles = StyleSheet.create({
     opacity: 0.9,
     backgroundColor: "white",
     borderRadius: 20,
-    paddingTop: 30, //80 originally
-    paddingBottom: 20, //10 originally
+    padding: 20,
     shadowColor: "#000",
     shadowOffset: {
       width: 0,
@@ -543,14 +555,13 @@ const styles = StyleSheet.create({
 
   tipsContainer: {
     alignItems: "center",
-    top: "10%", //added these few lines to align to the center
-    left: "15%", //added these few lines to align to the center
-    width: "65%",
+    top: "15%", //added these few lines to align to the center
+    left: "7%", //added these few lines to align to the center
+    width: "75%",
     opacity: 0.9,
     backgroundColor: "white",
     borderRadius: 20,
-    paddingTop: 30, //80 originally
-    paddingBottom: 20, //10 originally
+    padding: 20,
     shadowColor: "#000",
     shadowOffset: {
       width: 0,
