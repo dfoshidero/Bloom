@@ -1,6 +1,7 @@
 import React, { createContext, useState, useContext, useEffect } from "react";
-import levelsConfig from "./levelsConfig"; // Assuming this is your levels configuration
-import { backgrounds } from "./backgroundsConfig"; // Assuming this is your backgrounds configuration
+import levelsConfig from "./levelsConfig"; // Configuration for each level
+import requiredXP from "./levelUpConfig"; // XP required for each level
+import { backgrounds } from "./backgroundsConfig"; // Configuration for backgrounds
 
 const PlayerConfigContext = createContext();
 
@@ -11,18 +12,15 @@ export const PlayerConfigProvider = ({ children }) => {
     hearts: 5, // Initial number of hearts
     xp: 0, // Experience points
     level: 1, // Player level
-    coins: 10, // Initial amount of coins the player has
+    coins: 10, // Initial amount of coins
     unlockedBackgrounds: [], // Unlocked backgrounds
   });
 
   useEffect(() => {
-    // Update unlocked backgrounds when the level changes
+    // Update unlocked backgrounds based on the new level
     const newBackgrounds = Object.keys(backgrounds)
       .filter((key) => backgrounds[key].levelRequired <= playerState.level)
-      .reduce((acc, key) => {
-        acc[key] = backgrounds[key];
-        return acc;
-      }, {});
+      .map((key) => backgrounds[key]);
 
     setPlayerState((prevState) => ({
       ...prevState,
@@ -30,17 +28,21 @@ export const PlayerConfigProvider = ({ children }) => {
     }));
   }, [playerState.level]);
 
-  const addXp = (amount) => {
+  const addXP = (amount) => {
     setPlayerState((prevState) => {
-      const newXp = prevState.xp + amount;
-      const nextLevelConfig = levelsConfig.find(
-        (lvlCfg) => lvlCfg.level === prevState.level + 1
-      );
+      const newXP = prevState.xp + amount;
       let newLevel = prevState.level;
-      if (nextLevelConfig && newXp >= nextLevelConfig.xpThreshold) {
-        newLevel = prevState.level + 1;
+
+      // Check if the player reaches the XP threshold for the next level
+      while (newLevel < requiredXP.length && newXP >= requiredXP[newLevel]) {
+        newLevel++;
       }
-      return { ...prevState, xp: newXp, level: newLevel };
+
+      return {
+        ...prevState,
+        xp: newXP,
+        level: newLevel,
+      };
     });
   };
 
@@ -69,7 +71,7 @@ export const PlayerConfigProvider = ({ children }) => {
       value={{
         ...playerState,
         updatePlayerConfig,
-        addXp,
+        addXP,
         decreaseHearts,
         addCoins,
       }}
@@ -78,3 +80,5 @@ export const PlayerConfigProvider = ({ children }) => {
     </PlayerConfigContext.Provider>
   );
 };
+
+export default PlayerConfigContext;
