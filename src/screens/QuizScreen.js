@@ -149,6 +149,7 @@ const QuizScreen = ({ navigation, route }) => {
         levelsConfig[numericPlant].totalLevels
       ) {
         addCoins(5); // Extra coins for completing all levels
+        addXP(100); // Extra xp for completing all levels
         setShowRewardMessage(true);
       }
     }
