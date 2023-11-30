@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import {
+  Animated,
   View,
   Image,
   Modal,
@@ -19,7 +20,7 @@ import { plants } from "../states/plantsConfig";
 import { usePlayerConfig } from "../states/playerConfigContext";
 
 const quizBackground = require("../assets/backgrounds/misc/quiz_screen.png");
-const congratsBackground = require("../assets/backgrounds/misc/congrats_screen.jpeg");
+const congratsBackground = require("../assets/backgrounds/misc/congrats_screen.png");
 const textBox = require("../assets/icons/text_box.png");
 
 const buttonFontSize = RFValue(10);
@@ -279,11 +280,12 @@ const QuizScreen = ({ navigation, route }) => {
           </View>
         )}
 
-        <Modal visible={showConratsBackground} animationType="fade" transparent={false}>
+        <Modal visible={showConratsBackground} animationType="fade" transparent={true}>
           <View style={styles.modalContainer}>
+            
             <ImageBackground
               source={congratsBackground}
-              style={{ width: "100%", height: "100%", resizeMode: "contain" }}
+              style={{ width: "90%", height: "80%" , resizeMode: "contain", top: "5%", left: "5%", right: "5%", overflow: "hidden"}}
             ></ImageBackground>
 
             <Modal visible={showModal} animationType="fade" transparent={true}>
@@ -301,6 +303,7 @@ const QuizScreen = ({ navigation, route }) => {
                   onPress={() => {
                     setShowModal(false);
                     setShowCongratsBackground(false);
+
                     navigation.navigate("Home", {
                       updatedList: updatedList,
                     });
