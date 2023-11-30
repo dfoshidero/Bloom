@@ -1,20 +1,29 @@
 import React, { createContext, useState, useContext, useEffect } from "react";
-import levelsConfig from "./levelsConfig"; // Configuration for each level
 import requiredXP from "./levelUpConfig"; // XP required for each level
 import { backgrounds } from "./backgroundsConfig"; // Configuration for backgrounds
 
-const PlayerConfigContext = createContext();
+
+const defaultPlayerState = {
+  hearts: 5,
+  xp: 0,
+  level: 1,
+  coins: 10,
+  unlockedBackgrounds: [],
+};
+
+const PlayerConfigContext = createContext({
+  playerState: defaultPlayerState,
+  updatePlayerConfig: () => {},
+  addXP: () => {},
+  decreaseHearts: () => {},
+  addCoins: () => {},
+});
 
 export const usePlayerConfig = () => useContext(PlayerConfigContext);
 
+
 export const PlayerConfigProvider = ({ children }) => {
-  const [playerState, setPlayerState] = useState({
-    hearts: 5, // Initial number of hearts
-    xp: 0, // Experience points
-    level: 1, // Player level
-    coins: 10, // Initial amount of coins
-    unlockedBackgrounds: [], // Unlocked backgrounds
-  });
+  const [playerState, setPlayerState] = useState(defaultPlayerState);
 
   useEffect(() => {
     // Update unlocked backgrounds based on the new level

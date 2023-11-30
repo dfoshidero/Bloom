@@ -25,17 +25,19 @@ const buttonFontSize = RFValue(10);
 const textSize = RFValue(14);
 
 const QuizScreen = ({ navigation, route }) => {
-  const [showRewardMessage, setShowRewardMessage] = useState(false);
   const { plant, level, id } = route.params;
+
+  const [showRewardMessage, setShowRewardMessage] = useState(false);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [questions, setQuestions] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [showInstructions, setShowInstructions] = useState(true);
   const [feedbackMessage, setFeedbackMessage] = useState("");
   const [showGameOverModal, setShowGameOverModal] = useState(false);
-  const { playerConfig, decreaseHearts, addCoins } = usePlayerConfig();
   const [updatedList, setUpdatedList] = useState(null);
   const [currentInstructions, setCurrentInstructions] = useState("");
+
+  const { playerState, decreaseHearts, addCoins, addXP } = usePlayerConfig();
 
   useEffect(() => {
     const trivia = plantsTriviaConfig[plant]?.[level];
@@ -59,14 +61,12 @@ const QuizScreen = ({ navigation, route }) => {
       // Select two random questions from the shuffled array
       const randomQuestions = shuffledAllPreviousQuestions.slice(0, 2);
 
-      console.log("random questions\n", randomQuestions);
-
       // Select the remaining questions from the current level
       const remainingQuestions = trivia.questions.slice(0, 3);
-      console.log("Remaining questions\n", remainingQuestions);
+
       // Combine the selected questions with the current level's questions
       const combinedQuestions = [...remainingQuestions, ...randomQuestions];
-      console.log("combined questions\n", combinedQuestions);
+
 
       const finalQuestions = combinedQuestions.map((question) => {
         // Shuffle the answers array for each question
@@ -107,7 +107,7 @@ const QuizScreen = ({ navigation, route }) => {
   const handleAnswer = (isCorrect) => {
     if (isCorrect) {
       setFeedbackMessage("Correct! Moving to next question...");
-      const timer = setTimeout(() => {
+      setTimeout(() => {
         if (currentQuestionIndex < questions.length - 1) {
           setCurrentQuestionIndex(currentQuestionIndex + 1);
           setFeedbackMessage("");
@@ -115,10 +115,9 @@ const QuizScreen = ({ navigation, route }) => {
           completeQuiz();
         }
       }, 1000);
-      return () => clearTimeout(timer); // Clear timeout if the component unmounts
     } else {
       setFeedbackMessage("Incorrect. Try again!");
-      decreasePlayerHearts();
+      decreaseHearts();
     }
   };
 
@@ -133,38 +132,27 @@ const QuizScreen = ({ navigation, route }) => {
   const completeQuiz = () => {
     setShowModal(true);
     const numericPlant = parseInt(plant, 10);
+    const levelIndex = parseInt(level.slice(-1), 10);
 
-    if (
-      !levelsConfig[numericPlant].completedLevels.includes(
-        parseInt(level.slice(-1), 10)
-      )
-    ) {
-      console.log("parse int ", parseInt(level.slice(-1), 10));
+    if (!levelsConfig[numericPlant].completedLevels.includes(levelIndex)) {
       updateLevelsConfig(plant, level);
-      // Add coins when the user completes a quiz
       const coinsReward = 5;
       addCoins(coinsReward);
-      // Check if all three levels are completed
 
-      console.log("numeric plants ", numericPlant);
-      console.log(
-        "completed levels length ",
-        levelsConfig[numericPlant].completedLevels.length
-      );
-      console.log("total levels ", levelsConfig[numericPlant].totalLevels);
+      const xpReward = levelsConfig[numericPlant].levels.find(
+        (l) => l.levelNumber === levelIndex
+      ).xpReward;
+      addXP(xpReward);
+
       if (
         levelsConfig[numericPlant].completedLevels.length ===
         levelsConfig[numericPlant].totalLevels
       ) {
-        // Add extra coins when all three levels are completed
-        const extraCoinsReward = 5;
-        addCoins(extraCoinsReward);
-        setShowRewardMessage(true); // Set the state to show the reward message
-        console.log("Coins added. Checking component state...");
+        addCoins(5); // Extra coins for completing all levels
+        setShowRewardMessage(true);
       }
     }
     const list = updatePlantsProgress(plant);
-
     setUpdatedList(list);
   };
 
