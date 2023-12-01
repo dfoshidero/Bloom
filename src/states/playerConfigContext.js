@@ -23,35 +23,45 @@ const defaultPlayerState = {
 export const PlayerConfigProvider = ({ children }) => {
   const [playerState, setPlayerState] = useState(defaultPlayerState);
 
+  // Save the player state to AsyncStorage whenever it changes
+  useEffect(() => {
+    AsyncStorage.setItem("playerState", JSON.stringify(playerState));
+    console.log("Player state: ",playerState);
+  }, [playerState]);
+
+  const updatePlayerConfig = (newConfig) => {
+    setPlayerState(prevState => {return { ...prevState, ...newConfig }});
+  };
+
   const addXP = (amount) => {
-    const newXP = playerState.xp + amount;
-    let newLevel = playerState.level;
+    setPlayerState(prevState => {
+      const newXP = prevState.xp + amount;
+      let newLevel = prevState.level;
+  
+      // Check if the player reaches the XP threshold for the next level
+      while (newLevel < requiredXP.length && newXP >= requiredXP[newLevel]) {
+        newLevel++;
+      }
 
-    // Check if the player reaches the XP threshold for the next level
-    while (newLevel < requiredXP.length && newXP >= requiredXP[newLevel]) {
-      newLevel++;
-    }
-
-    updatePlayerConfig({
-      xp: newXP,
-      level: newLevel
+      return {
+        ...prevState,
+        ...{
+        xp: newXP,
+        level: newLevel
+      }};
     });
   };
 
-  const updatePlayerConfig = (newConfig) => {
-    let modifiedPlayerState = { ...playerState, ...newConfig };
-    setPlayerState(modifiedPlayerState);
-    AsyncStorage.setItem("playerState", JSON.stringify(modifiedPlayerState));
-  };
-
   const decreaseHearts = () => {
-    if (playerState.hearts > 0) {
-      updatePlayerConfig({hearts: playerState.hearts - 1});
-    }
+    setPlayerState(prevState => {
+      if (prevState.hearts > 0) {
+        return { ...prevState, ...{hearts: prevState.hearts - 1} };
+      }
+    });
   };
 
   const addCoins = (amount) => {
-    updatePlayerConfig({coins: playerState.coins + amount});
+    setPlayerState(prevState => {return { ...prevState, ...{coins: prevState.coins + amount} }});
   };
 
   // Utility function to get unlocked rooms
