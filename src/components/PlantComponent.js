@@ -24,7 +24,7 @@
   const waterIcon = require("../assets/icons/water_icon.png");
   const linkIcon = require("../assets/icons/link_icon.png");
 
-  const Plant = ({ id, style, isArchived = false }) => {
+  const Plant = ({ id, style, currentBackgroundID, isArchived = false }) => {
 
     const [realLifeScreenVisible, setRealLifeScreenVisible] = useState(false);
 
@@ -126,6 +126,7 @@
         plantID: plantID.toString(),
         archiveID: "null",
         progress: 0,
+        backgroundID: currentBackgroundID,
       };
 
       // Save the updated saved plants array in AsyncStorage

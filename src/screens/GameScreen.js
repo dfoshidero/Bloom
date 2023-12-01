@@ -27,44 +27,11 @@ import { usePlayerConfig } from "../states/playerConfigContext";
 
 const GameScreen = ({ route }) => {
   //const { updatedList } = route.params;
-  const [currentBackground, setCurrentBackground] = useState(
-    backgrounds.background1
-  );
-  const backgroundImage = currentBackground.image;
+
   const [menuVisible, setMenuVisible] = useState(false);
 
   const { level, getUnlockedRooms } = usePlayerConfig();
   const unlockedRooms = getUnlockedRooms(level);
-
-  useEffect(() => {
-    const loadCurrentBackground = async () => {
-      try {
-        const savedBackground = await AsyncStorage.getItem("currentBackground");
-        if (savedBackground) {
-          setCurrentBackground(JSON.parse(savedBackground));
-        }
-      } catch (error) {
-        console.log("Failed to load the current background:", error);
-      }
-    };
-
-    loadCurrentBackground();
-  }, []);
-  useEffect(() => {
-    const saveCurrentBackground = async () => {
-      try {
-        await AsyncStorage.setItem(
-          "currentBackground",
-          JSON.stringify(currentBackground)
-        );
-        console.log("Current background saved:", currentBackground);
-      } catch (error) {
-        console.log("Failed to save the current background:", error);
-      }
-    };
-
-    saveCurrentBackground();
-  }, [currentBackground]);
 
   const handleToggleMenu = () => {
     setMenuVisible(toggleMenu(menuVisible));
@@ -121,9 +88,10 @@ const GameScreen = ({ route }) => {
       <Swiper loop={false} style={gameStyles.swiper}>
         {unlockedRooms.map((room, index) => (
           <TwoDimSpace
-            key={index}
+            key={room.id}
             backgroundImage={room.image}
             plantPositions={room.plantPositions}
+            roomID={room.id}
           />
         ))}
       </Swiper>

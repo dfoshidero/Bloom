@@ -1,30 +1,49 @@
 // BackgroundImageComponent.js
 import React from "react";
+import { useContext } from "react";
 import { ImageBackground, StyleSheet } from "react-native";
-import Plant from "./PlantComponent"; // Adjust the import path as needed
+import Plant from "./PlantComponent";
+import { PlantDataContext } from "../states/plantsDataContext";
+
 
 import { Dimensions } from "react-native";
 
 const screenWidth = Dimensions.get("window").width;
 const screenHeight = Dimensions.get("window").height;
 
-const TwoDimSpace = ({ backgroundImage, plantPositions }) => {
+const TwoDimSpace = ({ backgroundImage, plantPositions, roomID }) => {
+  const { plantData } = useContext(PlantDataContext);
+
+  const plantsForCurrentRoom = plantData.filter(
+    (plant) => plant.backgroundID === roomID.toString()
+  );
+
+  console.log(`Plants for room ${roomID}:`, plantsForCurrentRoom);
+
   return (
     <ImageBackground source={backgroundImage} style={styles.backgroundImage}>
-      {plantPositions.map((position) => (
-        <Plant
-          key={position.id}
-          id={position.id}
-          style={{
-            position: "absolute",
-            bottom: position.bottom,
-            left: position.left,
-          }}
-        />
-      ))}
+      {plantPositions.map((position) => {
+        const plant = plantsForCurrentRoom.find(
+          (p) => p.plantPositionID === position.id.toString()
+        );
+        return (
+          <Plant
+            key={position.id}
+            id={position.id.toString()}
+            selectedPlant={plant}
+            currentBackgroundID={roomID.toString()}
+            style={{
+              position: "absolute",
+              bottom: position.bottom,
+              left: position.left,
+            }}
+          />
+        );
+      })}
     </ImageBackground>
   );
 };
+
 
 const styles = StyleSheet.create({
   backgroundImage: {
