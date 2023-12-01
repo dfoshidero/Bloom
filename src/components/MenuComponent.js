@@ -1,6 +1,6 @@
 // MenuComponent.js
 import React from "react";
-import { View, Text, TouchableOpacity, Modal, StyleSheet } from "react-native";
+import { View, Text, TouchableOpacity, Modal, StyleSheet, NativeModules } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import GameText from "../styles/GameText";
@@ -59,7 +59,7 @@ const MenuComponent = ({ menuVisible, closeMenu }) => {
           <TouchableOpacity
             onPress={() => {
               clearData();
-              closeMenu();
+              NativeModules.DevSettings.reload();
             }}
           >
             <GameText style={styles.menuItem}>Reset Game</GameText>

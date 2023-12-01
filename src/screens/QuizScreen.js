@@ -299,12 +299,6 @@ const QuizScreen = ({ navigation, route }) => {
         )}
 
         <Modal visible={showConratsBackground} animationType="fade" transparent={true}>
-          <View style={styles.modalContainer}>
-            
-            <ImageBackground
-              source={congratsBackground}
-              style={{ width: "90%", height: "80%" , resizeMode: "contain", top: "5%", left: "5%", right: "5%", overflow: "hidden"}}
-            ></ImageBackground>
 
             <Modal visible={showModal} animationType="fade" transparent={true}>
               <View style={styles.congratsModalContainer}>
@@ -332,7 +326,6 @@ const QuizScreen = ({ navigation, route }) => {
               </View>
             </Modal>
 
-          </View>
         </Modal>
         {renderGameOverModal()}
       </ImageBackground>
