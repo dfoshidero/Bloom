@@ -1,20 +1,14 @@
 // PlantDataContext.js
-import React, { createContext, useState, useContext } from "react";
+import React, { createContext, useState, useContext, useEffect } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-
-// Create the context
-export const PlantDataContext = createContext();
 
 // Provider component
 export const PlantDataProvider = ({ children }) => {
   const [plantData, setPlantData] = useState([]);
 
-  // Function to update plant data
-  const updatePlantData = (data) => {
-    if (data != plantData) {
-      setPlantData(data);
-      AsyncStorage.setItem("savedPlants", JSON.stringify(data));
-    };
+  const updatePlantData = (modifiedData) => {
+    setPlantData(modifiedData);
+    AsyncStorage.setItem("savedPlants", JSON.stringify(modifiedData));
   };
 
   return (
@@ -23,3 +17,10 @@ export const PlantDataProvider = ({ children }) => {
     </PlantDataContext.Provider>
   );
 };
+
+export const PlantDataContext = createContext({
+  plantData: PlantDataProvider.plantData,
+  updatePlantData: PlantDataProvider.updatePlantData
+});
+
+export const usePlantContext = () => useContext(PlantDataContext);

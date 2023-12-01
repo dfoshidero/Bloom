@@ -15,29 +15,33 @@ const LoadingScreen = ({ onFinishLoading }) => {
   const [fadeAnim] = useState(new Animated.Value(1)); // Initial opacity is set to 1
 
   useEffect(() => {
+
+    // Simulate loading process with a delay
+    const delay = async () => {
+      setLoadingMessage("Loading plant data...");
+      await new Promise((resolve) => setTimeout(resolve, 300)); // Adjust the delay as needed
+      
+      // Delay before fading out
+      setTimeout(() => {
+        // Fade out animation
+        Animated.timing(fadeAnim, {
+          toValue: 0, // Animate to opacity 0 (fully transparent)
+          duration: 200, // Animation duration in milliseconds
+          useNativeDriver: true, // Use native driver for better performance
+        }).start(() => {
+          // Animation complete callback
+          onFinishLoading();
+        });
+      }, 50); // 2 seconds delay
+    }
+
     const loadPlantData = async () => {
       try {
-        // Simulate loading process with a delay
-        setLoadingMessage("Loading plant data...");
-        await new Promise((resolve) => setTimeout(resolve, 1000)); // Adjust the delay as needed
-
         // Fetch or load your plant data
         const savedPlantsJSON = await AsyncStorage.getItem("savedPlants");
         const savedPlants = savedPlantsJSON ? JSON.parse(savedPlantsJSON) : [];
+        console.log("I am the loading screen and I have retrieved plant data",savedPlants);
         updatePlantData(savedPlants);
-
-        // Delay before fading out
-        setTimeout(() => {
-          // Fade out animation
-          Animated.timing(fadeAnim, {
-            toValue: 0, // Animate to opacity 0 (fully transparent)
-            duration: 500, // Animation duration in milliseconds
-            useNativeDriver: true, // Use native driver for better performance
-          }).start(() => {
-            // Animation complete callback
-            onFinishLoading();
-          });
-        }, 2000); // 2 seconds delay
       } catch (error) {
         console.error("Failed to load plant data:", error);
       }
@@ -70,6 +74,7 @@ const LoadingScreen = ({ onFinishLoading }) => {
     loadPlantData();
     loadFonts();
     loadPlayerState();
+    delay();
   }, []);
 
   return (

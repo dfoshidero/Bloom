@@ -8,7 +8,7 @@ import {
   Image,
 } from "react-native";
 import styles from "../styles/PlantStyles";
-import { PlantDataContext } from "../states/plantsDataContext";
+import { usePlantContext } from "../states/plantsDataContext";
 import { plants } from "../states/plantsConfig";
 import GameText from "../styles/GameText";
 
@@ -19,7 +19,7 @@ const SelectFromArchiveModal = ({
   onClose,
   handleRemoveFromArchive,
 }) => {
-  const { plantData } = useContext(PlantDataContext);
+  const { plantData } = usePlantContext();
 
   for (let i = 0; i < plantData.length; i++){
     let plantSpecies = plants[parseInt(plantData[i].plantID)];
