@@ -3,12 +3,14 @@ import { View, Dimensions, Text, Image, Animated } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { PlantDataContext } from "../states/plantsDataContext"; // Update this path
 import * as Font from "expo-font";
+import { PlayerConfigContext } from "../states/playerConfigContext";
 
 const loadingImage = require("../assets/backgrounds/misc/loading_screen2.png");
 const deviceWidth = Dimensions.deviceWidth
 
 const LoadingScreen = ({ onFinishLoading }) => {
   const { updatePlantData } = useContext(PlantDataContext);
+  const { updatePlayerConfig } = useContext(PlayerConfigContext);
   const [loadingMessage, setLoadingMessage] = useState("Loading...");
   const [fadeAnim] = useState(new Animated.Value(1)); // Initial opacity is set to 1
 
@@ -53,9 +55,21 @@ const LoadingScreen = ({ onFinishLoading }) => {
       }
     };
 
-    // Load both plant data and fonts
+    const loadPlayerState = async () => {
+      try {
+        setLoadingMessage("Loading player data...");
+        const playerStateJSON = await AsyncStorage.getItem("playerState");
+        const playerState = playerStateJSON ? JSON.parse(playerStateJSON) : {};
+        updatePlayerConfig(playerState);
+      } catch (error) {
+        console.error("Error loading player data:", error);
+      }
+    };
+
+    // Load plant data, fonts and player state
     loadPlantData();
     loadFonts();
+    loadPlayerState();
   }, []);
 
   return (

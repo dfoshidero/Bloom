@@ -1,7 +1,15 @@
 import React, { createContext, useState, useContext, useEffect } from "react";
 import requiredXP from "./levelUpConfig"; // XP required for each level
 import { backgrounds } from "./backgroundsConfig"; // Configuration for backgrounds
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { plants } from "../states/plantsConfig";
 
+//Make a dictionary for plantProgress
+const defaultPlantProgress = () => {
+  let plantProgress = {};
+  Object.entries(plants).forEach(([k,v]) => plantProgress[v.plantID] = 0);
+  return plantProgress;
+}
 
 const defaultPlayerState = {
   hearts: 5,
@@ -9,58 +17,41 @@ const defaultPlayerState = {
   level: 1,
   coins: 10,
   unlockedBackgrounds: [],
+  plantProgress: defaultPlantProgress()
 };
-
-const PlayerConfigContext = createContext({
-  playerState: defaultPlayerState,
-  updatePlayerConfig: () => {},
-  addXP: () => {},
-  decreaseHearts: () => {},
-  addCoins: () => {},
-});
-
-export const usePlayerConfig = () => useContext(PlayerConfigContext);
-
 
 export const PlayerConfigProvider = ({ children }) => {
   const [playerState, setPlayerState] = useState(defaultPlayerState);
 
   const addXP = (amount) => {
-    setPlayerState((prevState) => {
-      const newXP = prevState.xp + amount;
-      let newLevel = prevState.level;
+    const newXP = playerState.xp + amount;
+    let newLevel = playerState.level;
 
-      // Check if the player reaches the XP threshold for the next level
-      while (newLevel < requiredXP.length && newXP >= requiredXP[newLevel]) {
-        newLevel++;
-      }
+    // Check if the player reaches the XP threshold for the next level
+    while (newLevel < requiredXP.length && newXP >= requiredXP[newLevel]) {
+      newLevel++;
+    }
 
-      return {
-        ...prevState,
-        xp: newXP,
-        level: newLevel,
-      };
+    updatePlayerConfig({
+      xp: newXP,
+      level: newLevel
     });
   };
 
   const updatePlayerConfig = (newConfig) => {
-    setPlayerState((prevState) => ({ ...prevState, ...newConfig }));
+    let modifiedPlayerState = { ...playerState, ...newConfig };
+    setPlayerState(modifiedPlayerState);
+    AsyncStorage.setItem("playerState", JSON.stringify(modifiedPlayerState));
   };
 
   const decreaseHearts = () => {
-    setPlayerState((prevState) => {
-      if (prevState.hearts > 0) {
-        return { ...prevState, hearts: prevState.hearts - 1 };
-      }
-      return prevState;
-    });
+    if (playerState.hearts > 0) {
+      updatePlayerConfig({hearts: playerState.hearts - 1});
+    }
   };
 
   const addCoins = (amount) => {
-    setPlayerState((prevState) => ({
-      ...prevState,
-      coins: prevState.coins + amount,
-    }));
+    updatePlayerConfig({coins: playerState.coins + amount});
   };
 
   // Utility function to get unlocked rooms
@@ -86,4 +77,12 @@ export const PlayerConfigProvider = ({ children }) => {
   );
 };
 
-export default PlayerConfigContext;
+export const PlayerConfigContext = createContext({
+  playerState: PlayerConfigProvider.playerState,
+  updatePlayerConfig: PlayerConfigProvider.updatePlayerConfig,
+  addXP: PlayerConfigProvider.addXp,
+  decreaseHearts: PlayerConfigProvider.decreaseHearts,
+  addCoins: PlayerConfigProvider.addCoins,
+});
+
+export const usePlayerConfig = () => useContext(PlayerConfigContext);
