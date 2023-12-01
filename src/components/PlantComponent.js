@@ -13,6 +13,7 @@ import ScaleAnimation from "./ScaleAnimation";
 import { getPlantHitBox } from "./PlantHitbox";
 import FloatingMenu from "./CircularMenu";
 import { usePlantContext } from "../states/plantsDataContext";
+import { useProgressContext } from "../states/speciesProgressContext";
 import RealLifeScreenComponent from "../components/PlantLinkComponent";
 
 
@@ -47,6 +48,7 @@ const Plant = ({ id, style, currentBackgroundID, isArchived = false }) => {
   const [isActive, setIsActive] = useState(false);
 
   const { plantData, updatePlantData } = usePlantContext();
+  const { speciesProgress, updateSpeciesProgress } = useProgressContext();
 
   useEffect(() => {
     const savedPlant = plantData.find(
@@ -178,8 +180,8 @@ const Plant = ({ id, style, currentBackgroundID, isArchived = false }) => {
           (stage, index, array) => {
             const nextStage = array[index + 1];
             return (
-              selectedPlant.progress >= stage.growthStage &&
-              (!nextStage || selectedPlant.progress < nextStage.growthStage)
+              speciesProgress[selectedPlant.plantID] >= stage.growthStage &&
+              (!nextStage || speciesProgress[selectedPlant.plantID] < nextStage.growthStage)
             );
           }
         );
@@ -209,7 +211,7 @@ const Plant = ({ id, style, currentBackgroundID, isArchived = false }) => {
             <TouchableOpacity
               style={[
                 selectedPlant
-                  ? getPlantHitBox(selectedPlant.progress)
+                  ? getPlantHitBox(speciesProgress[selectedPlant.plantID])
                   : {
                       width: 70,
                       height: 100,
