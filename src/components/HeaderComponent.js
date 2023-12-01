@@ -26,6 +26,7 @@ const styles = StyleSheet.create({
     paddingBottom: 10,
     zIndex: 999,
     pointerEvents: "none",
+    position: "absolute",
   },
   headerLiner: {
     position: "absolute",

@@ -25,18 +25,6 @@ export const usePlayerConfig = () => useContext(PlayerConfigContext);
 export const PlayerConfigProvider = ({ children }) => {
   const [playerState, setPlayerState] = useState(defaultPlayerState);
 
-  useEffect(() => {
-    // Update unlocked backgrounds based on the new level
-    const newBackgrounds = Object.keys(backgrounds)
-      .filter((key) => backgrounds[key].levelRequired <= playerState.level)
-      .map((key) => backgrounds[key]);
-
-    setPlayerState((prevState) => ({
-      ...prevState,
-      unlockedBackgrounds: newBackgrounds,
-    }));
-  }, [playerState.level]);
-
   const addXP = (amount) => {
     setPlayerState((prevState) => {
       const newXP = prevState.xp + amount;
@@ -75,6 +63,13 @@ export const PlayerConfigProvider = ({ children }) => {
     }));
   };
 
+  // Utility function to get unlocked rooms
+  const getUnlockedRooms = (playerLevel) => {
+    return Object.values(backgrounds).filter(
+      (room) => room.levelRequired <= playerLevel
+    );
+  };
+
   return (
     <PlayerConfigContext.Provider
       value={{
@@ -83,6 +78,7 @@ export const PlayerConfigProvider = ({ children }) => {
         addXP,
         decreaseHearts,
         addCoins,
+        getUnlockedRooms
       }}
     >
       {children}

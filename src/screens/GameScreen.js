@@ -1,9 +1,11 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { View, Image } from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome";
 import TouchableScale from "react-native-touchable-scale";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import Swiper from "react-native-swiper";
 import { useNavigation } from "@react-navigation/native";
+
 import CoinDisplay from "../components/CoinComponent";
 import Header from "../components/HeaderComponent";
 import { backgrounds } from "../states/backgroundsConfig";
@@ -21,6 +23,7 @@ import {
 } from "../utilities/backgroundMusic";
 import CollectionButton from "../components/CollectionComponent";
 import GameStatsButton from "../components/GameStatsComponent";
+import { usePlayerConfig } from "../states/playerConfigContext";
 
 const GameScreen = ({ route }) => {
   //const { updatedList } = route.params;
@@ -29,6 +32,9 @@ const GameScreen = ({ route }) => {
   );
   const backgroundImage = currentBackground.image;
   const [menuVisible, setMenuVisible] = useState(false);
+
+  const { level, getUnlockedRooms } = usePlayerConfig();
+  const unlockedRooms = getUnlockedRooms(level);
 
   useEffect(() => {
     const loadCurrentBackground = async () => {
@@ -111,11 +117,16 @@ const GameScreen = ({ route }) => {
         closeMenu={() => setMenuVisible(false)}
       />
 
-      <TwoDimSpace
-        //updatedList = {updatedList}
-        backgroundImage={backgroundImage}
-        plantPositions={currentBackground.plantPositions}
-      />
+      {/* Swiper for different rooms */}
+      <Swiper loop={false} style={gameStyles.swiper}>
+        {unlockedRooms.map((room, index) => (
+          <TwoDimSpace
+            key={index}
+            backgroundImage={room.image}
+            plantPositions={room.plantPositions}
+          />
+        ))}
+      </Swiper>
     </View>
   );
 };

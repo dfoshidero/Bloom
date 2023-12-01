@@ -21,7 +21,7 @@ export const backgrounds = {
   background2: {
     name: "Background 2",
     image: background2Image,
-    levelRequired: 2,
+    levelRequired: 1,
     plantPositions: [
       { id: 1, bottom: "30.7%", left: "6.5%" },
       { id: 2, bottom: "18%", left: "43%" },
@@ -33,7 +33,7 @@ export const backgrounds = {
   background3: {
     name: "Background 3",
     image: background3Image,
-    levelRequired: 3,
+    levelRequired: 5,
     plantPositions: [
       { id: 1, bottom: "25%", left: "6.5%" },
       { id: 2, bottom: "25%", left: "43%" },
@@ -45,7 +45,7 @@ export const backgrounds = {
   background4: {
     name: "Background 4",
     image: background4Image,
-    levelRequired: 4,
+    levelRequired: 8,
     plantPositions: [
       { id: 1, bottom: "25%", left: "6.5%" },
       { id: 2, bottom: "25%", left: "43%" },
