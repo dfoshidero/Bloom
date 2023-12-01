@@ -21,7 +21,7 @@ export const backgrounds = {
   background2: {
     name: "Background 2",
     image: background2Image,
-    levelRequired: 1,
+    levelRequired: 2,
     plantPositions: [
       { id: 1, bottom: "30.7%", left: "6.5%" },
       { id: 2, bottom: "18%", left: "43%" },
