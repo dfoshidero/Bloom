@@ -16,6 +16,7 @@ import { RFPercentage, RFValue } from "react-native-responsive-fontsize";
 import GameText from "../styles/GameText";
 import LevelsConfig from "../states/levelsConfig";
 import HeartsDisplay from "../components/HeartsComponent";
+import CoinDisplay from "../components/CoinComponent";
 import { usePlayerConfig } from "../states/playerConfigContext";
 
 import Oracle from "../components/OracleComponent";
@@ -41,30 +42,30 @@ const LevelSelectionScreen = ({ navigation, route }) => {
 
   const viewPagerRef = useRef(null);
 
-   const [swipeTextOpacity, setSwipeTextOpacity] = useState(1);
+  const [swipeTextOpacity, setSwipeTextOpacity] = useState(1);
 
-   useEffect(() => {
-     let blinkInterval;
-     let blinkCount = 0;
+  useEffect(() => {
+    let blinkInterval;
+    let blinkCount = 0;
 
-     const startBlinking = () => {
-       blinkInterval = setInterval(() => {
-         setSwipeTextOpacity((prevOpacity) => (prevOpacity === 0 ? 1 : 0));
-         blinkCount++;
+    const startBlinking = () => {
+      blinkInterval = setInterval(() => {
+        setSwipeTextOpacity((prevOpacity) => (prevOpacity === 0 ? 1 : 0));
+        blinkCount++;
 
-         if (blinkCount >= 10) {
-           clearInterval(blinkInterval); // Stop blinking after three cycles
-         }
-       }, 200);
-     };
+        if (blinkCount >= 10) {
+          clearInterval(blinkInterval); // Stop blinking after three cycles
+        }
+      }, 200);
+    };
 
-     startBlinking();
+    startBlinking();
 
-     return () => {
-       clearInterval(blinkInterval);
-       setSwipeTextOpacity(0.8); // Ensure the text is visible after blinking
-     };
-   }, []);
+    return () => {
+      clearInterval(blinkInterval);
+      setSwipeTextOpacity(0.8); // Ensure the text is visible after blinking
+    };
+  }, []);
 
   const fadeOutScrollIndicators = () => {
     Animated.timing(scrollIndicatorTopOpacity, {
@@ -111,41 +112,41 @@ const LevelSelectionScreen = ({ navigation, route }) => {
 
   const { playerConfig } = usePlayerConfig();
 
-const handlePress = (item) => {
-  if (hearts > 0) {
-    if (plantLevels.completedLevels.includes(item - 1) || item === 1) {
-      Alert.alert(
-        "Are you ready?",
-        "The quiz will begin once you press start.",
-        [
-          {
-            text: "Cancel",
-            onPress: () => {
-              // User canceled, do nothing
+  const handlePress = (item) => {
+    if (hearts > 0) {
+      if (plantLevels.completedLevels.includes(item - 1) || item === 1) {
+        Alert.alert(
+          "Are you ready?",
+          "The quiz will begin once you press start.",
+          [
+            {
+              text: "Cancel",
+              onPress: () => {
+                // User canceled, do nothing
+              },
+              style: "cancel",
             },
-            style: "cancel",
-          },
-          {
-            text: "Start",
-            onPress: () => {
-              // User confirmed, navigate to the quiz screen
-              navigation.navigate("QuizScreen", {
-                id: id,
-                plant: selectedPlantID,
-                level: `level${item}`,
-              });
+            {
+              text: "Start",
+              onPress: () => {
+                // User confirmed, navigate to the quiz screen
+                navigation.navigate("QuizScreen", {
+                  id: id,
+                  plant: selectedPlantID,
+                  level: `level${item}`,
+                });
+              },
             },
-          },
-        ],
-        { cancelable: false }
-      );
+          ],
+          { cancelable: false }
+        );
+      } else {
+        Alert.alert("Level Locked", "Complete the previous level to unlock.");
+      }
     } else {
-      Alert.alert("Level Locked", "Complete the previous level to unlock.");
+      Alert.alert("No Hearts Left", "You need more hearts to start a quiz!");
     }
-  } else {
-    Alert.alert("No Hearts Left", "You need more hearts to start a quiz!");
-  }
-};
+  };
 
   const handlePageScroll = (e) => {
     resetScrollIndicators();
@@ -160,38 +161,51 @@ const handlePress = (item) => {
 
   const renderPage = (item) => {
 
-     let iconSource;
+    let iconSource;
 
-  if (plantLevels.completedLevels.includes(item)) {
-    // If the level is completed
-    iconSource = levelCompleteIcon;
-  } else if (item <= plantLevels.completedLevels.length + 1) {
-    // If the level is unlocked but not completed
-    iconSource = levelUnlocekdIcon;
-  } else {
-    // If the level is locked
-    iconSource = levelLockedIcon;
-  }
-  return (
-    <TouchableScale
-      onPress={() => handlePress(item)}
-      style={[
-        styles.levelContainer
-      ]}
-    >
-      <Image source={iconSource} style={{width: "120%", height: "120%"}}></Image>
+    if (plantLevels.completedLevels.includes(item)) {
+      // If the level is completed
+      iconSource = levelCompleteIcon;
+    } else if (item <= plantLevels.completedLevels.length + 1) {
+      // If the level is unlocked but not completed
+      iconSource = levelUnlocekdIcon;
+    } else {
+      // If the level is locked
+      iconSource = levelLockedIcon;
+    }
+    return (
+      <TouchableScale
+        onPress={() => handlePress(item)}
+        style={[
+          styles.levelContainer
+        ]}
+      >
+        <Image source={iconSource} style={{ width: "120%", height: "120%" }}></Image>
         <GameText style={styles.levelText}>Level {item}</GameText>
-    </TouchableScale>
-  );
-    };
+      </TouchableScale>
+    );
+  };
 
   return (
     <ImageBackground source={backgroundImage} style={styles.backgroundImage}>
       <TouchableScale style={styles.oracle}>
-      <Oracle  />
+        <Oracle />
       </TouchableScale>
-      <TouchableScale style = {styles.heart}>
-      <HeartsDisplay />
+      <TouchableScale style={{
+        position: "absolute",
+        left: "82%",
+        top: "4%",
+        zIndex: 1
+      }}>
+        <HeartsDisplay />
+      </TouchableScale>
+      <TouchableScale style={{
+        position: "absolute",
+        left: "66%",
+        top: "4%",
+        zIndex: 1
+      }}>
+        <CoinDisplay />
       </TouchableScale>
       <Animated.View
         style={[

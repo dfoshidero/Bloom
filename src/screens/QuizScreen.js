@@ -239,18 +239,22 @@ const QuizScreen = ({ navigation, route }) => {
             resizeMode: "contain",
           }}
         />
-        <HeartsDisplay style={{
-            position: "absolute",
-            left: "82%",
-            top: "4%",
-            resizeMode: "contain",
-          }}/>
-          <CoinDisplay style={{
-            position: "absolute",
-            left: "66%",
-            top: "4%",
-            resizeMode: "contain",
-          }}/>
+      <TouchableScale style={{
+        position: "absolute",
+        left: "82%",
+        top: "4%",
+        zIndex: 1
+      }}>
+        <HeartsDisplay />
+      </TouchableScale>
+      <TouchableScale style={{
+        position: "absolute",
+        left: "66%",
+        top: "4%",
+        zIndex: 1
+      }}>
+        <CoinDisplay />
+      </TouchableScale>
         {showInstructions && (
           <Modal
             visible={showInstructions}
