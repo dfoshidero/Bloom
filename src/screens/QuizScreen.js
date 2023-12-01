@@ -18,13 +18,15 @@ import plantsTriviaConfig from "../states/plantsTriviaConfig";
 import levelsConfig from "../states/levelsConfig";
 import { plants } from "../states/plantsConfig";
 import { usePlayerConfig } from "../states/playerConfigContext";
+import HeartsDisplay from "../components/HeartsComponent";
+import CoinDisplay from "../components/CoinComponent";
 
 const quizBackground = require("../assets/backgrounds/misc/quiz_screen.png");
 const congratsBackground = require("../assets/backgrounds/misc/congrats_screen.png");
 const textBox = require("../assets/icons/text_box.png");
 
-const buttonFontSize = RFValue(10);
-const textSize = RFValue(14);
+const buttonFontSize = RFValue(8);
+const textSize = RFValue(10);
 
 const QuizScreen = ({ navigation, route }) => {
   const { plant, level, id } = route.params;
@@ -237,6 +239,18 @@ const QuizScreen = ({ navigation, route }) => {
             resizeMode: "contain",
           }}
         />
+        <HeartsDisplay style={{
+            position: "absolute",
+            left: "82%",
+            top: "4%",
+            resizeMode: "contain",
+          }}/>
+          <CoinDisplay style={{
+            position: "absolute",
+            left: "66%",
+            top: "4%",
+            resizeMode: "contain",
+          }}/>
         {showInstructions && (
           <Modal
             visible={showInstructions}
