@@ -27,7 +27,7 @@ const buttonFontSize = RFValue(10);
 const textSize = RFValue(14);
 
 const QuizScreen = ({ navigation, route }) => {
-  const { plant, level, id } = route.params;
+  const { plant, level, id, progress } = route.params;
 
   const [showRewardMessage, setShowRewardMessage] = useState(false);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
@@ -41,6 +41,12 @@ const QuizScreen = ({ navigation, route }) => {
   const [currentLevel, setCurrentLevel] = useState("");
   const [currentPlant, setCurrentPlant] = useState("");
   const [showConratsBackground, setShowCongratsBackground] = useState(false);
+
+  const [showAnimationModal, setShowAnimationModal] = useState(false);
+
+  //animation variables
+  const [progressAnimation] = useState(new Animated.Value(0));
+  const [showProgressAnimation, setShowProgressAnimation] = useState(false);
 
 
   const { xp, decreaseHearts, addCoins, addXP } = usePlayerConfig();
@@ -188,6 +194,18 @@ const QuizScreen = ({ navigation, route }) => {
       const progress = completedLevels / totalLevels;
       plants[plant].progress = progress;
       console.log(arrangeData(null, plant, id, progress));
+
+      setShowAnimationModal(true);
+      setShowProgressAnimation(true);
+    
+      // Update the plant progress after the animation completes
+      setTimeout(() => {
+        setUpdatedList(list);
+        setShowAnimationModal(false);
+        setShowProgressAnimation(false);
+        
+      }, 1000);
+
       return arrangeData(null, plant, id, progress);
     }
   };
@@ -312,6 +330,27 @@ const QuizScreen = ({ navigation, route }) => {
                   <GameText style={styles.buttonText}>Go Back.</GameText>
                 </TouchableScale>
               </View>
+            </Modal>
+            <Modal visible={showAnimationModal} animationType="fade" transparent={true}>
+              {showProgressAnimation ? (
+                <Animated.Image
+                  source={require("../assets/images/plant_normal.png")} // Replace with the original plant image source
+                  style={[
+                    styles.plantImage,
+                    {
+                      opacity: progressAnimation.interpolate({
+                        inputRange: [0, 0.5, 1],
+                        outputRange: [1, 0, 1],
+                      }),
+                    },
+                  ]}
+                />
+              ) : (
+                <Image
+                  source={require("../assets/images/plant_normal.png")} // Replace with the new plant image source
+                  style={styles.plantImage}
+                />
+              )}
             </Modal>
 
           </View>

@@ -105,6 +105,7 @@
         navigation.navigate("LevelSelectionScreen", {
           id: id,
           selectedPlantID: selectedPlant.plantID,
+          progress: selectedPlant.progress,
         });
       } else if (item.id == 2) {
         //Archive button pressed

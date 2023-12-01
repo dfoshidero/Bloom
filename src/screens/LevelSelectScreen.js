@@ -103,7 +103,7 @@ const LevelSelectionScreen = ({ navigation, route }) => {
     return () => clearTimeout(timer);
   }, []);
 
-  const { id, selectedPlantID } = route.params;
+  const { id, selectedPlantID, progress } = route.params;
   const plantLevels = LevelsConfig[selectedPlantID];
 
   // Calculate the index of the latest unlocked level
@@ -133,6 +133,7 @@ const handlePress = (item) => {
                 id: id,
                 plant: selectedPlantID,
                 level: `level${item}`,
+                progress: progress,
               });
             },
           },
