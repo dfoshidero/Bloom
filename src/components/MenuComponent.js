@@ -30,23 +30,7 @@ const MenuComponent = ({ menuVisible, closeMenu }) => {
       <TouchableOpacity style={styles.backgroundImage} onPress={closeMenu}>
         <View style={styles.menuContainer}>
           <GameText style={styles.menuItem}>Achievements</GameText>
-          {/*<TouchableOpacity*/}
-          {/*  onPress={() => {*/}
-          {/*    navigation.navigate("CollectionScreen", {screen:"CollectionScreen",params:{timestamp:navigationCounter++}});*/}
-          {/*    closeMenu();*/}
-          {/*  }}*/}
-          {/*>*/}
-          {/*  <GameText style={styles.menuItem}>Collection</GameText>*/}
-          {/*</TouchableOpacity>*/}
-          {/*<TouchableOpacity*/}
-          {/*  onPress={() => {*/}
-          {/*    navigation.navigate("Mastery");*/}
-          {/*    closeMenu();*/}
-          {/*  }}*/}
-          {/*>*/}
-          {/*  <GameText style={styles.menuItem}>Game Stats</GameText>*/}
-          {/*</TouchableOpacity>*/}
-          <GameText style={styles.menuItem}>Shop</GameText>
+          <GameText style={styles.menuItem}>Account</GameText>
           <TouchableOpacity
             onPress={() => {
               navigation.navigate("Settings");
@@ -55,7 +39,6 @@ const MenuComponent = ({ menuVisible, closeMenu }) => {
           >
             <GameText style={styles.menuItem}>Settings</GameText>
           </TouchableOpacity>
-          <GameText style={styles.menuItem}>Account</GameText>
           <TouchableOpacity
             onPress={() => {
               clearData();
@@ -72,7 +55,7 @@ const MenuComponent = ({ menuVisible, closeMenu }) => {
 
 const styles = StyleSheet.create({
   menuContainer: {
-    width: "80%",
+    width: "65%",
     opacity: 0.7,
     backgroundColor: "white",
     borderRadius: 20,
@@ -90,7 +73,7 @@ const styles = StyleSheet.create({
     elevation: 5,
   },
   menuItem: {
-    marginBottom: 30,
+    margin: 20,
     fontSize: 18,
     textAlign: "center",
   },
