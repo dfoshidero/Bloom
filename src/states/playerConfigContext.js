@@ -23,13 +23,16 @@ const defaultPlayerState = {
 export const PlayerConfigProvider = ({ children }) => {
   const [playerState, setPlayerState] = useState(defaultPlayerState);
 
-  // Save the player state to AsyncStorage whenever it changes
-  useEffect(() => {
-    AsyncStorage.setItem("playerState", JSON.stringify(playerState));
-  }, [playerState]);
-
   const updatePlayerConfig = (newConfig) => {
-    setPlayerState(prevState => {return { ...prevState, ...newConfig }});
+    setPlayerState(prevState => {
+      const newState = { ...prevState, ...newConfig };
+      AsyncStorage.setItem("playerState", JSON.stringify(newState));
+      return newState;
+    });
+  };
+
+  const resetPlayerConfig = () => {
+    updatePlayerConfig(defaultPlayerState);
   };
 
   const addXP = (amount) => {
@@ -78,7 +81,8 @@ export const PlayerConfigProvider = ({ children }) => {
         addXP,
         decreaseHearts,
         addCoins,
-        getUnlockedRooms
+        getUnlockedRooms,
+        resetPlayerConfig
       }}
     >
       {children}
@@ -92,6 +96,7 @@ export const PlayerConfigContext = createContext({
   addXP: PlayerConfigProvider.addXp,
   decreaseHearts: PlayerConfigProvider.decreaseHearts,
   addCoins: PlayerConfigProvider.addCoins,
+  resetPlayerConfig: PlayerConfigProvider.resetPlayerConfig
 });
 
 export const usePlayerConfig = () => useContext(PlayerConfigContext);
