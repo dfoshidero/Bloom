@@ -30,9 +30,10 @@ const totalItemHorizontalMargin = numColumns * 3 * 2;
 const flatListWidth = (itemWidth * numColumns) + totalItemHorizontalMargin;
 
 const ShopScreen = ({ navigation }) => {
+  const { playerState, updatePlayerConfig, coins, hearts } = usePlayerConfig();
+
   const [items, setItems] = useState([]);
   const [selectedPlant, setSelectedPlant] = useState(null);
-  const { coins, addCoins } = usePlayerConfig();
 
   const [showOnlyUnowned, setShowOnlyUnowned] = useState(false); // New state variable
 
@@ -112,6 +113,20 @@ const ShopScreen = ({ navigation }) => {
 
   const handleShowAll = () => {
     setSelectedPlant(null); // Set selectedPlant to null to show all items
+  };
+
+  const handleBuyHearts = async (heartsToBuy) => {
+    const costPerHeart = 10; // Assuming each heart costs 10 coins
+    const totalCost = costPerHeart * heartsToBuy;
+
+    if (coins >= totalCost) {
+      const updatedCoins = coins - totalCost;
+      const updatedHearts = hearts + heartsToBuy; // Assuming playerState contains hearts
+      await updatePlayerConfig({ hearts: updatedHearts, coins: updatedCoins });
+      // Additional logic for successful purchase
+    } else {
+      // Handle not enough coins scenario
+    }
   };
 
   return (
