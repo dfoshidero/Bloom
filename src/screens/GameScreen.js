@@ -31,12 +31,27 @@ const GameScreen = ({ route }) => {
 
   const [menuVisible, setMenuVisible] = useState(false);
 
-  const { level, getUnlockedRooms } = usePlayerConfig();
+  const { level, getUnlockedRooms, hearts, increaseHearts } = usePlayerConfig();
   const unlockedRooms = getUnlockedRooms(level);
+
+  const increasePlayerHearts = () => {
+    if (hearts + 1 <= 5) {
+      increaseHearts();
+    }
+  };
 
   const handleToggleMenu = () => {
     setMenuVisible(toggleMenu(menuVisible));
   };
+
+  useEffect(() => {
+    const interval = setInterval(increasePlayerHearts, 60000); // Call increasePlayerHearts every 1 minute (60,000 milliseconds)
+    
+    // Cleanup the interval when the component unmounts
+    return () => {
+      clearInterval(interval);
+    };
+  }, []);
 
   useEffect(() => {
     setupPlayer().then(() => {

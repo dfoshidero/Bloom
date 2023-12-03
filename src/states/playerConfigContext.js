@@ -60,6 +60,14 @@ export const PlayerConfigProvider = ({ children }) => {
     });
   };
 
+  const increaseHearts = () => {
+    setPlayerState(prevState => {
+      if (prevState.hearts < 5) {
+        return { ...prevState, ...{hearts: prevState.hearts + 1} };
+      }
+    });
+  };
+
   const addCoins = (amount) => {
     setPlayerState(prevState => {return { ...prevState, ...{coins: prevState.coins + amount} }});
   };
@@ -82,6 +90,7 @@ export const PlayerConfigProvider = ({ children }) => {
         updatePlayerConfig,
         addXP,
         decreaseHearts,
+        increaseHearts,
         addCoins,
         getUnlockedRooms,
         resetPlayerConfig,
@@ -97,6 +106,7 @@ export const PlayerConfigContext = createContext({
   updatePlayerConfig: PlayerConfigProvider.updatePlayerConfig,
   addXP: PlayerConfigProvider.addXp,
   decreaseHearts: PlayerConfigProvider.decreaseHearts,
+  increaseHearts: PlayerConfigProvider.increaseHearts,
   addCoins: PlayerConfigProvider.addCoins,
   resetPlayerConfig: PlayerConfigProvider.resetPlayerConfig,
 });
