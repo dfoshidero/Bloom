@@ -75,13 +75,23 @@ const ShopScreen = ({ navigation }) => {
     }
 
     if (selectedPlant === null || selectedPlant === item.plantId) {
+      let buttonStyle = styles.button; // Default button style
+
+      if (!item.owned) {
+        // If the item is not owned
+        buttonStyle = styles.buttonNotOwned; // Apply different style
+      } else if (item.owned && !item.applied) {
+        // If the item is owned but not applied
+        buttonStyle = styles.buttonOwnedNotApplied; // Apply a different style
+      }
+
       return (
         <TouchableScale style={styles.itemContainer}>
           <Image source={item.image} style={styles.itemImage} />
           <GameText style={styles.itemName}>{item.name}</GameText>
           <View style={styles.buttonContainer}>
             <TouchableScale
-              style={styles.button}
+              style={buttonStyle} // Use the dynamically determined style
               onPress={() => handleSkinAction(item)}
             >
               <GameText style={styles.buttonText}>
@@ -227,6 +237,33 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingTop: "25%",
   },
+  buttonNotOwned: {
+    backgroundColor: "firebrick", // Change this to the color you want
+    paddingVertical: 10, // Customize as needed
+    paddingHorizontal: 15, // Customize as needed
+    borderRadius: 5, // Customize as needed
+    alignItems: "center",
+    margin: 5,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
+  },
+  buttonOwnedNotApplied: {
+    backgroundColor: "darkgreen", // Change this to the color you want
+    paddingVertical: 10, // Customize as needed
+    paddingHorizontal: 15, // Customize as needed
+    borderRadius: 5, // Customize as needed
+    alignItems: "center",
+    margin: 5,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
+  },
+
   switchContainer: {
     position: "absolute",
     right: "20%",
