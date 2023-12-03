@@ -27,14 +27,20 @@ const gameStyles = StyleSheet.create({
   collectionIcon: {
     zIndex: 1,
     position: "absolute",
-    top: "26%",
-    left: "85%",
+    top: "47%",
+    left: "4.5%",
   },
   gameStatsIcon: {
     zIndex: 1,
     position: "absolute",
-    top: "33%",
-    left: "85%",
+    top: "54%",
+    left: "4.5%",
+  },
+  xpBar: {
+    zIndex: 1,
+    position: "absolute",
+    top: "25%",
+    left: "61%",
   },
 });
 

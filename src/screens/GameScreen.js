@@ -7,6 +7,7 @@ import Swiper from "react-native-swiper";
 import { useNavigation } from "@react-navigation/native";
 
 import CoinDisplay from "../components/CoinComponent";
+import XPBar from "../components/XPBarComponent";
 import Header from "../components/HeaderComponent";
 import { backgrounds } from "../states/backgroundsConfig";
 import MenuComponent from "../components/MenuComponent";
@@ -78,6 +79,9 @@ const GameScreen = ({ route }) => {
       </TouchableScale>
       <TouchableScale style={gameStyles.coinIcon}>
         <CoinDisplay />
+      </TouchableScale>
+      <TouchableScale style={gameStyles.xpBar}>
+        <XPBar />
       </TouchableScale>
       <MenuComponent
         menuVisible={menuVisible}
