@@ -19,7 +19,10 @@ import levelsConfig from "../states/levelsConfig";
 import { plants } from "../states/plantsConfig";
 import { usePlayerConfig } from "../states/playerConfigContext";
 import { useProgressContext } from "../states/speciesProgressContext";
-import { CompletedLevelsContext, useCompletedLevelsContext } from "../states/completedLevelsContext";
+import {
+  CompletedLevelsContext,
+  useCompletedLevelsContext,
+} from "../states/completedLevelsContext";
 import HeartsDisplay from "../components/HeartsComponent";
 import CoinDisplay from "../components/CoinComponent";
 
@@ -46,12 +49,15 @@ const QuizScreen = ({ navigation, route }) => {
   const [currentPlant, setCurrentPlant] = useState("");
   const [showConratsBackground, setShowCongratsBackground] = useState(false);
 
+  const [correctAnswersCount, setCorrectAnswersCount] = useState(0);
+  const [incorrectAnswersCount, setIncorrectAnswersCount] = useState(0);
+  const [bonusCoins, setBonusCoins] = useState(5);
 
   const { xp, decreaseHearts, addCoins, addXP } = usePlayerConfig();
 
   const { speciesProgress, updateSpeciesProgress } = useProgressContext();
-  const { completedLevels, updateCompletedLevels } = useCompletedLevelsContext();
-
+  const { completedLevels, updateCompletedLevels } =
+    useCompletedLevelsContext();
 
   useEffect(() => {
     const trivia = plantsTriviaConfig[plant]?.[level];
@@ -82,7 +88,6 @@ const QuizScreen = ({ navigation, route }) => {
 
       // Combine the selected questions with the current level's questions
       const combinedQuestions = [...remainingQuestions, ...randomQuestions];
-
 
       const finalQuestions = combinedQuestions.map((question) => {
         // Shuffle the answers array for each question
@@ -122,7 +127,10 @@ const QuizScreen = ({ navigation, route }) => {
 
   const handleAnswer = (isCorrect) => {
     if (isCorrect) {
+      addCoins(1); // Add 1 coin for each correct answer
+      setCorrectAnswersCount((prevCount) => prevCount + 1); // Functional update for accuracy
       setFeedbackMessage("Correct! Moving to next question...");
+
       setTimeout(() => {
         if (currentQuestionIndex < questions.length - 1) {
           setCurrentQuestionIndex(currentQuestionIndex + 1);
@@ -132,9 +140,18 @@ const QuizScreen = ({ navigation, route }) => {
         }
       }, 1000);
     } else {
+      setIncorrectAnswersCount((prevCount) => prevCount + 1); // Functional update here as well
       setFeedbackMessage("Incorrect. Try again!");
       decreaseHearts();
     }
+  };
+
+
+  const calculateBonusCoins = () => {
+    // Calculate bonus coins based on incorrect answers
+    let calculatedBonusCoins = Math.max(0, 5 - incorrectAnswersCount);
+    setBonusCoins(calculatedBonusCoins);
+    addCoins(calculatedBonusCoins); // Add the calculated bonus coins
   };
 
   const decreasePlayerHearts = () => {
@@ -146,13 +163,12 @@ const QuizScreen = ({ navigation, route }) => {
   };
 
   const completeQuiz = () => {
+    calculateBonusCoins();
+
     setShowModal(true);
     setShowCongratsBackground(true);
     const numericPlant = parseInt(plant, 10);
     const levelIndex = parseInt(level.slice(-1), 10);
-
-    // Default coin reward
-    let coinsReward = 5;
 
     // Find the XP reward for the current level
     const xpReward = levelsConfig[numericPlant].levels.find(
@@ -162,14 +178,12 @@ const QuizScreen = ({ navigation, route }) => {
     if (completedLevels[numericPlant] < levelIndex) {
       updateCompletedLevels(numericPlant, levelIndex);
 
-      addCoins(coinsReward);
       addXP(xpReward);
 
       // Check if all levels are completed for extra rewards
       if (
         completedLevels[numericPlant] === levelsConfig[numericPlant].totalLevels
       ) {
-        coinsReward += 5; // Extra coins for completing all levels
         addCoins(5);
         addXP(100); // Extra xp for completing all levels
         setShowRewardMessage(true);
@@ -179,9 +193,10 @@ const QuizScreen = ({ navigation, route }) => {
     setUpdatedList(list);
 
     // Display the rewards in the modal
-    setFeedbackMessage(`You earned ${coinsReward} coins and ${xpReward} XP!`);
+    setFeedbackMessage(
+      `${correctAnswersCount} coins, ${bonusCoins} bonus coins, and ${xpReward} XP earned!`
+    );
   };
-
 
   useEffect(() => {
     console.log(updatedList);
@@ -311,7 +326,7 @@ const QuizScreen = ({ navigation, route }) => {
             <View style={styles.modalContainer}>
               <View style={styles.congratsModalView}>
                 <GameText style={styles.congratsText}>
-                  You've passed {currentPlant} level {currentLevel}!
+                  Great job! You've passed {currentPlant} level {currentLevel}!
                 </GameText>
                 <GameText style={styles.rewardMessage}>
                   {feedbackMessage}
