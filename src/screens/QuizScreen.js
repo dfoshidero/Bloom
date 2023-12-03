@@ -47,6 +47,7 @@ const QuizScreen = ({ navigation, route }) => {
   const [currentInstructions, setCurrentInstructions] = useState("");
   const [currentLevel, setCurrentLevel] = useState("");
   const [currentPlant, setCurrentPlant] = useState("");
+   const [feedbackModalVisible, setFeedbackModalVisible] = useState(false);
   const [showConratsBackground, setShowCongratsBackground] = useState(false);
 
   const [correctAnswersCount, setCorrectAnswersCount] = useState(0);
@@ -147,6 +148,7 @@ const QuizScreen = ({ navigation, route }) => {
     } else {
       setIncorrectAnswersCount((prevCount) => prevCount + 1); // Functional update here as well
       setFeedbackMessage("Incorrect. Try again!");
+      setFeedbackModalVisible(true);
       decreasePlayerHearts();
     }
   };
@@ -215,6 +217,29 @@ const QuizScreen = ({ navigation, route }) => {
     </TouchableScale>
   );
 
+  const renderFeedbackModal = () => (
+    <Modal
+      visible={feedbackModalVisible}
+      animationType="fade"
+      transparent={true}
+      onRequestClose={() => setFeedbackModalVisible(false)} // Optional: Handle back button on Android
+    >
+      <View style={styles.feedbackModalContainer}>
+        <View style={styles.feedbackModal}>
+          <GameText style={styles.feedbackText}>{feedbackMessage}</GameText>
+          <ImageBackground source={textBox} style={styles.textBox}>
+            <TouchableScale
+              style={styles.buttonTextWrapper}
+              onPress={() => setFeedbackModalVisible(false)}
+            >
+              <GameText style={styles.buttonText}>Close</GameText>
+            </TouchableScale>
+          </ImageBackground>
+        </View>
+      </View>
+    </Modal>
+  );
+
   const renderGameOverModal = () => (
     <Modal visible={showGameOverModal} animationType="fade" transparent={false}>
       <View style={styles.modalContainer}>
@@ -278,22 +303,26 @@ const QuizScreen = ({ navigation, route }) => {
           >
             <View style={styles.modalContainer}>
               <View style={styles.modalBox}>
-                <GameText style={styles.congratsText}>Instructions</GameText>
+                <GameText style={styles.congratsText, {paddingBottom: 20, paddingTop: 5}}>Instructions</GameText>
                 <ScrollView style={styles.instructionsScrollView}>
                   <GameText style={styles.instructionsText}>
                     {currentInstructions}
                   </GameText>
                 </ScrollView>
-                <TouchableScale style={styles.button} onPress={handleStartQuiz}>
-                  <GameText style={styles.buttonText}>Start Quiz</GameText>
-                </TouchableScale>
+                <ImageBackground source={textBox} style={styles.textBox}>
+                  <TouchableScale
+                    style={styles.buttonTextWrapper}
+                    onPress={handleStartQuiz}
+                  >
+                    <GameText style={styles.buttonText}>Start Quiz</GameText>
+                  </TouchableScale>
+                </ImageBackground>
               </View>
             </View>
           </Modal>
         )}
-        {feedbackMessage ? (
-          <GameText style={styles.feedbackText}>{feedbackMessage}</GameText>
-        ) : null}
+
+        {renderFeedbackModal()}
         {questions.length > 0 ? (
           <View style={styles.quizContainer}>
             <GameText style={styles.centerText}>
@@ -354,6 +383,26 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
   },
+  feedbackModalContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "rgba(0, 0, 0, 0.5)", // Semi-transparent background
+  },
+  feedbackModal: {
+    backgroundColor: "white",
+    padding: 20,
+    borderRadius: 20,
+    width: 300,
+    alignItems: "center",
+    shadowColor: "rgba(0, 0, 0, 0.2)",
+    shadowOffset: { width: 0, height: 10 },
+    shadowOpacity: 0.8,
+    shadowRadius: 20,
+    borderWidth: 4, // Border width (if needed)
+    borderColor: "#A9A9A9", // Border color (if needed)
+  },
+
   buttonTextWrapper: {
     width: "100%", // Set the width to 100% to cover the entire button
     alignItems: "center", // Center the content horizontally
@@ -399,6 +448,8 @@ const styles = StyleSheet.create({
     overflow: "hidden", // Enable hidden overflow
     justifyContent: "center",
     alignItems: "center",
+    borderWidth: 4, // Border width (if needed)
+    borderColor: "darkgray", // Border color (if needed)
   },
   answerList: {
     position: "absolute",
@@ -435,17 +486,21 @@ const styles = StyleSheet.create({
   button: {
     justifyContent: "center",
     alignContent: "center",
-    backgroundColor: "#d4edda",
+    backgroundColor: "#4CAF50", // A green color
     padding: 15,
-    borderRadius: 15,
+    borderRadius: 25,
     width: 160,
+    margin: 10,
+    // Adding a light shadow for depth
     shadowColor: "#000",
     shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.3,
-    shadowRadius: 6,
-    elevation: 4,
-    margin: 10,
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
+    borderWidth: 4, // Border width (if needed)
+    borderColor: "darkgray", // Border color (if needed)
   },
+
   answerButton: {
     justifyContent: "center",
     alignContent: "center",
