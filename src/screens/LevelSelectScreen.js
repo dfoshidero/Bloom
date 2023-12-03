@@ -25,8 +25,8 @@ import Oracle from "../components/OracleComponent";
 const deviceWidth = Dimensions.get("window").width;
 const deviceHeight = Dimensions.get("window").height;
 
-const textSizeBig = RFValue(12);
-const textSizeSmall = RFValue(10);
+const textSizeBig = RFValue(deviceHeight * 0.016);
+const textSizeSmall = RFValue(deviceHeight * 0.014);
 
 const backgroundImage = require("../assets/backgrounds/misc/level_select.png");
 const upIcon = require("../assets/icons/up_icon.png");

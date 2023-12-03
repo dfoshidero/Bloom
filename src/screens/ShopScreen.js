@@ -19,8 +19,14 @@ import shopBackgroundImage from "../assets/backgrounds/misc/menu_bg.png";
 
 import CoinDisplay from "../components/CoinComponent";
 
-const buttonFontSize = RFValue(6);
-const textSize = RFValue(8);
+const screenHeight = Dimensions.get("window").height;
+
+// Example: setting textSize to be 2% of the screen height
+const textSize = RFValue(screenHeight * 0.01);
+
+// Example: setting buttonFontSize to be 1.5% of the screen height
+const buttonFontSize = RFValue(screenHeight * 0.0075);
+
 const numColumns = 3;
 const windowWidth = Dimensions.get("window").width;
 const itemWidth = windowWidth / numColumns - 20; // Adjust this as needed for padding/margin
@@ -77,13 +83,21 @@ const ShopScreen = ({ navigation }) => {
 
     if (selectedPlant === null || selectedPlant === item.plantId) {
       let buttonStyle = styles.button; // Default button style
+      let buttonText = "";
 
       if (!item.owned) {
         // If the item is not owned
         buttonStyle = styles.buttonNotOwned; // Apply different style
+        buttonText = `${
+          plants[item.plantId].skins.find((skin) => skin.name === item.skinId)
+            ?.unlockCondition
+        } Coins`;
       } else if (item.owned && !item.applied) {
         // If the item is owned but not applied
         buttonStyle = styles.buttonOwnedNotApplied; // Apply a different style
+        buttonText = "Apply";
+      } else {
+        buttonText = "Applied";
       }
 
       return (
@@ -95,9 +109,7 @@ const ShopScreen = ({ navigation }) => {
               style={buttonStyle} // Use the dynamically determined style
               onPress={() => handleSkinAction(item)}
             >
-              <GameText style={styles.buttonText}>
-                {item.owned ? (item.applied ? "Applied" : "Apply") : "Buy"}
-              </GameText>
+              <GameText style={styles.buttonText}>{buttonText}</GameText>
             </TouchableScale>
           </View>
         </TouchableScale>
@@ -449,7 +461,7 @@ const styles = StyleSheet.create({
     marginBottom: 5, // Space between image and text
   },
   itemName: {
-    fontSize: textSize, // Slightly smaller for fitting in grid layout
+    fontSize: textSize/1.3, // Slightly smaller for fitting in grid layout
     textAlign: "center",
   },
   buttonContainer: {

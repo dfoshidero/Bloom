@@ -8,6 +8,7 @@ import {
   ImageBackground,
   ScrollView,
   FlatList,
+  Dimensions,
 } from "react-native";
 import { RFPercentage, RFValue } from "react-native-responsive-fontsize";
 import TouchableScale from "react-native-touchable-scale";
@@ -30,8 +31,11 @@ const quizBackground = require("../assets/backgrounds/misc/quiz_screen.png");
 const congratsBackground = require("../assets/backgrounds/misc/congrats_screen.png");
 const textBox = require("../assets/icons/text_box.png");
 
-const buttonFontSize = RFValue(8);
-const textSize = RFValue(10);
+const deviceWidth = Dimensions.get("window").width;
+const deviceHeight = Dimensions.get("window").height;
+
+const textSize = RFValue(deviceHeight * 0.013);
+const buttonFontSize = RFValue(deviceHeight * 0.009);
 
 const QuizScreen = ({ navigation, route }) => {
   const { plant, level, id } = route.params;
