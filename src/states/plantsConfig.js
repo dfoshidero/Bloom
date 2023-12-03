@@ -57,7 +57,7 @@ export const plants = {
       },
 
       {
-        name: "floral",
+        name: "Saguaro",
         growth: [
           {
             growthStage: 0,

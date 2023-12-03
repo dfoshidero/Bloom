@@ -50,7 +50,7 @@ const ShopScreen = ({ navigation }) => {
             allItems.push({
               name: `${capitalizeFirstLetter(
                 skin.name === "default" ? "Basic" : skin.name
-              )} - ${capitalizeFirstLetter(plant.name)}`,
+              )} ${capitalizeFirstLetter(plant.name)}`,
               image: skin.growth[skin.growth.length - 1].imagePath,
               owned: isOwned,
               applied: isSelected,
@@ -131,10 +131,10 @@ const ShopScreen = ({ navigation }) => {
           <View style={styles.bigTop}>
             <TouchableScale
               style={styles.bigButton}
-              onPress={() => handleBuyHearts(2)}
+              onPress={() => handleBuyHearts(1)}
             >
               <GameText style={styles.buttonText}>
-                Buy 2 Hearts for 20 Coins
+                Buy Heart for 10 Coins
               </GameText>
             </TouchableScale>
 
