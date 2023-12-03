@@ -303,7 +303,7 @@ const QuizScreen = ({ navigation, route }) => {
           >
             <View style={styles.modalContainer}>
               <View style={styles.modalBox}>
-                <GameText style={styles.congratsText, {paddingBottom: 20, paddingTop: 5}}>Instructions</GameText>
+                <GameText style={[styles.congratsText, {paddingBottom: 20, paddingTop: 5}]}>Instructions</GameText>
                 <ScrollView style={styles.instructionsScrollView}>
                   <GameText style={styles.instructionsText}>
                     {currentInstructions}
