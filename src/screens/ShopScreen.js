@@ -129,6 +129,38 @@ const ShopScreen = ({ navigation }) => {
     }
   };
 
+  const handleSkinAction = async (item) => {
+    const plant = plants[item.plantId];
+    const skin = plant.skins.find((s) => s.name === item.skinId);
+    const skinCost = skin.unlockCondition; // Cost from the skin's unlock condition
+    const currentCoins = coins;
+
+    // Check if the skin is already owned
+    const ownsSkin = plant.skinsOwned.includes(skin.name);
+
+    if (!ownsSkin) {
+      // Check if the player has enough coins to buy the skin
+      if (currentCoins >= skinCost) {
+        const updatedCoins = currentCoins - skinCost;
+        const newOwnedSkins = [...plant.skinsOwned, skin.name];
+        plant.skinsOwned = newOwnedSkins; // Update the skinsOwned array for the plant
+        plant.selectedSkin = skin.name; // Apply the new skin
+
+        // Update the player's coins and plants configuration
+        await updatePlayerConfig({ ...playerState, coins: updatedCoins });
+        // Note: You also need a method to update the plantsConfig here
+      } else {
+        // Handle not enough coins scenario
+      }
+    } else {
+      // If the player already owns the skin, just apply it
+      plant.selectedSkin = skin.name; // Apply the skin
+      // Note: You also need a method to update the plantsConfig here
+    }
+  };
+
+  
+
   return (
     <View style={styles.container}>
       <ImageBackground
