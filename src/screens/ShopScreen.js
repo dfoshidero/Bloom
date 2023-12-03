@@ -6,16 +6,35 @@ import {
   FlatList,
   Image,
   ScrollView,
+  ImageBackground,
+  Dimensions,
+  Switch,
 } from "react-native";
 import { plants } from "../states/plantsConfig";
 import { usePlayerConfig } from "../states/playerConfigContext";
-
+import { RFValue } from "react-native-responsive-fontsize";
+import GameText from "../styles/GameText";
 import TouchableScale from "react-native-touchable-scale";
+import shopBackgroundImage from "../assets/backgrounds/misc/menu_bg.png";
+
+import CoinDisplay from "../components/CoinComponent";
+
+const buttonFontSize = RFValue(6);
+const textSize = RFValue(8);
+const numColumns = 3;
+const windowWidth = Dimensions.get("window").width;
+const itemWidth = windowWidth / numColumns - 20; // Adjust this as needed for padding/margin
+
+const totalItemHorizontalMargin = numColumns * 3 * 2;
+
+const flatListWidth = (itemWidth * numColumns) + totalItemHorizontalMargin;
 
 const ShopScreen = ({ navigation }) => {
   const [items, setItems] = useState([]);
   const [selectedPlant, setSelectedPlant] = useState(null);
   const { coins, addCoins } = usePlayerConfig();
+
+  const [showOnlyUnowned, setShowOnlyUnowned] = useState(false); // New state variable
 
   useEffect(() => {
     if (plants) {
@@ -26,42 +45,51 @@ const ShopScreen = ({ navigation }) => {
         plant.skins.forEach((skin) => {
           const isOwned = plant.skinsOwned.includes(skin.name);
           const isSelected = plant.selectedSkin === skin.name;
-          allItems.push({
-            name: `${capitalizeFirstLetter(
-              skin.name === "default" ? "Basic" : skin.name
-            )} - ${capitalizeFirstLetter(plant.name)}`,
-            image: skin.growth[skin.growth.length - 1].imagePath,
-            owned: isOwned,
-            applied: isSelected,
-            plantId: plant.plantID,
-            skinId: skin.name,
-          });
+          if (!showOnlyUnowned || !isOwned) {
+            // Filter based on showOnlyUnowned
+            allItems.push({
+              name: `${capitalizeFirstLetter(
+                skin.name === "default" ? "Basic" : skin.name
+              )} - ${capitalizeFirstLetter(plant.name)}`,
+              image: skin.growth[skin.growth.length - 1].imagePath,
+              owned: isOwned,
+              applied: isSelected,
+              plantId: plant.plantID,
+              skinId: skin.name,
+            });
+          }
         });
       });
 
-      setItems(allItems);
+      setItems(formatData(allItems, numColumns));
     }
-  }, [plants]);
+  }, [plants, showOnlyUnowned]);
+
+  const toggleShowOnlyUnowned = () => {
+    setShowOnlyUnowned(!showOnlyUnowned);
+  };
 
   const renderGridItem = ({ item }) => {
+    if (item.empty) {
+      return <View style={[styles.itemContainer, styles.itemPlaceholder]} />;
+    }
+
     if (selectedPlant === null || selectedPlant === item.plantId) {
       return (
-        <View style={styles.itemContainer}>
+        <TouchableScale style={styles.itemContainer}>
           <Image source={item.image} style={styles.itemImage} />
-          <Text style={styles.itemName}>{item.name}</Text>
-
-          {/* Create a button container to position buttons at the bottom */}
+          <GameText style={styles.itemName}>{item.name}</GameText>
           <View style={styles.buttonContainer}>
             <TouchableScale
               style={styles.button}
               onPress={() => handleSkinAction(item)}
             >
-              <Text style={styles.buttonText}>
+              <GameText style={styles.buttonText}>
                 {item.owned ? (item.applied ? "Applied" : "Apply") : "Buy"}
-              </Text>
+              </GameText>
             </TouchableScale>
           </View>
-        </View>
+        </TouchableScale>
       );
     } else {
       return null;
@@ -78,57 +106,88 @@ const ShopScreen = ({ navigation }) => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.coinsText}>Coins: {coins}</Text>
-      <TouchableScale
-        style={styles.button}
-        onPress={() => handleBuyHearts(2)}
+      <ImageBackground
+        source={shopBackgroundImage}
+        style={styles.backgroundImage}
       >
-        <Text style={styles.buttonText}>Buy 2 Hearts for 20 Coins</Text>
-      </TouchableScale>
-
-      <View style={styles.scrollViewContainer}>
-        <ScrollView
-          horizontal
-          showsHorizontalScrollIndicator={false}
-          contentContainerStyle={styles.plantButtonContainer}
-        >
-          {/* Add an "All" button */}
-          <TouchableScale
-            style={[
-              styles.plantButton,
-              {
-                backgroundColor: selectedPlant === null ? "#4CAF50" : "#aaa",
-              },
-            ]}
-            onPress={handleShowAll}
-          >
-            <Text style={styles.buttonText}>All</Text>
+        <View style={styles.switchContainer}>
+          <TouchableScale style={{ left: "100%", bottom: "50%" }}>
+            <CoinDisplay />
           </TouchableScale>
 
-          {Object.values(plants).map((plant) => (
-            <TouchableScale
-              key={plant.plantID}
-              style={[
-                styles.plantButton,
-                {
-                  backgroundColor:
-                    selectedPlant === plant.plantID ? "#4CAF50" : "#aaa",
-                },
-              ]}
-              onPress={() => handlePlantPress(plant.plantID)}
-            >
-              <Text style={styles.buttonText}>{plant.name}</Text>
-            </TouchableScale>
-          ))}
-        </ScrollView>
-      </View>
+          <Switch
+            trackColor={{ false: "#767577", true: "#4CAF50" }}
+            thumbColor={showOnlyUnowned ? "#f5dd4b" : "#f4f3f4"}
+            onValueChange={toggleShowOnlyUnowned}
+            value={showOnlyUnowned}
+          />
+          <GameText style={styles.switchLabel}>
+            {showOnlyUnowned ? "Hiding Applied Skins" : "Showing All Skins"}
+          </GameText>
+        </View>
 
-      <FlatList
-        data={items}
-        renderItem={renderGridItem}
-        keyExtractor={(item, index) => item.plantId + item.skinId + index}
-        numColumns={3}
-      />
+        {/* Rest of the content below the Coin Display */}
+        <View style={styles.contentContainer}>
+          <View style={styles.bigTop}>
+            <TouchableScale
+              style={styles.bigButton}
+              onPress={() => handleBuyHearts(2)}
+            >
+              <GameText style={styles.buttonText}>
+                Buy 2 Hearts for 20 Coins
+              </GameText>
+            </TouchableScale>
+
+            <View style={styles.scrollViewContainer}>
+              <ScrollView
+                horizontal
+                showsHorizontalScrollIndicator={false}
+                contentContainerStyle={styles.plantButtonContainer}
+              >
+                {/* Add an "All" button */}
+                <TouchableScale
+                  style={[
+                    styles.plantButton,
+                    {
+                      backgroundColor:
+                        selectedPlant === null ? "#4CAF50" : "#aaa",
+                    },
+                  ]}
+                  onPress={handleShowAll}
+                >
+                  <GameText style={styles.buttonText}>All</GameText>
+                </TouchableScale>
+
+                {Object.values(plants).map((plant) => (
+                  <TouchableScale
+                    key={plant.plantID}
+                    style={[
+                      styles.plantButton,
+                      {
+                        backgroundColor:
+                          selectedPlant === plant.plantID ? "#4CAF50" : "#aaa",
+                      },
+                    ]}
+                    onPress={() => handlePlantPress(plant.plantID)}
+                  >
+                    <GameText style={styles.buttonText}>{plant.name}</GameText>
+                  </TouchableScale>
+                ))}
+              </ScrollView>
+            </View>
+          </View>
+
+          <FlatList
+            data={items}
+            renderItem={renderGridItem}
+            keyExtractor={(item, index) =>
+              `${item.plantId}-${item.skinId}-${index}`
+            }
+            numColumns={numColumns}
+            contentContainerStyle={styles.itemListContainer}
+          />
+        </View>
+      </ImageBackground>
     </View>
   );
 };
@@ -137,24 +196,94 @@ function capitalizeFirstLetter(string) {
   return string.replace(/\b(\w)/g, (s) => s.toUpperCase());
 }
 
+function formatData(data, numColumns) {
+  const numberOfFullRows = Math.floor(data.length / numColumns);
+  let numberOfElementsLastRow = data.length - numberOfFullRows * numColumns;
+  while (
+    numberOfElementsLastRow !== numColumns &&
+    numberOfElementsLastRow !== 0
+  ) {
+    data.push({
+      empty: true,
+      plantId: `blank-${numberOfElementsLastRow}`,
+      skinId: "blank",
+    });
+    numberOfElementsLastRow++;
+  }
+  return data;
+}
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#f0f0f0", // Consistent light background for contrast
-    padding: 10, // Adjusted padding for overall spacing
+    backgroundColor: "transparent", // Changed to transparent
   },
-  coinsText: {
-    fontSize: 20, // Slightly smaller for uniformity
-    color: "#333", // Consistent text color
-    marginTop: 15,
-    marginBottom: 15,
-    alignSelf: "center", // Center-aligned
+  coinDisplayContainer: {
+    alignItems: "center",
+    marginTop: 10,
+    marginBottom: 20,
   },
+  contentContainer: {
+    flex: 1,
+    paddingTop: "25%",
+  },
+  switchContainer: {
+    position: "absolute",
+    right: "20%",
+    top: "3.5%",
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "flex-end",
+    paddingRight: 10, // Adjust the padding as needed
+    marginTop: 10,
+  },
+  backgroundImage: {
+    position: "absolute", // Set position to absolute
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    opacity: 0.9,
+    resizeMode: "cover", // Ensure the background image covers the whole screen
+  },
+  itemContainer: {
+    width: itemWidth,
+    flexDirection: "column",
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: "white",
+    padding: 8,
+    borderRadius: 5,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.22,
+    shadowRadius: 2.22,
+    margin: 5,
+  },
+  itemPlaceholder: {
+    backgroundColor: "transparent",
+  },
+  itemListContainer: {
+    justifyContent: "center",
+    alignItems: "center",
+    paddingVertical: 10,
+  },
+
   plantButtonContainer: {
     flexDirection: "row",
     alignItems: "center",
     paddingHorizontal: 10,
     paddingBottom: 10, // Add padding to the bottom for separation
+  },
+  switchLabel: {
+    position: "absolute",
+    fontSize: RFValue(8), // Or any appropriate size
+    top: "77%",
+    right: "35%",
+    color: "white",
+    textShadowColor: "black",
+    textShadowRadius: 1,
+    textShadowOffset: { width: -1, height: 1 },
   },
   plantButton: {
     backgroundColor: "#4CAF50",
@@ -197,36 +326,36 @@ const styles = StyleSheet.create({
     shadowRadius: 3.84,
     elevation: 5,
   },
+  bigButton: {
+    backgroundColor: "#4CAF50", // Unified green color for buttons
+    paddingVertical: 10, // Slightly reduced padding
+    paddingHorizontal: 15,
+    borderRadius: 5, // Rounded corners
+    alignItems: "center",
+    margin: 5,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
+    width: flatListWidth,
+    alignSelf: "center",
+  },
   sectionHeader: {
     fontWeight: "bold",
-    fontSize: 18, // Slightly smaller for uniformity
+    fontSize: textSize, // Slightly smaller for uniformity
     backgroundColor: "#ddd", // Consistent background color
     padding: 10,
     textTransform: "uppercase", // Capitalize section headers
   },
   buttonText: {
     color: "white",
-    fontSize: 16, // Standardized font size
+    fontSize: buttonFontSize, // Standardized font size
     fontWeight: "500",
   },
   rowContainer: {
     flexDirection: "row",
     justifyContent: "space-between",
-  },
-
-  itemContainer: {
-    flex: 1 / 3, // Adjusted for three columns
-    flexDirection: "column",
-    alignItems: "center",
-    backgroundColor: "white",
-    padding: 8, // Adjusted padding
-    borderRadius: 5,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 1 },
-    shadowOpacity: 0.22,
-    shadowRadius: 2.22,
-    elevation: 3,
-    margin: 5,
   },
   itemImage: {
     width: 90, // Adjusted for consistent size
@@ -236,7 +365,7 @@ const styles = StyleSheet.create({
     marginBottom: 5, // Space between image and text
   },
   itemName: {
-    fontSize: 14, // Slightly smaller for fitting in grid layout
+    fontSize: textSize, // Slightly smaller for fitting in grid layout
     textAlign: "center",
   },
   buttonContainer: {
