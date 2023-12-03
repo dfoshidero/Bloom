@@ -40,10 +40,6 @@ const GameScreen = ({ route }) => {
     }
   };
 
-  const handleToggleMenu = () => {
-    setMenuVisible(toggleMenu(menuVisible));
-  };
-
   useEffect(() => {
     const interval = setInterval(increasePlayerHearts, 60000); // Call increasePlayerHearts every 1 minute (60,000 milliseconds)
     
@@ -52,6 +48,10 @@ const GameScreen = ({ route }) => {
       clearInterval(interval);
     };
   }, []);
+
+  const handleToggleMenu = () => {
+    setMenuVisible(toggleMenu(menuVisible));
+  };
 
   useEffect(() => {
     setupPlayer().then(() => {
