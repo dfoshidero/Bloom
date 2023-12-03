@@ -1,8 +1,15 @@
 // MenuComponent.js
 import React from "react";
-import { View, Text, TouchableOpacity, Modal, StyleSheet, NativeModules } from "react-native";
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  Modal,
+  StyleSheet,
+  NativeModules,
+} from "react-native";
 import { useNavigation } from "@react-navigation/native";
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import GameText from "../styles/GameText";
 
 // Context variables all need to be reset when you clear data
@@ -17,7 +24,8 @@ const MenuComponent = ({ menuVisible, closeMenu }) => {
   const { updatePlantData } = usePlantContext();
   const { speciesProgress, updateSpeciesProgress } = useProgressContext();
   const { resetPlayerConfig } = usePlayerConfig();
-  const { completedLevels, updateCompletedLevels } = useCompletedLevelsContext();
+  const { completedLevels, updateCompletedLevels } =
+    useCompletedLevelsContext();
 
   const clearData = async () => {
     try {
@@ -31,8 +39,8 @@ const MenuComponent = ({ menuVisible, closeMenu }) => {
         updateCompletedLevels(key, 0);
       }
       await AsyncStorage.getAllKeys()
-        .then(keys => AsyncStorage.multiRemove(keys))
-        .then(() => console.log('AsyncStorage successfully cleared!'));
+        .then((keys) => AsyncStorage.multiRemove(keys))
+        .then(() => console.log("AsyncStorage successfully cleared!"));
       await new Promise((resolve) => setTimeout(resolve, 50));
     } catch (e) {
       console.error(e);
@@ -66,6 +74,15 @@ const MenuComponent = ({ menuVisible, closeMenu }) => {
               NativeModules.DevSettings.reload();
             }}
           >
+            <TouchableOpacity
+              onPress={() => {
+                // Navigate to ShopScreen
+                navigation.navigate("ShopScreen");
+                closeMenu();
+              }}
+            >
+              <GameText style={styles.menuItem}>Shop</GameText>
+            </TouchableOpacity>
             <GameText style={styles.menuItem}>Reset Game</GameText>
           </TouchableOpacity>
         </View>

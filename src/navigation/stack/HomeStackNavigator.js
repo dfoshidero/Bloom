@@ -10,6 +10,8 @@ import SettingsScreen from "../../screens/SettingsScreen";
 import LevelSelectionScreen from "../../screens/LevelSelectScreen";
 import QuizScreen from "../../screens/QuizScreen";
 import CollectionScreen from "../../screens/CollectionScreen";
+import ShopScreen from "../../screens/ShopScreen";
+import SkinShop from "../../screens/SkinShop";
 
 import QuizQuitButton from "../../components/QuizQuitButton";
 
@@ -96,15 +98,33 @@ const HomeStackNavigator = () => {
           headerLeft: () => <CustomBackButton />, // Use custom back button component
         }}
       />
-        <Stack.Screen
-            name="GameStatsScreen"
-            component={GameStatsScreen}
-            options={{
-                title: "",
-                headerTransparent: true,
-                headerLeft: () => <CustomBackButton />, // Use custom back button component
-            }}
-        />
+      <Stack.Screen
+        name="GameStatsScreen"
+        component={GameStatsScreen}
+        options={{
+          title: "",
+          headerTransparent: true,
+          headerLeft: () => <CustomBackButton />, // Use custom back button component
+        }}
+      />
+      <Stack.Screen
+        name="ShopScreen"
+        component={ShopScreen}
+        options={{
+          title: "",
+          headerTransparent: true,
+          headerLeft: () => <CustomBackButton />, // Use custom back button component
+        }}
+      />
+      <Stack.Screen
+        name="SkinShop"
+        component={SkinShop}
+        options={{
+          title: "",
+          headerTransparent: true,
+          headerLeft: () => <CustomBackButton />, // Use custom back button component
+        }}
+      />
     </Stack.Navigator>
   );
 };
