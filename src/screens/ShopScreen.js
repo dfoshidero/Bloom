@@ -3,32 +3,33 @@ import {
   View,
   Text,
   StyleSheet,
-  TouchableOpacity,
-  SectionList,
+  FlatList,
   Image,
+  ScrollView,
 } from "react-native";
 import { plants } from "../states/plantsConfig";
 import { usePlayerConfig } from "../states/playerConfigContext";
 
+import TouchableScale from "react-native-touchable-scale";
+
 const ShopScreen = ({ navigation }) => {
-  const [sections, setSections] = useState([]);
+  const [items, setItems] = useState([]);
+  const [selectedPlant, setSelectedPlant] = useState(null);
   const { coins, addCoins } = usePlayerConfig();
 
   useEffect(() => {
     if (plants) {
+      let allItems = [];
       const plantsArray = Object.values(plants);
-      const groupedByPlant = plantsArray.reduce((acc, plant) => {
-        const plantName = plant.name;
-        if (!acc[plantName]) {
-          acc[plantName] = [];
-        }
+
+      plantsArray.forEach((plant) => {
         plant.skins.forEach((skin) => {
           const isOwned = plant.skinsOwned.includes(skin.name);
           const isSelected = plant.selectedSkin === skin.name;
-          acc[plantName].push({
-            name: capitalizeFirstLetter(
-              `${skin.name === "default" ? "Basic" : skin.name}`
-            ),
+          allItems.push({
+            name: `${capitalizeFirstLetter(
+              skin.name === "default" ? "Basic" : skin.name
+            )} - ${capitalizeFirstLetter(plant.name)}`,
             image: skin.growth[skin.growth.length - 1].imagePath,
             owned: isOwned,
             applied: isSelected,
@@ -36,85 +37,161 @@ const ShopScreen = ({ navigation }) => {
             skinId: skin.name,
           });
         });
-        return acc;
-      }, {});
+      });
 
-      const sectionArray = Object.keys(groupedByPlant).map((plantName) => ({
-        title: plantName,
-        data: groupedByPlant[plantName],
-      }));
-
-      setSections(sectionArray);
+      setItems(allItems);
     }
-  }, []);
+  }, [plants]);
 
-     const renderItem = ({ item }) => (
-       <View style={styles.itemContainer}>
-         <Image source={item.image} style={styles.itemImage} />
-         <Text style={styles.itemName}>{item.name}</Text>
-         <TouchableOpacity
-           style={styles.button}
-           onPress={() => handleSkinAction(item)}
-         >
-           <Text style={styles.buttonText}>
-             {item.owned ? (item.applied ? "Applied" : "Apply") : "Buy"}
-           </Text>
-         </TouchableOpacity>
-       </View>
-     );
+  const renderGridItem = ({ item }) => {
+    if (selectedPlant === null || selectedPlant === item.plantId) {
+      return (
+        <View style={styles.itemContainer}>
+          <Image source={item.image} style={styles.itemImage} />
+          <Text style={styles.itemName}>{item.name}</Text>
 
-     const renderSectionHeader = ({ section: { title } }) => (
-       <Text style={styles.sectionHeader}>{title}</Text>
-     );
+          {/* Create a button container to position buttons at the bottom */}
+          <View style={styles.buttonContainer}>
+            <TouchableScale
+              style={styles.button}
+              onPress={() => handleSkinAction(item)}
+            >
+              <Text style={styles.buttonText}>
+                {item.owned ? (item.applied ? "Applied" : "Apply") : "Buy"}
+              </Text>
+            </TouchableScale>
+          </View>
+        </View>
+      );
+    } else {
+      return null;
+    }
+  };
 
-     return (
-       <View style={styles.container}>
-         <Text style={styles.coinsText}>Coins: {coins}</Text>
-         <TouchableOpacity
-           style={styles.button}
-           onPress={() => handleBuyHearts(2)}
-         >
-           <Text style={styles.buttonText}>Buy 2 Hearts for 20 Coins</Text>
-         </TouchableOpacity>
+  const handlePlantPress = (plantId) => {
+    setSelectedPlant(plantId);
+  };
 
-         <SectionList
-           sections={sections}
-           renderItem={renderItem}
-           renderSectionHeader={renderSectionHeader}
-           keyExtractor={(item, index) => item + index}
-           numColumns={3} // Displaying three items per row
-         />
-       </View>
-     );
+  const handleShowAll = () => {
+    setSelectedPlant(null); // Set selectedPlant to null to show all items
+  };
+
+  return (
+    <View style={styles.container}>
+      <Text style={styles.coinsText}>Coins: {coins}</Text>
+      <TouchableScale
+        style={styles.button}
+        onPress={() => handleBuyHearts(2)}
+      >
+        <Text style={styles.buttonText}>Buy 2 Hearts for 20 Coins</Text>
+      </TouchableScale>
+
+      <View style={styles.scrollViewContainer}>
+        <ScrollView
+          horizontal
+          showsHorizontalScrollIndicator={false}
+          contentContainerStyle={styles.plantButtonContainer}
+        >
+          {/* Add an "All" button */}
+          <TouchableScale
+            style={[
+              styles.plantButton,
+              {
+                backgroundColor: selectedPlant === null ? "#4CAF50" : "#aaa",
+              },
+            ]}
+            onPress={handleShowAll}
+          >
+            <Text style={styles.buttonText}>All</Text>
+          </TouchableScale>
+
+          {Object.values(plants).map((plant) => (
+            <TouchableScale
+              key={plant.plantID}
+              style={[
+                styles.plantButton,
+                {
+                  backgroundColor:
+                    selectedPlant === plant.plantID ? "#4CAF50" : "#aaa",
+                },
+              ]}
+              onPress={() => handlePlantPress(plant.plantID)}
+            >
+              <Text style={styles.buttonText}>{plant.name}</Text>
+            </TouchableScale>
+          ))}
+        </ScrollView>
+      </View>
+
+      <FlatList
+        data={items}
+        renderItem={renderGridItem}
+        keyExtractor={(item, index) => item.plantId + item.skinId + index}
+        numColumns={3}
+      />
+    </View>
+  );
 };
 
-
-// Utility function to capitalize the first letter of each word
 function capitalizeFirstLetter(string) {
-  return string.replace(/\b(\w)/g, s => s.toUpperCase());
+  return string.replace(/\b(\w)/g, (s) => s.toUpperCase());
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#f0f0f0", // Light background color for better contrast
-    padding: 20,
+    backgroundColor: "#f0f0f0", // Consistent light background for contrast
+    padding: 10, // Adjusted padding for overall spacing
   },
   coinsText: {
-    fontSize: 22,
-    color: "#333", // Darker color for text
-    marginTop: 20,
-    marginBottom: 20,
-    alignSelf: "center", // Centering the coins text
+    fontSize: 20, // Slightly smaller for uniformity
+    color: "#333", // Consistent text color
+    marginTop: 15,
+    marginBottom: 15,
+    alignSelf: "center", // Center-aligned
+  },
+  plantButtonContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    paddingHorizontal: 10,
+    paddingBottom: 10, // Add padding to the bottom for separation
+  },
+  plantButton: {
+    backgroundColor: "#4CAF50",
+    paddingVertical: 10,
+    paddingHorizontal: 15,
+    borderRadius: 5,
+    alignItems: "center",
+    margin: 5,
+    marginRight: 10, // Add right margin for separation between buttons
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
+  },
+  allButton: {
+    backgroundColor: "#4CAF50",
+    paddingVertical: 10,
+    paddingHorizontal: 15,
+    borderRadius: 5,
+    alignItems: "center",
+    margin: 5,
+    marginRight: 10, // Add right margin for separation between buttons
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
   },
   button: {
-    backgroundColor: "#4CAF50", // A green color for buttons
-    paddingVertical: 12,
-    paddingHorizontal: 20,
+    backgroundColor: "#4CAF50", // Unified green color for buttons
+    paddingVertical: 10, // Slightly reduced padding
+    paddingHorizontal: 15,
     borderRadius: 5, // Rounded corners
     alignItems: "center",
     margin: 5,
-    shadowColor: "#000", // Adding a shadow for depth
+    shadowColor: "#000",
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.25,
     shadowRadius: 3.84,
@@ -122,21 +199,27 @@ const styles = StyleSheet.create({
   },
   sectionHeader: {
     fontWeight: "bold",
-    fontSize: 20,
-    backgroundColor: "#ddd",
+    fontSize: 18, // Slightly smaller for uniformity
+    backgroundColor: "#ddd", // Consistent background color
     padding: 10,
+    textTransform: "uppercase", // Capitalize section headers
   },
   buttonText: {
     color: "white",
-    fontSize: 18,
+    fontSize: 16, // Standardized font size
     fontWeight: "500",
   },
+  rowContainer: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+  },
+
   itemContainer: {
-    flex: 1/3, // Each item takes half the width of the screen
-    flexDirection: "column", // Stack elements vertically
-    alignItems: "center", // Center items horizontally
+    flex: 1 / 3, // Adjusted for three columns
+    flexDirection: "column",
+    alignItems: "center",
     backgroundColor: "white",
-    padding: 10,
+    padding: 8, // Adjusted padding
     borderRadius: 5,
     shadowColor: "#000",
     shadowOffset: { width: 0, height: 1 },
@@ -146,15 +229,19 @@ const styles = StyleSheet.create({
     margin: 5,
   },
   itemImage: {
-    width: 100, // Adjust image size
-    height: 100,
-    borderRadius: 50,
+    width: 90, // Adjusted for consistent size
+    height: 90,
+    borderRadius: 45, // Circular images
     overflow: "hidden",
+    marginBottom: 5, // Space between image and text
   },
   itemName: {
-    fontSize: 16,
-    textAlign: "center", // Center text
-    marginTop: 5, // Add spacing between image and text
+    fontSize: 14, // Slightly smaller for fitting in grid layout
+    textAlign: "center",
+  },
+  buttonContainer: {
+    flex: 1, // Make the button container take up remaining vertical space
+    justifyContent: "flex-end", // Position buttons at the bottom
   },
 });
 
