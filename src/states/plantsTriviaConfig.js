@@ -95,9 +95,9 @@ const plantsTriviaConfig = {
           question: "What is bad for cactus well-being?",
           answers: [
             { text: "Water submersion", isCorrect: true },
-            { text: "Bright, indirect sunlight", isCorrect: false },
-            { text: "Well-draining mix soil", isCorrect: false },
-            { text: "Bright, indirect sunlight", isCorrect: false },
+            { text: "Regularly repotting", isCorrect: false },
+            { text: "Using tap water", isCorrect: false },
+            { text: "Regularly singing to them", isCorrect: false },
           ],
         },
       ],
@@ -106,7 +106,7 @@ const plantsTriviaConfig = {
   2: {
     level1: {
       instructions:
-          "Lucky Bamboo thrives in filtered or distilled water and indirect sunlight. It prefers a room temperature environment and should be kept away from direct sunlight. Changing water every week helps prevent rot.\nRemember this information and answer the upcoming questions.",
+        "Lucky Bamboo thrives in filtered or distilled water and indirect sunlight. It prefers a room temperature environment and should be kept away from direct sunlight. Changing water every week helps prevent rot.\nRemember this information and answer the upcoming questions.",
       coin: 50,
       questions: [
         {
@@ -140,7 +140,7 @@ const plantsTriviaConfig = {
     },
     level2: {
       instructions:
-          "Lucky Bamboo can be grown in water or soil, but it must be well-drained. Yellow leaves indicate too much sunlight or fertilizer. It can be propagated by cutting the stem and placing it in water.\nRemember this information and answer the upcoming questions.",
+        "Lucky Bamboo can be grown in water or soil, but it must be well-drained. Yellow leaves indicate too much sunlight or fertilizer. It can be propagated by cutting the stem and placing it in water.\nRemember this information and answer the upcoming questions.",
       coin: 50,
       questions: [
         {
@@ -166,7 +166,10 @@ const plantsTriviaConfig = {
           answers: [
             { text: "Planting its seeds", isCorrect: false },
             { text: "Leaf cuttings", isCorrect: false },
-            { text: "Cutting the stem and placing it in water", isCorrect: true },
+            {
+              text: "Cutting the stem and placing it in water",
+              isCorrect: true,
+            },
             { text: "It cannot be propagated", isCorrect: false },
           ],
         },
@@ -174,34 +177,37 @@ const plantsTriviaConfig = {
     },
     level3: {
       instructions:
-          "Lucky Bamboo symbolizes good fortune in Feng Shui. It's important to use clean containers and change water regularly to prevent algae. Braided or twisted forms are popular but require skilled cultivation.\nRemember this information and answer the upcoming questions.",
+        "Lucky Bamboo symbolizes good fortune in Feng Shui. It's important to use clean containers and change water regularly to prevent algae. Braided or twisted forms are popular but require skilled cultivation.\nRemember this information and answer the upcoming questions.",
       coin: 50,
       questions: [
         {
           question: "What does Lucky Bamboo symbolize in Feng Shui?",
           answers: [
-            {text: "Love", isCorrect: false},
-            {text: "Good fortune", isCorrect: true},
-            {text: "Health", isCorrect: false},
-            {text: "Wealth", isCorrect: false},
+            { text: "Love", isCorrect: false },
+            { text: "Good fortune", isCorrect: true },
+            { text: "Health", isCorrect: false },
+            { text: "Wealth", isCorrect: false },
           ],
         },
         {
           question: "How can you prevent algae growth in Lucky Bamboo?",
           answers: [
-            {text: "Use clean containers and change water regularly", isCorrect: true},
-            {text: "Place in direct sunlight", isCorrect: false},
-            {text: "Use tap water", isCorrect: false},
-            {text: "Add fertilizer weekly", isCorrect: false},
+            {
+              text: "Use clean containers and change water regularly",
+              isCorrect: true,
+            },
+            { text: "Place in direct sunlight", isCorrect: false },
+            { text: "Use tap water", isCorrect: false },
+            { text: "Add fertilizer weekly", isCorrect: false },
           ],
         },
         {
           question: "What is special about braided Lucky Bamboo?",
           answers: [
-            {text: "Grows faster", isCorrect: false},
-            {text: "Needs less water", isCorrect: false},
-            {text: "Does not require additional skills", isCorrect: false},
-            {text: "Requires skilled cultivation", isCorrect: true},
+            { text: "Grows faster", isCorrect: false },
+            { text: "Needs less water", isCorrect: false },
+            { text: "Does not require additional skills", isCorrect: false },
+            { text: "Requires skilled cultivation", isCorrect: true },
           ],
         },
       ],
@@ -210,7 +216,7 @@ const plantsTriviaConfig = {
   3: {
     level1: {
       instructions:
-          "Snake Plants prefer indirect light and can tolerate low light. They require well-draining soil and infrequent watering, as overwatering can cause root rot. They are known for their air-purifying abilities.\nRemember this information and answer the upcoming questions.",
+        "Snake Plants prefer indirect light and can tolerate low light. They require well-draining soil and infrequent watering, as overwatering can cause root rot. They are known for their air-purifying abilities.\nRemember this information and answer the upcoming questions.",
       coin: 50,
       questions: [
         {
@@ -219,7 +225,10 @@ const plantsTriviaConfig = {
             { text: "Direct, bright sunlight", isCorrect: false },
             { text: "Indirect light", isCorrect: true },
             { text: "Complete darkness", isCorrect: false },
-            { text: "Frequent changes between light and dark", isCorrect: false },
+            {
+              text: "Frequent changes between light and dark",
+              isCorrect: false,
+            },
           ],
         },
         {
@@ -244,7 +253,7 @@ const plantsTriviaConfig = {
     },
     level2: {
       instructions:
-          "Snake Plants prefer dry conditions and can be watered every 2-6 weeks, depending on light and temperature. They thrive in temperatures between 60°F to 80°F and should not be exposed to temperatures below 50°F.\nRemember this information and answer the upcoming questions.",
+        "Snake Plants prefer dry conditions and can be watered every 2-6 weeks, depending on light and temperature. They thrive in temperatures between 60°F to 80°F and should not be exposed to temperatures below 50°F.\nRemember this information and answer the upcoming questions.",
       coin: 50,
       questions: [
         {
@@ -266,7 +275,8 @@ const plantsTriviaConfig = {
           ],
         },
         {
-          question: "What happens if a Snake Plant is exposed to temperatures below 50°F?",
+          question:
+            "What happens if a Snake Plant is exposed to temperatures below 50°F?",
           answers: [
             { text: "It will grow faster", isCorrect: false },
             { text: "It changes color", isCorrect: false },
@@ -278,7 +288,7 @@ const plantsTriviaConfig = {
     },
     level3: {
       instructions:
-          "Snake Plants can be propagated from leaf cuttings or division and prefer loose, well-draining potting mix. They can help remove toxins like formaldehyde from the air. Overexposure to direct sunlight can scorch their leaves.\nRemember this information and answer the upcoming questions.",
+        "Snake Plants can be propagated from leaf cuttings or division and prefer loose, well-draining potting mix. They can help remove toxins like formaldehyde from the air. Overexposure to direct sunlight can scorch their leaves.\nRemember this information and answer the upcoming questions.",
       coin: 50,
       questions: [
         {
@@ -300,7 +310,8 @@ const plantsTriviaConfig = {
           ],
         },
         {
-          question: "What is a risk of placing a Snake Plant in direct sunlight?",
+          question:
+            "What is a risk of placing a Snake Plant in direct sunlight?",
           answers: [
             { text: "It will attract pests", isCorrect: false },
             { text: "The plant will grow too rapidly", isCorrect: false },
@@ -314,7 +325,7 @@ const plantsTriviaConfig = {
   4: {
     level1: {
       instructions:
-          "Dragon Trees prefer bright, indirect sunlight and are sensitive to overwatering. They thrive in well-drained soil and should be watered when the topsoil is dry. They are effective in removing toxins from the air.\nRemember this information and answer the upcoming questions.",
+        "Dragon Trees prefer bright, indirect sunlight and are sensitive to overwatering. They thrive in well-drained soil and should be watered when the topsoil is dry. They are effective in removing toxins from the air.\nRemember this information and answer the upcoming questions.",
       coin: 50,
       questions: [
         {
@@ -348,7 +359,7 @@ const plantsTriviaConfig = {
     },
     level2: {
       instructions:
-          "Dragon Trees prefer a humid environment but can adapt to less humid conditions. They should be fertilized every two weeks in the growing season. Browning leaf tips may indicate low humidity or overexposure to fluoride.\nRemember this information and answer the upcoming questions.",
+        "Dragon Trees prefer a humid environment but can adapt to less humid conditions. They should be fertilized every two weeks in the growing season. Browning leaf tips may indicate low humidity or overexposure to fluoride.\nRemember this information and answer the upcoming questions.",
       coin: 50,
       questions: [
         {
@@ -382,7 +393,7 @@ const plantsTriviaConfig = {
     },
     level3: {
       instructions:
-          "Dragon Trees can be easily propagated through stem cuttings. They are slow-growing plants and can reach significant heights indoors. It’s important to use non-fluoridated water to avoid leaf tip burn.\nRemember this information and answer the upcoming questions.",
+        "Dragon Trees can be easily propagated through stem cuttings. They are slow-growing plants and can reach significant heights indoors. It’s important to use non-fluoridated water to avoid leaf tip burn.\nRemember this information and answer the upcoming questions.",
       coin: 50,
       questions: [
         {
@@ -404,7 +415,8 @@ const plantsTriviaConfig = {
           ],
         },
         {
-          question: "Why should you avoid using fluoridated water for Dragon Trees?",
+          question:
+            "Why should you avoid using fluoridated water for Dragon Trees?",
           answers: [
             { text: "It can cause leaf tip burn", isCorrect: true },
             { text: "It stunts the plant's growth", isCorrect: false },
@@ -418,7 +430,7 @@ const plantsTriviaConfig = {
   5: {
     level1: {
       instructions:
-          "Maidenhair Ferns thrive in moist, well-drained soil and high humidity. They prefer indirect, filtered sunlight and should be kept away from direct sunlight. Regular misting helps maintain humidity.\nRemember this information and answer the upcoming questions.",
+        "Maidenhair Ferns thrive in moist, well-drained soil and high humidity. They prefer indirect, filtered sunlight and should be kept away from direct sunlight. Regular misting helps maintain humidity.\nRemember this information and answer the upcoming questions.",
       coin: 50,
       questions: [
         {
@@ -440,7 +452,8 @@ const plantsTriviaConfig = {
           ],
         },
         {
-          question: "How can you help maintain the right humidity for Maidenhair Ferns?",
+          question:
+            "How can you help maintain the right humidity for Maidenhair Ferns?",
           answers: [
             { text: "Placing in direct sunlight", isCorrect: false },
             { text: "Keeping the soil dry", isCorrect: false },
@@ -452,7 +465,7 @@ const plantsTriviaConfig = {
     },
     level2: {
       instructions:
-          "Maidenhair Ferns should be watered when the top inch of soil feels dry. They are sensitive to chemicals in tap water, and brown leaf tips can indicate dry air or overexposure to sunlight.\nRemember this information and answer the upcoming questions.",
+        "Maidenhair Ferns should be watered when the top inch of soil feels dry. They are sensitive to chemicals in tap water, and brown leaf tips can indicate dry air or overexposure to sunlight.\nRemember this information and answer the upcoming questions.",
       coin: 50,
       questions: [
         {
@@ -486,7 +499,7 @@ const plantsTriviaConfig = {
     },
     level3: {
       instructions:
-          "Maidenhair Ferns benefit from regular fertilization during the growing season but are sensitive to over-fertilization. They can be propagated through division. Keeping them in bathrooms with showers can provide the necessary humidity.\nRemember this information and answer the upcoming questions.",
+        "Maidenhair Ferns benefit from regular fertilization during the growing season but are sensitive to over-fertilization. They can be propagated through division. Keeping them in bathrooms with showers can provide the necessary humidity.\nRemember this information and answer the upcoming questions.",
       coin: 50,
       questions: [
         {
@@ -520,7 +533,7 @@ const plantsTriviaConfig = {
     },
     level4: {
       instructions:
-          "Maidenhair Ferns are known for their delicate, feathery fronds and can add a touch of elegance to indoor spaces. They require consistent care and attention, especially in maintaining the right moisture and humidity levels.\nRemember this information and answer the upcoming questions.",
+        "Maidenhair Ferns are known for their delicate, feathery fronds and can add a touch of elegance to indoor spaces. They require consistent care and attention, especially in maintaining the right moisture and humidity levels.\nRemember this information and answer the upcoming questions.",
       coin: 50,
       questions: [
         {
@@ -533,7 +546,8 @@ const plantsTriviaConfig = {
           ],
         },
         {
-          question: "What is crucial for the successful care of Maidenhair Ferns?",
+          question:
+            "What is crucial for the successful care of Maidenhair Ferns?",
           answers: [
             { text: "Frequent repotting", isCorrect: false },
             { text: "Low light conditions", isCorrect: false },
@@ -554,13 +568,17 @@ const plantsTriviaConfig = {
     },
     level5: {
       instructions:
-          "Advanced care for Maidenhair Ferns includes understanding their sensitivity to changes in environment and careful handling due to their delicate fronds. They are non-toxic to pets and can live for many years with proper care. Avoiding cold drafts and sudden temperature changes is crucial for their health.\nRemember this information and answer the upcoming questions.",
+        "Advanced care for Maidenhair Ferns includes understanding their sensitivity to changes in environment and careful handling due to their delicate fronds. They are non-toxic to pets and can live for many years with proper care. Avoiding cold drafts and sudden temperature changes is crucial for their health.\nRemember this information and answer the upcoming questions.",
       coin: 50,
       questions: [
         {
-          question: "What should be avoided due to Maidenhair Ferns' sensitivity?",
+          question:
+            "What should be avoided due to Maidenhair Ferns' sensitivity?",
           answers: [
-            { text: "Cold drafts and sudden temperature changes", isCorrect: true },
+            {
+              text: "Cold drafts and sudden temperature changes",
+              isCorrect: true,
+            },
             { text: "Bright, indirect sunlight", isCorrect: false },
             { text: "High humidity environments", isCorrect: false },
             { text: "Using organic fertilizers", isCorrect: false },
@@ -588,7 +606,7 @@ const plantsTriviaConfig = {
     },
     level6: {
       instructions:
-          "Expert care for Maidenhair Ferns involves understanding their growth patterns, ideal repotting techniques, and recognizing signs of stress or disease. Using rainwater or distilled water can be beneficial. They are known for their air-purifying qualities but require a stable environment to thrive.\nRemember this information and answer the upcoming questions.",
+        "Expert care for Maidenhair Ferns involves understanding their growth patterns, ideal repotting techniques, and recognizing signs of stress or disease. Using rainwater or distilled water can be beneficial. They are known for their air-purifying qualities but require a stable environment to thrive.\nRemember this information and answer the upcoming questions.",
       coin: 50,
       questions: [
         {
@@ -619,12 +637,12 @@ const plantsTriviaConfig = {
           ],
         },
       ],
-    }
+    },
   },
   6: {
     level1: {
       instructions:
-          "Nerve Plants prefer bright, indirect sunlight and high humidity. They need consistently moist soil but should not be waterlogged. Their distinctive leaves are sensitive to direct sunlight.\nRemember this information and answer the upcoming questions.",
+        "Nerve Plants prefer bright, indirect sunlight and high humidity. They need consistently moist soil but should not be waterlogged. Their distinctive leaves are sensitive to direct sunlight.\nRemember this information and answer the upcoming questions.",
       coin: 50,
       questions: [
         {
@@ -658,7 +676,7 @@ const plantsTriviaConfig = {
     },
     level2: {
       instructions:
-          "Nerve Plants are known for their colorful, vein-like patterns on the leaves. They thrive in terrariums due to the high humidity environment. They should be fertilized regularly during the growing season.\nRemember this information and answer the upcoming questions.",
+        "Nerve Plants are known for their colorful, vein-like patterns on the leaves. They thrive in terrariums due to the high humidity environment. They should be fertilized regularly during the growing season.\nRemember this information and answer the upcoming questions.",
       coin: 50,
       questions: [
         {
@@ -692,7 +710,7 @@ const plantsTriviaConfig = {
     },
     level3: {
       instructions:
-          "Nerve Plants are native to tropical rainforests and can benefit from occasional misting. They are not drought-tolerant and require consistent watering. Avoid placing them in drafty areas or near heat sources.\nRemember this information and answer the upcoming questions.",
+        "Nerve Plants are native to tropical rainforests and can benefit from occasional misting. They are not drought-tolerant and require consistent watering. Avoid placing them in drafty areas or near heat sources.\nRemember this information and answer the upcoming questions.",
       coin: 50,
       questions: [
         {
@@ -726,7 +744,7 @@ const plantsTriviaConfig = {
     },
     level4: {
       instructions:
-          "Nerve Plants can be propagated through stem cuttings or division. They are sensitive to chemicals in water, and browning leaf edges may indicate water stress or excessive fertilizer. They add a vibrant touch to indoor spaces.\nRemember this information and answer the upcoming questions.",
+        "Nerve Plants can be propagated through stem cuttings or division. They are sensitive to chemicals in water, and browning leaf edges may indicate water stress or excessive fertilizer. They add a vibrant touch to indoor spaces.\nRemember this information and answer the upcoming questions.",
       coin: 50,
       questions: [
         {
@@ -748,7 +766,8 @@ const plantsTriviaConfig = {
           ],
         },
         {
-          question: "What aesthetic value do Nerve Plants add to indoor spaces?",
+          question:
+            "What aesthetic value do Nerve Plants add to indoor spaces?",
           answers: [
             { text: "Minimalist and modern look", isCorrect: false },
             { text: "Rustic charm", isCorrect: false },
@@ -760,7 +779,7 @@ const plantsTriviaConfig = {
     },
     level5: {
       instructions:
-          "Advanced care for Nerve Plants includes understanding their growth patterns, ideal repotting techniques, and recognizing signs of stress or disease. They are sensitive to the quality of water and may benefit from using filtered or rainwater. Providing stable environmental conditions is key for their health.\nRemember this information and answer the upcoming questions.",
+        "Advanced care for Nerve Plants includes understanding their growth patterns, ideal repotting techniques, and recognizing signs of stress or disease. They are sensitive to the quality of water and may benefit from using filtered or rainwater. Providing stable environmental conditions is key for their health.\nRemember this information and answer the upcoming questions.",
       coin: 50,
       questions: [
         {
@@ -794,11 +813,12 @@ const plantsTriviaConfig = {
     },
     level6: {
       instructions:
-          "Expert care for Nerve Plants involves understanding their susceptibility to environmental changes, proper pruning techniques, and the balance between humidity and airflow. They may show unique responses to different light conditions, and their soil composition can greatly affect their health.\nRemember this information and answer the upcoming questions.",
+        "Expert care for Nerve Plants involves understanding their susceptibility to environmental changes, proper pruning techniques, and the balance between humidity and airflow. They may show unique responses to different light conditions, and their soil composition can greatly affect their health.\nRemember this information and answer the upcoming questions.",
       coin: 50,
       questions: [
         {
-          question: "How do Nerve Plants respond to different light conditions?",
+          question:
+            "How do Nerve Plants respond to different light conditions?",
           answers: [
             { text: "Color intensity of leaves changes", isCorrect: true },
             { text: "No noticeable change", isCorrect: false },
@@ -812,25 +832,31 @@ const plantsTriviaConfig = {
             { text: "Making large cuts to promote growth", isCorrect: false },
             { text: "Pruning only during the winter", isCorrect: false },
             { text: "Using unsterilized pruning tools", isCorrect: false },
-            { text: "Pruning to maintain shape and remove dead leaves", isCorrect: true },
+            {
+              text: "Pruning to maintain shape and remove dead leaves",
+              isCorrect: true,
+            },
           ],
         },
         {
           question: "What soil composition is best for Nerve Plants?",
           answers: [
-            { text: "Loose, well-draining, and rich in organic matter", isCorrect: true },
+            {
+              text: "Loose, well-draining, and rich in organic matter",
+              isCorrect: true,
+            },
             { text: "Dense and clay-rich", isCorrect: false },
             { text: "Sandy and low in nutrients", isCorrect: false },
             { text: "Peat-heavy mixes", isCorrect: false },
           ],
         },
       ],
-    }
+    },
   },
   7: {
     level1: {
       instructions:
-          "Aloe Vera plants need well-drained soil and bright, indirect sunlight. They should be watered deeply but infrequently, allowing the soil to dry out between waterings. Overwatering can lead to root rot.\nRemember this information and answer the upcoming questions.",
+        "Aloe Vera plants need well-drained soil and bright, indirect sunlight. They should be watered deeply but infrequently, allowing the soil to dry out between waterings. Overwatering can lead to root rot.\nRemember this information and answer the upcoming questions.",
       coin: 50,
       questions: [
         {
@@ -864,7 +890,7 @@ const plantsTriviaConfig = {
     },
     level2: {
       instructions:
-          "Aloe Vera plants store water in their leaves and are drought-tolerant. They prefer temperatures between 55°F and 80°F and should be protected from frost. Yellowing leaves can indicate overwatering.\nRemember this information and answer the upcoming questions.",
+        "Aloe Vera plants store water in their leaves and are drought-tolerant. They prefer temperatures between 55°F and 80°F and should be protected from frost. Yellowing leaves can indicate overwatering.\nRemember this information and answer the upcoming questions.",
       coin: 50,
       questions: [
         {
@@ -898,7 +924,7 @@ const plantsTriviaConfig = {
     },
     level3: {
       instructions:
-          "Aloe Vera can be propagated from offsets or 'pups' that grow from the base of the plant. It's known for its healing properties, especially for soothing skin burns and cuts. Aloe Vera gel can be extracted from the leaves.\nRemember this information and answer the upcoming questions.",
+        "Aloe Vera can be propagated from offsets or 'pups' that grow from the base of the plant. It's known for its healing properties, especially for soothing skin burns and cuts. Aloe Vera gel can be extracted from the leaves.\nRemember this information and answer the upcoming questions.",
       coin: 50,
       questions: [
         {
@@ -932,7 +958,7 @@ const plantsTriviaConfig = {
     },
     level4: {
       instructions:
-          "Aloe Vera has thick, fleshy leaves with serrated edges. It should be repotted when it becomes root-bound. While it's a low-maintenance plant, it's susceptible to mealybugs and scale insects.\nRemember this information and answer the upcoming questions.",
+        "Aloe Vera has thick, fleshy leaves with serrated edges. It should be repotted when it becomes root-bound. While it's a low-maintenance plant, it's susceptible to mealybugs and scale insects.\nRemember this information and answer the upcoming questions.",
       coin: 50,
       questions: [
         {
@@ -966,11 +992,12 @@ const plantsTriviaConfig = {
     },
     level5: {
       instructions:
-          "Advanced care for Aloe Vera includes understanding the nuances of its watering needs, the importance of pot selection for optimal growth, and recognizing signs of stress or disease. Aloe Vera can bloom under the right conditions and is sensitive to environmental changes.\nRemember this information and answer the upcoming questions.",
+        "Advanced care for Aloe Vera includes understanding the nuances of its watering needs, the importance of pot selection for optimal growth, and recognizing signs of stress or disease. Aloe Vera can bloom under the right conditions and is sensitive to environmental changes.\nRemember this information and answer the upcoming questions.",
       coin: 50,
       questions: [
         {
-          question: "What is important to consider when selecting a pot for Aloe Vera?",
+          question:
+            "What is important to consider when selecting a pot for Aloe Vera?",
           answers: [
             { text: "Size for root expansion", isCorrect: true },
             { text: "Color of the pot", isCorrect: false },
@@ -979,7 +1006,8 @@ const plantsTriviaConfig = {
           ],
         },
         {
-          question: "How can you recognize stress or disease in Aloe Vera plants?",
+          question:
+            "How can you recognize stress or disease in Aloe Vera plants?",
           answers: [
             { text: "Bright green color", isCorrect: false },
             { text: "Thick and upright leaves", isCorrect: false },
@@ -1000,11 +1028,12 @@ const plantsTriviaConfig = {
     },
     level6: {
       instructions:
-          "Expert care for Aloe Vera involves understanding its seasonal growth patterns, appropriate pruning techniques, and the benefits of occasional feeding. Aloe Vera plants can purify air but are sensitive to poor air quality and contaminants.\nRemember this information and answer the upcoming questions.",
+        "Expert care for Aloe Vera involves understanding its seasonal growth patterns, appropriate pruning techniques, and the benefits of occasional feeding. Aloe Vera plants can purify air but are sensitive to poor air quality and contaminants.\nRemember this information and answer the upcoming questions.",
       coin: 50,
       questions: [
         {
-          question: "What seasonal growth patterns do Aloe Vera plants exhibit?",
+          question:
+            "What seasonal growth patterns do Aloe Vera plants exhibit?",
           answers: [
             { text: "Fast growth in winter", isCorrect: false },
             { text: "Dormant in summer", isCorrect: false },
@@ -1031,12 +1060,12 @@ const plantsTriviaConfig = {
           ],
         },
       ],
-    }
+    },
   },
   8: {
     level1: {
       instructions:
-          "Anthuriums prefer high humidity, bright, indirect light, and moist, well-draining soil. They should not be overwatered, and their leaves can be wiped to remove dust. They are known for their colorful spathes and air-purifying qualities.\nRemember this information and answer the upcoming questions.",
+        "Anthuriums prefer high humidity, bright, indirect light, and moist, well-draining soil. They should not be overwatered, and their leaves can be wiped to remove dust. They are known for their colorful spathes and air-purifying qualities.\nRemember this information and answer the upcoming questions.",
       coin: 50,
       questions: [
         {
@@ -1070,14 +1099,17 @@ const plantsTriviaConfig = {
     },
     level2: {
       instructions:
-          "Anthuriums should be watered regularly, allowing the top inch of soil to dry out between waterings. They benefit from regular misting. Yellow leaves can indicate overwatering or poor drainage.\nRemember this information and answer the upcoming questions.",
+        "Anthuriums should be watered regularly, allowing the top inch of soil to dry out between waterings. They benefit from regular misting. Yellow leaves can indicate overwatering or poor drainage.\nRemember this information and answer the upcoming questions.",
       coin: 50,
       questions: [
         {
           question: "How often should Anthuriums be watered?",
           answers: [
             { text: "Daily", isCorrect: false },
-            { text: "Regularly, allowing top inch of soil to dry out", isCorrect: true },
+            {
+              text: "Regularly, allowing top inch of soil to dry out",
+              isCorrect: true,
+            },
             { text: "Once a month", isCorrect: false },
             { text: "Only when leaves start to droop", isCorrect: false },
           ],
@@ -1104,7 +1136,7 @@ const plantsTriviaConfig = {
     },
     level3: {
       instructions:
-          "Anthuriums can be propagated by division. They prefer a warm environment and should be protected from temperatures below 50°F. Over-fertilization can lead to salt build-up and harm the plant.\nRemember this information and answer the upcoming questions.",
+        "Anthuriums can be propagated by division. They prefer a warm environment and should be protected from temperatures below 50°F. Over-fertilization can lead to salt build-up and harm the plant.\nRemember this information and answer the upcoming questions.",
       coin: 50,
       questions: [
         {
@@ -1138,11 +1170,12 @@ const plantsTriviaConfig = {
     },
     level4: {
       instructions:
-          "The bright spathe of the Anthurium is often mistaken for a flower, but it is a modified leaf. Anthuriums are epiphytes in their natural habitat. They require well-balanced liquid fertilizer and good air circulation.\nRemember this information and answer the upcoming questions.",
+        "The bright spathe of the Anthurium is often mistaken for a flower, but it is a modified leaf. Anthuriums are epiphytes in their natural habitat. They require well-balanced liquid fertilizer and good air circulation.\nRemember this information and answer the upcoming questions.",
       coin: 50,
       questions: [
         {
-          question: "What is the bright part of an Anthurium often mistaken for a flower?",
+          question:
+            "What is the bright part of an Anthurium often mistaken for a flower?",
           answers: [
             { text: "Petal", isCorrect: false },
             { text: "Bud", isCorrect: false },
@@ -1151,7 +1184,8 @@ const plantsTriviaConfig = {
           ],
         },
         {
-          question: "What type of plant is an Anthurium in its natural habitat?",
+          question:
+            "What type of plant is an Anthurium in its natural habitat?",
           answers: [
             { text: "Succulent", isCorrect: false },
             { text: "Epiphyte", isCorrect: true },
@@ -1172,7 +1206,7 @@ const plantsTriviaConfig = {
     },
     level5: {
       instructions:
-          "Advanced care for Anthuriums involves understanding their susceptibility to low humidity, the importance of adequate water quality, and recognizing the signs of stress or disease. Anthuriums can bloom multiple times a year under optimal conditions. They are sensitive to chlorine and other chemicals often found in tap water.\nRemember this information and answer the upcoming questions.",
+        "Advanced care for Anthuriums involves understanding their susceptibility to low humidity, the importance of adequate water quality, and recognizing the signs of stress or disease. Anthuriums can bloom multiple times a year under optimal conditions. They are sensitive to chlorine and other chemicals often found in tap water.\nRemember this information and answer the upcoming questions.",
       coin: 50,
       questions: [
         {
@@ -1206,14 +1240,17 @@ const plantsTriviaConfig = {
     },
     level6: {
       instructions:
-          "Expert care for Anthuriums involves understanding their flowering patterns, ideal repotting techniques, and the balance between light and nutrient supply. They may show different growth behaviors based on seasonal changes. Anthuriums are known for their air-purifying qualities but require consistent care to thrive.\nRemember this information and answer the upcoming questions.",
+        "Expert care for Anthuriums involves understanding their flowering patterns, ideal repotting techniques, and the balance between light and nutrient supply. They may show different growth behaviors based on seasonal changes. Anthuriums are known for their air-purifying qualities but require consistent care to thrive.\nRemember this information and answer the upcoming questions.",
       coin: 50,
       questions: [
         {
           question: "What is important when repotting Anthuriums?",
           answers: [
             { text: "Using a larger pot each time", isCorrect: false },
-            { text: "Ensuring the new pot has adequate drainage", isCorrect: true },
+            {
+              text: "Ensuring the new pot has adequate drainage",
+              isCorrect: true,
+            },
             { text: "Repotting only in winter", isCorrect: false },
             { text: "Using the same soil as before", isCorrect: false },
           ],
@@ -1228,11 +1265,15 @@ const plantsTriviaConfig = {
           ],
         },
         {
-          question: "What contributes to the air-purifying qualities of Anthuriums?",
+          question:
+            "What contributes to the air-purifying qualities of Anthuriums?",
           answers: [
             { text: "Their high oxygen output", isCorrect: false },
             { text: "Absorbing toxins from the air", isCorrect: true },
-            { text: "The moisture they release into the air", isCorrect: false },
+            {
+              text: "The moisture they release into the air",
+              isCorrect: false,
+            },
             { text: "Reflecting sunlight", isCorrect: false },
           ],
         },
@@ -1240,7 +1281,7 @@ const plantsTriviaConfig = {
     },
     level7: {
       instructions:
-          "Mastering Anthurium care includes understanding the nuances of its flowering cycle, the importance of humidity and temperature control, and recognizing early signs of nutrient deficiencies or excesses. Anthuriums benefit from occasional cleaning of their leaves to remove dust and enhance photosynthesis.\nRemember this information and answer the upcoming questions.",
+        "Mastering Anthurium care includes understanding the nuances of its flowering cycle, the importance of humidity and temperature control, and recognizing early signs of nutrient deficiencies or excesses. Anthuriums benefit from occasional cleaning of their leaves to remove dust and enhance photosynthesis.\nRemember this information and answer the upcoming questions.",
       coin: 50,
       questions: [
         {
@@ -1274,11 +1315,12 @@ const plantsTriviaConfig = {
     },
     level8: {
       instructions:
-          "For Anthurium enthusiasts, understanding the impact of potting mix composition, the frequency of repotting, and the role of microclimate in flowering can lead to healthier plants. Anthuriums also benefit from a stable environment, free from frequent changes in location or conditions.\nRemember this information and answer the upcoming questions.",
+        "For Anthurium enthusiasts, understanding the impact of potting mix composition, the frequency of repotting, and the role of microclimate in flowering can lead to healthier plants. Anthuriums also benefit from a stable environment, free from frequent changes in location or conditions.\nRemember this information and answer the upcoming questions.",
       coin: 50,
       questions: [
         {
-          question: "How does the composition of potting mix affect Anthuriums?",
+          question:
+            "How does the composition of potting mix affect Anthuriums?",
           answers: [
             { text: "Any type of potting mix is suitable", isCorrect: false },
             { text: "It should be rich in organic matter", isCorrect: true },
@@ -1308,7 +1350,7 @@ const plantsTriviaConfig = {
     },
     level9: {
       instructions:
-          "Expert-level care of Anthuriums involves fine-tuning watering practices, understanding the specific light needs for various species, and managing humidity levels effectively. Being sensitive to signs of stress such as leaf curling or color changes can prevent long-term issues.\nRemember this information and answer the upcoming questions.",
+        "Expert-level care of Anthuriums involves fine-tuning watering practices, understanding the specific light needs for various species, and managing humidity levels effectively. Being sensitive to signs of stress such as leaf curling or color changes can prevent long-term issues.\nRemember this information and answer the upcoming questions.",
       coin: 50,
       questions: [
         {
@@ -1321,16 +1363,21 @@ const plantsTriviaConfig = {
           ],
         },
         {
-          question: "How should different Anthurium species be exposed to light?",
+          question:
+            "How should different Anthurium species be exposed to light?",
           answers: [
             { text: "All species prefer direct sunlight", isCorrect: false },
-            { text: "Varies based on species' natural habitat", isCorrect: true },
+            {
+              text: "Varies based on species' natural habitat",
+              isCorrect: true,
+            },
             { text: "Low light for all species", isCorrect: false },
             { text: "Consistent artificial light", isCorrect: false },
           ],
         },
         {
-          question: "What is an effective way to manage humidity for Anthuriums?",
+          question:
+            "What is an effective way to manage humidity for Anthuriums?",
           answers: [
             { text: "Using a dehumidifier", isCorrect: false },
             { text: "Regular misting or a pebble tray", isCorrect: true },
@@ -1339,12 +1386,12 @@ const plantsTriviaConfig = {
           ],
         },
       ],
-    }
+    },
   },
   9: {
     level1: {
       instructions:
-          "Lemon Trees need full sunlight and well-draining soil. They require regular watering to keep the soil moist but not waterlogged. Protecting them from frost is essential for their health.\nRemember this information and answer the upcoming questions.",
+        "Lemon Trees need full sunlight and well-draining soil. They require regular watering to keep the soil moist but not waterlogged. Protecting them from frost is essential for their health.\nRemember this information and answer the upcoming questions.",
       coin: 50,
       questions: [
         {
@@ -1378,7 +1425,7 @@ const plantsTriviaConfig = {
     },
     level2: {
       instructions:
-          "Lemon Trees benefit from regular fertilization, especially during the growing season. They can be susceptible to pests like aphids and spider mites. Yellow leaves can indicate overwatering or nutrient deficiencies.\nRemember this information and answer the upcoming questions.",
+        "Lemon Trees benefit from regular fertilization, especially during the growing season. They can be susceptible to pests like aphids and spider mites. Yellow leaves can indicate overwatering or nutrient deficiencies.\nRemember this information and answer the upcoming questions.",
       coin: 50,
       questions: [
         {
@@ -1412,13 +1459,16 @@ const plantsTriviaConfig = {
     },
     level3: {
       instructions:
-          "Pruning Lemon Trees helps in maintaining their shape and removing dead or diseased branches. They can be grown in pots but require sufficient space for root growth. Overexposure to cold can damage the tree.\nRemember this information and answer the upcoming questions.",
+        "Pruning Lemon Trees helps in maintaining their shape and removing dead or diseased branches. They can be grown in pots but require sufficient space for root growth. Overexposure to cold can damage the tree.\nRemember this information and answer the upcoming questions.",
       coin: 50,
       questions: [
         {
           question: "Why is pruning important for Lemon Trees?",
           answers: [
-            { text: "To maintain shape and remove unhealthy branches", isCorrect: true },
+            {
+              text: "To maintain shape and remove unhealthy branches",
+              isCorrect: true,
+            },
             { text: "To increase fruit production", isCorrect: false },
             { text: "To reduce the height of the tree", isCorrect: false },
             { text: "To enhance leaf color", isCorrect: false },
@@ -1434,7 +1484,8 @@ const plantsTriviaConfig = {
           ],
         },
         {
-          question: "What effect does overexposure to cold have on Lemon Trees?",
+          question:
+            "What effect does overexposure to cold have on Lemon Trees?",
           answers: [
             { text: "Increases fruit production", isCorrect: false },
             { text: "Can damage the tree", isCorrect: true },
@@ -1446,11 +1497,12 @@ const plantsTriviaConfig = {
     },
     level4: {
       instructions:
-          "Lemon Trees can take several years to produce fruit. The fruit can be harvested when it's fully colored and slightly soft to the touch. Protecting the trees from wind and providing adequate nutrients are crucial for healthy growth.\nRemember this information and answer the upcoming questions.",
+        "Lemon Trees can take several years to produce fruit. The fruit can be harvested when it's fully colored and slightly soft to the touch. Protecting the trees from wind and providing adequate nutrients are crucial for healthy growth.\nRemember this information and answer the upcoming questions.",
       coin: 50,
       questions: [
         {
-          question: "How long does it take for Lemon Trees to start producing fruit?",
+          question:
+            "How long does it take for Lemon Trees to start producing fruit?",
           answers: [
             { text: "Several years", isCorrect: true },
             { text: "A few months", isCorrect: false },
@@ -1468,19 +1520,23 @@ const plantsTriviaConfig = {
           ],
         },
         {
-          question: "What conditions are crucial for the healthy growth of Lemon Trees?",
+          question:
+            "What conditions are crucial for the healthy growth of Lemon Trees?",
           answers: [
             { text: "High humidity and shade", isCorrect: false },
             { text: "Frequent repotting", isCorrect: false },
             { text: "Constant watering", isCorrect: false },
-            { text: "Protection from wind and adequate nutrients", isCorrect: true },
+            {
+              text: "Protection from wind and adequate nutrients",
+              isCorrect: true,
+            },
           ],
         },
       ],
     },
     level5: {
       instructions:
-          "Advanced Lemon Tree care involves understanding their susceptibility to specific diseases, the importance of balanced fertilization, and recognizing the signs of stress. Lemon Trees benefit from mulching and organic compost, which can enhance soil quality and overall tree health.\nRemember this information and answer the upcoming questions.",
+        "Advanced Lemon Tree care involves understanding their susceptibility to specific diseases, the importance of balanced fertilization, and recognizing the signs of stress. Lemon Trees benefit from mulching and organic compost, which can enhance soil quality and overall tree health.\nRemember this information and answer the upcoming questions.",
       coin: 50,
       questions: [
         {
@@ -1514,7 +1570,7 @@ const plantsTriviaConfig = {
     },
     level6: {
       instructions:
-          "Expert Lemon Tree care involves managing their exposure to extreme temperatures, optimizing their watering schedule, and understanding the impact of pruning on fruit production. Lemon Trees are sensitive to salt buildup in the soil and require periodic flushing.\nRemember this information and answer the upcoming questions.",
+        "Expert Lemon Tree care involves managing their exposure to extreme temperatures, optimizing their watering schedule, and understanding the impact of pruning on fruit production. Lemon Trees are sensitive to salt buildup in the soil and require periodic flushing.\nRemember this information and answer the upcoming questions.",
       coin: 50,
       questions: [
         {
@@ -1527,7 +1583,8 @@ const plantsTriviaConfig = {
           ],
         },
         {
-          question: "What is the impact of pruning on Lemon Tree fruit production?",
+          question:
+            "What is the impact of pruning on Lemon Tree fruit production?",
           answers: [
             { text: "Reduces fruit size", isCorrect: false },
             { text: "Increases overall yield", isCorrect: true },
@@ -1548,7 +1605,7 @@ const plantsTriviaConfig = {
     },
     level7: {
       instructions:
-          "Mastering Lemon Tree care involves fine-tuning the microclimate conditions, understanding the timing for harvesting lemons for different uses, and ensuring a stable growing environment. Adequate pollination is essential for fruit production in Lemon Trees.\nRemember this information and answer the upcoming questions.",
+        "Mastering Lemon Tree care involves fine-tuning the microclimate conditions, understanding the timing for harvesting lemons for different uses, and ensuring a stable growing environment. Adequate pollination is essential for fruit production in Lemon Trees.\nRemember this information and answer the upcoming questions.",
       coin: 50,
       questions: [
         {
@@ -1570,7 +1627,8 @@ const plantsTriviaConfig = {
           ],
         },
         {
-          question: "What is important in creating a stable growing environment for Lemon Trees?",
+          question:
+            "What is important in creating a stable growing environment for Lemon Trees?",
           answers: [
             { text: "Constantly changing the location", isCorrect: false },
             { text: "Regular pruning", isCorrect: false },
@@ -1582,7 +1640,7 @@ const plantsTriviaConfig = {
     },
     level8: {
       instructions:
-          "For Lemon Tree connoisseurs, understanding the subtleties of nutrient management, the significance of leaf analysis for health diagnosis, and the role of environmental stressors can lead to optimal tree health and productivity. Implementing integrated pest management strategies is key to maintaining healthy Lemon Trees.\nRemember this information and answer the upcoming questions.",
+        "For Lemon Tree connoisseurs, understanding the subtleties of nutrient management, the significance of leaf analysis for health diagnosis, and the role of environmental stressors can lead to optimal tree health and productivity. Implementing integrated pest management strategies is key to maintaining healthy Lemon Trees.\nRemember this information and answer the upcoming questions.",
       coin: 50,
       questions: [
         {
@@ -1595,11 +1653,15 @@ const plantsTriviaConfig = {
           ],
         },
         {
-          question: "Why is integrated pest management important for Lemon Trees?",
+          question:
+            "Why is integrated pest management important for Lemon Trees?",
           answers: [
             { text: "Reduces the need for watering", isCorrect: false },
             { text: "Improves soil quality", isCorrect: false },
-            { text: "Effectively controls pests with minimal harm", isCorrect: true },
+            {
+              text: "Effectively controls pests with minimal harm",
+              isCorrect: true,
+            },
             { text: "Increases fruit size", isCorrect: false },
           ],
         },
@@ -1607,7 +1669,10 @@ const plantsTriviaConfig = {
           question: "How do environmental stressors impact Lemon Trees?",
           answers: [
             { text: "No significant impact", isCorrect: false },
-            { text: "Can lead to reduced health and productivity", isCorrect: true },
+            {
+              text: "Can lead to reduced health and productivity",
+              isCorrect: true,
+            },
             { text: "Enhances leaf color", isCorrect: false },
             { text: "Promotes rapid growth", isCorrect: false },
           ],
@@ -1616,7 +1681,7 @@ const plantsTriviaConfig = {
     },
     level9: {
       instructions:
-          "For Lemon Tree connoisseurs, understanding the subtleties of nutrient management, the significance of leaf analysis for health diagnosis, and the role of environmental stressors can lead to optimal tree health and productivity. Implementing integrated pest management strategies is key to maintaining healthy Lemon Trees.\nRemember this information and answer the upcoming questions.",
+        "For Lemon Tree connoisseurs, understanding the subtleties of nutrient management, the significance of leaf analysis for health diagnosis, and the role of environmental stressors can lead to optimal tree health and productivity. Implementing integrated pest management strategies is key to maintaining healthy Lemon Trees.\nRemember this information and answer the upcoming questions.",
       coin: 50,
       questions: [
         {
@@ -1629,11 +1694,15 @@ const plantsTriviaConfig = {
           ],
         },
         {
-          question: "Why is integrated pest management important for Lemon Trees?",
+          question:
+            "Why is integrated pest management important for Lemon Trees?",
           answers: [
             { text: "Reduces the need for watering", isCorrect: false },
             { text: "Improves soil quality", isCorrect: false },
-            { text: "Effectively controls pests with minimal harm", isCorrect: true },
+            {
+              text: "Effectively controls pests with minimal harm",
+              isCorrect: true,
+            },
             { text: "Increases fruit size", isCorrect: false },
           ],
         },
@@ -1641,24 +1710,30 @@ const plantsTriviaConfig = {
           question: "How do environmental stressors impact Lemon Trees?",
           answers: [
             { text: "No significant impact", isCorrect: false },
-            { text: "Can lead to reduced health and productivity", isCorrect: true },
+            {
+              text: "Can lead to reduced health and productivity",
+              isCorrect: true,
+            },
             { text: "Enhances leaf color", isCorrect: false },
             { text: "Promotes rapid growth", isCorrect: false },
           ],
         },
       ],
-    }
+    },
   },
   10: {
     level1: {
       instructions:
-          "Indoor Olive Trees require bright light and should be placed near a south-facing window. They need well-draining soil and should be watered when the top inch of soil is dry. Regular pruning helps maintain their shape and encourages growth.\nRemember this information and answer the upcoming questions.",
+        "Indoor Olive Trees require bright light and should be placed near a south-facing window. They need well-draining soil and should be watered when the top inch of soil is dry. Regular pruning helps maintain their shape and encourages growth.\nRemember this information and answer the upcoming questions.",
       coin: 50,
       questions: [
         {
           question: "What type of light is best for indoor Olive Trees?",
           answers: [
-            { text: "Bright light from a south-facing window", isCorrect: true },
+            {
+              text: "Bright light from a south-facing window",
+              isCorrect: true,
+            },
             { text: "Low, indirect light", isCorrect: false },
             { text: "Artificial light only", isCorrect: false },
             { text: "Direct sunlight all day", isCorrect: false },
@@ -1667,7 +1742,8 @@ const plantsTriviaConfig = {
         {
           question: "When should you water an indoor Olive Tree?",
           answers: [
-            { text: "When the top inch of soil is dry", isCorrect: true },{ text: "Daily", isCorrect: false },
+            { text: "When the top inch of soil is dry", isCorrect: true },
+            { text: "Daily", isCorrect: false },
             { text: "Once a month", isCorrect: false },
             { text: "When the top inch of soil is dry", isCorrect: true },
             { text: "Constantly keep the soil moist", isCorrect: false },
@@ -1686,11 +1762,12 @@ const plantsTriviaConfig = {
     },
     level2: {
       instructions:
-          "Olive Trees prefer a cooler period in winter to encourage future blooming and fruiting. They benefit from being placed outside in summer. Avoid overwatering, as it can lead to root rot.\nRemember this information and answer the upcoming questions.",
+        "Olive Trees prefer a cooler period in winter to encourage future blooming and fruiting. They benefit from being placed outside in summer. Avoid overwatering, as it can lead to root rot.\nRemember this information and answer the upcoming questions.",
       coin: 50,
       questions: [
         {
-          question: "Why should indoor Olive Trees have a cooler period in winter?",
+          question:
+            "Why should indoor Olive Trees have a cooler period in winter?",
           answers: [
             { text: "Helps the tree hibernate", isCorrect: false },
             { text: "Prevents leaf drop", isCorrect: false },
@@ -1699,7 +1776,8 @@ const plantsTriviaConfig = {
           ],
         },
         {
-          question: "What should be avoided to prevent root rot in Olive Trees?",
+          question:
+            "What should be avoided to prevent root rot in Olive Trees?",
           answers: [
             { text: "Underwatering", isCorrect: false },
             { text: "Using well-draining soil", isCorrect: false },
@@ -1720,7 +1798,7 @@ const plantsTriviaConfig = {
     },
     level3: {
       instructions:
-          "Fertilizing Olive Trees regularly during the growing season supports their health. They are drought-tolerant but perform best when not stressed by prolonged dryness. Repotting may be necessary as they grow.\nRemember this information and answer the upcoming questions.",
+        "Fertilizing Olive Trees regularly during the growing season supports their health. They are drought-tolerant but perform best when not stressed by prolonged dryness. Repotting may be necessary as they grow.\nRemember this information and answer the upcoming questions.",
       coin: 50,
       questions: [
         {
@@ -1733,10 +1811,14 @@ const plantsTriviaConfig = {
           ],
         },
         {
-          question: "What characterizes Olive Trees in terms of drought tolerance?",
+          question:
+            "What characterizes Olive Trees in terms of drought tolerance?",
           answers: [
             { text: "Need constant moisture", isCorrect: false },
-            { text: "Drought-tolerant but prefer regular watering", isCorrect: true },
+            {
+              text: "Drought-tolerant but prefer regular watering",
+              isCorrect: true,
+            },
             { text: "Should never be watered", isCorrect: false },
             { text: "Only require water once a month", isCorrect: false },
           ],
@@ -1754,7 +1836,7 @@ const plantsTriviaConfig = {
     },
     level4: {
       instructions:
-          "Olive Trees can produce olives indoors if they receive enough light. They are susceptible to scale insects and mealybugs. Keeping the leaves clean ensures the tree receives adequate light.\nRemember this information and answer the upcoming questions.",
+        "Olive Trees can produce olives indoors if they receive enough light. They are susceptible to scale insects and mealybugs. Keeping the leaves clean ensures the tree receives adequate light.\nRemember this information and answer the upcoming questions.",
       coin: 50,
       questions: [
         {
@@ -1778,18 +1860,21 @@ const plantsTriviaConfig = {
         {
           question: "Why is it important to keep Olive Tree leaves clean?",
           answers: [
-            { text: "Ensures the tree receives adequate light", isCorrect: true },
+            {
+              text: "Ensures the tree receives adequate light",
+              isCorrect: true,
+            },
             { text: "Prevents disease", isCorrect: false },
             { text: "Promotes faster growth", isCorrect: false },
             { text: "Keeps pests away", isCorrect: false },
           ],
         },
       ],
-    }
+    },
   },
   level5: {
     instructions:
-        "Advanced Olive Tree care involves understanding their susceptibility to certain diseases, the importance of pruning for health and productivity, and recognizing the signs of stress. Olive Trees benefit from being grown in containers that allow for root growth and adequate drainage.\nRemember this information and answer the upcoming questions.",
+      "Advanced Olive Tree care involves understanding their susceptibility to certain diseases, the importance of pruning for health and productivity, and recognizing the signs of stress. Olive Trees benefit from being grown in containers that allow for root growth and adequate drainage.\nRemember this information and answer the upcoming questions.",
     coin: 50,
     questions: [
       {
@@ -1823,7 +1908,7 @@ const plantsTriviaConfig = {
   },
   level6: {
     instructions:
-        "Expert Olive Tree care involves managing exposure to extreme temperatures, optimizing watering schedules, and understanding the impact of soil pH on tree health. Adequate pollination is essential for fruit production in Olive Trees.\nRemember this information and answer the upcoming questions.",
+      "Expert Olive Tree care involves managing exposure to extreme temperatures, optimizing watering schedules, and understanding the impact of soil pH on tree health. Adequate pollination is essential for fruit production in Olive Trees.\nRemember this information and answer the upcoming questions.",
     coin: 50,
     questions: [
       {
@@ -1838,7 +1923,10 @@ const plantsTriviaConfig = {
       {
         question: "How does soil pH affect Olive Trees?",
         answers: [
-          { text: "Affects nutrient absorption and tree health", isCorrect: true },
+          {
+            text: "Affects nutrient absorption and tree health",
+            isCorrect: true,
+          },
           { text: "Only changes fruit size", isCorrect: false },
           { text: "No impact on tree health", isCorrect: false },
           { text: "Increases susceptibility to diseases", isCorrect: false },
@@ -1857,7 +1945,7 @@ const plantsTriviaConfig = {
   },
   level7: {
     instructions:
-        "Mastering Olive Tree care involves fine-tuning the microclimate conditions, understanding the timing for olive harvesting for different uses, and ensuring a stable growing environment. Olive Trees are sensitive to salt buildup in the soil and require periodic flushing.\nRemember this information and answer the upcoming questions.",
+      "Mastering Olive Tree care involves fine-tuning the microclimate conditions, understanding the timing for olive harvesting for different uses, and ensuring a stable growing environment. Olive Trees are sensitive to salt buildup in the soil and require periodic flushing.\nRemember this information and answer the upcoming questions.",
     coin: 50,
     questions: [
       {
@@ -1891,7 +1979,7 @@ const plantsTriviaConfig = {
   },
   level8: {
     instructions:
-        "For Olive Tree enthusiasts, understanding the subtleties of nutrient management, the significance of leaf analysis for health diagnosis, and the role of environmental stressors can lead to optimal tree health and productivity. Implementing integrated pest management strategies is key to maintaining healthy Olive Trees.\nRemember this information and answer the upcoming questions.",
+      "For Olive Tree enthusiasts, understanding the subtleties of nutrient management, the significance of leaf analysis for health diagnosis, and the role of environmental stressors can lead to optimal tree health and productivity. Implementing integrated pest management strategies is key to maintaining healthy Olive Trees.\nRemember this information and answer the upcoming questions.",
     coin: 50,
     questions: [
       {
@@ -1904,12 +1992,16 @@ const plantsTriviaConfig = {
         ],
       },
       {
-        question: "Why is integrated pest management important for Olive Trees?",
+        question:
+          "Why is integrated pest management important for Olive Trees?",
         answers: [
           { text: "Increases fruit size", isCorrect: false },
           { text: "Reduces the need for watering", isCorrect: false },
           { text: "Improves soil quality", isCorrect: false },
-          { text: "Controls pests with minimal environmental impact", isCorrect: true },
+          {
+            text: "Controls pests with minimal environmental impact",
+            isCorrect: true,
+          },
         ],
       },
       {
@@ -1917,7 +2009,10 @@ const plantsTriviaConfig = {
         answers: [
           { text: "Enhances leaf color", isCorrect: false },
           { text: "Promotes rapid growth", isCorrect: false },
-          { text: "Can lead to reduced health and productivity", isCorrect: true },
+          {
+            text: "Can lead to reduced health and productivity",
+            isCorrect: true,
+          },
           { text: "No significant impact", isCorrect: false },
         ],
       },
@@ -1925,7 +2020,7 @@ const plantsTriviaConfig = {
   },
   level9: {
     instructions:
-        "In-depth Olive Tree care involves a deep understanding of the varietal differences, soil composition's impact on tree health, and advanced strategies for dealing with environmental stress and diseases. Knowledge of seasonal care variations and their impact on fruit quality and tree longevity is crucial.\nRemember this information and answer the upcoming questions.",
+      "In-depth Olive Tree care involves a deep understanding of the varietal differences, soil composition's impact on tree health, and advanced strategies for dealing with environmental stress and diseases. Knowledge of seasonal care variations and their impact on fruit quality and tree longevity is crucial.\nRemember this information and answer the upcoming questions.",
     coin: 50,
     questions: [
       {
@@ -1938,25 +2033,39 @@ const plantsTriviaConfig = {
         ],
       },
       {
-        question: "Why is understanding varietal differences important in Olive Tree cultivation?",
+        question:
+          "Why is understanding varietal differences important in Olive Tree cultivation?",
         answers: [
           { text: "All varieties require the same care", isCorrect: false },
-          { text: "Different varieties have unique care and climate needs", isCorrect: true },
-          { text: "Varietal differences are purely aesthetic", isCorrect: false },
+          {
+            text: "Different varieties have unique care and climate needs",
+            isCorrect: true,
+          },
+          {
+            text: "Varietal differences are purely aesthetic",
+            isCorrect: false,
+          },
           { text: "It affects only the fruit size", isCorrect: false },
         ],
       },
       {
-        question: "What is the impact of seasonal care variations on Olive Trees?",
+        question:
+          "What is the impact of seasonal care variations on Olive Trees?",
         answers: [
-          { text: "No impact on tree health or fruit quality", isCorrect: false },
-          { text: "Can significantly affect fruit quality and tree longevity", isCorrect: true },
+          {
+            text: "No impact on tree health or fruit quality",
+            isCorrect: false,
+          },
+          {
+            text: "Can significantly affect fruit quality and tree longevity",
+            isCorrect: true,
+          },
           { text: "Only affects the rate of growth", isCorrect: false },
           { text: "Leads to changes in leaf color", isCorrect: false },
         ],
       },
     ],
-  }
+  },
 };
 
 export default plantsTriviaConfig;
