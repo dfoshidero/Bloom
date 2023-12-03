@@ -53,7 +53,7 @@ const QuizScreen = ({ navigation, route }) => {
   const [incorrectAnswersCount, setIncorrectAnswersCount] = useState(0);
   const [bonusCoins, setBonusCoins] = useState(5);
 
-  const { xp, decreaseHearts, addCoins, addXP } = usePlayerConfig();
+  const { xp, hearts, decreaseHearts, addCoins, addXP } = usePlayerConfig();
 
   const { speciesProgress, updateSpeciesProgress } = useProgressContext();
   const { completedLevels, updateCompletedLevels } =
@@ -127,8 +127,9 @@ const QuizScreen = ({ navigation, route }) => {
 
   const handleAnswer = (isCorrect) => {
     if (isCorrect) {
+      const newCorrectAnswersCount = correctAnswersCount + 1;
+      setCorrectAnswersCount(newCorrectAnswersCount); // Update the state
       addCoins(1); // Add 1 coin for each correct answer
-      setCorrectAnswersCount((prevCount) => prevCount + 1); // Functional update for accuracy
       setFeedbackMessage("Correct! Moving to next question...");
 
       setTimeout(() => {
@@ -136,35 +137,29 @@ const QuizScreen = ({ navigation, route }) => {
           setCurrentQuestionIndex(currentQuestionIndex + 1);
           setFeedbackMessage("");
         } else {
-          completeQuiz();
+          // Calculate bonus coins here
+          const newBonusCoins = Math.max(0, 5 - incorrectAnswersCount);
+          setBonusCoins(newBonusCoins); // Update the state
+          addCoins(newBonusCoins); // Add the calculated bonus coins
+          completeQuiz(newCorrectAnswersCount, newBonusCoins);
         }
       }, 1000);
     } else {
       setIncorrectAnswersCount((prevCount) => prevCount + 1); // Functional update here as well
       setFeedbackMessage("Incorrect. Try again!");
-      decreaseHearts();
+      decreasePlayerHearts();
     }
-  };
-
-
-  const calculateBonusCoins = () => {
-    // Calculate bonus coins based on incorrect answers
-    let calculatedBonusCoins = Math.max(0, 5 - incorrectAnswersCount);
-    setBonusCoins(calculatedBonusCoins);
-    addCoins(calculatedBonusCoins); // Add the calculated bonus coins
   };
 
   const decreasePlayerHearts = () => {
     decreaseHearts();
 
-    if (playerConfig.hearts - 1 <= 0) {
+    if (hearts - 1 <= 0) {
       setShowGameOverModal(true);
     }
   };
 
-  const completeQuiz = () => {
-    calculateBonusCoins();
-
+  const completeQuiz = (newCorrectAnswersCount, newBonusCoins) => {
     setShowModal(true);
     setShowCongratsBackground(true);
     const numericPlant = parseInt(plant, 10);
@@ -194,7 +189,7 @@ const QuizScreen = ({ navigation, route }) => {
 
     // Display the rewards in the modal
     setFeedbackMessage(
-      `${correctAnswersCount} coins, ${bonusCoins} bonus coins, and ${xpReward} XP earned!`
+      `${newCorrectAnswersCount} coins, ${newBonusCoins} bonus coins, and ${xpReward} XP earned!`
     );
   };
 
