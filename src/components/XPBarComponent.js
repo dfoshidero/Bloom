@@ -1,11 +1,14 @@
 import React from "react";
 import requiredXP from "../states/levelUpConfig";
 import { usePlayerConfig } from "../states/playerConfigContext";
-import { Image } from "react-native";
+import { Image, View, StyleSheet } from "react-native";
+import GameText from "../styles/GameText";
+import TouchableScale from "react-native-touchable-scale";
 
 const XPBar = () => {
   const { xp, level } = usePlayerConfig();
 
+  const lvlImage = require("../assets/icons/xp/lvl_container.png");
   const xpImages = [
     require("../assets/icons/xp/0.png"),
     require("../assets/icons/xp/10.png"),
@@ -36,16 +39,53 @@ const XPBar = () => {
   const xpBarImage = xpImages[imageIndex];
 
   return (
-    <Image
-      source={xpBarImage}
-      style={{
-        width: 250,
-        height: 250,
-        resizeMode: "contain",
-        position: "absolute",
-      }}
-    />
+    <View style={{ alignItems: "center" }}>
+      <TouchableScale style={styles.touchableScale}>
+        <Image source={xpBarImage} style={styles.xpBarImage} />
+        <View style={styles.textContainer}>
+          <Image source={lvlImage} style={styles.backgroundImage} />
+          <GameText style={styles.text}>L{level}</GameText>
+        </View>
+      </TouchableScale>
+    </View>
   );
 };
+
+const styles = StyleSheet.create({
+  touchableScale: {
+    width: 250, // Adjust as needed
+    height: 250, // Adjust as needed
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  xpBarImage: {
+    width: 250,
+    height: 250,
+    resizeMode: "contain",
+  },
+  textContainer: {
+    position: "absolute",
+    bottom: -0,
+    width: 32, // Width of the circular border
+    height: 32, // Height of the circular border
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  text: {
+    fontSize: 12,
+    color: "green",
+    top: 3.5,
+    left: 1,
+    textShadowColor: "darkgreen",
+    textShadowRadius: 1,
+    textShadowOffset: { width: -1, height: 1 },
+  },
+  backgroundImage: {
+    position: "absolute",
+    width: 55,
+    height: 55,
+    borderRadius: 10,
+  },
+});
 
 export default XPBar;

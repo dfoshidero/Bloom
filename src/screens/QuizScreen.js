@@ -151,28 +151,37 @@ const QuizScreen = ({ navigation, route }) => {
     const numericPlant = parseInt(plant, 10);
     const levelIndex = parseInt(level.slice(-1), 10);
 
+    // Default coin reward
+    let coinsReward = 5;
+
+    // Find the XP reward for the current level
+    const xpReward = levelsConfig[numericPlant].levels.find(
+      (l) => l.levelNumber === levelIndex
+    ).xpReward;
+
     if (completedLevels[numericPlant] < levelIndex) {
       updateCompletedLevels(numericPlant, levelIndex);
-      const coinsReward = 5;
-      addCoins(coinsReward);
 
-      const xpReward = levelsConfig[numericPlant].levels.find(
-        (l) => l.levelNumber === levelIndex
-      ).xpReward;
+      addCoins(coinsReward);
       addXP(xpReward);
 
+      // Check if all levels are completed for extra rewards
       if (
-        completedLevels[numericPlant] ===
-        levelsConfig[numericPlant].totalLevels
+        completedLevels[numericPlant] === levelsConfig[numericPlant].totalLevels
       ) {
-        addCoins(5); // Extra coins for completing all levels
+        coinsReward += 5; // Extra coins for completing all levels
+        addCoins(5);
         addXP(100); // Extra xp for completing all levels
         setShowRewardMessage(true);
       }
     }
     const list = updatePlantsProgress(plant);
     setUpdatedList(list);
+
+    // Display the rewards in the modal
+    setFeedbackMessage(`You earned ${coinsReward} coins and ${xpReward} XP!`);
   };
+
 
   useEffect(() => {
     console.log(updatedList);
@@ -230,22 +239,26 @@ const QuizScreen = ({ navigation, route }) => {
             resizeMode: "contain",
           }}
         />
-      <TouchableScale style={{
-        position: "absolute",
-        left: "82%",
-        top: "4%",
-        zIndex: 1
-      }}>
-        <HeartsDisplay />
-      </TouchableScale>
-      <TouchableScale style={{
-        position: "absolute",
-        left: "66%",
-        top: "4%",
-        zIndex: 1
-      }}>
-        <CoinDisplay />
-      </TouchableScale>
+        <TouchableScale
+          style={{
+            position: "absolute",
+            left: "82%",
+            top: "4%",
+            zIndex: 1,
+          }}
+        >
+          <HeartsDisplay />
+        </TouchableScale>
+        <TouchableScale
+          style={{
+            position: "absolute",
+            left: "66%",
+            top: "4%",
+            zIndex: 1,
+          }}
+        >
+          <CoinDisplay />
+        </TouchableScale>
         {showInstructions && (
           <Modal
             visible={showInstructions}
@@ -289,34 +302,35 @@ const QuizScreen = ({ navigation, route }) => {
           </View>
         )}
 
-        <Modal visible={showConratsBackground} animationType="fade" transparent={true}>
-
-            <Modal visible={showModal} animationType="fade" transparent={true}>
-              <View style={styles.congratsModalContainer}>
+        <Modal
+          visible={showConratsBackground}
+          animationType="fade"
+          transparent={true}
+        >
+          <Modal visible={showModal} animationType="fade" transparent={true}>
+            <View style={styles.modalContainer}>
+              <View style={styles.congratsModalView}>
                 <GameText style={styles.congratsText}>
-                  You've passed {currentPlant} level {currentLevel} !
+                  You've passed {currentPlant} level {currentLevel}!
                 </GameText>
-                {showRewardMessage && (
-                  <GameText style={styles.rewardMessage}>
-                    Congratulations! You've been rewarded with 5 extra coins!
-                  </GameText>
-                )}
+                <GameText style={styles.rewardMessage}>
+                  {feedbackMessage}
+                </GameText>
                 <TouchableScale
-                  style={styles.button}
                   onPress={() => {
                     setShowModal(false);
                     setShowCongratsBackground(false);
-
-                    navigation.navigate("Home", {
-                      updatedList: updatedList,
-                    });
+                    navigation.navigate("Home", { updatedList: updatedList });
                   }}
+                  style={styles.buttonTextWrapper}
                 >
-                  <GameText style={styles.buttonText}>Go Back.</GameText>
+                  <ImageBackground source={textBox} style={styles.textBox}>
+                    <GameText style={styles.buttonText}>Go Home.</GameText>
+                  </ImageBackground>
                 </TouchableScale>
               </View>
-            </Modal>
-
+            </View>
+          </Modal>
         </Modal>
         {renderGameOverModal()}
       </ImageBackground>
@@ -330,34 +344,42 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
   },
+  buttonTextWrapper: {
+    width: "100%", // Set the width to 100% to cover the entire button
+    alignItems: "center", // Center the content horizontally
+    justifyContent: "center", // Center the content vertically
+  },
   modalContainer: {
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
     backgroundColor: "rgba(0, 0, 0, 0.8)", // Semi-transparent background
   },
-  congratsModalContainer: {
-    position: "absolute",
+  congratsModalView: {
     zIndex: 1,
     alignItems: "center",
-    top: "40%", //added these few lines to align to the center
-    left: "10%", //added these few lines to align to the center
-    right: "10%", //added these few lines to align to the center
-    width: "80%",
+    width: "70%",
     opacity: 0.9,
     backgroundColor: "white",
     borderRadius: 20,
     padding: 20,
-    shadowColor: "#000",
+    // Add box shadow properties here
+    shadowColor: "black", // Shadow color
     shadowOffset: {
       width: 0,
       height: 2,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 3.84,
-    elevation: 5,
+    }, // Shadow offset
+    borderWidth: 4, // Border width (if needed)
+    borderColor: "darkgray", // Border color (if needed)
   },
 
+  congratsModalContainer: {
+    position: "absolute",
+    alignItems: "center",
+    justifyContent: "center",
+    width: "100%",
+    height: "100%",
+  },
   modalBox: {
     backgroundColor: "#fff",
     padding: 20,
@@ -432,6 +454,17 @@ const styles = StyleSheet.create({
     fontSize: textSize,
     color: "#333",
     textAlign: "center",
+    lineHeight: 20,
+  },
+  rewardMessage: {
+    fontSize: textSize,
+    color: "orange",
+    textShadowColor: "black",
+    textShadowRadius: 1,
+    textShadowOffset: { width: -1, height: 1 },
+    textAlign: "center",
+    padding: "5%",
+    lineHeight: 20,
   },
   feedbackText: {
     fontSize: textSize,

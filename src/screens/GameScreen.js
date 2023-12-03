@@ -80,9 +80,9 @@ const GameScreen = ({ route }) => {
       <TouchableScale style={gameStyles.coinIcon}>
         <CoinDisplay />
       </TouchableScale>
-      <TouchableScale style={gameStyles.xpBar}>
+      <View style={gameStyles.xpBar}>
         <XPBar />
-      </TouchableScale>
+      </View>
       <MenuComponent
         menuVisible={menuVisible}
         closeMenu={() => setMenuVisible(false)}
