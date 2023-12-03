@@ -5,6 +5,8 @@ import { NavigationContainer } from "@react-navigation/native";
 import HomeStackNavigator from "./src/navigation/stack/HomeStackNavigator";
 import { PlayerConfigProvider } from "./src/states/playerConfigContext";
 import { PlantDataProvider } from "./src/states/plantsDataContext";
+import { CompletedLevelsProvider } from "./src/states/completedLevelsContext";
+import { SpeciesProgressContext, SpeciesProgressProvider } from "./src/states/speciesProgressContext";
 import LoadingScreen from "./src/screens/LoadingScreen"; // Update the path
 
 const App = () => {
@@ -26,13 +28,17 @@ const App = () => {
         <StatusBar setHidden={true} />
         <PlayerConfigProvider>
           <PlantDataProvider>
-            {isLoading ? (
-              <LoadingScreen onFinishLoading={handleFinishLoading} />
-            ) : (
-              <NavigationContainer>
-                <HomeStackNavigator />
-              </NavigationContainer>
-            )}
+            <SpeciesProgressProvider>
+              <CompletedLevelsProvider>
+                {isLoading ? (
+                  <LoadingScreen onFinishLoading={handleFinishLoading} />
+                ) : (
+                  <NavigationContainer>
+                    <HomeStackNavigator />
+                  </NavigationContainer>
+                )}
+              </CompletedLevelsProvider>
+            </SpeciesProgressProvider>
           </PlantDataProvider>
         </PlayerConfigProvider>
       </SafeAreaView>

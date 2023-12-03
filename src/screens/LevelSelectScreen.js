@@ -18,6 +18,7 @@ import LevelsConfig from "../states/levelsConfig";
 import HeartsDisplay from "../components/HeartsComponent";
 import CoinDisplay from "../components/CoinComponent";
 import { usePlayerConfig } from "../states/playerConfigContext";
+import { CompletedLevelsContext, useCompletedLevelsContext } from "../states/completedLevelsContext";
 
 import Oracle from "../components/OracleComponent";
 
@@ -36,6 +37,7 @@ const levelUnlocekdIcon = require("../assets/icons/level_icon_unlocked.png");
 
 const LevelSelectionScreen = ({ navigation, route }) => {
   const { hearts, xp, level } = usePlayerConfig();
+  const { completedLevels, updateCompletedLevels } = useCompletedLevelsContext();
 
   const [scrollIndicatorTopOpacity] = useState(new Animated.Value(0.8));
   const [scrollIndicatorBottomOpacity] = useState(new Animated.Value(0.8));
@@ -108,13 +110,13 @@ const LevelSelectionScreen = ({ navigation, route }) => {
   const plantLevels = LevelsConfig[selectedPlantID];
 
   // Calculate the index of the latest unlocked level
-  const latestUnlockedLevelIndex = Math.max(0, plantLevels.completedLevels.length);
+  const latestUnlockedLevelIndex = Math.max(0, completedLevels[selectedPlantID]);
 
   const { playerConfig } = usePlayerConfig();
 
   const handlePress = (item) => {
     if (hearts > 0) {
-      if (plantLevels.completedLevels.includes(item - 1) || item === 1) {
+      if (completedLevels[selectedPlantID] >= item - 1) {
         Alert.alert(
           "Are you ready?",
           "The quiz will begin once you press start.",
@@ -163,10 +165,10 @@ const LevelSelectionScreen = ({ navigation, route }) => {
 
     let iconSource;
 
-    if (plantLevels.completedLevels.includes(item)) {
+    if (completedLevels[selectedPlantID] >= item) {
       // If the level is completed
       iconSource = levelCompleteIcon;
-    } else if (item <= plantLevels.completedLevels.length + 1) {
+    } else if (item <= completedLevels[selectedPlantID] + 1) {
       // If the level is unlocked but not completed
       iconSource = levelUnlocekdIcon;
     } else {

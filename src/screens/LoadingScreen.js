@@ -4,6 +4,9 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { PlantDataContext } from "../states/plantsDataContext"; // Update this path
 import * as Font from "expo-font";
 import { PlayerConfigContext } from "../states/playerConfigContext";
+import { CompletedLevelsContext } from "../states/completedLevelsContext";
+import { SpeciesProgressContext } from "../states/speciesProgressContext";
+import {plants} from "../states/plantsConfig";
 
 const loadingImage = require("../assets/backgrounds/misc/loading_screen2.png");
 const deviceWidth = Dimensions.deviceWidth
@@ -11,33 +14,38 @@ const deviceWidth = Dimensions.deviceWidth
 const LoadingScreen = ({ onFinishLoading }) => {
   const { updatePlantData } = useContext(PlantDataContext);
   const { updatePlayerConfig } = useContext(PlayerConfigContext);
+  const { updateCompletedLevels } = useContext(CompletedLevelsContext);
+  const { updateSpeciesProgress } = useContext(SpeciesProgressContext);
   const [loadingMessage, setLoadingMessage] = useState("Loading...");
   const [fadeAnim] = useState(new Animated.Value(1)); // Initial opacity is set to 1
 
   useEffect(() => {
+
+    // Simulate loading process with a delay
+    const delay = async () => {
+      setLoadingMessage("Loading plant data...");
+      await new Promise((resolve) => setTimeout(resolve, 300)); // Adjust the delay as needed
+      
+      // Delay before fading out
+      setTimeout(() => {
+        // Fade out animation
+        Animated.timing(fadeAnim, {
+          toValue: 0, // Animate to opacity 0 (fully transparent)
+          duration: 200, // Animation duration in milliseconds
+          useNativeDriver: true, // Use native driver for better performance
+        }).start(() => {
+          // Animation complete callback
+          onFinishLoading();
+        });
+      }, 50); // 2 seconds delay
+    };
+
     const loadPlantData = async () => {
       try {
-        // Simulate loading process with a delay
-        setLoadingMessage("Loading plant data...");
-        await new Promise((resolve) => setTimeout(resolve, 1000)); // Adjust the delay as needed
-
         // Fetch or load your plant data
         const savedPlantsJSON = await AsyncStorage.getItem("savedPlants");
         const savedPlants = savedPlantsJSON ? JSON.parse(savedPlantsJSON) : [];
         updatePlantData(savedPlants);
-
-        // Delay before fading out
-        setTimeout(() => {
-          // Fade out animation
-          Animated.timing(fadeAnim, {
-            toValue: 0, // Animate to opacity 0 (fully transparent)
-            duration: 500, // Animation duration in milliseconds
-            useNativeDriver: true, // Use native driver for better performance
-          }).start(() => {
-            // Animation complete callback
-            onFinishLoading();
-          });
-        }, 2000); // 2 seconds delay
       } catch (error) {
         console.error("Failed to load plant data:", error);
       }
@@ -66,10 +74,44 @@ const LoadingScreen = ({ onFinishLoading }) => {
       }
     };
 
-    // Load plant data, fonts and player state
+    const loadCompletedLevels = async () => {
+      try {
+        // Fetch or load completed levels data
+        const completedLevelsJSON = await AsyncStorage.getItem("completedLevels");
+        let data = {};
+        if (completedLevelsJSON) {
+          data = JSON.parse(completedLevelsJSON)
+          for (let key in data) {
+            updateCompletedLevels(key, data[key]);
+          }
+        }
+      } catch (error) {
+        console.error("Failed to load completed levels data:", error);
+      }
+    };
+
+    const loadSpeciesProgress = async () => {
+      try {
+        // Fetch or load completed levels data
+        const speciesProgressJSON = await AsyncStorage.getItem("speciesProgress");
+        if (speciesProgressJSON) {
+          data = JSON.parse(speciesProgressJSON);
+          for (let key in data) {
+            updateSpeciesProgress(key, data[key]);
+          }
+        }
+      } catch (error) {
+        console.error("Failed to load species progress data:", error);
+      }
+    };
+
+    // Load everything
     loadPlantData();
     loadFonts();
     loadPlayerState();
+    loadCompletedLevels();
+    loadSpeciesProgress();
+    delay();
   }, []);
 
   return (

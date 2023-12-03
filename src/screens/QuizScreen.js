@@ -18,6 +18,8 @@ import plantsTriviaConfig from "../states/plantsTriviaConfig";
 import levelsConfig from "../states/levelsConfig";
 import { plants } from "../states/plantsConfig";
 import { usePlayerConfig } from "../states/playerConfigContext";
+import { useProgressContext } from "../states/speciesProgressContext";
+import { CompletedLevelsContext, useCompletedLevelsContext } from "../states/completedLevelsContext";
 import HeartsDisplay from "../components/HeartsComponent";
 import CoinDisplay from "../components/CoinComponent";
 
@@ -46,6 +48,10 @@ const QuizScreen = ({ navigation, route }) => {
 
 
   const { xp, decreaseHearts, addCoins, addXP } = usePlayerConfig();
+
+  const { speciesProgress, updateSpeciesProgress } = useProgressContext();
+  const { completedLevels, updateCompletedLevels } = useCompletedLevelsContext();
+
 
   useEffect(() => {
     const trivia = plantsTriviaConfig[plant]?.[level];
@@ -145,8 +151,8 @@ const QuizScreen = ({ navigation, route }) => {
     const numericPlant = parseInt(plant, 10);
     const levelIndex = parseInt(level.slice(-1), 10);
 
-    if (!levelsConfig[numericPlant].completedLevels.includes(levelIndex)) {
-      updateLevelsConfig(plant, level);
+    if (completedLevels[numericPlant] < levelIndex) {
+      updateCompletedLevels(numericPlant, levelIndex);
       const coinsReward = 5;
       addCoins(coinsReward);
 
@@ -156,7 +162,7 @@ const QuizScreen = ({ navigation, route }) => {
       addXP(xpReward);
 
       if (
-        levelsConfig[numericPlant].completedLevels.length ===
+        completedLevels[numericPlant] ===
         levelsConfig[numericPlant].totalLevels
       ) {
         addCoins(5); // Extra coins for completing all levels
@@ -172,26 +178,11 @@ const QuizScreen = ({ navigation, route }) => {
     console.log(updatedList);
   }, [updatedList]);
 
-  const updateLevelsConfig = (plant, completedLevel) => {
-    const numericValue = completedLevel.replace(/\D/g, "");
-    const numericLevel = parseInt(numericValue, 10);
-    if (
-      levelsConfig[plant] &&
-      !levelsConfig[plant].completedLevels.includes(numericLevel)
-    ) {
-      levelsConfig[plant].completedLevels.push(numericLevel);
-    }
-  };
-
   const updatePlantsProgress = (plant) => {
-    if (levelsConfig[plant]) {
-      const totalLevels = levelsConfig[plant].totalLevels;
-      const completedLevels = levelsConfig[plant].completedLevels.length;
-      const progress = completedLevels / totalLevels;
-      plants[plant].progress = progress;
-      console.log(arrangeData(null, plant, id, progress));
-      return arrangeData(null, plant, id, progress);
-    }
+    const progress = completedLevels[plant] / levelsConfig[plant].totalLevels;
+    updateSpeciesProgress(plant, progress);
+    console.log(arrangeData(null, plant, id, progress));
+    return arrangeData(null, plant, id, progress);
   };
 
   const renderItem = ({ item }) => (

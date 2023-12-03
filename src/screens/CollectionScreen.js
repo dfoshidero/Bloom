@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import { View, StyleSheet, Dimensions, ImageBackground } from "react-native";
 import PagerView from "react-native-pager-view";
-import { PlantDataContext } from "../states/plantsDataContext";
+import { usePlantContext } from "../states/plantsDataContext";
 import Plant from "../components/PlantComponent";
 import menuBackgroundImage from "../assets/backgrounds/misc/menu_bg.png";
 import GameText from "../styles/GameText";
@@ -10,7 +10,7 @@ const windowWidth = Dimensions.get("window").width;
 const windowHeight = Dimensions.get("window").height;
 
 const CollectionScreen = () => {
-  const { plantData } = useContext(PlantDataContext);
+  const { plantData } = usePlantContext();
 
   const archivedPlants = plantData.filter(
     (plant) => plant.archiveID !== "null"
