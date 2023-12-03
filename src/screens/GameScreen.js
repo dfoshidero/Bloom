@@ -27,7 +27,7 @@ import GameStatsButton from "../components/GameStatsComponent";
 import { usePlayerConfig } from "../states/playerConfigContext";
 
 const GameScreen = ({ route }) => {
-  //const { updatedList } = route.params;
+  const navigation = useNavigation();
 
   const [menuVisible, setMenuVisible] = useState(false);
 
@@ -77,7 +77,12 @@ const GameScreen = ({ route }) => {
       <TouchableScale style={gameStyles.gameStatsIcon}>
         <GameStatsButton />
       </TouchableScale>
-      <TouchableScale style={gameStyles.coinIcon}>
+      <TouchableScale
+        style={gameStyles.coinIcon}
+        onPress={() => {
+          navigation.navigate("ShopScreen");
+        }}
+      >
         <CoinDisplay />
       </TouchableScale>
       <View style={gameStyles.xpBar}>

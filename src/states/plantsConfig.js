@@ -22,7 +22,8 @@ export const plants = {
       Pests: "Spider mites and mealybugs",
       Sunburn: "Excessive sunlight",
     },
-    stageAdvice: "Height of cactus:\n stage 1: 10cm\nstage 2: 15cm\nstage 3: 30cm\nstage 4: above 30cm",
+    stageAdvice:
+      "Height of cactus:\n stage 1: 10cm\nstage 2: 15cm\nstage 3: 30cm\nstage 4: above 30cm",
     health: 100,
     learned: true,
     difficulty: 0,
@@ -79,6 +80,7 @@ export const plants = {
       },
     ],
     selectedSkin: "default",
+    skinsOwned: ["default"],
   },
 
   // Plant 2 details
@@ -104,7 +106,8 @@ export const plants = {
       Yellowing: "Yellow leaves caused by over-fertilizating",
       Rottening: "Rotten root if water isn't changed regularly",
     },
-    stageAdvice: "Height of lucky bamboo:\n stage 1: 30cm\nstage 2: 60cm\nstage 3: 90cm\nstage 4: above 90cm",
+    stageAdvice:
+      "Height of lucky bamboo:\n stage 1: 30cm\nstage 2: 60cm\nstage 3: 90cm\nstage 4: above 90cm",
     health: 100,
     learned: true,
     difficulty: 1,
@@ -138,6 +141,7 @@ export const plants = {
       },
     ],
     selectedSkin: "default",
+    skinsOwned: ["default"],
   },
   3: {
     plantID: 3,
@@ -162,7 +166,8 @@ export const plants = {
       Overwatering: "Can lead to root rot",
       Sunburn: "Can scorch leaves if too intense",
     },
-    stageAdvice: "Height of snake plant:\n stage 1: 15cm\nstage 2: 30cm\nstage 3: 50cm\nstage 4: above 70cm",
+    stageAdvice:
+      "Height of snake plant:\n stage 1: 15cm\nstage 2: 30cm\nstage 3: 50cm\nstage 4: above 70cm",
     health: 100,
     learned: true,
     difficulty: 1,
@@ -196,6 +201,7 @@ export const plants = {
       },
     ],
     selectedSkin: "default",
+    skinsOwned: ["default"],
   },
   4: {
     plantID: 4,
@@ -219,7 +225,8 @@ export const plants = {
       BrownLeaf: "Indicates overwatering or low humidity",
       Rottening: "From overwatering",
     },
-    stageAdvice: "Height of dragon tree:\n stage 1: 30cm\nstage 2: 55cm\nstage 3: 70cm\nstage 4: above 120cm",
+    stageAdvice:
+      "Height of dragon tree:\n stage 1: 30cm\nstage 2: 55cm\nstage 3: 70cm\nstage 4: above 120cm",
     health: 100,
     learned: true,
     difficulty: 1,
@@ -253,6 +260,7 @@ export const plants = {
       },
     ],
     selectedSkin: "default",
+    skinsOwned: ["default"],
   },
   5: {
     plantID: 5,
@@ -276,7 +284,8 @@ export const plants = {
       DryLeaves: "From low humidity or under-watering",
       Rottening: "From overwatering",
     },
-    stageAdvice: "Height of maidenhair fern:\n stage 1: 10cm\nstage 2: 20cm\nstage 3: 30cm\nstage 4: above 40cm",
+    stageAdvice:
+      "Height of maidenhair fern:\n stage 1: 10cm\nstage 2: 20cm\nstage 3: 30cm\nstage 4: above 40cm",
     health: 100,
     learned: true,
     difficulty: 2,
@@ -310,6 +319,7 @@ export const plants = {
       },
     ],
     selectedSkin: "default",
+    skinsOwned: ["default"],
   },
   6: {
     plantID: 6,
@@ -333,7 +343,8 @@ export const plants = {
       Wilting: "From under-watering or low humidity",
       Rottening: "From overwatering",
     },
-    stageAdvice: "Height of nerve plant:\n stage 1: 5cm\nstage 2: 10cm\nstage 3: 15cm\nstage 4: above 20cm",
+    stageAdvice:
+      "Height of nerve plant:\n stage 1: 5cm\nstage 2: 10cm\nstage 3: 15cm\nstage 4: above 20cm",
     health: 100,
     learned: true,
     difficulty: 2,
@@ -367,6 +378,7 @@ export const plants = {
       },
     ],
     selectedSkin: "default",
+    skinsOwned: ["default"],
   },
   7: {
     plantID: 7,
@@ -390,7 +402,8 @@ export const plants = {
       RootRot: "From overwatering",
       LeafScorch: "In direct sunlight",
     },
-    stageAdvice: "Height of aloe vera:\n stage 1: 10cm\nstage 2: 20cm\nstage 3: 30cm\nstage 4: above 50cm",
+    stageAdvice:
+      "Height of aloe vera:\n stage 1: 10cm\nstage 2: 20cm\nstage 3: 30cm\nstage 4: above 50cm",
     health: 100,
     learned: true,
     difficulty: 2,
@@ -424,6 +437,7 @@ export const plants = {
       },
     ],
     selectedSkin: "default",
+    skinsOwned: ["default"],
   },
   8: {
     plantID: 8,
@@ -447,7 +461,8 @@ export const plants = {
       YellowLeaves: "From overwatering",
       BrowningEdges: "From low humidity",
     },
-    stageAdvice: "Height of anthurium:\n stage 1: 10cm\nstage 2: 20cm\nstage 3: 40cm\nstage 4: above 60cm",
+    stageAdvice:
+      "Height of anthurium:\n stage 1: 10cm\nstage 2: 20cm\nstage 3: 40cm\nstage 4: above 60cm",
     health: 100,
     learned: true,
     difficulty: 3,
@@ -481,6 +496,7 @@ export const plants = {
       },
     ],
     selectedSkin: "default",
+    skinsOwned: ["default"],
   },
   9: {
     plantID: 9,
@@ -504,7 +520,8 @@ export const plants = {
       YellowLeaves: "Nutrient deficiency or water issues",
       Pests: "Spider mites and scale insects",
     },
-    stageAdvice: "Height of lemon tree:\n stage 1: 30cm\nstage 2: 50cm\nstage 3: 100cm\nstage 4: above 180cm",
+    stageAdvice:
+      "Height of lemon tree:\n stage 1: 30cm\nstage 2: 50cm\nstage 3: 100cm\nstage 4: above 180cm",
     health: 100,
     learned: true,
     difficulty: 3,
@@ -538,6 +555,7 @@ export const plants = {
       },
     ],
     selectedSkin: "default",
+    skinsOwned: ["default"],
   },
   10: {
     plantID: 10,
@@ -561,7 +579,8 @@ export const plants = {
       Overwatering: "Can lead to yellowing leaves and root rot",
       Pests: "Susceptible to pests like scale and aphids",
     },
-    stageAdvice: "Height of olive tree:\n stage 1: 20cm\nstage 2: 40cm\nstage 3: 80cm\nstage 4: above 150cm",
+    stageAdvice:
+      "Height of olive tree:\n stage 1: 20cm\nstage 2: 40cm\nstage 3: 80cm\nstage 4: above 150cm",
     health: 100,
     learned: true,
     difficulty: 3,
@@ -595,6 +614,7 @@ export const plants = {
       },
     ],
     selectedSkin: "default",
+    skinsOwned: ["default"],
   },
 };
 
