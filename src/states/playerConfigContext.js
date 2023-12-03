@@ -71,11 +71,6 @@ export const PlayerConfigProvider = ({ children }) => {
     );
   };
 
-  const resetPlayerConfig = () => {
-    setPlayerState(defaultPlayerState);
-  };
-
-
   return (
     <PlayerConfigContext.Provider
       value={{
@@ -84,8 +79,7 @@ export const PlayerConfigProvider = ({ children }) => {
         addXP,
         decreaseHearts,
         addCoins,
-        getUnlockedRooms,
-        resetPlayerConfig,
+        getUnlockedRooms
       }}
     >
       {children}
@@ -99,7 +93,6 @@ export const PlayerConfigContext = createContext({
   addXP: PlayerConfigProvider.addXp,
   decreaseHearts: PlayerConfigProvider.decreaseHearts,
   addCoins: PlayerConfigProvider.addCoins,
-  resetPlayerConfig: PlayerConfigProvider.resetPlayerConfig, // Include the resetPlayerConfig function
 });
 
 export const usePlayerConfig = () => useContext(PlayerConfigContext);

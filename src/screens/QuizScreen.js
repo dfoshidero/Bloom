@@ -46,11 +46,6 @@ const QuizScreen = ({ navigation, route }) => {
   const [currentPlant, setCurrentPlant] = useState("");
   const [showConratsBackground, setShowCongratsBackground] = useState(false);
 
-  const [correctAnswers, setCorrectAnswers] = useState(0);
-  const [incorrectAnswers, setIncorrectAnswers] = useState(0);
-  const [earnedCoins, setEarnedCoins] = useState(0);
-  const [bonusCoins, setBonusCoins] = useState(0);
-
 
   const { xp, decreaseHearts, addCoins, addXP } = usePlayerConfig();
 
@@ -125,26 +120,22 @@ const QuizScreen = ({ navigation, route }) => {
     };
   };
 
-const handleAnswer = (isCorrect) => {
-  if (isCorrect) {
-    setCorrectAnswers(correctAnswers + 1);
-    setEarnedCoins(earnedCoins + 1); // Earn 1 coin for each correct answer
-    setFeedbackMessage("Correct! Moving to the next question...");
-  } else {
-    setIncorrectAnswers(incorrectAnswers + 1);
-    setFeedbackMessage("Incorrect. Try again!");
-  }
-
-  setTimeout(() => {
-    if (currentQuestionIndex < questions.length - 1) {
-      setCurrentQuestionIndex(currentQuestionIndex + 1);
-      setFeedbackMessage("");
+  const handleAnswer = (isCorrect) => {
+    if (isCorrect) {
+      setFeedbackMessage("Correct! Moving to next question...");
+      setTimeout(() => {
+        if (currentQuestionIndex < questions.length - 1) {
+          setCurrentQuestionIndex(currentQuestionIndex + 1);
+          setFeedbackMessage("");
+        } else {
+          completeQuiz();
+        }
+      }, 1000);
     } else {
-      completeQuiz();
+      setFeedbackMessage("Incorrect. Try again!");
+      decreaseHearts();
     }
-  }, 1000);
-};
-
+  };
 
   const decreasePlayerHearts = () => {
     decreaseHearts();
@@ -163,13 +154,6 @@ const handleAnswer = (isCorrect) => {
     // Default coin reward
     let coinsReward = 5;
 
-    // Calculate bonus coins based on the number of incorrect answers (max 5)
-    const maxBonusCoins = 5;
-    const calculatedBonusCoins = Math.max(maxBonusCoins - incorrectAnswers, 0);
-
-    // Add bonus coins to the total earned coins
-    const totalCoinsEarned = earnedCoins + calculatedBonusCoins;
-
     // Find the XP reward for the current level
     const xpReward = levelsConfig[numericPlant].levels.find(
       (l) => l.levelNumber === levelIndex
@@ -178,7 +162,7 @@ const handleAnswer = (isCorrect) => {
     if (completedLevels[numericPlant] < levelIndex) {
       updateCompletedLevels(numericPlant, levelIndex);
 
-      addCoins(totalCoinsEarned);
+      addCoins(coinsReward);
       addXP(xpReward);
 
       // Check if all levels are completed for extra rewards
@@ -195,11 +179,8 @@ const handleAnswer = (isCorrect) => {
     setUpdatedList(list);
 
     // Display the rewards in the modal
-    setFeedbackMessage(
-      `You earned ${totalCoinsEarned} coins and ${xpReward} XP!`
-    );
+    setFeedbackMessage(`You earned ${coinsReward} coins and ${xpReward} XP!`);
   };
-
 
 
   useEffect(() => {
