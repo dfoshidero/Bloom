@@ -127,13 +127,14 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     alignItems: 'center',
     marginTop: 10,
-    //borderWidth: 2,
-    //borderColor: 'black',
+    borderWidth: 2,
+    borderColor: 'black',
   },
-  linkedPlantImage: {
-    width: 30,
-    height: 30,
-    borderRadius: 15,
+  buttonContentWrapper: {
+    width: 36,
+    height: 36,
+    borderRadius: 18,
+    overflow: 'hidden',
   },
   timeText: {
     fontSize: 10,
