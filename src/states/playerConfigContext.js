@@ -63,8 +63,9 @@ export const PlayerConfigProvider = ({ children }) => {
   const increaseHearts = () => {
     setPlayerState(prevState => {
       if (prevState.hearts < 5) {
-        return { ...prevState, ...{hearts: prevState.hearts + 1} };
+        return { ...prevState, hearts: prevState.hearts + 1 };
       }
+      return prevState; // Return the previous state unchanged if hearts is already 5
     });
   };
 

@@ -35,14 +35,13 @@ const GameScreen = ({ route }) => {
   const unlockedRooms = getUnlockedRooms(level);
 
   const increasePlayerHearts = () => {
-    if (hearts + 1 <= 5) {
+    if (hearts < 5) {
       increaseHearts();
     }
   };
-
+  
   useEffect(() => {
     const interval = setInterval(increasePlayerHearts, 60000); // Call increasePlayerHearts every 1 minute (60,000 milliseconds)
-    
     // Cleanup the interval when the component unmounts
     return () => {
       clearInterval(interval);
