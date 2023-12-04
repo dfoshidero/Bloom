@@ -14,6 +14,7 @@ import FloatingMenu from "./CircularMenu";
 import { usePlantContext } from "../states/plantsDataContext";
 import { useProgressContext } from "../states/speciesProgressContext";
 import RealLifeScreenComponent from "../components/PlantLinkComponent";
+import GameText from "../styles/GameText";
 
 
 const iconContainer = require("../assets/icon_container.png");
@@ -48,6 +49,27 @@ const Plant = ({ id, style, currentBackgroundID, isArchived = false }) => {
 
   const { plantData, updatePlantData, plantsConfig } = usePlantContext();
   const { speciesProgress, updateSpeciesProgress } = useProgressContext();
+
+  //plant timer
+  const [timer, setTimer] = useState("");
+  const [countdown, setCountdown] = useState(0);
+  const [watered, setWatered] = useState("");
+  const [linked, setLinked] = useState(0);
+
+  const formatCountdownTime = () => {
+    const days = Math.floor(countdown / (3600 * 24));
+    const hours = Math.floor((countdown % (3600 * 24)) / 3600);
+    const minutes = Math.floor((countdown % 3600) / 60);
+    const seconds = countdown % 60;
+  
+    if (days > 0) {
+      return `${days} days`;
+    } else {
+      return `${hours} hours ${minutes} minutes ${seconds} seconds`;
+    }
+  };
+
+  const countdownTime = formatCountdownTime();
 
   useEffect(() => {
     const savedPlant = plantData.find(
@@ -226,12 +248,19 @@ const Plant = ({ id, style, currentBackgroundID, isArchived = false }) => {
               />
             </View>
           </ScaleAnimation>
-        </View>
+          {linked !== 0 && (
+            <View style={styles.time}>
+              <GameText style={styles.label}>Water:</GameText>
+              <GameText style={styles.plantDetailsItem}>{countdownTime}</GameText>
+            </View>
+          )}
+          </View>
       ) : (
         <TouchableScale style={[styles.plusIcon]} onPress={handleAddPlantPress}>
           <Icon name="plus" size={16} color="#fff" />
         </TouchableScale>
       )}
+
 
       {/* Select Plant Modal */}
       <SelectPlantModal
@@ -264,6 +293,14 @@ const Plant = ({ id, style, currentBackgroundID, isArchived = false }) => {
         realLifeScreenVisible={realLifeScreenVisible}
         closeRealLifeScreen={() => setRealLifeScreenVisible(false)}
         plantID={selectedPlant?.plantID}
+        timer={timer} // Pass the timer variable as a prop
+        countdown={countdown} // Pass the countdown variable as a prop
+        watered={watered} // Pass the watered variable as a prop
+        setTimer={setTimer} // Pass the setTimer function as a prop
+        setCountdown={setCountdown} // Pass the setCountdown function as a prop
+        setWatered={setWatered} // Pass the setWatered function as a prop
+        linked = {linked}
+        setLinked = {setLinked}
       />
     </View>
   );
