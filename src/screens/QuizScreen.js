@@ -17,7 +17,7 @@ import Oracle from "../components/OracleComponent";
 import GameText from "../styles/GameText";
 import plantsTriviaConfig from "../states/plantsTriviaConfig";
 import levelsConfig from "../states/levelsConfig";
-import { plants } from "../states/plantsConfig";
+import { usePlantContext } from "../states/plantsDataContext";
 import { usePlayerConfig } from "../states/playerConfigContext";
 import { useProgressContext } from "../states/speciesProgressContext";
 import {
@@ -49,6 +49,7 @@ const buttonFontSize = RFValue(deviceHeight * 0.009);
   }
 
 const QuizScreen = ({ navigation, route }) => {
+  const { plantsConfig } = usePlantContext();
   const { plant, level, id } = route.params;
 
   const [showRewardMessage, setShowRewardMessage] = useState(false);
@@ -80,7 +81,7 @@ const QuizScreen = ({ navigation, route }) => {
     if (trivia) {
       const currentLevelIndex = parseInt(level.slice(-1)); // Extract the level number
       setCurrentLevel(level.slice(-1));
-      setCurrentPlant(plants[1].name);
+      setCurrentPlant(plantsConfig[1].name);
       // Collect questions from all previous levels
       const allPreviousQuestions = [];
       for (let i = 1; i < currentLevelIndex; i++) {

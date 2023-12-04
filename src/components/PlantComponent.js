@@ -6,7 +6,6 @@ import Icon from "react-native-vector-icons/FontAwesome";
 import TouchableScale from "react-native-touchable-scale";
 
 import styles from "../styles/PlantStyles";
-import { plants } from "../states/plantsConfig";
 import SelectPlantModal from "./PlantSelectionModal";
 import SelectFromArchiveModal from "./ArchiveSelectionModal";
 import ScaleAnimation from "./ScaleAnimation";
@@ -47,7 +46,7 @@ const Plant = ({ id, style, currentBackgroundID, isArchived = false }) => {
   // State for scale animation
   const [isActive, setIsActive] = useState(false);
 
-  const { plantData, updatePlantData } = usePlantContext();
+  const { plantData, updatePlantData, plantsConfig } = usePlantContext();
   const { speciesProgress, updateSpeciesProgress } = useProgressContext();
 
   useEffect(() => {
@@ -55,7 +54,7 @@ const Plant = ({ id, style, currentBackgroundID, isArchived = false }) => {
       (p) => (isArchived ? p.archiveID : p.plantPositionID) === id.toString()
     );
     if (savedPlant) {
-      const plant = plants[savedPlant.plantID];
+      const plant = plantsConfig[savedPlant.plantID];
       setSelectedPlant(plant);
     } else {
       setSelectedPlant(null);
@@ -120,7 +119,7 @@ const Plant = ({ id, style, currentBackgroundID, isArchived = false }) => {
   };
 
   const handleSelectPlant = async (plantID) => {
-    const plant = plants[plantID];
+    const plant = plantsConfig[plantID];
     setSelectedPlant(plant);
     setSelectPlantModalVisible(false);
 
@@ -147,7 +146,7 @@ const Plant = ({ id, style, currentBackgroundID, isArchived = false }) => {
 
   handleRemoveFromArchive = async (archiveID, plantID) => {
     setSelectArchiveModalVisible(false);
-    setSelectedPlant(plants[plantID]);
+    setSelectedPlant(plantsConfig[plantID]);
 
     console.log("Archive ID: ", archiveID.toString());
     console.log("Plant data:");

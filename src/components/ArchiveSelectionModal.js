@@ -9,7 +9,6 @@ import {
 } from "react-native";
 import styles from "../styles/PlantStyles";
 import { usePlantContext } from "../states/plantsDataContext";
-import { plants } from "../states/plantsConfig";
 import GameText from "../styles/GameText";
 
 import TouchableScale from "react-native-touchable-scale";
@@ -19,10 +18,10 @@ const SelectFromArchiveModal = ({
   onClose,
   handleRemoveFromArchive,
 }) => {
-  const { plantData } = usePlantContext();
+  const { plantData, plantsConfig } = usePlantContext();
 
   for (let i = 0; i < plantData.length; i++){
-    let plantSpecies = plants[parseInt(plantData[i].plantID)];
+    let plantSpecies = plantsConfig[parseInt(plantData[i].plantID)];
     plantData[i].iconPath = plantSpecies.iconPath;
     plantData[i].name = plantSpecies.name;
   }

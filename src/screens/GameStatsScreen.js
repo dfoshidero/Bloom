@@ -15,15 +15,18 @@ import TouchableScale from "react-native-touchable-scale";
 import menuBackgroundImage from '../assets/backgrounds/misc/menu_bg.png';
 import GameText from "../styles/GameText";
 
-import {plants} from "../states/plantsConfig";
+import { usePlantContext } from "../states/plantsDataContext";
 
-// This is a mock function that should ideally fetch the mastery levels from your backend or state management store.
+// This is a function that should fetch the mastery levels from your backend or state management store.
+
+
 const fetchMasteryLevels = () => {
-  if (!plants) {
+  const { plantsConfig } = usePlantContext();
+  if (!plantsConfig) {
     return Promise.reject("Plants data is undefined");
   }
 
-  const masteryLevels = Object.values(plants).map((plant) => {
+  const masteryLevels = Object.values(plantsConfig).map((plant) => {
     return {
       id: plant.plantID,
       name: plant.name,
@@ -43,11 +46,12 @@ const fetchMasteryLevels = () => {
 };
 
 const GameStatsScreen = () => {
+  const { plantsConfig } = usePlantContext();
   const [plantDetailVisible, setPlantDetailVisible] = useState(false);
   const [selectedPlant, setSelectedPlant] = useState(null);
 
   const handleSelectPlant = (plantID) => {
-    const plant = plants[plantID];
+    const plant = plantsConfig[plantID];
     setSelectedPlant(plant);
   };
 

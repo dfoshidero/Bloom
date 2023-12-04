@@ -76,7 +76,7 @@ export const plants = {
             imagePath: require("../assets/plants/cactus/floral_1/cactus_4.png"),
           },
         ],
-        unlockCondition: 25,
+        unlockCondition: 10,
       },
     ],
     selectedSkin: "default",

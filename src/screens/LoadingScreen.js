@@ -6,13 +6,13 @@ import * as Font from "expo-font";
 import { PlayerConfigContext } from "../states/playerConfigContext";
 import { CompletedLevelsContext } from "../states/completedLevelsContext";
 import { SpeciesProgressContext } from "../states/speciesProgressContext";
-import {plants} from "../states/plantsConfig";
+import { plants as defaultPlantsConfig } from "../states/plantsConfig";
 
 const loadingImage = require("../assets/backgrounds/misc/loading_screen2.png");
 const deviceWidth = Dimensions.deviceWidth
 
 const LoadingScreen = ({ onFinishLoading }) => {
-  const { updatePlantData } = useContext(PlantDataContext);
+  const { updatePlantData, updatePlantsConfig } = useContext(PlantDataContext);
   const { updatePlayerConfig } = useContext(PlayerConfigContext);
   const { updateCompletedLevels } = useContext(CompletedLevelsContext);
   const { updateSpeciesProgress } = useContext(SpeciesProgressContext);
@@ -50,6 +50,21 @@ const LoadingScreen = ({ onFinishLoading }) => {
         console.error("Failed to load plant data:", error);
       }
     };
+
+       const loadPlantsConfig = async () => {
+         try {
+           const plantsConfigJSON = await AsyncStorage.getItem("plantsConfig");
+           if (plantsConfigJSON) {
+             const plantsConfig = JSON.parse(plantsConfigJSON);
+             updatePlantsConfig(plantsConfig);
+           } else {
+             updatePlantsConfig(defaultPlantsConfig);
+           }
+         } catch (error) {
+           console.error("Failed to load plantsConfig data:", error);
+         }
+       };
+
 
     const loadFonts = async () => {
       try {
@@ -111,6 +126,7 @@ const LoadingScreen = ({ onFinishLoading }) => {
     loadPlayerState();
     loadCompletedLevels();
     loadSpeciesProgress();
+    loadPlantsConfig();
     delay();
   }, []);
 

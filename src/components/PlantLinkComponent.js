@@ -13,7 +13,7 @@ import {
 } from "react-native";
 import TouchableScale from "react-native-touchable-scale";
 import GameText from "../styles/GameText";
-import { plants } from "../states/plantsConfig";
+import { usePlantContext } from "../states/plantsDataContext";
 import * as ImagePicker from 'expo-image-picker';
 import Oracle from "../components/OracleComponent";
 
@@ -41,11 +41,12 @@ const RealLifeScreen = ({ realLifeScreenVisible, closeRealLifeScreen, plantID })
   const [hasInstructionsModalOpened, setHasInstructionsModalOpened] = useState(false);
   const [isHowToModalVisible, setIsHowToModalVisible] = useState(true);
   const [isLinkedModallVisible, setLinkedModalVisible] = useState(false);
+  const { plantsConfig } = usePlantContext();
 
 
   useEffect(() => {
     // Retrieve plant data from plantsConfig.js based on plantID
-    const plantData = plants[plantID];
+    const plantData = plantsConfig[plantID];
     if (plantData) {
       const { name: plantName, careInstructions: plantCareInstructions, stageAdvice: stageAdvice, timer: timer } = plantData;
       // Set initial values for name and careInstructions

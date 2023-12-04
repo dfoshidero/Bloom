@@ -18,8 +18,6 @@ const TwoDimSpace = ({ backgroundImage, plantPositions, roomID }) => {
     (plant) => plant.backgroundID === roomID.toString()
   );
 
-  console.log(`Plants for room ${roomID}:`, plantsForCurrentRoom);
-
   return (
     <ImageBackground source={backgroundImage} style={styles.backgroundImage}>
       {plantPositions.map((position) => {

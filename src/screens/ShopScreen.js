@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import {
   View,
   Text,
@@ -10,7 +10,6 @@ import {
   Dimensions,
   Modal,
 } from "react-native";
-import { plants } from "../states/plantsConfig";
 import { usePlayerConfig } from "../states/playerConfigContext";
 import { RFValue } from "react-native-responsive-fontsize";
 import GameText from "../styles/GameText";
@@ -18,6 +17,9 @@ import TouchableScale from "react-native-touchable-scale";
 import shopBackgroundImage from "../assets/backgrounds/misc/menu_bg.png";
 
 import CoinDisplay from "../components/CoinComponent";
+
+import { PlantDataContext } from "../states/plantsDataContext";
+
 
 const screenHeight = Dimensions.get("window").height;
 const screenWidth = Dimensions.get("window").width;
@@ -65,6 +67,7 @@ const flatListWidth = (itemWidth * numColumns) + totalItemHorizontalMargin;
 
 const ShopScreen = ({ navigation }) => {
   const { playerState, updatePlayerConfig, coins, hearts } = usePlayerConfig();
+  
 
   const [items, setItems] = useState([]);
   const [selectedPlant, setSelectedPlant] = useState(null);
@@ -74,10 +77,12 @@ const ShopScreen = ({ navigation }) => {
 
   const [showOnlyUnowned, setShowOnlyUnowned] = useState(false); // New state variable
 
+    const { savePlantsConfig, plantsConfig } = useContext(PlantDataContext);
+
   useEffect(() => {
-    if (plants) {
+    if (plantsConfig) {
       let allItems = [];
-      const plantsArray = Object.values(plants);
+      const plantsArray = Object.values(plantsConfig);
 
       plantsArray.forEach((plant) => {
         plant.skins.forEach((skin) => {
@@ -94,6 +99,7 @@ const ShopScreen = ({ navigation }) => {
               applied: isSelected,
               plantId: plant.plantID,
               skinId: skin.name,
+              unlockCondition: skin.unlockCondition,
             });
           }
         });
@@ -101,7 +107,7 @@ const ShopScreen = ({ navigation }) => {
 
       setItems(formatData(allItems, numColumns));
     }
-  }, [plants, showOnlyUnowned]);
+  }, [plantsConfig, showOnlyUnowned]);
 
   const toggleShowOnlyUnowned = () => {
     setShowOnlyUnowned(!showOnlyUnowned);
@@ -120,8 +126,9 @@ const ShopScreen = ({ navigation }) => {
         // If the item is not owned
         buttonStyle = styles.buttonNotOwned; // Apply different style
         buttonText = `${
-          plants[item.plantId].skins.find((skin) => skin.name === item.skinId)
-            ?.unlockCondition
+          plantsConfig[item.plantId].skins.find(
+            (skin) => skin.name === item.skinId
+          )?.unlockCondition
         } Coins`;
       } else if (item.owned && !item.applied) {
         // If the item is owned but not applied
@@ -171,7 +178,7 @@ const ShopScreen = ({ navigation }) => {
      }
    };
    const handleSkinAction = async (item) => {
-     const plant = plants[item.plantId];
+     const plant = plantsConfig[item.plantId];
      const skin = plant.skins.find((s) => s.name === item.skinId);
      const skinCost = skin.unlockCondition; // Cost from the skin's unlock condition
 
@@ -179,8 +186,12 @@ const ShopScreen = ({ navigation }) => {
        setPurchaseType("skin");
        setPurchaseItem(item); // Save the selected item
        setShowModal(true); // Show confirmation modal
-     } else {
-       // Handle not enough coins or already owned scenarios
+     } else if (plant.skinsOwned.includes(skin.name)) {
+       // If the skin is already owned, apply it
+       plantsConfig[item.plantId].selectedSkin = item.skinId; // Apply the new skin
+       const updatedPlants = { ...plantsConfig }; // Create a new object to trigger state update
+       updatedPlants[item.plantId].selectedSkin = item.skinId;
+       await savePlantsConfig(updatedPlants);
      }
    };
 
@@ -188,14 +199,18 @@ const ShopScreen = ({ navigation }) => {
       if (purchaseType === "skin") {
         const updatedCoins = coins - purchaseItem.unlockCondition;
         const newOwnedSkins = [
-          ...plants[purchaseItem.plantId].skinsOwned,
+          ...plantsConfig[purchaseItem.plantId].skinsOwned,
           purchaseItem.skinId,
         ];
-        plants[purchaseItem.plantId].skinsOwned = newOwnedSkins; // Update the skinsOwned array for the plant
-        plants[purchaseItem.plantId].selectedSkin = purchaseItem.skinId; // Apply the new skin
+        plantsConfig[purchaseItem.plantId].skinsOwned = newOwnedSkins; // Update the skinsOwned array for the plant
+        plantsConfig[purchaseItem.plantId].selectedSkin = purchaseItem.skinId; // Apply the new skin
+
+        const updatedPlants = { ...plantsConfig }; // Create a new object to trigger state update
+        updatedPlants[purchaseItem.plantId].selectedSkin = purchaseItem.skinId;
+        await savePlantsConfig(updatedPlants);
 
         await updatePlayerConfig({ ...playerState, coins: updatedCoins });
-        // Note: Update the plantsConfig here if necessary
+        
       } else if (purchaseType === "heart") {
         const updatedCoins = coins - purchaseItem.totalCost;
         const updatedHearts = hearts + purchaseItem.heartsToBuy;
@@ -305,7 +320,7 @@ const ShopScreen = ({ navigation }) => {
                   <GameText style={styles.buttonText}>All</GameText>
                 </TouchableScale>
 
-                {Object.values(plants).map((plant) => (
+                {Object.values(plantsConfig).map((plant) => (
                   <TouchableScale
                     key={plant.plantID}
                     style={[
