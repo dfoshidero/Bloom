@@ -41,7 +41,7 @@ const GameScreen = ({ route }) => {
   };
   
   useEffect(() => {
-    const interval = setInterval(increasePlayerHearts, 60000); // Call increasePlayerHearts every 1 minute (60,000 milliseconds)
+    const interval = setInterval(increasePlayerHearts, 60000*15); // Call increasePlayerHearts every 15 minute (15*60,000 milliseconds)
     // Cleanup the interval when the component unmounts
     return () => {
       clearInterval(interval);
