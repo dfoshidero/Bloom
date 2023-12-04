@@ -22,7 +22,18 @@ const backButtonIcon = require("../assets/icons/back_icon.png");
 const windowWidth = Dimensions.get("window").width;
 const backButtonSize = windowWidth * 0.25;
 
-const RealLifeScreen = ({ realLifeScreenVisible, closeRealLifeScreen, plantID }) => {
+const RealLifeScreen = ({ 
+  realLifeScreenVisible, 
+  closeRealLifeScreen, 
+  plantID, 
+  timer, 
+  countdown, 
+  watered, 
+  setTimer, 
+  setCountdown,
+  setWatered,
+  linked,
+  setLinked,}) => {
   const [nickname, setNickname] = useState("");
   const [name, setName] = useState("");
   const [plant, setPlant] = useState("");
@@ -35,9 +46,7 @@ const RealLifeScreen = ({ realLifeScreenVisible, closeRealLifeScreen, plantID })
   const [nicknameInput, setNicknameInput] = useState("");
   const [Stage, setStage] = useState("");
   const [stageAdvice, setStageAdvice] = useState("");
-  const [timer, setTimer] = useState("");
-  const [countdown, setCountdown] = useState(0);
-  const [watered, setWatered] = useState("");
+
   const [hasInstructionsModalOpened, setHasInstructionsModalOpened] = useState(false);
   const [isHowToModalVisible, setIsHowToModalVisible] = useState(true);
   const [isLinkedModallVisible, setLinkedModalVisible] = useState(false);
@@ -78,6 +87,7 @@ const RealLifeScreen = ({ realLifeScreenVisible, closeRealLifeScreen, plantID })
     setNickname(nicknameInput);
     setStage(Stage);
     setWatered(watered);
+    startCountdown();
     toggleNicknameModal();
     toggleLinkedModal();
   };
@@ -99,6 +109,7 @@ const RealLifeScreen = ({ realLifeScreenVisible, closeRealLifeScreen, plantID })
       seconds = (timer - parseInt(watered)) * 3600;
     }
     setCountdown(seconds);
+    setLinked(1);
   };
 
   useEffect(() => {
@@ -405,12 +416,6 @@ const RealLifeScreen = ({ realLifeScreenVisible, closeRealLifeScreen, plantID })
           >
             <GameText style={styles.buttonText}>How to</GameText>
           </TouchableScale>
-          <TouchableScale
-            style={styles.timerButton}
-            onPress={startCountdown}
-          >
-            <GameText style={styles.buttonText}>Timer</GameText>
-          </TouchableScale>
         </View>
       </View>
     </Modal>
@@ -541,11 +546,6 @@ const styles = StyleSheet.create({
   howToButton: {
     
   },
-
-  timerButton: {
-    left: "170%",
-  },
-
 
   saveButton: {
     left: "5%"

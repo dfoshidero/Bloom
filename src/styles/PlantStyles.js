@@ -104,6 +104,18 @@ const styles = StyleSheet.create({
   touchPlantImageContainer: {
     position: "absolute",
   },
+
+  time: {
+    position: "absolute",
+    bottom: -30, // Adjust this value as needed to properly position the time below the plant
+    left: 0,
+    right: 0,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  timeText: {
+    fontSize: 10,
+  }
 });
 
 export default styles;
