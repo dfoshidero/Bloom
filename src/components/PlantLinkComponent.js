@@ -141,14 +141,12 @@ const RealLifeScreen = ({ realLifeScreenVisible, closeRealLifeScreen, plantID })
 
       if (result.canceled !== undefined ? result.canceled : true) {
         toggleModal();
-        console.log("Gallery camcelled")
         // Handle cancellation or do nothing
         return;
       }
   
       if (!result.canceled) {
         if (result.assets[0].uri) {
-          console.log('Selected image URI:', result.assets[0].uri);
           toggleModal();
           setPhotoUri(result.assets[0].uri);
           setButtonContent(<Image source={{ uri: result.assets[0].uri }} style={styles.photoImage} />);
@@ -185,7 +183,6 @@ const RealLifeScreen = ({ realLifeScreenVisible, closeRealLifeScreen, plantID })
   
       // Check if the result indicates that the user cancelled or not
       if (result.canceled !== undefined ? result.canceled : true) {
-        console.log("Camera camcelled")
         // Handle cancellation or do nothing
         toggleModal();
         return;

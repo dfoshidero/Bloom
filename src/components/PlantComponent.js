@@ -76,7 +76,6 @@ const Plant = ({ id, style, currentBackgroundID, isArchived = false }) => {
 
   //Archive a plant
   const handleArchiveButtonPress = async () => {
-    console.log("Archiving plant", id);
 
     //Make a unique archiveID
     newArchiveID = 0;
@@ -102,10 +101,8 @@ const Plant = ({ id, style, currentBackgroundID, isArchived = false }) => {
   };
 
   const handleMenuItemPress = (item) => {
-    console.log("Menu item pressed", item);
     setFloatingMenuVisible(false);
     if (item.id == 1) {
-      console.log(selectedPlant.plantID);
       navigation.navigate("LevelSelectionScreen", {
         id: id,
         selectedPlantID: selectedPlant.plantID,
@@ -135,7 +132,6 @@ const Plant = ({ id, style, currentBackgroundID, isArchived = false }) => {
 
     // Save the updated saved plants array in AsyncStorage
     updatePlantData([...plantData, newPlantData]);
-    console.log("Plant data saved successfully.");
   };
 
   handleSelectFromArchive = async () => {
@@ -149,10 +145,6 @@ const Plant = ({ id, style, currentBackgroundID, isArchived = false }) => {
     setSelectArchiveModalVisible(false);
     setSelectedPlant(plants[plantID]);
 
-    console.log("Archive ID: ", archiveID.toString());
-    console.log("Plant data:");
-    plantData.forEach(plant => {console.log(plant);});
-
     //Find this plant and edit its positionID and archiveID
     let modifiedPlantData = plantData;
     for (let i = 0; i < plantData.length; i++) {
@@ -165,8 +157,6 @@ const Plant = ({ id, style, currentBackgroundID, isArchived = false }) => {
     //Save the changes
     updatePlantData(modifiedPlantData);
     
-    console.log("New plant data:");
-    plantData.forEach(plant => {console.log(plant);});
   };
 
   const getPlantImagePath = () => {
@@ -220,7 +210,6 @@ const Plant = ({ id, style, currentBackgroundID, isArchived = false }) => {
                     },
               ]}
               onPress={() => {
-                console.log("Plant pressed.");
                 setFloatingMenuVisible(true);
               }}
               onPressIn={handlePressInPlant}

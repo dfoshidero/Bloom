@@ -26,7 +26,6 @@ export const PlayerConfigProvider = ({ children }) => {
   // Save the player state to AsyncStorage whenever it changes
   useEffect(() => {
     AsyncStorage.setItem("playerState", JSON.stringify(playerState));
-    console.log("Player state: ",playerState);
   }, [playerState]);
 
   const updatePlayerConfig = (newConfig) => {

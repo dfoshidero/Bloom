@@ -24,7 +24,6 @@ const MenuComponent = ({ menuVisible, closeMenu }) => {
       // Clear AsyncStorage first
       await AsyncStorage.getAllKeys()
         .then((keys) => AsyncStorage.multiRemove(keys))
-        .then(() => console.log("AsyncStorage successfully cleared!"));
 
       // Then reset context variables
       updatePlantData([]);
