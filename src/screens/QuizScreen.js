@@ -37,6 +37,17 @@ const deviceHeight = Dimensions.get("window").height;
 const textSize = RFValue(deviceHeight * 0.013);
 const buttonFontSize = RFValue(deviceHeight * 0.009);
 
+  const aspectRatio = deviceHeight / deviceWidth;
+  let heartsAndCoinsTop;
+
+  if (aspectRatio < 2.1) {
+    // Adjust the top position for wider aspect ratios
+    heartsAndCoinsTop = "4%";
+  } else {
+    // Adjust the top position for narrower aspect ratios
+    heartsAndCoinsTop = "8%";
+  }
+
 const QuizScreen = ({ navigation, route }) => {
   const { plant, level, id } = route.params;
 
@@ -282,7 +293,7 @@ const QuizScreen = ({ navigation, route }) => {
           style={{
             position: "absolute",
             left: "82%",
-            top: "4%",
+            top: heartsAndCoinsTop,
             zIndex: 1,
           }}
         >
@@ -292,7 +303,7 @@ const QuizScreen = ({ navigation, route }) => {
           style={{
             position: "absolute",
             left: "66%",
-            top: "4%",
+            top: heartsAndCoinsTop,
             zIndex: 1,
           }}
         >
@@ -307,7 +318,14 @@ const QuizScreen = ({ navigation, route }) => {
           >
             <View style={styles.modalContainer}>
               <View style={styles.modalBox}>
-                <GameText style={[styles.congratsText, {paddingBottom: 20, paddingTop: 5}]}>Instructions</GameText>
+                <GameText
+                  style={[
+                    styles.congratsText,
+                    { paddingBottom: 20, paddingTop: 5 },
+                  ]}
+                >
+                  Instructions
+                </GameText>
                 <ScrollView style={styles.instructionsScrollView}>
                   <GameText style={styles.instructionsText}>
                     {currentInstructions}

@@ -28,6 +28,18 @@ const deviceHeight = Dimensions.get("window").height;
 const textSizeBig = RFValue(deviceHeight * 0.016);
 const textSizeSmall = RFValue(deviceHeight * 0.014);
 
+  const aspectRatio = deviceHeight / deviceWidth;
+  let heartsAndCoinsTop;
+
+  if (aspectRatio < 2.1) {
+    // Adjust the top position for wider aspect ratios
+    heartsAndCoinsTop = "4%";
+  } else {
+    // Adjust the top position for narrower aspect ratios
+    heartsAndCoinsTop = "8%";
+  }
+
+
 const backgroundImage = require("../assets/backgrounds/misc/level_select.png");
 const upIcon = require("../assets/icons/up_icon.png");
 const downIcon = require("../assets/icons/down_icon.png");
@@ -193,20 +205,24 @@ const LevelSelectionScreen = ({ navigation, route }) => {
       <TouchableScale style={styles.oracle}>
         <Oracle />
       </TouchableScale>
-      <TouchableScale style={{
-        position: "absolute",
-        left: "82%",
-        top: "4%",
-        zIndex: 1
-      }}>
+      <TouchableScale
+        style={{
+          position: "absolute",
+          left: "82%",
+          top: heartsAndCoinsTop,
+          zIndex: 1,
+        }}
+      >
         <HeartsDisplay />
       </TouchableScale>
-      <TouchableScale style={{
-        position: "absolute",
-        left: "66%",
-        top: "4%",
-        zIndex: 1
-      }}>
+      <TouchableScale
+        style={{
+          position: "absolute",
+          left: "66%",
+          top: heartsAndCoinsTop,
+          zIndex: 1,
+        }}
+      >
         <CoinDisplay />
       </TouchableScale>
       <Animated.View

@@ -20,6 +20,34 @@ import shopBackgroundImage from "../assets/backgrounds/misc/menu_bg.png";
 import CoinDisplay from "../components/CoinComponent";
 
 const screenHeight = Dimensions.get("window").height;
+const screenWidth = Dimensions.get("window").width;
+
+  const aspectRatio = screenHeight / screenWidth;
+  let itemsTop;
+  let itemsPad;
+  let itemsRight;
+  let itemsGap;
+  let textTop;
+  let coinsBot;
+
+  if (aspectRatio < 2.1) {
+    // Adjust the top position for wider aspect ratios
+    itemsTop = "4%";
+    itemsPad = "25%";
+    itemsRight = "20%";
+    itemsGap = "105%";
+    textTop = "77%";
+    coinsBot = "140%";
+  } else {
+    // Adjust the top position for narrower aspect ratios
+    itemsTop = "8%";
+    itemsPad = "30%";
+  itemsRight = "15%";
+  itemsGap = "105%";
+  textTop = "110%";
+  coinsBot = "140%";
+  }
+
 
 // Example: setting textSize to be 2% of the screen height
 const textSize = RFValue(screenHeight * 0.01);
@@ -180,19 +208,23 @@ const ShopScreen = ({ navigation }) => {
         style={styles.backgroundImage}
       >
         <View style={styles.switchContainer}>
-          <TouchableScale style={{ left: "100%", bottom: "50%" }}>
+          <TouchableScale style={{ left: itemsGap, bottom: coinsBot, position: "absolute" }}>
             <CoinDisplay />
           </TouchableScale>
 
-          <Switch
-            trackColor={{ false: "#767577", true: "#4CAF50" }}
-            thumbColor={showOnlyUnowned ? "#f5dd4b" : "#f4f3f4"}
-            onValueChange={toggleShowOnlyUnowned}
-            value={showOnlyUnowned}
-          />
-          <GameText style={styles.switchLabel}>
-            {showOnlyUnowned ? "Hiding Applied Skins" : "Showing All Skins"}
-          </GameText>
+          <TouchableScale
+            style={[
+              styles.toggleButton,
+              {
+                backgroundColor: showOnlyUnowned ? "#4CAF50" : "#008000",
+              },
+            ]}
+            onPress={toggleShowOnlyUnowned}
+          >
+            <GameText style={styles.buttonText}>
+              {showOnlyUnowned ? "Hiding Applied Skins" : "Showing All Skins"}
+            </GameText>
+          </TouchableScale>
         </View>
 
         {/* Rest of the content below the Coin Display */}
@@ -294,7 +326,7 @@ const styles = StyleSheet.create({
   },
   contentContainer: {
     flex: 1,
-    paddingTop: "25%",
+    paddingTop: itemsPad,
   },
   buttonNotOwned: {
     backgroundColor: "firebrick", // Change this to the color you want
@@ -322,16 +354,28 @@ const styles = StyleSheet.create({
     shadowRadius: 3.84,
     elevation: 5,
   },
+  toggleButton: {
+    backgroundColor: "#008000", // Dark green for initial state
+    paddingHorizontal: 20,
+    paddingVertical: 10,
+    borderRadius: 20,
+  },
+  buttonText: {
+    color: "white",
+    fontSize: 16,
+    fontWeight: "bold",
+  },
 
   switchContainer: {
     position: "absolute",
-    right: "20%",
-    top: "3.5%",
+    right: itemsRight,
+    top: itemsTop,
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "flex-end",
     paddingRight: 10, // Adjust the padding as needed
     marginTop: 10,
+    zIndex: 5,
   },
   backgroundImage: {
     position: "absolute", // Set position to absolute
@@ -374,7 +418,7 @@ const styles = StyleSheet.create({
   switchLabel: {
     position: "absolute",
     fontSize: RFValue(8), // Or any appropriate size
-    top: "77%",
+    top: textTop,
     right: "35%",
     color: "white",
     textShadowColor: "black",
@@ -436,14 +480,7 @@ const styles = StyleSheet.create({
     elevation: 5,
     width: flatListWidth,
     alignSelf: "center",
-  },
-  sectionHeader: {
-    fontWeight: "bold",
-    fontSize: textSize, // Slightly smaller for uniformity
-    backgroundColor: "#ddd", // Consistent background color
-    padding: 10,
-    textTransform: "uppercase", // Capitalize section headers
-  },
+  },  
   buttonText: {
     color: "white",
     fontSize: buttonFontSize, // Standardized font size
@@ -461,7 +498,7 @@ const styles = StyleSheet.create({
     marginBottom: 5, // Space between image and text
   },
   itemName: {
-    fontSize: textSize/1.3, // Slightly smaller for fitting in grid layout
+    fontSize: textSize / 1.3, // Slightly smaller for fitting in grid layout
     textAlign: "center",
   },
   buttonContainer: {

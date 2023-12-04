@@ -34,8 +34,8 @@ const CustomBackButton = () => {
 const styles = StyleSheet.create({
   backButtonIcon: {
     width: backButtonSize,
-    height: backButtonSize,
-    top: "35%",
+    resizeMode: "contain",
+    top: "3%",
     left: "5%",
   },
 });
