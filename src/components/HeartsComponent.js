@@ -9,7 +9,7 @@ const HeartsDisplay = ({ style }) => {
   const textColor = hearts === 0 ? "black" : "white";
   const shadowColor = hearts === 0 ? "white" : "black";
 
-  const { level, getUnlockedRooms, hearts, increaseHearts } = usePlayerConfig();
+  const { hearts, increaseHearts } = usePlayerConfig();
 
   const increasePlayerHearts = () => {
     if (hearts < 5) {
