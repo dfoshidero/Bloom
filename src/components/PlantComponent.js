@@ -520,7 +520,7 @@ const Plant = ({ id, style, currentBackgroundID, isArchived = false }) => {
             flexWrap: "wrap", // Remove the flexWrap property
           }}
         >
-          Plant watered!
+          Watered!
         </GameText>
       </Animated.View>
     )}
