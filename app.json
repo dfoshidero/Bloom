@@ -21,16 +21,10 @@
       "adaptiveIcon": {
         "foregroundImage": "./src/assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      },
-      "package": "com.dfoshidero.Bloom_WIP"
+      }
     },
     "web": {
       "favicon": "./src/assets/favicon.png"
-    },
-    "extra": {
-      "eas": {
-        "projectId": "9cb9bb1d-fc24-4429-b772-c7c1c2e79c55"
-      }
     }
   }
 }

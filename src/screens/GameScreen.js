@@ -54,6 +54,7 @@ const GameScreen = ({ route }) => {
 
   useEffect(() => {
     setupPlayer().then(() => {
+      console.log("Audio player is set up.");
     });
 
     playRandomBackgroundMusic();
