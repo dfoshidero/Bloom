@@ -514,7 +514,7 @@ const Plant = ({ id, style, currentBackgroundID, isArchived = false }) => {
         <GameText
           style={{
             color: "blue",
-            fontSize: RFValue(12),
+            fontSize: RFValue(10),
             position: "absolute", // Remove the absolute positioning
             flexDirection: "row", // Remove the flexDirection property
             flexWrap: "wrap", // Remove the flexWrap property
