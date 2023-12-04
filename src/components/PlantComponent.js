@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from "react";
-import { View, TouchableOpacity, Image, Animated } from "react-native";
+import { View, TouchableOpacity, Image, Alert } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 
 import Icon from "react-native-vector-icons/FontAwesome";
@@ -23,6 +23,7 @@ const archiveIcon = require("../assets/icons/archive_icon.png");
 const learnIcon = require("../assets/icons/learn_icon.png");
 const waterIcon = require("../assets/icons/water_icon.png");
 const linkIcon = require("../assets/icons/link_icon.png");
+const deleteIcon = require("../assets/icons/delete_icon.png");
 
 const Plant = ({ id, style, currentBackgroundID, isArchived = false }) => {
 
@@ -112,6 +113,8 @@ const Plant = ({ id, style, currentBackgroundID, isArchived = false }) => {
     }else if (item.id == 4) {
       //Archive button pressed
       handleToggleRealLifeScreen();
+    } else if (item.id == 7) {
+      handleDeleteButtonPress();
     }
   };
 
@@ -158,6 +161,34 @@ const Plant = ({ id, style, currentBackgroundID, isArchived = false }) => {
     
   };
 
+  const handleDeleteButtonPress = async () => {
+    Alert.alert(
+      "Delete Plant",
+      "Are you sure? This plant will be lost forever.",
+      [
+        {
+          text: "Cancel",
+          style: "cancel",
+        },
+        {
+          text: "OK",
+          onPress: async () => {
+            const updatedPlantData = plantData.filter(
+              (plant) => plant.archiveID !== id.toString()
+            );
+
+            // Update the plantData state
+            await updatePlantData(updatedPlantData);
+
+            // Optionally, navigate away or update the UI to reflect the deletion
+          },
+        },
+      ],
+      { cancelable: false }
+    );
+  };
+
+
   const getPlantImagePath = () => {
     if (selectedPlant) {
       const selectedSkin = selectedPlant.skins.find(
@@ -190,6 +221,9 @@ const Plant = ({ id, style, currentBackgroundID, isArchived = false }) => {
   //Only add the archive button if the plant isn't already in the archive
   if (!isArchived) {
     menuItemsList.push({ icon: archiveIcon, isImage: true, angle: 300, id: 2 });
+  }
+  if (isArchived) {
+    menuItemsList.push({ icon: deleteIcon, isImage: true, angle: 300, id: 7 });
   }
 
   return (
