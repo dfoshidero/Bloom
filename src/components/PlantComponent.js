@@ -16,7 +16,6 @@ import { useProgressContext } from "../states/speciesProgressContext";
 import RealLifeScreenComponent from "../components/PlantLinkComponent";
 import GameText from "../styles/GameText";
 
-
 const iconContainer = require("../assets/icon_container.png");
 const closeIcon = require("../assets/icons/close_icon.png");
 const fertilizeIcon = require("../assets/icons/fertilize_icon.png");
@@ -27,7 +26,6 @@ const linkIcon = require("../assets/icons/link_icon.png");
 const deleteIcon = require("../assets/icons/delete_icon.png");
 
 const Plant = ({ id, style, currentBackgroundID, isArchived = false }) => {
-
   const [realLifeScreenVisible, setRealLifeScreenVisible] = useState(false);
 
   //function for testing link to real life modal should be deleted later
@@ -51,6 +49,9 @@ const Plant = ({ id, style, currentBackgroundID, isArchived = false }) => {
   const { plantData, updatePlantData, plantsConfig } = usePlantContext();
   const { speciesProgress, updateSpeciesProgress } = useProgressContext();
 
+  const [fertilizeCooldown, setFertilizeCooldown] = useState(false);
+  const [xpGained, setXpGained] = useState(0);
+
   //plant timer
   const [timer, setTimer] = useState("");
   const [countdown, setCountdown] = useState(0);
@@ -69,7 +70,7 @@ const Plant = ({ id, style, currentBackgroundID, isArchived = false }) => {
     const hours = Math.floor((countdown % (3600 * 24)) / 3600);
     const minutes = Math.floor((countdown % 3600) / 60);
     const seconds = countdown % 60;
-  
+
     if (days > 0) {
       return `${days} days`;
     } else {
@@ -105,7 +106,6 @@ const Plant = ({ id, style, currentBackgroundID, isArchived = false }) => {
 
   //Archive a plant
   const handleArchiveButtonPress = async () => {
-
     //Make a unique archiveID
     newArchiveID = 0;
     while (
@@ -137,15 +137,15 @@ const Plant = ({ id, style, currentBackgroundID, isArchived = false }) => {
         selectedPlantID: selectedPlant.plantID,
       });
     } else if (item.id == 2) {
-      //Archive button pressed
       handleArchiveButtonPress();
-    }else if (item.id == 4) {
-      //Archive button pressed
+    } else if (item.id == 3) {
+      startCountdown();
+    } else if (item.id == 4) {
       handleToggleRealLifeScreen();
+    } else if (item.id == 5) {
+      handleFertilizeButtonPress();
     } else if (item.id == 7) {
       handleDeleteButtonPress();
-    }else if (item.id == 3) {
-      startCountdown();
     }
   };
 
@@ -160,7 +160,7 @@ const Plant = ({ id, style, currentBackgroundID, isArchived = false }) => {
       plantID: plantID.toString(),
       archiveID: "null",
       progress: 0,
-      backgroundID: currentBackgroundID
+      backgroundID: currentBackgroundID,
     };
 
     // Save the updated saved plant array in AsyncStorage
@@ -189,7 +189,6 @@ const Plant = ({ id, style, currentBackgroundID, isArchived = false }) => {
 
     //Save the changes
     updatePlantData(modifiedPlantData);
-    
   };
 
   const handleDeleteButtonPress = async () => {
@@ -219,6 +218,23 @@ const Plant = ({ id, style, currentBackgroundID, isArchived = false }) => {
     );
   };
 
+  const handleFertilizeButtonPress = () => {
+    if (!fertilizeCooldown) {
+      // Add 5 XP to the player's XP
+      addXP(5); // You can call your addXP function here
+
+      // Set the XP gained state to 5
+      setXpGained(5);
+
+      // Set the fertilize cooldown to true for 12 hours
+      setFertilizeCooldown(true);
+
+      // Clear the cooldown after 12 hours
+      setTimeout(() => {
+        setFertilizeCooldown(false);
+      }, 12 * 60 * 60 * 1000); // 12 hours in milliseconds
+    }
+  };
 
   const getPlantImagePath = () => {
     if (selectedPlant) {
@@ -232,7 +248,8 @@ const Plant = ({ id, style, currentBackgroundID, isArchived = false }) => {
             const nextStage = array[index + 1];
             return (
               speciesProgress[selectedPlant.plantID] >= stage.growthStage &&
-              (!nextStage || speciesProgress[selectedPlant.plantID] < nextStage.growthStage)
+              (!nextStage ||
+                speciesProgress[selectedPlant.plantID] < nextStage.growthStage)
             );
           }
         );
@@ -297,13 +314,12 @@ const Plant = ({ id, style, currentBackgroundID, isArchived = false }) => {
               <GameText style={styles.timeText}>{countdownTime}</GameText>
             </View>
           )}
-          </View>
+        </View>
       ) : (
         <TouchableScale style={[styles.plusIcon]} onPress={handleAddPlantPress}>
           <Icon name="plus" size={16} color="#fff" />
         </TouchableScale>
       )}
-
 
       {/* Select Plant Modal */}
       <SelectPlantModal
@@ -342,8 +358,8 @@ const Plant = ({ id, style, currentBackgroundID, isArchived = false }) => {
         setTimer={setTimer} // Pass the setTimer function as a prop
         setCountdown={setCountdown} // Pass the setCountdown function as a prop
         setWatered={setWatered} // Pass the setWatered function as a prop
-        linked = {linked}
-        setLinked = {setLinked}
+        linked={linked}
+        setLinked={setLinked}
       />
     </View>
   );
