@@ -401,17 +401,19 @@ const Plant = ({ id, style, currentBackgroundID, isArchived = false }) => {
               />
             </TouchableOpacity>
           )}
-          <View style={buttonContent !== null ? styles.time : styles.timeNoPic}>
-            <GameText style={styles.label}>Water:</GameText>
-            <GameText style={styles.timeText}>{countdownTime}</GameText>
-            {buttonContent !== null && (
-              <View style={styles.bubble}>
-                <View style={styles.buttonContentWrapper}>
-                  {buttonContent}
+          {linked === 1 && (
+            <View style={buttonContent !== null ? styles.time : styles.timeNoPic}>
+              <GameText style={styles.label}>Water:</GameText>
+              <GameText style={styles.timeText}>{countdownTime}</GameText>
+              {buttonContent !== null && (
+                <View style={styles.bubble}>
+                  <View style={styles.buttonContentWrapper}>
+                    {buttonContent}
+                  </View>
                 </View>
-              </View>
-            )}
-          </View>
+              )}
+            </View>
+          )}
         </View>
       ) : (
         <TouchableScale style={[styles.plusIcon]} onPress={handleAddPlantPress}>
