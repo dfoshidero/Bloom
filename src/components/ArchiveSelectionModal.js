@@ -20,10 +20,19 @@ const SelectFromArchiveModal = ({
 }) => {
   const { plantData, plantsConfig } = usePlantContext();
 
-  for (let i = 0; i < plantData.length; i++){
-    let plantSpecies = plantsConfig[parseInt(plantData[i].plantID)];
-    plantData[i].iconPath = plantSpecies.iconPath;
-    plantData[i].name = plantSpecies.name;
+  // Function to get the stage 4 growth image path for the selected skin
+  const getStage4ImagePath = (plantID) => {
+    const plant = plantsConfig[plantID];
+    const selectedSkin = plant.skins.find(
+      (skin) => skin.name === plant.selectedSkin
+    );
+    return selectedSkin.growth.find((g) => g.growthStage === 1.0).imagePath;
+  };
+
+  for (let i = 0; i < plantData.length; i++) {
+    let plantID = parseInt(plantData[i].plantID);
+    plantData[i].iconPath = getStage4ImagePath(plantID); // Update the iconPath
+    plantData[i].name = plantsConfig[plantID].name;
   }
 
   return (
@@ -45,10 +54,12 @@ const SelectFromArchiveModal = ({
                 >
                   <View style={styles.plantCard}>
                     <Image
-                      source={plant.iconPath}
+                      source={plant.iconPath} // Updated image source
                       style={{ width: "80%", height: "80%" }}
                     />
-                    <GameText style={{fontSize: 10, textAlign: "center"}}>{plant.name}</GameText>
+                    <GameText style={{ fontSize: 10, textAlign: "center" }}>
+                      {plant.name}
+                    </GameText>
                   </View>
                 </TouchableScale>
               ))}

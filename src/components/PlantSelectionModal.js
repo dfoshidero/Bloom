@@ -8,6 +8,13 @@ import GameText from "../styles/GameText";
 
 const archiveIcon = require("../assets/icons/collection_icon.png");
 
+const getStage4ImagePath = (plant) => {
+  const selectedSkin = plant.skins.find(
+    (skin) => skin.name === plant.selectedSkin
+  );
+  return selectedSkin.growth.find((g) => g.growthStage === 1.0).imagePath;
+};
+
 const SelectPlantModal = ({ visible, onClose, handleSelectPlant, handleSelectFromArchive }) => {
 
   const { plantsConfig } = usePlantContext();
@@ -48,7 +55,7 @@ const SelectPlantModal = ({ visible, onClose, handleSelectPlant, handleSelectFro
               >
                 <View style={styles.plantCard}>
                   <Image
-                    source={plant.iconPath}
+                    source={getStage4ImagePath(plant)}
                     style={{ width: "80%", height: "80%" }}
                   />
                   <GameText style={{ fontSize: 10, textAlign: "center" }}>
