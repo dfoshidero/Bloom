@@ -64,7 +64,8 @@ const QuizScreen = ({ navigation, route }) => {
   const [currentLevel, setCurrentLevel] = useState("");
   const [currentPlant, setCurrentPlant] = useState("");
    const [feedbackModalVisible, setFeedbackModalVisible] = useState(false);
-  const [showConratsBackground, setShowCongratsBackground] = useState(false);
+  const [showCongratsBackground, setShowCongratsBackground] = useState(false);
+  const [isLevelCompleted, setIsLevelCompleted] = useState(false);
 
   const [correctAnswersCount, setCorrectAnswersCount] = useState(0);
   const [incorrectAnswersCount, setIncorrectAnswersCount] = useState(0);
@@ -176,20 +177,30 @@ const QuizScreen = ({ navigation, route }) => {
     }
   };
 
+  useEffect(() => {
+    // Check if the current level is completed
+    const numericPlant = parseInt(plant, 10);
+    const levelIndex = parseInt(level.slice(-1), 10);
+
+    if (completedLevels[numericPlant] >= levelIndex) {
+      setIsLevelCompleted(true);
+    }
+  }, [plant, level, completedLevels]);
+
   const completeQuiz = (newCorrectAnswersCount, newBonusCoins) => {
     setShowModal(true);
     setShowCongratsBackground(true);
     const numericPlant = parseInt(plant, 10);
     const levelIndex = parseInt(level.slice(-1), 10);
 
-    // Find the XP reward for the current level
-    const xpReward = levelsConfig[numericPlant].levels.find(
-      (l) => l.levelNumber === levelIndex
-    ).xpReward;
+    // Check if the level is not completed before
+    if (!isLevelCompleted) {
+      // Find the XP reward for the current level
+      const xpReward = levelsConfig[numericPlant].levels.find(
+        (l) => l.levelNumber === levelIndex
+      ).xpReward;
 
-    if (completedLevels[numericPlant] < levelIndex) {
       updateCompletedLevels(numericPlant, levelIndex);
-
       addXP(xpReward);
 
       // Check if all levels are completed for extra rewards
@@ -200,14 +211,18 @@ const QuizScreen = ({ navigation, route }) => {
         addXP(100); // Extra xp for completing all levels
         setShowRewardMessage(true);
       }
-    }
-    const list = updatePlantsProgress(plant);
-    setUpdatedList(list);
+      const list = updatePlantsProgress(plant);
+      setUpdatedList(list);
 
-    // Display the rewards in the modal
-    setFeedbackMessage(
-      `${newCorrectAnswersCount} coins, ${newBonusCoins} bonus coins, and ${xpReward} XP earned!`
-    );
+      // Display the rewards in the modal
+      setFeedbackMessage(
+        `${newCorrectAnswersCount} coins, ${newBonusCoins} bonus coins, and ${xpReward} XP earned!`
+      );
+    } else {
+      // Level is already completed, don't give bonus coins again
+      addXP(10);
+      setFeedbackMessage(`Good practice! ${newCorrectAnswersCount} coins and 10xp earned!`);
+    }
   };
 
   const updatePlantsProgress = (plant) => {
@@ -359,7 +374,7 @@ const QuizScreen = ({ navigation, route }) => {
         )}
 
         <Modal
-          visible={showConratsBackground}
+          visible={showCongratsBackground}
           animationType="fade"
           transparent={true}
         >
