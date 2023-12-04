@@ -21,7 +21,10 @@ const defaultPlayerState = {
 };
 
 export const PlayerConfigProvider = ({ children }) => {
-  const [playerState, setPlayerState] = useState(defaultPlayerState);
+  const [playerState, setPlayerState] = useState({
+    ...defaultPlayerState,
+    timer: 3600,
+  });
 
   // Save the player state to AsyncStorage whenever it changes
   useEffect(() => {
@@ -29,14 +32,16 @@ export const PlayerConfigProvider = ({ children }) => {
   }, [playerState]);
 
   const updatePlayerConfig = (newConfig) => {
-    setPlayerState(prevState => {return { ...prevState, ...newConfig }});
+    setPlayerState((prevState) => {
+      return { ...prevState, ...newConfig };
+    });
   };
 
   const addXP = (amount) => {
-    setPlayerState(prevState => {
+    setPlayerState((prevState) => {
       const newXP = prevState.xp + amount;
       let newLevel = prevState.level;
-  
+
       // Check if the player reaches the XP threshold for the next level
       while (newLevel < requiredXP.length && newXP >= requiredXP[newLevel]) {
         newLevel++;
@@ -45,31 +50,83 @@ export const PlayerConfigProvider = ({ children }) => {
       return {
         ...prevState,
         ...{
-        xp: newXP,
-        level: newLevel
-      }};
+          xp: newXP,
+          level: newLevel,
+        },
+      };
     });
   };
 
   const decreaseHearts = () => {
-    setPlayerState(prevState => {
+    setPlayerState((prevState) => {
       if (prevState.hearts > 0) {
-        return { ...prevState, ...{hearts: prevState.hearts - 1} };
+        const newHearts = prevState.hearts - 1;
+        // Start the timer from 60 minutes when a heart is lost for the first time
+        const newTimer = prevState.hearts === 5 ? 3600 : prevState.timer;
+        return { ...prevState, hearts: newHearts, timer: newTimer };
       }
+      return prevState;
     });
   };
 
   const increaseHearts = () => {
-    setPlayerState(prevState => {
+    setPlayerState((prevState) => {
       if (prevState.hearts < 5) {
-        return { ...prevState, hearts: prevState.hearts + 1 };
+        return { ...prevState, hearts: prevState.hearts + 1, timer: 3600 };
       }
-      return prevState; // Return the previous state unchanged if hearts is already 5
+      return prevState;
     });
   };
 
+  useEffect(() => {
+    // Load the last session data
+    const loadLastSessionData = async () => {
+      const lastTime = await AsyncStorage.getItem("lastTime");
+      const currentTime = new Date().getTime();
+
+      if (lastTime !== null) {
+        const timePassed = Math.floor(
+          (currentTime - JSON.parse(lastTime)) / 1000
+        );
+        let heartIncreases = Math.floor(timePassed / 3600);
+        heartIncreases = Math.min(heartIncreases, 5 - playerState.hearts);
+
+        for (let i = 0; i < heartIncreases; i++) {
+          increaseHearts(); // This should also reset the timer to 3600 in increaseHearts method
+        }
+      }
+    };
+
+    loadLastSessionData();
+  }, []);
+
+  useEffect(() => {
+    // Update timer every second
+    const updateTimer = () => {
+      setPlayerState((prevState) => {
+        if (prevState.timer > 0) {
+          return { ...prevState, timer: prevState.timer - 1 };
+        } else {
+          if (prevState.hearts < 5) {
+            return { ...prevState, hearts: prevState.hearts + 1, timer: 3600 };
+          }
+          return { ...prevState, timer: 3600 }; // Reset timer even if hearts are not increased
+        }
+      });
+    };
+
+    const timerInterval = setInterval(updateTimer, 1000);
+
+    return () => {
+      clearInterval(timerInterval);
+      AsyncStorage.setItem("lastTime", JSON.stringify(new Date().getTime()));
+    };
+  }, []); // Empty dependency array ensures this runs only once on mount
+
   const addCoins = (amount) => {
-    setPlayerState(prevState => {return { ...prevState, ...{coins: prevState.coins + amount} }});
+    setPlayerState((prevState) => {
+      return { ...prevState, ...{ coins: prevState.coins + amount } };
+    });
   };
 
   // Utility function to get unlocked rooms
@@ -91,6 +148,7 @@ export const PlayerConfigProvider = ({ children }) => {
         addXP,
         decreaseHearts,
         increaseHearts,
+        timer: playerState.timer,
         addCoins,
         getUnlockedRooms,
         resetPlayerConfig,
