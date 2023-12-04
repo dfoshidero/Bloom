@@ -208,9 +208,9 @@ const LevelSelectionScreen = ({ navigation, route }) => {
       <TouchableScale
         style={{
           position: "absolute",
-          left: "82%",
+          left: "66%",
           top: heartsAndCoinsTop,
-          zIndex: 1,
+          zIndex: 2,
         }}
       >
         <HeartsDisplay />
@@ -218,7 +218,7 @@ const LevelSelectionScreen = ({ navigation, route }) => {
       <TouchableScale
         style={{
           position: "absolute",
-          left: "66%",
+          left: "82%",
           top: heartsAndCoinsTop,
           zIndex: 1,
         }}
