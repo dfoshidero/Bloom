@@ -21,25 +21,30 @@ const MenuComponent = ({ menuVisible, closeMenu }) => {
 
   const clearData = async () => {
     try {
-      // Reset context variables
+      // Clear AsyncStorage first
+      await AsyncStorage.getAllKeys()
+        .then((keys) => AsyncStorage.multiRemove(keys))
+        .then(() => console.log("AsyncStorage successfully cleared!"));
+
+      // Then reset context variables
       updatePlantData([]);
       resetPlayerConfig();
-      for (let key in speciesProgress) {
-        updateSpeciesProgress(key, 0);
-      }
-      for (let key in completedLevels) {
-        updateCompletedLevels(key, 0);
-      }
-      await AsyncStorage.getAllKeys()
-        .then(keys => AsyncStorage.multiRemove(keys))
-        .then(() => console.log('AsyncStorage successfully cleared!'));
-      await new Promise((resolve) => setTimeout(resolve, 50));
+      Object.keys(speciesProgress).forEach((key) =>
+        updateSpeciesProgress(key, 0)
+      );
+      Object.keys(completedLevels).forEach((key) =>
+        updateCompletedLevels(key, 0)
+      );
+
+      // Wait for a moment before reloading the app
+      setTimeout(() => {
+        NativeModules.DevSettings.reload();
+      }, 500); // increased delay to ensure completion
     } catch (e) {
-      console.error(e);
+      console.error("Error clearing data:", e);
     }
   };
 
-  let navigationCounter = 0;
 
   return (
     <Modal
@@ -63,7 +68,6 @@ const MenuComponent = ({ menuVisible, closeMenu }) => {
           <TouchableOpacity
             onPress={() => {
               clearData();
-              NativeModules.DevSettings.reload();
             }}
           >
             <GameText style={styles.menuItem}>Reset Game</GameText>
