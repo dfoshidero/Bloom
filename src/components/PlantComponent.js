@@ -58,11 +58,7 @@ const Plant = ({ id, style, currentBackgroundID, isArchived = false }) => {
 
   const startCountdown = () => {
     let seconds;
-    if (watered === "") {
-      seconds = timer * 3600;
-    } else {
-      seconds = (timer - parseInt(watered)) * 3600;
-    }
+    seconds = timer * 3600;
     setCountdown(seconds);
     setLinked(1);
   };
