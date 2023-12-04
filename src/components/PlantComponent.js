@@ -68,11 +68,32 @@ const Plant = ({ id, style, currentBackgroundID, isArchived = false }) => {
   const [watered, setWatered] = useState("");
   const [linked, setLinked] = useState(0);
 
+  //water animation
+  const [isWaterButtonPressed, setWaterButtonPressed] = useState(false);
+
   const startCountdown = () => {
     let seconds;
     seconds = timer * 3600;
     setCountdown(seconds);
     setLinked(1);
+  };
+
+  const handleWaterButtonPress = () => {
+    setWaterButtonPressed(true);
+    startCountdown();
+
+    Animated.timing(xpAnimation, {
+      toValue: 1,
+      duration: 2000,
+      useNativeDriver: true,
+    }).start(() => {
+      // Reset animation
+      setXpAnimation(new Animated.Value(0));
+    });
+  
+    setTimeout(() => {
+      setWaterButtonPressed(false);
+    }, 1000); // Adjust the timeout duration as needed
   };
 
   const formatCountdownTime = () => {
@@ -149,7 +170,7 @@ const Plant = ({ id, style, currentBackgroundID, isArchived = false }) => {
     } else if (item.id == 2) {
       handleArchiveButtonPress();
     } else if (item.id == 3) {
-      startCountdown();
+      handleWaterButtonPress();
     } else if (item.id == 4) {
       handleToggleRealLifeScreen();
     } else if (item.id == 5) {
@@ -468,6 +489,41 @@ const Plant = ({ id, style, currentBackgroundID, isArchived = false }) => {
           </GameText>
         </Animated.View>
       )}
+
+    {isWaterButtonPressed && (
+      <Animated.View
+        style={{
+          opacity: xpAnimation.interpolate({
+            inputRange: [0, 1],
+            outputRange: [1, 0],
+          }),
+          transform: [
+            {
+              translateY: xpAnimation.interpolate({
+                inputRange: [0, 1],
+                outputRange: [0, -50], // Adjust the slide-up distance as needed
+              }),
+            },
+          ],
+          position: "absolute",
+          bottom: "-90%", // Position the view at the bottom of the container
+          alignItems: "center", // Center the text horizontally
+          justifyContent: "center", // Center the text vertically
+        }}
+      >
+        <GameText
+          style={{
+            color: "blue",
+            fontSize: RFValue(12),
+            position: "absolute", // Remove the absolute positioning
+            flexDirection: "row", // Remove the flexDirection property
+            flexWrap: "wrap", // Remove the flexWrap property
+          }}
+        >
+          Plant watered!
+        </GameText>
+      </Animated.View>
+    )}
     </View>
   );
 };
