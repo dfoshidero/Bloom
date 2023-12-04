@@ -105,20 +105,42 @@ const styles = StyleSheet.create({
     position: "absolute",
   },
 
-  time: {
+  timeNoPic: {
     position: "absolute",
-    bottom: -30, // Adjust this value as needed to properly position the time below the plant
+    bottom: "-42%", // Adjust this value as needed to properly position the time below the plant
     left: 0,
     right: 0,
     justifyContent: "center",
     alignItems: "center",
+  },
+  time: {
+    position: "absolute",
+    bottom: "-150%", // Adjust this value as needed to properly position the time below the plant
+    left: 0,
+    right: 0,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  bubble: {
+    width: 40,
+    height: 40,
+    borderRadius: 20,
+    alignItems: 'center',
+    marginTop: 10,
+    //borderWidth: 2,
+    //borderColor: 'black',
+  },
+  linkedPlantImage: {
+    width: 30,
+    height: 30,
+    borderRadius: 15,
   },
   timeText: {
     fontSize: 10,
   },
   xpGainedContainer: {
     flex: 1
-  }
+  },
 });
 
 export default styles;

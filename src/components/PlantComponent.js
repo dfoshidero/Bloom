@@ -59,6 +59,9 @@ const Plant = ({ id, style, currentBackgroundID, isArchived = false }) => {
   const [xpGained, setXpGained] = useState(0);
   const [xpAnimation, setXpAnimation] = useState(new Animated.Value(0));
 
+  //linked plant photo
+  const [buttonContent, setButtonContent] = useState(null);
+
   //plant timer
   const [timer, setTimer] = useState("");
   const [countdown, setCountdown] = useState(0);
@@ -378,9 +381,14 @@ const Plant = ({ id, style, currentBackgroundID, isArchived = false }) => {
             </TouchableOpacity>
           )}
           {linked !== 0 && (
-            <View style={styles.time}>
+            <View style={buttonContent !== null ? styles.time : styles.timeNoPic}>
               <GameText style={styles.label}>Water:</GameText>
               <GameText style={styles.timeText}>{countdownTime}</GameText>
+              {buttonContent !== null && (
+                <View style={styles.bubble}>
+                  {buttonContent}
+                </View>
+              )}
             </View>
           )}
         </View>
@@ -429,6 +437,8 @@ const Plant = ({ id, style, currentBackgroundID, isArchived = false }) => {
         setWatered={setWatered} // Pass the setWatered function as a prop
         linked={linked}
         setLinked={setLinked}
+        buttonContent={buttonContent}
+        setButtonContent={setButtonContent}
       />
       {xpGained > 0 && (
         <Animated.View
