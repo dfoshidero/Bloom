@@ -54,6 +54,15 @@ const MenuComponent = ({ menuVisible, closeMenu }) => {
     }
   };
 
+  const handleClear = () => {
+    setConfirmModalVisible(false);
+
+    // Set a timer to clear data after 1 second
+    setTimeout(() => {
+      clearData();
+    }, 1000); // 1000 milliseconds = 1 second
+  };
+
   return (
     <Modal
       animationType="slide"
@@ -69,7 +78,10 @@ const MenuComponent = ({ menuVisible, closeMenu }) => {
         {/* Prevent touches on the menu container from closing the menu */}
         <TouchableOpacity
           activeOpacity={1}
-          style={[styles.menuContainer, { alignItems: "center", justifyContent: "center" }]}
+          style={[
+            styles.menuContainer,
+            { alignItems: "center", justifyContent: "center" },
+          ]}
         >
           <View style={{}}>
             <TouchableScale>
@@ -113,7 +125,10 @@ const MenuComponent = ({ menuVisible, closeMenu }) => {
             </GameText>
             <TouchableScale
               style={{ ...styles.button, backgroundColor: "lightgreen" }}
-              onPress={clearData}
+              onPress={() => {
+                closeMenu();
+                clearData();
+              }}
             >
               <GameText style={styles.textStyle}>Yes, Reset</GameText>
             </TouchableScale>

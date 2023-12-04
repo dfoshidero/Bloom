@@ -115,6 +115,9 @@ const styles = StyleSheet.create({
   },
   timeText: {
     fontSize: 10,
+  },
+  xpGainedContainer: {
+    flex: 1
   }
 });
 

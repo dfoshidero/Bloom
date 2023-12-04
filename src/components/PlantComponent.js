@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from "react";
-import { View, TouchableOpacity, Image, Alert } from "react-native";
+import { View, TouchableOpacity, Image, Alert, Animated } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 
 import Icon from "react-native-vector-icons/FontAwesome";
@@ -12,9 +12,14 @@ import ScaleAnimation from "./ScaleAnimation";
 import { getPlantHitBox } from "./PlantHitbox";
 import FloatingMenu from "./CircularMenu";
 import { usePlantContext } from "../states/plantsDataContext";
+import { usePlayerConfig } from "../states/playerConfigContext";
 import { useProgressContext } from "../states/speciesProgressContext";
 import RealLifeScreenComponent from "../components/PlantLinkComponent";
 import GameText from "../styles/GameText";
+import { RFValue } from "react-native-responsive-fontsize";
+
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 
 const iconContainer = require("../assets/icon_container.png");
 const closeIcon = require("../assets/icons/close_icon.png");
@@ -27,6 +32,7 @@ const deleteIcon = require("../assets/icons/delete_icon.png");
 
 const Plant = ({ id, style, currentBackgroundID, isArchived = false }) => {
   const [realLifeScreenVisible, setRealLifeScreenVisible] = useState(false);
+  const { addXP } = usePlayerConfig();
 
   //function for testing link to real life modal should be deleted later
   const handleToggleRealLifeScreen = () => {
@@ -51,6 +57,7 @@ const Plant = ({ id, style, currentBackgroundID, isArchived = false }) => {
 
   const [fertilizeCooldown, setFertilizeCooldown] = useState(false);
   const [xpGained, setXpGained] = useState(0);
+  const [xpAnimation, setXpAnimation] = useState(new Animated.Value(0));
 
   //plant timer
   const [timer, setTimer] = useState("");
@@ -218,21 +225,65 @@ const Plant = ({ id, style, currentBackgroundID, isArchived = false }) => {
     );
   };
 
-  const handleFertilizeButtonPress = () => {
-    if (!fertilizeCooldown) {
-      // Add 5 XP to the player's XP
-      addXP(5); // You can call your addXP function here
+  useEffect(() => {
+    const checkFertilizeCooldown = async () => {
+      const cooldownKey = `@fertilizeCooldownEnd-${id}`; // Unique key for each plant
 
-      // Set the XP gained state to 5
+      try {
+        const cooldownEndString = await AsyncStorage.getItem(cooldownKey);
+        if (cooldownEndString !== null) {
+          const cooldownEnd = parseInt(cooldownEndString, 10);
+          const currentTime = new Date().getTime();
+          if (currentTime < cooldownEnd) {
+            setFertilizeCooldown(true);
+            setTimeout(() => {
+              setFertilizeCooldown(false);
+              AsyncStorage.removeItem(cooldownKey);
+            }, cooldownEnd - currentTime);
+          }
+        }
+      } catch (error) {
+        console.error("AsyncStorage error: ", error.message);
+      }
+    };
+
+    checkFertilizeCooldown();
+  }, [id]); // Add id as a dependency
+
+  const handleFertilizeButtonPress = async () => {
+    if (!fertilizeCooldown) {
+      addXP(5); // Adding 5 XP
       setXpGained(5);
 
+      // Start XP Animation
+      Animated.timing(xpAnimation, {
+        toValue: 1,
+        duration: 2000,
+        useNativeDriver: true,
+      }).start(() => {
+        // Reset animation
+        setXpAnimation(new Animated.Value(0));
+        setXpGained(0); // Reset XP gained to hide the text
+      });
       // Set the fertilize cooldown to true for 12 hours
       setFertilizeCooldown(true);
 
-      // Clear the cooldown after 12 hours
-      setTimeout(() => {
-        setFertilizeCooldown(false);
-      }, 12 * 60 * 60 * 1000); // 12 hours in milliseconds
+      // Save the current time to AsyncStorage
+
+      const cooldownEnd = new Date().getTime() + 12 * 60 * 60 * 1000; // 12 hours in milliseconds
+      const cooldownKey = `@fertilizeCooldownEnd-${id}`; // Unique key for each plant
+
+      try {
+        await AsyncStorage.setItem(cooldownKey, cooldownEnd.toString());
+        setFertilizeCooldown(true);
+
+        setTimeout(() => {
+          setFertilizeCooldown(false);
+          AsyncStorage.removeItem(cooldownKey);
+        }, 12 * 60 * 60 * 1000);
+      } catch (error) {
+        console.error("AsyncStorage error: ", error.message);
+      }
     }
   };
 
@@ -308,6 +359,24 @@ const Plant = ({ id, style, currentBackgroundID, isArchived = false }) => {
               />
             </View>
           </ScaleAnimation>
+          {/* Fertilize Icon */}
+          {!fertilizeCooldown && (
+            <TouchableOpacity
+              style={styles.fertilizeIconStyle}
+              onPress={handleFertilizeButtonPress}
+            >
+              <Image
+                source={fertilizeIcon}
+                style={{
+                  width: 30,
+                  height: 30,
+                  position: "absolute",
+                  left: "15%",
+                  bottom: "20%",
+                }} // Adjust size as needed
+              />
+            </TouchableOpacity>
+          )}
           {linked !== 0 && (
             <View style={styles.time}>
               <GameText style={styles.label}>Water:</GameText>
@@ -361,6 +430,34 @@ const Plant = ({ id, style, currentBackgroundID, isArchived = false }) => {
         linked={linked}
         setLinked={setLinked}
       />
+      {xpGained > 0 && (
+        <Animated.View
+          style={{
+            opacity: xpAnimation.interpolate({
+              inputRange: [0, 1],
+              outputRange: [1, 0],
+            }),
+            transform: [
+              {
+                translateY: xpAnimation.interpolate({
+                  inputRange: [0, 1],
+                  outputRange: [0, -50], // Adjust the slide-up distance as needed
+                }),
+              },
+            ],
+          }}
+        >
+          <GameText
+            style={{
+              color: "green",
+              fontSize: RFValue(24),
+              position: "absolute",
+            }}
+          >
+            +5XP
+          </GameText>
+        </Animated.View>
+      )}
     </View>
   );
 };
