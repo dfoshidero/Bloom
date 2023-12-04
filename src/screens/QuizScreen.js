@@ -124,6 +124,7 @@ const QuizScreen = ({ navigation, route }) => {
       setCurrentInstructions(trivia.instructions || "");
       setShowInstructions(true); // Show instructions when questions are loaded
     } else {
+      console.log(`No trivia found for plant: ${plant}, level: ${level}`);
     }
   }, [plant, level]);
 
@@ -210,11 +211,13 @@ const QuizScreen = ({ navigation, route }) => {
   };
 
   useEffect(() => {
+    console.log(updatedList);
   }, [updatedList]);
 
   const updatePlantsProgress = (plant) => {
     const progress = completedLevels[plant] / levelsConfig[plant].totalLevels;
     updateSpeciesProgress(plant, progress);
+    console.log(arrangeData(null, plant, id, progress));
     return arrangeData(null, plant, id, progress);
   };
 
