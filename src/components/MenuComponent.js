@@ -36,7 +36,6 @@ const MenuComponent = ({ menuVisible, closeMenu }) => {
     try {
       await AsyncStorage.getAllKeys()
         .then((keys) => AsyncStorage.multiRemove(keys))
-        .then(() => console.log("AsyncStorage successfully cleared!"));
 
       updatePlantData([]);
       resetPlayerConfig();
