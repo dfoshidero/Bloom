@@ -8,7 +8,7 @@ import {
   ScrollView,
   ImageBackground,
   Dimensions,
-  Switch,
+  Modal,
 } from "react-native";
 import { plants } from "../states/plantsConfig";
 import { usePlayerConfig } from "../states/playerConfigContext";
@@ -68,6 +68,9 @@ const ShopScreen = ({ navigation }) => {
 
   const [items, setItems] = useState([]);
   const [selectedPlant, setSelectedPlant] = useState(null);
+  const [showModal, setShowModal] = useState(false);
+  const [purchaseType, setPurchaseType] = useState(""); // 'skin' or 'heart'
+  const [purchaseItem, setPurchaseItem] = useState(null); // Item to be purchased
 
   const [showOnlyUnowned, setShowOnlyUnowned] = useState(false); // New state variable
 
@@ -155,60 +158,103 @@ const ShopScreen = ({ navigation }) => {
     setSelectedPlant(null); // Set selectedPlant to null to show all items
   };
 
-  const handleBuyHearts = async (heartsToBuy) => {
-    const costPerHeart = 10; // Assuming each heart costs 10 coins
-    const totalCost = costPerHeart * heartsToBuy;
+   const handleBuyHearts = async (heartsToBuy) => {
+     const costPerHeart = 10; // Assuming each heart costs 10 coins
+     const totalCost = costPerHeart * heartsToBuy;
 
-    if (coins >= totalCost) {
-      const updatedCoins = coins - totalCost;
-      const updatedHearts = hearts + heartsToBuy; // Assuming playerState contains hearts
-      await updatePlayerConfig({ hearts: updatedHearts, coins: updatedCoins });
-      // Additional logic for successful purchase
-    } else {
-      // Handle not enough coins scenario
-    }
-  };
+     if (coins >= totalCost) {
+       setPurchaseType("heart");
+       setPurchaseItem({ heartsToBuy, totalCost }); // Save purchase details
+       setShowModal(true); // Show confirmation modal
+     } else {
+       // Handle not enough coins scenario
+     }
+   };
+   const handleSkinAction = async (item) => {
+     const plant = plants[item.plantId];
+     const skin = plant.skins.find((s) => s.name === item.skinId);
+     const skinCost = skin.unlockCondition; // Cost from the skin's unlock condition
 
-  const handleSkinAction = async (item) => {
-    const plant = plants[item.plantId];
-    const skin = plant.skins.find((s) => s.name === item.skinId);
-    const skinCost = skin.unlockCondition; // Cost from the skin's unlock condition
-    const currentCoins = coins;
+     if (!plant.skinsOwned.includes(skin.name) && coins >= skinCost) {
+       setPurchaseType("skin");
+       setPurchaseItem(item); // Save the selected item
+       setShowModal(true); // Show confirmation modal
+     } else {
+       // Handle not enough coins or already owned scenarios
+     }
+   };
 
-    // Check if the skin is already owned
-    const ownsSkin = plant.skinsOwned.includes(skin.name);
+    const confirmPurchase = async () => {
+      if (purchaseType === "skin") {
+        const updatedCoins = coins - purchaseItem.unlockCondition;
+        const newOwnedSkins = [
+          ...plants[purchaseItem.plantId].skinsOwned,
+          purchaseItem.skinId,
+        ];
+        plants[purchaseItem.plantId].skinsOwned = newOwnedSkins; // Update the skinsOwned array for the plant
+        plants[purchaseItem.plantId].selectedSkin = purchaseItem.skinId; // Apply the new skin
 
-    if (!ownsSkin) {
-      // Check if the player has enough coins to buy the skin
-      if (currentCoins >= skinCost) {
-        const updatedCoins = currentCoins - skinCost;
-        const newOwnedSkins = [...plant.skinsOwned, skin.name];
-        plant.skinsOwned = newOwnedSkins; // Update the skinsOwned array for the plant
-        plant.selectedSkin = skin.name; // Apply the new skin
-
-        // Update the player's coins and plants configuration
         await updatePlayerConfig({ ...playerState, coins: updatedCoins });
-        // Note: You also need a method to update the plantsConfig here
-      } else {
-        // Handle not enough coins scenario
-      }
-    } else {
-      // If the player already owns the skin, just apply it
-      plant.selectedSkin = skin.name; // Apply the skin
-      // Note: You also need a method to update the plantsConfig here
-    }
-  };
+        // Note: Update the plantsConfig here if necessary
+      } else if (purchaseType === "heart") {
+        const updatedCoins = coins - purchaseItem.totalCost;
+        const updatedHearts = hearts + purchaseItem.heartsToBuy;
 
-  
+        await updatePlayerConfig({
+          ...playerState,
+          coins: updatedCoins,
+          hearts: updatedHearts,
+        });
+      }
+
+      setShowModal(false); // Close the modal after purchase
+    };
+
+   const ConfirmationModal = () => (
+     <Modal
+       animationType="fade"
+       transparent={true}
+       visible={showModal}
+       onRequestClose={() => {
+         setShowModal(!showModal);
+       }}
+     >
+       <View style={styles.centeredView}>
+         <View style={styles.modalView}>
+           <GameText style={styles.modalText}>
+             Are you sure you want to make this purchase?
+           </GameText>
+           <View style={styles.modalButtonContainer}>
+             <TouchableScale
+               style={[styles.button, styles.buttonClose]}
+               onPress={() => confirmPurchase()}
+             >
+               <GameText style={styles.textStyle}>Yes</GameText>
+             </TouchableScale>
+             <TouchableScale
+               style={[styles.button, styles.buttonClose]}
+               onPress={() => setShowModal(false)}
+             >
+               <GameText style={styles.textStyle}>No</GameText>
+             </TouchableScale>
+           </View>
+         </View>
+       </View>
+     </Modal>
+   );
+
 
   return (
     <View style={styles.container}>
+      <ConfirmationModal />
       <ImageBackground
         source={shopBackgroundImage}
         style={styles.backgroundImage}
       >
         <View style={styles.switchContainer}>
-          <TouchableScale style={{ left: itemsGap, bottom: coinsBot, position: "absolute" }}>
+          <TouchableScale
+            style={{ left: itemsGap, bottom: coinsBot, position: "absolute" }}
+          >
             <CoinDisplay />
           </TouchableScale>
 
@@ -360,12 +406,6 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
     borderRadius: 20,
   },
-  buttonText: {
-    color: "white",
-    fontSize: 16,
-    fontWeight: "bold",
-  },
-
   switchContainer: {
     position: "absolute",
     right: itemsRight,
@@ -414,16 +454,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
     paddingHorizontal: 10,
     paddingBottom: 10, // Add padding to the bottom for separation
-  },
-  switchLabel: {
-    position: "absolute",
-    fontSize: RFValue(8), // Or any appropriate size
-    top: textTop,
-    right: "35%",
-    color: "white",
-    textShadowColor: "black",
-    textShadowRadius: 1,
-    textShadowOffset: { width: -1, height: 1 },
   },
   plantButton: {
     backgroundColor: "#4CAF50",
@@ -480,7 +510,7 @@ const styles = StyleSheet.create({
     elevation: 5,
     width: flatListWidth,
     alignSelf: "center",
-  },  
+  },
   buttonText: {
     color: "white",
     fontSize: buttonFontSize, // Standardized font size
@@ -505,6 +535,54 @@ const styles = StyleSheet.create({
     flex: 1, // Make the button container take up remaining vertical space
     justifyContent: "flex-end", // Position buttons at the bottom
   },
+  centeredView: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "rgba(0, 0, 0, 0.5)", // Semi-transparent background
+  },
+  modalView: {
+    margin: 20,
+    backgroundColor: "white",
+    borderRadius: 20,
+    padding: 35,
+    alignItems: "center",
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
+    maxWidth: "80%", // Ensuring it doesn't stretch too wide on larger screens
+  },
+  modalText: {
+    marginBottom: 15,
+    textAlign: "center",
+    fontSize: textSize * 1.5, // Adjust based on your font size preferences
+    color: "#333", // Dark text for readability
+  },
+  modalButtonContainer: {
+    flexDirection: "row",
+    justifyContent: "space-around",
+    width: "100%", // Full width of the modal
+  },
+  buttonClose: {
+    backgroundColor: "#4CAF50", // A green color to match the theme
+    borderRadius: 20,
+    padding: 10,
+    elevation: 2,
+    minWidth: 100, // Minimum width for each button
+    justifyContent: "center", // Centering text
+    alignItems: "center", // Centering text
+  },
+  textStyle: {
+    color: "white",
+    textAlign: "center",
+    fontSize: buttonFontSize * 1.3,
+  },
 });
+
 
 export default ShopScreen;
