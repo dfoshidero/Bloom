@@ -33,14 +33,16 @@ const RealLifeScreen = ({
   setCountdown,
   setWatered,
   linked,
-  setLinked,}) => {
+  setLinked,
+  buttonContent,
+  setButtonContent,
+}) => {
   const [nickname, setNickname] = useState("");
   const [name, setName] = useState("");
   const [plant, setPlant] = useState("");
   const [careInstructions, setCareInstructions] = useState("");
   const [isEditing, setIsEditing] = useState(false);
   const [photoUri, setPhotoUri] = useState(null);
-  const [buttonContent, setButtonContent] = useState(null);
   const [isSelectionModalVisible, setIsSelectionModalVisible] = useState(false);
   const [isNicknameModalVisible, setIsNicknameModalVisible] = useState(false);
   const [nicknameInput, setNicknameInput] = useState("");
@@ -210,8 +212,6 @@ const RealLifeScreen = ({
         console.warn('No assets selected.');
         toggleModal();
       }
-      // Change the button content to the image
-      // setButtonContent(<Image source={{ uri: result.assets[0].uri }} style={styles.photoImage} />);
     } catch (error) {
       console.error('Error opening camera:', error);
       toggleModal();
