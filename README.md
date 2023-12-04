@@ -62,4 +62,9 @@ The developers would like to thank the following individuals for their assistanc
 - Elena Safrygina, Postgraduate Research Student at University of Bath
 - Jinha Yoon, Postgraduate Research Student at University of Bath
 
-DALL·E 3 by OpenAI was used to create image assets. The developers claim ownership of all such images, as per OpenAI's terms of use (accessible at https://openai.com/policies/terms-of-use).
+DALL·E 3 by OpenAI was used to create image assets. The developers claim ownership of all such images, as per OpenAI's terms of use (available at https://openai.com/policies/terms-of-use).
+
+Bloom uses royalty-free music from Pixabay, which is free to use under the Pixabay Content License (available at https://pixabay.com/service/terms/ and summarised at https://pixabay.com/service/license-summary/). The following music files were used in this way:
+- "8 bit Arcade" by moodmode (available at https://pixabay.com/music/video-games-8-bit-arcade-138828/)
+- "Short Circuits - Classic Arcade Game" by Dream-Protocol (available at https://pixabay.com/music/video-games-short-circuits-classic-arcade-game-116824/)
+- "Feed The Machine - Classic Arcade Game" by Dream-Protocol (available at https://pixabay.com/music/video-games-feed-the-machine-classic-arcade-game-116846/)
