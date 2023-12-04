@@ -87,6 +87,7 @@ const RealLifeScreen = ({
     setNickname(nicknameInput);
     setStage(Stage);
     setWatered(watered);
+    startCountdown();
     toggleNicknameModal();
     toggleLinkedModal();
   };
@@ -415,12 +416,6 @@ const RealLifeScreen = ({
           >
             <GameText style={styles.buttonText}>How to</GameText>
           </TouchableScale>
-          <TouchableScale
-            style={styles.timerButton}
-            onPress={startCountdown}
-          >
-            <GameText style={styles.buttonText}>Timer</GameText>
-          </TouchableScale>
         </View>
       </View>
     </Modal>
@@ -551,11 +546,6 @@ const styles = StyleSheet.create({
   howToButton: {
     
   },
-
-  timerButton: {
-    left: "170%",
-  },
-
 
   saveButton: {
     left: "5%"

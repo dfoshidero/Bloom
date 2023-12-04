@@ -56,6 +56,17 @@ const Plant = ({ id, style, currentBackgroundID, isArchived = false }) => {
   const [watered, setWatered] = useState("");
   const [linked, setLinked] = useState(0);
 
+  const startCountdown = () => {
+    let seconds;
+    if (watered === "") {
+      seconds = timer * 3600;
+    } else {
+      seconds = (timer - parseInt(watered)) * 3600;
+    }
+    setCountdown(seconds);
+    setLinked(1);
+  };
+
   const formatCountdownTime = () => {
     const days = Math.floor(countdown / (3600 * 24));
     const hours = Math.floor((countdown % (3600 * 24)) / 3600);
@@ -65,7 +76,7 @@ const Plant = ({ id, style, currentBackgroundID, isArchived = false }) => {
     if (days > 0) {
       return `${days} days`;
     } else {
-      return `${hours} hours ${minutes} minutes ${seconds} seconds`;
+      return `${hours}h ${minutes}m ${seconds}s`;
     }
   };
 
@@ -134,6 +145,8 @@ const Plant = ({ id, style, currentBackgroundID, isArchived = false }) => {
     }else if (item.id == 4) {
       //Archive button pressed
       handleToggleRealLifeScreen();
+    }else if (item.id == 3) {
+      startCountdown();
     }
   };
 
@@ -251,7 +264,7 @@ const Plant = ({ id, style, currentBackgroundID, isArchived = false }) => {
           {linked !== 0 && (
             <View style={styles.time}>
               <GameText style={styles.label}>Water:</GameText>
-              <GameText style={styles.plantDetailsItem}>{countdownTime}</GameText>
+              <GameText style={styles.timeText}>{countdownTime}</GameText>
             </View>
           )}
           </View>
