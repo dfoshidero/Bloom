@@ -69,11 +69,21 @@ const MenuComponent = ({ menuVisible, closeMenu }) => {
         {/* Prevent touches on the menu container from closing the menu */}
         <TouchableOpacity
           activeOpacity={1}
-          style={{ alignItems: "center", justifyContent: "center" }}
+          style={[styles.menuContainer, { alignItems: "center", justifyContent: "center" }]}
         >
-          <View style={styles.menuContainer}>
-            <GameText style={styles.menuItem}>Achievements</GameText>
-            <GameText style={styles.menuItem}>Account</GameText>
+          <View style={{}}>
+            <TouchableScale>
+              <GameText style={styles.disabledMenuItem}>Achievements</GameText>
+              <GameText style={styles.disabledMenuItemStatus}>
+                (Coming Soon)
+              </GameText>
+            </TouchableScale>
+            <TouchableScale>
+              <GameText style={styles.disabledMenuItem}>Account</GameText>
+              <GameText style={styles.disabledMenuItemStatus}>
+                (Unavailable)
+              </GameText>
+            </TouchableScale>
             <TouchableScale
               onPress={() => {
                 navigation.navigate("Settings");
@@ -130,6 +140,8 @@ const styles = StyleSheet.create({
     paddingBottom: 20,
     alignItems: "center",
     justifyContent: "center",
+    borderWidth: 3,
+    borderColor: "#333",
     shadowColor: "#000",
     shadowOffset: {
       width: 0,
@@ -143,6 +155,18 @@ const styles = StyleSheet.create({
     margin: 20,
     fontSize: 18,
     textAlign: "center",
+  },
+  disabledMenuItem: {
+    margin: 10, // Reduced margin for better alignment
+    fontSize: 18,
+    textAlign: "center",
+    color: "#808080", // Darker grey color
+  },
+  disabledMenuItemStatus: {
+    fontSize: 14,
+    textAlign: "center",
+    color: "#808080", // Darker grey color for status text
+    marginBottom: 20, // Add some space below the status text
   },
   backgroundImage: {
     flex: 1,
