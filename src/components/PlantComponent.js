@@ -395,7 +395,7 @@ const Plant = ({ id, style, currentBackgroundID, isArchived = false }) => {
                   width: 30,
                   height: 30,
                   position: "absolute",
-                  left: "15%",
+                  left: "25%",
                   bottom: "20%",
                 }} // Adjust size as needed
               />

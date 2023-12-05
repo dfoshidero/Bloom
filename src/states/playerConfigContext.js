@@ -140,9 +140,25 @@ export const PlayerConfigProvider = ({ children, initialPlayerState }) => {
     setPlayerState((prevState) => {
       const newXP = prevState.xp + amount;
       let newLevel = prevState.level;
-      while (newLevel < requiredXP.length && newXP >= requiredXP[newLevel]) {
-        newLevel++;
+
+      // Convert requiredXP object to an array of levels sorted by required XP
+      const levels = Object.entries(requiredXP)
+        .map(([level, { xpRequired }]) => ({
+          level: parseInt(level),
+          xpRequired,
+        }))
+        .sort((a, b) => a.xpRequired - b.xpRequired);
+
+      // Find the highest level the player has reached with the new XP
+      for (let i = 0; i < levels.length; i++) {
+        if (newXP >= levels[i].xpRequired) {
+          newLevel = levels[i].level;
+        } else {
+          break; // Break the loop once the player's XP does not meet the next level's requirement
+        }
       }
+
+      // Update the player's state with the new XP and level
       return { ...prevState, xp: newXP, level: newLevel };
     });
   };
