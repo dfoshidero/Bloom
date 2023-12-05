@@ -400,13 +400,13 @@ const RealLifeScreen = ({
             </View>
             <View style={styles.careInstructionsContainer}>
               <GameText style={styles.plantDetailsItem}>{Object.entries(careInstructions).map(
-                    ([key, instruction]) => (
-                      <GameText
-                        key={key}
-                        style={styles.plantDetailsItem}
-                      >{`${key}: ${instruction}\n`}</GameText>
-                    )
-                  )}</GameText>
+                ([key, instruction]) => (
+                  <GameText
+                    key={key}
+                    style={styles.plantDetailsItem}
+                  >{`${key}: ${instruction}\n`}</GameText>
+                  )
+              )}</GameText>
             </View>
           </View>
 
@@ -457,22 +457,23 @@ const styles = StyleSheet.create({
     height: "100%",
     alignItems: "center",
     alignSelf: "center", // Center horizontally
-    marginTop: "10%", // Adjust the top margin if needed
+    marginTop: "3%", // Adjust the top margin if needed
   },
+
   backButtonIcon: {
     width: backButtonSize,
     height: backButtonSize,
     top: "35%",
     left: "5%",
   },
+
   plantDetailsItem: {
     fontSize: 10,
     color: "black",
   },
 
   careInstructionsContainer: {
-    width: "90%",
-    height: "30%",
+    //height: "30%",
     width: "70%",
   },
 
@@ -488,7 +489,7 @@ const styles = StyleSheet.create({
 
   photoButton: {
     alignItems: "center",
-    marginBottom: 20,
+    marginBottom: 10,
     backgroundColor: "#ccc",
     borderRadius: 5,
     width: "80%",
@@ -516,11 +517,28 @@ const styles = StyleSheet.create({
     width: "90%",
   },
 
+  buttons: {
+    flexDirection: 'column',
+    right: "-32%",
+    top: "-30%",
+    width: "30%",
+    height: "10%",
+    justifyContent: 'center',
+  },
+
   inputContainer: {
     flexDirection: "row",
     alignItems: "center",
     marginBottom: 15,
     width: "70%",
+  },
+
+  editButton: {
+    top: "10%",
+  },
+
+  howToButton: {
+    top: "50%",
   },
 
   labelTouch: {
@@ -551,21 +569,6 @@ const styles = StyleSheet.create({
     fontSize: 16,
     textAlignVertical: "center", // Added to align the text at the top of the input
     marginBottom : 10,
-  },
-
-  buttons:{
-    flexDirection: "row",
-    bottom: "30%",
-    width: "100%",
-    justifyContent: "center",
-  },
-
-  editButton: {
-    right: "170%",
-  },
-
-  howToButton: {
-    left: "170%",
   },
 
   saveButton: {
