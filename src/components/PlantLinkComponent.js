@@ -473,7 +473,6 @@ const styles = StyleSheet.create({
   },
 
   careInstructionsContainer: {
-    //height: "30%",
     width: "70%",
   },
 
@@ -493,7 +492,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#ccc",
     borderRadius: 5,
     width: "80%",
-    height: "40%",
+    height: "30%",
     justifyContent: "center",
     shadowColor: "#000",
     shadowOffset: {
@@ -514,15 +513,14 @@ const styles = StyleSheet.create({
     backgroundColor: "rgba(255, 255, 255, 0.8)", // White background with opacity 0.8
     padding: 20, // Adjust the padding as needed
     borderRadius: 20, // Adjust the border radius as needed
+    top: "2%",
     width: "90%",
   },
 
   buttons: {
-    flexDirection: 'column',
-    right: "-32%",
-    top: "-30%",
+    flexDirection: 'row',
+    top: "8%",
     width: "30%",
-    height: "10%",
     justifyContent: 'center',
   },
 
@@ -534,11 +532,26 @@ const styles = StyleSheet.create({
   },
 
   editButton: {
-    top: "10%",
+    backgroundColor: "rgba(255, 255, 255, 0.8)", // White background with opacity 0.8
+    padding: 10, // Adjust the padding as needed
+    borderRadius: 10, // Adjust the border radius as needed
+    alignItems: "center",
+    right: "35%",
+    justifyContent: 'center',
   },
 
   howToButton: {
-    top: "50%",
+    backgroundColor: "rgba(255, 255, 255, 0.8)", // White background with opacity 0.8
+    padding: 10, // Adjust the padding as needed
+    borderRadius: 10, // Adjust the border radius as needed
+    alignItems: "center",
+    left: "35%",
+    justifyContent: 'center',
+  },
+
+  buttonText: {
+    fontSize: 16,
+    color: "black",
   },
 
   labelTouch: {
