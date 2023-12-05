@@ -2,20 +2,20 @@ import React, { useEffect, useContext } from "react";
 import { View, StyleSheet, Image } from "react-native";
 import { usePlayerConfig } from "../states/playerConfigContext";
 import GameText from "../styles/GameText";
+import Countdown from "react-countdown";
 
 const heartIcon = require("../assets/icons/hearts_icon.png");
 
 const HeartsDisplay = ({ style }) => {
-  const { hearts, timer } = usePlayerConfig(); // Use timer from context
+  const { hearts, timer, increaseHearts } = usePlayerConfig(); // Use timer from context
 
   const textColor = hearts === 0 ? "black" : "white";
   const shadowColor = hearts === 0 ? "white" : "black";
 
-  // Format timer for display
-  const formatTimer = () => {
-    const minutes = Math.floor(timer / 60);
-    const seconds = timer % 60;
-    return `${minutes}:${seconds < 10 ? "0" : ""}${seconds}`;
+  const onTimerComplete = () => {
+    if (hearts < 5) {
+      increaseHearts();
+    }
   };
 
   return (
@@ -33,9 +33,15 @@ const HeartsDisplay = ({ style }) => {
         {hearts}
       </GameText>
       {hearts < 5 && (
-        <View style={{ position: "absolute", textColor: "white" }}>
-          <GameText style={styles.timerText}>{formatTimer()}</GameText>
-        </View>
+        <Countdown
+          date={Date.now() + timer * 1000}
+          onComplete={onTimerComplete}
+          renderer={({ minutes, seconds }) => (
+            <GameText style={styles.timerText}>{`${minutes}:${
+              seconds < 10 ? "0" : ""
+            }${seconds}`}</GameText>
+          )}
+        />
       )}
     </View>
   );
@@ -61,10 +67,11 @@ const styles = StyleSheet.create({
     textShadowOffset: { width: -1, height: 1 },
   },
   timerText: {
-    fontSize: 12,
+    fontSize: 10,
     position: "absolute",
     color: "white",
-    top: 20,
+    top: 46,
+    left: 25,
     textShadowColor: "black",
     textShadowRadius: 1,
     textShadowOffset: { width: -1, height: 1 },
