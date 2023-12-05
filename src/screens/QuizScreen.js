@@ -162,10 +162,26 @@ const QuizScreen = ({ navigation, route }) => {
         }
       }, 1000);
     } else {
-      setIncorrectAnswersCount((prevCount) => prevCount + 1); // Functional update here as well
-      setFeedbackMessage("Incorrect. Try again!");
-      setFeedbackModalVisible(true);
-      decreasePlayerHearts();
+      const newIncorrectAnswersCount = incorrectAnswersCount + 1;
+      setIncorrectAnswersCount(newIncorrectAnswersCount);
+
+      // Update feedback message with number of hearts left
+      const heartsLeft = hearts - 1; // Calculate the remaining hearts after this incorrect answer
+      const heartsMessage =
+        heartsLeft > 0
+          ? `You have ${heartsLeft} heart(s) left.`
+          : "No hearts left!";
+      setFeedbackMessage(`Incorrect. Try again! ${heartsMessage}`);
+
+      // Check if the next heart decrease will lead to game over
+      if (heartsLeft <= 0) {
+        // Directly show game over modal without showing feedback
+        decreasePlayerHearts();
+      } else {
+        // Show feedback and then decrease hearts
+        setFeedbackModalVisible(true);
+        decreasePlayerHearts();
+      }
     }
   };
 
@@ -285,6 +301,7 @@ const QuizScreen = ({ navigation, route }) => {
 
   return (
     <View style={styles.container}>
+      {renderGameOverModal()}
       <ImageBackground
         source={quizBackground}
         style={{ width: "100%", height: "100%", resizeMode: "contain" }}
@@ -403,7 +420,6 @@ const QuizScreen = ({ navigation, route }) => {
             </View>
           </Modal>
         </Modal>
-        {renderGameOverModal()}
       </ImageBackground>
     </View>
   );
@@ -445,6 +461,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     backgroundColor: "rgba(0, 0, 0, 0.8)", // Semi-transparent background
+    zIndex: 1
   },
   congratsModalView: {
     zIndex: 1,
