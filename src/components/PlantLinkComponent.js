@@ -9,6 +9,7 @@ import {
   Modal,
   Dimensions,
   Image,
+  ImageBackground,
   Alert,
 } from "react-native";
 import TouchableScale from "react-native-touchable-scale";
@@ -16,6 +17,7 @@ import GameText from "../styles/GameText";
 import { usePlantContext } from "../states/plantsDataContext";
 import * as ImagePicker from 'expo-image-picker';
 import Oracle from "../components/OracleComponent";
+import linkBackgroundImage from "../assets/backgrounds/misc/menu_bg.png";
 
 const backButtonIcon = require("../assets/icons/back_icon.png");
 
@@ -228,196 +230,202 @@ const RealLifeScreen = ({
       animationType="slide"
       onRequestClose={closeRealLifeScreen}
     >
-      <TouchableScale onPress={closeRealLifeScreen}>
-        <Image source={backButtonIcon} style={styles.backButtonIcon} />
-      </TouchableScale>
+      <ImageBackground
+        source={linkBackgroundImage}
+        style={styles.backgroundImage}
+      >
+        <TouchableScale onPress={closeRealLifeScreen}>
+          <Image source={backButtonIcon} style={styles.backButtonIcon} />
+        </TouchableScale>
 
-      <Modal
-          visible={isSelectionModalVisible}
-          transparent={true}
-          animationType="slide"
-          onRequestClose={toggleModal}
-        >
-          <TouchableOpacity
-            style={styles.modalBackground}
-            activeOpacity={1}
-            onPress={toggleModal}
+        <Modal
+            visible={isSelectionModalVisible}
+            transparent={true}
+            animationType="slide"
+            onRequestClose={toggleModal}
           >
-          <View style={styles.modalContainer}>
             <TouchableOpacity
-              style={styles.modalOption}
-              onPress={() => {
-                openGallery();
-              }}
-            >
-              <GameText style={styles.modalOptionText}>Gallery</GameText>
-            </TouchableOpacity>
-
-            <TouchableOpacity
-              style={styles.modalOption}
-              onPress={() => {
-                openCamera();
-              }}
-            >
-              <GameText style={styles.modalOptionText}>Camera</GameText>
-            </TouchableOpacity>
-
-            <TouchableOpacity
-              style={styles.modalOption}
+              style={styles.modalBackground}
+              activeOpacity={1}
               onPress={toggleModal}
             >
-              <GameText style={styles.modalOptionText}>Cancel</GameText>
-            </TouchableOpacity>
-          </View>
-          </TouchableOpacity>
-        </Modal>
-
-
-        <Modal
-          visible={isLinkedModallVisible}
-          transparent={true}
-          animationType="slide"
-          onRequestClose={toggleLinkedModal}
-        >
-          <TouchableOpacity
-            style={styles.modalBackground}
-            activeOpacity={1}
-            onPress={toggleLinkedModal}
-          >
             <View style={styles.modalContainer}>
-              <GameText style={styles.tipsContent}>Plant Linked Successfully!</GameText>
-              <GameText style={styles.tipsContent}>Tap anywhere to close!</GameText>
-            </View>
-          </TouchableOpacity>
-        </Modal>
+              <TouchableOpacity
+                style={styles.modalOption}
+                onPress={() => {
+                  openGallery();
+                }}
+              >
+                <GameText style={styles.modalOptionText}>Gallery</GameText>
+              </TouchableOpacity>
 
-        <Modal
-          visible={isHowToModalVisible}
-          transparent={true}
-          animationType="slide"
-          onRequestClose={toggleHowToModal}
+              <TouchableOpacity
+                style={styles.modalOption}
+                onPress={() => {
+                  openCamera();
+                }}
+              >
+                <GameText style={styles.modalOptionText}>Camera</GameText>
+              </TouchableOpacity>
+
+              <TouchableOpacity
+                style={styles.modalOption}
+                onPress={toggleModal}
+              >
+                <GameText style={styles.modalOptionText}>Cancel</GameText>
+              </TouchableOpacity>
+            </View>
+            </TouchableOpacity>
+          </Modal>
+
+
+          <Modal
+            visible={isLinkedModallVisible}
+            transparent={true}
+            animationType="slide"
+            onRequestClose={toggleLinkedModal}
+          >
+            <TouchableOpacity
+              style={styles.modalBackground}
+              activeOpacity={1}
+              onPress={toggleLinkedModal}
+            >
+              <View style={styles.modalContainer}>
+                <GameText style={styles.tipsContent}>Plant Linked Successfully!</GameText>
+                <GameText style={styles.tipsContent}>Tap anywhere to close!</GameText>
+              </View>
+            </TouchableOpacity>
+          </Modal>
+
+          <Modal
+            visible={isHowToModalVisible}
+            transparent={true}
+            animationType="slide"
+            onRequestClose={toggleHowToModal}
+          >
+            <TouchableOpacity
+              style={styles.modalBackground}
+              activeOpacity={1}
+              onPress={toggleHowToModal}
+            >
+              <View style={styles.tipsContainer}>
+                <GameText style={styles.tipsTitle}>Tips:</GameText>
+                <GameText style={styles.tipsContent}>1. Tap Add Photo to add a photo of your plant.</GameText>
+                <GameText style={styles.tipsContent}>2. Tap Edit to add the details of your plant.</GameText>
+                <GameText style={styles.tipsContent}>Guidance of how to determine stages:</GameText>
+                <GameText style={styles.tipsContent}>{stageAdvice}</GameText>
+              </View>
+            </TouchableOpacity>
+          </Modal>
+
+          <Modal visible={isNicknameModalVisible} 
+            transparent={true}
+            animationType="slide" 
+            onRequestClose={toggleNicknameModal}>
+            <TouchableOpacity
+              style={styles.modalBackground}
+              activeOpacity={1}
+              onPress={toggleNicknameModal}
+            >
+            <View style={styles.modalContainer}>
+              <View style={styles.inputContainer}>
+                <GameText style={styles.label}>Name:</GameText>
+                <TextInput
+                  style={styles.input}
+                  placeholder="Name"
+                  value={nicknameInput}
+                  onChangeText={setNicknameInput}
+                />
+              </View>
+              <View style={styles.inputContainer}>
+                <GameText style={styles.label}>Stage:</GameText>
+                <TextInput
+                  style={styles.input}
+                  placeholder="Stage"
+                  value={Stage}
+                  onChangeText={setStage}
+                />
+              </View>
+              <View style={styles.inputContainer}>
+                <GameText style={styles.label}>Last time watered (hours):</GameText>
+                <TextInput
+                  style={styles.input}
+                  placeholder="Watered"
+                  value={watered}
+                  onChangeText={setWatered}
+                />
+              </View>
+              <TouchableScale style={styles.modalOption} onPress={handleSaveNickname}>
+                <GameText style={styles.modalOptionText}>Save</GameText>
+              </TouchableScale>
+            </View>
+            </TouchableOpacity>
+          </Modal>
+
+        <View style={styles.container}>
+          <TouchableScale style={styles.oracleContainer}>
+            <Oracle />
+          </TouchableScale>
+
+        <TouchableScale
+          style={styles.photoButton}
+          onPress={toggleModal}
         >
-          <TouchableOpacity
-            style={styles.modalBackground}
-            activeOpacity={1}
-            onPress={toggleHowToModal}
-          >
-            <View style={styles.tipsContainer}>
-              <GameText style={styles.tipsTitle}>Tips:</GameText>
-              <GameText style={styles.tipsContent}>1. Tap Add Photo to add a photo of your plant.</GameText>
-              <GameText style={styles.tipsContent}>2. Tap Edit to add the details of your plant.</GameText>
-              <GameText style={styles.tipsContent}>Guidance of how to determine stages:</GameText>
-              <GameText style={styles.tipsContent}>{stageAdvice}</GameText>
-            </View>
-          </TouchableOpacity>
-        </Modal>
+          {buttonContent ? (
+            buttonContent
+          ) : (
+            <GameText style={styles.buttonText}>Add Photo</GameText>
+          )}
+        </TouchableScale>
 
-        <Modal visible={isNicknameModalVisible} 
-          transparent={true}
-          animationType="slide" 
-          onRequestClose={toggleNicknameModal}>
-          <TouchableOpacity
-            style={styles.modalBackground}
-            activeOpacity={1}
-            onPress={toggleNicknameModal}
-          >
-          <View style={styles.modalContainer}>
+          <View style={styles.textContainer}>
             <View style={styles.inputContainer}>
               <GameText style={styles.label}>Name:</GameText>
-              <TextInput
-                style={styles.input}
-                placeholder="Name"
-                value={nicknameInput}
-                onChangeText={setNicknameInput}
-              />
+              <GameText style={styles.label}>{nickname}</GameText>
+            </View>
+            <View style={styles.inputContainer}>
+              <GameText style={styles.label}>Plant:</GameText>
+              <GameText style={styles.content}>{name}</GameText>
             </View>
             <View style={styles.inputContainer}>
               <GameText style={styles.label}>Stage:</GameText>
-              <TextInput
-                style={styles.input}
-                placeholder="Stage"
-                value={Stage}
-                onChangeText={setStage}
-              />
+              <GameText style={styles.label}>{Stage}</GameText>
             </View>
             <View style={styles.inputContainer}>
-              <GameText style={styles.label}>Last time watered (hours):</GameText>
-              <TextInput
-                style={styles.input}
-                placeholder="Watered"
-                value={watered}
-                onChangeText={setWatered}
-              />
+              <GameText style={styles.label}>Water:</GameText>
+              <GameText style={styles.plantDetailsItem}>{formatCountdownTime()}</GameText>
             </View>
-            <TouchableScale style={styles.modalOption} onPress={handleSaveNickname}>
-              <GameText style={styles.modalOptionText}>Save</GameText>
+            <View style={styles.inputContainer}>
+              <GameText style={styles.label}>Care Instructions:</GameText>
+            </View>
+            <View style={styles.careInstructionsContainer}>
+              <GameText style={styles.plantDetailsItem}>{Object.entries(careInstructions).map(
+                    ([key, instruction]) => (
+                      <GameText
+                        key={key}
+                        style={styles.plantDetailsItem}
+                      >{`${key}: ${instruction}\n`}</GameText>
+                    )
+                  )}</GameText>
+            </View>
+          </View>
+
+          <View style={styles.buttons}>
+            <TouchableScale
+              style={styles.editButton}
+              onPress={handleEditButtonPress}
+            >
+              <GameText style={styles.buttonText}>Edit</GameText>
+            </TouchableScale>
+            <TouchableScale
+              style={styles.howToButton}
+              onPress={handleHowToButtonPress}
+            >
+              <GameText style={styles.buttonText}>How to</GameText>
             </TouchableScale>
           </View>
-          </TouchableOpacity>
-        </Modal>
-
-      <View style={styles.container}>
-        <TouchableScale style={styles.oracleContainer}>
-          <Oracle />
-        </TouchableScale>
-
-      <TouchableScale
-        style={styles.photoButton}
-        onPress={toggleModal}
-      >
-        {buttonContent ? (
-          buttonContent
-        ) : (
-          <GameText style={styles.buttonText}>Add Photo</GameText>
-        )}
-      </TouchableScale>
-        <View style={styles.textContainer}>
-          <View style={styles.inputContainer}>
-            <GameText style={styles.label}>Name:</GameText>
-            <GameText style={styles.label}>{nickname}</GameText>
-          </View>
-          <View style={styles.inputContainer}>
-            <GameText style={styles.label}>Plant:</GameText>
-            <GameText style={styles.content}>{name}</GameText>
-          </View>
-          <View style={styles.inputContainer}>
-            <GameText style={styles.label}>Stage:</GameText>
-            <GameText style={styles.label}>{Stage}</GameText>
-          </View>
-          <View style={styles.inputContainer}>
-            <GameText style={styles.label}>Water:</GameText>
-            <GameText style={styles.plantDetailsItem}>{formatCountdownTime()}</GameText>
-          </View>
-          <View style={styles.inputContainer}>
-            <GameText style={styles.label}>Care Instructions:</GameText>
-          </View>
-          <View style={styles.careInstructionsContainer}>
-            <GameText style={styles.plantDetailsItem}>{Object.entries(careInstructions).map(
-                  ([key, instruction]) => (
-                    <GameText
-                      key={key}
-                      style={styles.plantDetailsItem}
-                    >{`${key}: ${instruction}\n`}</GameText>
-                  )
-                )}</GameText>
-          </View>
         </View>
-
-        <View style={styles.buttons}>
-          <TouchableScale
-            style={styles.editButton}
-            onPress={handleEditButtonPress}
-          >
-            <GameText style={styles.buttonText}>Edit</GameText>
-          </TouchableScale>
-          <TouchableScale
-            style={styles.howToButton}
-            onPress={handleHowToButtonPress}
-          >
-            <GameText style={styles.buttonText}>How to</GameText>
-          </TouchableScale>
-        </View>
-      </View>
+      </ImageBackground>
     </Modal>
   );
 };
@@ -428,6 +436,16 @@ const styles = StyleSheet.create({
     top: "-3%",
     left: "82%",
     zIndex: 1,
+  },
+
+  backgroundImage: {
+    position: "absolute", // Set position to absolute
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    opacity: 0.8,
+    resizeMode: "cover", // Ensure the background image covers the whole screen
   },
 
   modalBackground: {
@@ -492,7 +510,10 @@ const styles = StyleSheet.create({
   },
 
   textContainer: {
-    marginTop: "5%",
+    backgroundColor: "rgba(255, 255, 255, 0.8)", // White background with opacity 0.8
+    padding: 20, // Adjust the padding as needed
+    borderRadius: 20, // Adjust the border radius as needed
+    width: "90%",
   },
 
   inputContainer: {
@@ -544,7 +565,7 @@ const styles = StyleSheet.create({
   },
 
   howToButton: {
-    
+    left: "170%",
   },
 
   saveButton: {
