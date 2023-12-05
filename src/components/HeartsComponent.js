@@ -1,4 +1,4 @@
-import React, { useEffect, useContext } from "react";
+import React from "react";
 import { View, StyleSheet, Image } from "react-native";
 import { usePlayerConfig } from "../states/playerConfigContext";
 import GameText from "../styles/GameText";
@@ -7,23 +7,26 @@ import Countdown from "react-countdown";
 const heartIcon = require("../assets/icons/hearts_icon.png");
 
 const HeartsDisplay = ({ style }) => {
-  const { hearts, timer, increaseHearts } = usePlayerConfig(); // Use timer from context
+  const { hearts, timer, increaseHearts } = usePlayerConfig();
 
   const textColor = hearts === 0 ? "black" : "white";
   const shadowColor = hearts === 0 ? "white" : "black";
 
   const onTimerComplete = () => {
-    if (hearts < 5) {
-      increaseHearts();
-    }
+  };
+
+  const renderer = ({ minutes, seconds }) => {
+    // Format time as MM:SS
+    return (
+      <GameText style={styles.timerText}>
+        {`${minutes}:${seconds < 10 ? "0" : ""}${seconds}`}
+      </GameText>
+    );
   };
 
   return (
     <View style={[styles.container, style]}>
-      <Image
-        source={heartIcon}
-        style={{ width: 40, height: 40, position: "absolute" }}
-      />
+      <Image source={heartIcon} style={styles.heartIcon} />
       <GameText
         style={[
           styles.text,
@@ -36,11 +39,7 @@ const HeartsDisplay = ({ style }) => {
         <Countdown
           date={Date.now() + timer * 1000}
           onComplete={onTimerComplete}
-          renderer={({ minutes, seconds }) => (
-            <GameText style={styles.timerText}>{`${minutes}:${
-              seconds < 10 ? "0" : ""
-            }${seconds}`}</GameText>
-          )}
+          renderer={renderer}
         />
       )}
     </View>
@@ -57,6 +56,11 @@ const styles = StyleSheet.create({
     position: "absolute",
     top: "32%",
     left: "4.5%",
+  },
+  heartIcon: {
+    width: 40,
+    height: 40,
+    position: "absolute",
   },
   text: {
     fontSize: 16,

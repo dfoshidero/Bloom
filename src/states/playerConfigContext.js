@@ -1,8 +1,11 @@
 import React, { createContext, useState, useContext, useEffect } from "react";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import requiredXP from "./levelUpConfig";
 import { backgrounds } from "./backgroundsConfig";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import { plants } from "../states/plantsConfig";
+
+const HEART_INCREASE_INTERVAL = 3599; // Interval in seconds for heart increase
+const MAX_HEARTS = 5;
 
 const defaultPlantProgress = () => {
   let plantProgress = {};
@@ -18,29 +21,119 @@ const defaultPlayerState = {
   unlockedBackgrounds: [],
   plantProgress: defaultPlantProgress(),
   timer: null,
+  lastUpdated: Date.now(), // Timestamp to track the last update
 };
 
 export const PlayerConfigContext = createContext();
 
 export const PlayerConfigProvider = ({ children, initialPlayerState }) => {
+  const [isLoaded, setIsLoaded] = useState(false);
   const [playerState, setPlayerState] = useState(
     initialPlayerState || defaultPlayerState
   );
-
-  useEffect(() => {
-    AsyncStorage.setItem("playerState", JSON.stringify(playerState));
-  }, [playerState]);
-
-  useEffect(() => {
-    AsyncStorage.setItem("playerState", JSON.stringify(playerState));
-  }, [playerState]);
-
-  const saveStateToStorage = async (newState) => {
-    await AsyncStorage.setItem("playerState", JSON.stringify(newState));
+  const updatePlayerState = (newState) => {
+    setPlayerState(newState);
+    AsyncStorage.setItem("playerState", JSON.stringify(newState));
   };
+
+  // Use this function to update the state instead of setPlayerState directly
+
+  useEffect(() => {
+    const loadStateFromStorage = async () => {
+      const storedState = await AsyncStorage.getItem("playerState");
+      if (storedState) {
+        const savedState = JSON.parse(storedState);
+        const currentTime = Date.now();
+        const elapsedTime = Math.floor(
+          (currentTime - savedState.lastUpdated) / 1000
+        );
+
+        // Calculate the potential heart increase
+        const heartIncrease = Math.floor(elapsedTime / HEART_INCREASE_INTERVAL);
+
+        // Calculate new hearts considering the maximum limit
+        let newHearts = savedState.hearts;
+        let lastUpdated = savedState.lastUpdated;
+        if (heartIncrease > 0 && savedState.hearts < MAX_HEARTS) {
+          newHearts = Math.min(savedState.hearts + heartIncrease, MAX_HEARTS);
+          lastUpdated = currentTime; // Update only if hearts were increased
+        }
+
+        // Calculate the timer for the next heart increase
+        const newTimer =
+          newHearts < MAX_HEARTS
+            ? HEART_INCREASE_INTERVAL - (elapsedTime % HEART_INCREASE_INTERVAL)
+            : 0;
+
+        setPlayerState({
+          ...savedState,
+          hearts: newHearts,
+          timer: newTimer,
+          lastUpdated,
+        });
+      }
+      setIsLoaded(true);
+    };
+
+    loadStateFromStorage();
+  }, []);
+
+  useEffect(() => {
+    if (isLoaded) {
+      const timerInterval = setInterval(() => {
+        // Capture the current state in a variable
+        const currentState = playerState;
+
+        let newState = currentState; // Start with the current state
+
+        if (currentState.hearts < MAX_HEARTS) {
+          // If there's time left in the timer, decrement it
+          if (currentState.timer > 0) {
+            newState = {
+              ...currentState,
+              timer: currentState.timer - 1, // Decrement the timer
+            };
+          } else {
+            // If timer has reached zero, increase hearts and reset timer
+            const newHearts = Math.min(currentState.hearts + 1, MAX_HEARTS);
+            newState = {
+              ...currentState,
+              hearts: newHearts,
+              timer: HEART_INCREASE_INTERVAL, // Reset the timer
+              lastUpdated: Date.now(), // Update last updated only when hearts increase
+            };
+          }
+        }
+
+        // Now we pass the new state object to updatePlayerState
+        updatePlayerState(newState);
+      }, 1000); // Update timer every second
+
+      return () => clearInterval(timerInterval);
+    }
+  }, [isLoaded, playerState]); // Dependency on isLoaded and playerState
 
   const updatePlayerConfig = (newConfig) => {
     setPlayerState((prevState) => ({ ...prevState, ...newConfig }));
+  };
+
+  const decreaseHearts = () => {
+    setPlayerState((prevState) => {
+      if (prevState.hearts > 0) {
+        const newHearts = prevState.hearts - 1;
+
+        // Reset the timer only when the heart count goes from MAX_HEARTS to MAX_HEARTS - 1
+        const shouldResetTimer = prevState.hearts === MAX_HEARTS;
+
+        return {
+          ...prevState,
+          hearts: newHearts,
+          lastUpdated: shouldResetTimer ? Date.now() : prevState.lastUpdated,
+          timer: shouldResetTimer ? HEART_INCREASE_INTERVAL : prevState.timer,
+        };
+      }
+      return prevState;
+    });
   };
 
   const addXP = (amount) => {
@@ -52,75 +145,6 @@ export const PlayerConfigProvider = ({ children, initialPlayerState }) => {
       }
       return { ...prevState, xp: newXP, level: newLevel };
     });
-  };
-
-  const decreaseHearts = () => {
-    setPlayerState((prevState) => {
-      if (prevState.hearts > 0) {
-        const newHearts = prevState.hearts - 1;
-        const newState = {
-          ...prevState,
-          hearts: newHearts,
-          timer: prevState.hearts === 5 ? 3599 : prevState.timer,
-        };
-        saveStateToStorage(newState);
-        return newState;
-      }
-      return prevState;
-    });
-  };
-
-  const increaseHearts = () => {
-    setPlayerState((prevState) => {
-      if (prevState.hearts < 5) {
-        const newHearts = prevState.hearts + 1;
-        const newTimer = newHearts === 5 ? null : 3599; ;
-        const newState = {
-          ...prevState,
-          hearts: newHearts,
-          timer: newTimer,
-        };
-        saveStateToStorage(newState);
-        return newState;
-      }
-      return prevState;
-    });
-  };
-
-   useEffect(() => {
-     const loadLastSessionData = async () => {
-       // Only load from AsyncStorage if initialPlayerState is not provided
-       if (!initialPlayerState) {
-         const storedState = await AsyncStorage.getItem("playerState");
-         if (storedState) {
-           const { lastHeartTime: storedLastHeartTime, hearts: storedHearts } =
-             JSON.parse(storedState);
-           const currentTime = new Date().getTime();
-           const timeElapsed =
-             (currentTime - (storedLastHeartTime || currentTime)) / 1000;
-           let potentialHeartIncreases = Math.floor(timeElapsed / 3599);
-           let newHearts = Math.min(storedHearts + potentialHeartIncreases, 5);
-           let newTimer = newHearts < 5 ? 10 - (timeElapsed % 3599) : null;
-           let newLastHeartTime =
-             newHearts < 5
-               ? storedLastHeartTime + potentialHeartIncreases * 3599 * 1000
-               : currentTime;
-
-           setPlayerState((prevState) => ({
-             ...prevState,
-             hearts: newHearts,
-             timer: newTimer,
-             lastHeartTime: newLastHeartTime,
-           }));
-         }
-       }
-     };
-
-     loadLastSessionData();
-   }, [initialPlayerState]);
-
-  const getRemainingTimer = () => {
-    return playerState.timer !== null ? playerState.timer : 0;
   };
 
   const addCoins = (amount) => {
@@ -145,10 +169,8 @@ export const PlayerConfigProvider = ({ children, initialPlayerState }) => {
       value={{
         ...playerState,
         updatePlayerConfig,
-        addXP,
         decreaseHearts,
-        increaseHearts,
-        timer: getRemainingTimer(),
+        addXP,
         addCoins,
         getUnlockedRooms,
         resetPlayerConfig,
