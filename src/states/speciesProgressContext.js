@@ -1,11 +1,13 @@
 import React, { createContext, useState, useContext, useEffect } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import {plants} from "../states/plantsConfig";
+import { usePlantContext } from "./plantsDataContext";
 
 export const SpeciesProgressProvider = ({ children }) => {
+    const { plantsConfig } = usePlantContext();
     const defaultSpeciesProgress = {};
-    for (let key in plants) {
-        let speciesID = plants[key].plantID;
+    for (let key in plantsConfig) {
+        let speciesID = plantsConfig[key].plantID;
         defaultSpeciesProgress[speciesID] = 0;
     };
 

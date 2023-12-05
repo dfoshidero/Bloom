@@ -16,37 +16,13 @@ import menuBackgroundImage from '../assets/backgrounds/misc/menu_bg.png';
 import GameText from "../styles/GameText";
 
 import { usePlantContext } from "../states/plantsDataContext";
+import { useProgressContext } from "../states/speciesProgressContext"
 
 // This is a function that should fetch the mastery levels from your backend or state management store.
 
-
-const fetchMasteryLevels = () => {
-  const { plantsConfig } = usePlantContext();
-  if (!plantsConfig) {
-    return Promise.reject("Plants data is undefined");
-  }
-
-  const masteryLevels = Object.values(plantsConfig).map((plant) => {
-    return {
-      id: plant.plantID,
-      name: plant.name,
-      level: plant.level,
-      progress: plant.progress,
-      learned: plant.learned,
-      type: plant.type,
-      colours: plant.colours,
-      height: plant.height,
-      careInstructions: plant.careInstructions,
-      skins: plant.skins,
-      //and more
-    };
-  });
-
-  return Promise.resolve(masteryLevels);
-};
-
 const GameStatsScreen = () => {
   const { plantsConfig } = usePlantContext();
+  const { speciesProgress } = useProgressContext();
   const [plantDetailVisible, setPlantDetailVisible] = useState(false);
   const [selectedPlant, setSelectedPlant] = useState(null);
 
@@ -93,9 +69,24 @@ const GameStatsScreen = () => {
   }
   const [masteryLevels, setMasteryLevels] = useState([]);
 
-  useEffect(() => {
-    fetchMasteryLevels().then(setMasteryLevels);
-  }, []);
+    useEffect(() => {
+    const masteryLevels = Object.values(plantsConfig).map((plant) => {
+      return {
+        id: plant.plantID,
+        name: plant.name,
+        level: plant.level,
+        progress: speciesProgress[plant.plantID] || 0, // Get progress from context
+        learned: plant.learned,
+        type: plant.type,
+        colours: plant.colours,
+        height: plant.height,
+        careInstructions: plant.careInstructions,
+        skins: plant.skins,
+        // and more
+      };
+    });
+    setMasteryLevels(masteryLevels);
+  }, [plantsConfig, speciesProgress]);
 
 
 const renderMasteryItem = ({ item }) => (
@@ -180,11 +171,11 @@ const renderMasteryItem = ({ item }) => (
     <GameText style={styles.plantName}>{item.name}</GameText>
     {/* Progress can be represented by a simple view or a progress bar component */}
     <View style={styles.progressBarBackground}>
-      <GameText style={styles.level}>{item.level}</GameText>
-      <View
-        style={[styles.progressBarFill, { width: `${item.progress * 100}%` }]}
-      />
-    </View>
+        <GameText style={styles.level}>{item.level}</GameText>
+        <View
+          style={[styles.progressBarFill, { width: `${item.progress * 100}%` }]}
+        />
+      </View>
   </TouchableScale>
 );
 
