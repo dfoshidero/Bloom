@@ -12,11 +12,11 @@ import {
 
 import TouchableScale from "react-native-touchable-scale";
 
-import menuBackgroundImage from '../assets/backgrounds/misc/menu_bg.png';
+import menuBackgroundImage from "../assets/backgrounds/misc/menu_bg.png";
 import GameText from "../styles/GameText";
 
 import { usePlantContext } from "../states/plantsDataContext";
-import { useProgressContext } from "../states/speciesProgressContext"
+import { useProgressContext } from "../states/speciesProgressContext";
 
 // This is a function that should fetch the mastery levels from your backend or state management store.
 
@@ -37,13 +37,14 @@ const GameStatsScreen = () => {
 
   const getPlantImagePath = () => {
     if (selectedPlant) {
+      const plantProgress = speciesProgress[selectedPlant.plantID];
       const selectedSkin = selectedPlant.skins.find(
         (skin) => skin.name === selectedPlant.selectedSkin
       );
       if (selectedSkin) {
         // Find the correct growth stage based on progress
         const currentGrowthStage = selectedSkin.growth.find(
-          (stage) => selectedPlant.progress <= stage.growthStage
+          (stage) => plantProgress <= stage.growthStage + 0.01
         );
         return currentGrowthStage ? currentGrowthStage.imagePath : null;
       }
@@ -60,16 +61,16 @@ const GameStatsScreen = () => {
 
   const show_plantdetails = () => {
     setPlantDetailVisible(!plantDetailVisible);
-  }
+  };
 
   const close_plantdetails = () => {
     if (plantDetailVisible) {
       setPlantDetailVisible(false);
     }
-  }
+  };
   const [masteryLevels, setMasteryLevels] = useState([]);
 
-    useEffect(() => {
+  useEffect(() => {
     const masteryLevels = Object.values(plantsConfig).map((plant) => {
       return {
         id: plant.plantID,
@@ -88,96 +89,97 @@ const GameStatsScreen = () => {
     setMasteryLevels(masteryLevels);
   }, [plantsConfig, speciesProgress]);
 
-
-const renderMasteryItem = ({ item }) => (
-  <TouchableScale
-    style={[
-      item.learned
-        ? styles.itemContainer_unlocked
-        : styles.itemContainer_locked,
-      { width: "29.5%", justifyContent: "space-between" }, // Adjust the width to occupy half of the available space
-    ]}
-    onPress={
-      item.learned
-        ? () => {
-            show_plantdetails();
-            handleSelectPlant(item.id);
-          }
-        : null
-    }
-  >
-    <Modal
-      animationType="fade"
-      transparent={true}
-      visible={plantDetailVisible}
-      onPressOut={show_plantdetails}
+  const renderMasteryItem = ({ item }) => (
+    <TouchableScale
+      style={[
+        item.learned
+          ? styles.itemContainer_unlocked
+          : styles.itemContainer_locked,
+        { width: "29.5%", justifyContent: "space-between" }, // Adjust the width to occupy half of the available space
+      ]}
+      onPress={
+        item.learned
+          ? () => {
+              show_plantdetails();
+              handleSelectPlant(item.id);
+            }
+          : null
+      }
     >
-      <TouchableOpacity
-        style={styles.backgroundImage}
-        onPress={() => {
-          close_plantdetails();
-          disableSelectPlant();
-        }}
+      <Modal
+        animationType="fade"
+        transparent={true}
+        visible={plantDetailVisible}
+        onPressOut={show_plantdetails}
       >
-        {/*Contents in the menu*/}
+        <TouchableOpacity
+          style={styles.backgroundImage}
+          onPress={() => {
+            close_plantdetails();
+            disableSelectPlant();
+          }}
+        >
+          {/*Contents in the menu*/}
 
-        <View style={styles.plantDetailsContainer}>
-          <GameText style={styles.plantName}>{getProperty("name")}</GameText>
-          <View style={styles.imageContainer}>
-            <Image source={getPlantImagePath()} style={styles.plantImage} />
-          </View>
-          <View style={styles.plantDetailsTextContainer}>
-            <GameText style={styles.plantDetailsItem}>
-              Height: {getProperty("height")}
-            </GameText>
-            <GameText style={styles.plantDetailsItem}>
-              Type: {getProperty("type")}
-            </GameText>
-            <View style={styles.multiItemContainer}>
-              {getProperty("colours") ? (
-                <>
-                  <GameText style={styles.plantDetailsItem}>Colors: </GameText>
-                  {getProperty("colours").map((color, index) => (
-                    <GameText key={color} style={styles.plantDetailsItem}>
-                      {color}
-                      {getProperty("colours").length > 1 &&
-                      index !== getProperty("colours").length - 1
-                        ? ", "
-                        : ""}
+          <View style={styles.plantDetailsContainer}>
+            <GameText style={styles.plantName}>{getProperty("name")}</GameText>
+            <View style={styles.imageContainer}>
+              <Image source={getPlantImagePath()} style={styles.plantImage} />
+            </View>
+            <View style={styles.plantDetailsTextContainer}>
+              <GameText style={styles.plantDetailsItem}>
+                Height: {getProperty("height")}
+              </GameText>
+              <GameText style={styles.plantDetailsItem}>
+                Type: {getProperty("type")}
+              </GameText>
+              <View style={styles.multiItemContainer}>
+                {getProperty("colours") ? (
+                  <>
+                    <GameText style={styles.plantDetailsItem}>
+                      Colors:{" "}
                     </GameText>
-                  ))}
+                    {getProperty("colours").map((color, index) => (
+                      <GameText key={color} style={styles.plantDetailsItem}>
+                        {color}
+                        {getProperty("colours").length > 1 &&
+                        index !== getProperty("colours").length - 1
+                          ? ", "
+                          : ""}
+                      </GameText>
+                    ))}
+                  </>
+                ) : null}
+              </View>
+              {getProperty("careInstructions") ? (
+                <>
+                  <GameText style={styles.plantDetailsItem}>
+                    Care Instructions:
+                  </GameText>
+                  {Object.entries(getProperty("careInstructions")).map(
+                    ([key, instruction]) => (
+                      <GameText
+                        key={key}
+                        style={styles.plantDetailsItem}
+                      >{`${key}: ${instruction}`}</GameText>
+                    )
+                  )}
                 </>
               ) : null}
             </View>
-            {getProperty("careInstructions") ? (
-              <>
-                <GameText style={styles.plantDetailsItem}>
-                  Care Instructions:
-                </GameText>
-                {Object.entries(getProperty("careInstructions")).map(
-                  ([key, instruction]) => (
-                    <GameText
-                      key={key}
-                      style={styles.plantDetailsItem}
-                    >{`${key}: ${instruction}`}</GameText>
-                  )
-                )}
-              </>
-            ) : null}
           </View>
-        </View>
-      </TouchableOpacity>
-    </Modal>
-    <GameText style={styles.plantName}>{item.name}</GameText>
-    {/* Progress can be represented by a simple view or a progress bar component */}
-    <View style={styles.progressBarBackground}>
+        </TouchableOpacity>
+      </Modal>
+      <GameText style={styles.plantName}>{item.name}</GameText>
+      {/* Progress can be represented by a simple view or a progress bar component */}
+      <View style={styles.progressBarBackground}>
         <GameText style={styles.level}>{item.level}</GameText>
         <View
           style={[styles.progressBarFill, { width: `${item.progress * 100}%` }]}
         />
       </View>
-  </TouchableScale>
-);
+    </TouchableScale>
+  );
 
   return (
     <View style={styles.container}>
@@ -209,7 +211,7 @@ const styles = StyleSheet.create({
   },
   titleContainer: {
     top: "20%",
-    width: "75%"
+    width: "75%",
   },
   masteryContainer: {
     top: "20%",
@@ -286,7 +288,7 @@ const styles = StyleSheet.create({
   plantName: {
     fontSize: 9,
     textAlign: "center",
-    marginBottom: "1%"
+    marginBottom: "1%",
   },
   level: {
     fontSize: 10,
