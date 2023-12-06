@@ -287,7 +287,7 @@ const QuizScreen = ({ navigation, route }) => {
     );
     let previousStage = null;
 
-    // Determine if there is a next stage for evolution
+    // Determine if there is a previous stage of evolution
     if (currentStage && currentStage.growthStage < 1) {
       previousStage = getPreviousGrowthStage (
         numericPlant,
@@ -433,6 +433,40 @@ const QuizScreen = ({ navigation, route }) => {
   return (
     <View style={styles.container}>
       {renderGameOverModal()}
+      {/* Evolve Animation Modal */}
+      <Modal
+          visible={showEvolveModal}
+          onRequestClose={() => setShowEvolveModal(false)}
+          transparent={true}
+          animationType="fade"
+        >
+          <View style={styles.evolveModalContainer}>
+            <View style={styles.evolveModal}>
+              <View style={styles.evolveModalContent}>
+                <EvolveAnimation
+                  currentImage={currentPlant.currentStageImage}
+                  nextImage={currentPlant.previousStageImage}
+                  style={{ bottom: "100%" }}
+                />
+
+                <GameText style={styles.evolveMessage}>
+                  {`Oh, what's this..? Wow! You have reached ${plantsConfig[plant].name} Mastery ${masteryLevel}!`}
+                </GameText>
+                <TouchableScale
+                  style={styles.evolveModalButton}
+                  onPress={() => {
+                    setShowEvolveModal(false);
+                    navigation.navigate("Home", { updatedList: updatedList });
+                  }}
+                >
+                  <GameText style={styles.evolveModalButtonText}>
+                    Close
+                  </GameText>
+                </TouchableScale>
+              </View>
+            </View>
+          </View>
+        </Modal>
       <ImageBackground
         source={quizBackground}
         style={{ width: "100%", height: "100%", resizeMode: "contain" }}
@@ -521,40 +555,7 @@ const QuizScreen = ({ navigation, route }) => {
           </View>
         )}
 
-        {/* Evolve Animation Modal */}
-        <Modal
-          visible={showEvolveModal}
-          onRequestClose={() => setShowEvolveModal(false)}
-          transparent={true}
-          animationType="fade"
-        >
-          <View style={styles.evolveModalContainer}>
-            <View style={styles.evolveModal}>
-              <View style={styles.evolveModalContent}>
-                <EvolveAnimation
-                  currentImage={currentPlant.currentStageImage}
-                  nextImage={currentPlant.previousStageImage}
-                  style={{ bottom: "100%" }}
-                />
-
-                <GameText style={styles.evolveMessage}>
-                  {`Oh, what's this..? Wow! You have reached ${plantsConfig[plant].name} Mastery ${masteryLevel}!`}
-                </GameText>
-                <TouchableScale
-                  style={styles.evolveModalButton}
-                  onPress={() => {
-                    setShowEvolveModal(false);
-                    navigation.navigate("Home", { updatedList: updatedList });
-                  }}
-                >
-                  <GameText style={styles.evolveModalButtonText}>
-                    Close
-                  </GameText>
-                </TouchableScale>
-              </View>
-            </View>
-          </View>
-        </Modal>
+        
 
         <Modal
           visible={showCongratsBackground}
