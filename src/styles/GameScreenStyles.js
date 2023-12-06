@@ -55,7 +55,6 @@ const gameStyles = StyleSheet.create({
   modalView: {
     backgroundColor: "white",
     width: "65%",
-    height: "30%",
     borderRadius: 20,
     padding: 35,
     alignItems: "center",
@@ -73,7 +72,7 @@ const gameStyles = StyleSheet.create({
     opacity: 1,
   },
   modalText: {
-    top: "5%",
+    bottom: "2%",
     textAlign: "center",
     fontSize: RFValue(deviceHeight * 0.015),
     color: "orange",
@@ -81,12 +80,13 @@ const gameStyles = StyleSheet.create({
     textShadowRadius: 1,
     textShadowOffset: { width: -1, height: 1 },
     textAlign: "center",
-    padding: "10%",
+    paddingLeft: "10%",
+    paddingRight: "10%",
+    paddingBottom: "10%",
     lineHeight: 20,
-    marginBottom: 20,
   },
   button: {
-    top: "5%",
+    top: "3%",
     borderRadius: 15,
     padding: 10,
     elevation: 2,

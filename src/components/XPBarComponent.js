@@ -1,12 +1,17 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import requiredXP from "../states/levelUpConfig";
 import { usePlayerConfig } from "../states/playerConfigContext";
-import { Image, View, StyleSheet } from "react-native";
+import { Image, View, StyleSheet, Animated } from "react-native";
 import GameText from "../styles/GameText";
 import TouchableScale from "react-native-touchable-scale";
 
-const XPBar = () => {
+const XPBar = ({ animateLevelUp }) => {
   const { xp, level } = usePlayerConfig();
+  const [currentImage, setCurrentImage] = useState(0);
+  const [displayLevel, setDisplayLevel] = useState(level);
+  const [glowAnimation] = useState(new Animated.Value(0));
+
+  const animation = new Animated.Value(0);
 
   const lvlImage = require("../assets/icons/xp/lvl_container.png");
   const xpImages = [
@@ -18,6 +23,53 @@ const XPBar = () => {
     require("../assets/icons/xp/90.png"),
   ];
 
+  useEffect(() => {
+    if (animateLevelUp) {
+      setDisplayLevel(level - 1);
+      setCurrentImage(0); // Initialize the current image to the first one in the array
+      let loopCount = 0;
+      const maxLoops = 28; // Number of loops before stopping
+      let delay = 25; // Initial delay time
+
+      const animate = () => {
+        setCurrentImage((prevImage) => {
+          const nextImage = (prevImage + 1) % xpImages.length;
+
+          // Check if it's time to stop the animation
+          if (loopCount >= maxLoops && nextImage === 0) {
+            setDisplayLevel(level); // Update the level at the end of the animation
+            return xpImages.length - 1; // Ensure it ends on the last image
+          }
+
+          if (loopCount === maxLoops) {
+            setDisplayLevel(level);
+          }
+
+          return nextImage;
+        });
+
+        loopCount += 1;
+
+        // Gradually increase the delay
+        if (loopCount < maxLoops) {
+          delay *= 1.1; // Increase delay by 10% each loop
+        }
+
+        if (loopCount <= maxLoops) {
+          setTimeout(animate, delay);
+        }
+      };
+
+      animate();
+
+      // Clean up function
+      return () => clearTimeout(animate);
+    } else {
+      // For non-animated, set the current image based on XP percentage
+      setCurrentImage(getImageIndex());
+    }
+  }, [animateLevelUp, level, xpImages.length]);
+
   const getCurrentLevelXP = () => requiredXP[level]?.xpRequired || 0;
   const getNextLevelXP = () =>
     requiredXP[level + 1]?.xpRequired ||
@@ -28,26 +80,48 @@ const XPBar = () => {
     ((xp - getCurrentLevelXP()) / (getNextLevelXP() - getCurrentLevelXP())) *
     100;
 
-  let imageIndex;
-  if (xpPercentage < 10) imageIndex = 0;
-  else if (xpPercentage < 30) imageIndex = 1;
-  else if (xpPercentage < 50) imageIndex = 2;
-  else if (xpPercentage < 70) imageIndex = 3;
-  else if (xpPercentage < 90) imageIndex = 4;
-  else imageIndex = 5;
-
-  const xpBarImage = xpImages[imageIndex];
+  const getImageIndex = () => {
+    if (xpPercentage < 10) return 0;
+    else if (xpPercentage < 30) return 1;
+    else if (xpPercentage < 50) return 2;
+    else if (xpPercentage < 70) return 3;
+    else if (xpPercentage < 90) return 4;
+    else return 5;
+  };
 
   return (
-    <View style={{ alignItems: "center" }}>
-      <TouchableScale style={styles.touchableScale}>
-        <Image source={xpBarImage} style={styles.xpBarImage} />
-        <View style={styles.textContainer}>
-          <Image source={lvlImage} style={styles.backgroundImage} />
-          <GameText style={styles.text}>L{level}</GameText>
-        </View>
-      </TouchableScale>
-    </View>
+    <TouchableScale
+      style={styles.touchableScale}
+      onPressIn={() => {
+        // Logic for onPressIn
+      }}
+    >
+      {animateLevelUp ? (
+        <>
+          <Animated.Image
+            source={xpImages[currentImage]}
+            style={[
+              styles.xpBarImageAnimated,
+              {
+                opacity: glowAnimation, // Add opacity based on glowAnimation
+              },
+            ]}
+          />
+          <View style={styles.textContainer}>
+            <Image source={lvlImage} style={styles.backgroundImage} />
+            <GameText style={styles.text}>L{displayLevel}</GameText>
+          </View>
+        </>
+      ) : (
+        <>
+          <Image source={xpImages[currentImage]} style={styles.xpBarImage} />
+          <View style={styles.textContainer}>
+            <Image source={lvlImage} style={styles.backgroundImage} />
+            <GameText style={styles.text}>L{level}</GameText>
+          </View>
+        </>
+      )}
+    </TouchableScale>
   );
 };
 
@@ -62,6 +136,15 @@ const styles = StyleSheet.create({
     width: 250,
     height: 250,
     resizeMode: "contain",
+  },
+  xpBarImageAnimated: {
+    width: 250,
+    height: 250,
+    resizeMode: "contain",
+    shadowColor: "green", // Color of the glow
+    shadowOffset: { width: 0, height: 0 },
+    shadowOpacity: 1, // Opacity of the glow
+    shadowRadius: 10, // Radius of the glow
   },
   textContainer: {
     position: "absolute",

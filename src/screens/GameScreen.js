@@ -43,6 +43,7 @@ const GameScreen = ({ route }) => {
       const storedLevelString = await AsyncStorage.getItem("storedLevel");
       const storedLevel = storedLevelString ? parseInt(storedLevelString) : 0;
 
+      // DONT FORGET TO ADD BACK: && level != 1
       if (level > storedLevel) {
         setLevelUpModalVisible(true);
         await AsyncStorage.setItem("storedLevel", level.toString());
@@ -109,7 +110,7 @@ const GameScreen = ({ route }) => {
         <CoinDisplay />
       </TouchableScale>
       <View style={gameStyles.xpBar}>
-        <XPBar />
+        <XPBar animateLevelUp={false} />
       </View>
       <MenuComponent
         menuVisible={menuVisible}
@@ -140,9 +141,11 @@ const GameScreen = ({ route }) => {
         <View style={gameStyles.centeredView}>
           <View style={gameStyles.modalView}>
             <GameText style={gameStyles.modalText}>
-              Congrats! You are now
-              level {level}!
+              Congrats! You are now level {level}!
             </GameText>
+            <View style={{ bottom: "0%" }}>
+              <XPBar animateLevelUp={true} />
+            </View>
             <TouchableScale
               style={gameStyles.button}
               onPress={() => setLevelUpModalVisible(!levelUpModalVisible)}
