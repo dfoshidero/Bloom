@@ -43,8 +43,7 @@ const GameScreen = ({ route }) => {
       const storedLevelString = await AsyncStorage.getItem("storedLevel");
       const storedLevel = storedLevelString ? parseInt(storedLevelString) : 0;
 
-      // DONT FORGET TO ADD BACK: && level != 1
-      if (level > storedLevel) {
+      if (level > storedLevel && level != 1) {
         setLevelUpModalVisible(true);
         await AsyncStorage.setItem("storedLevel", level.toString());
       }

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import {
   Animated,
   View,
@@ -9,6 +9,7 @@ import {
   ScrollView,
   FlatList,
   Dimensions,
+  Button
 } from "react-native";
 import { RFPercentage, RFValue } from "react-native-responsive-fontsize";
 import TouchableScale from "react-native-touchable-scale";
@@ -26,9 +27,9 @@ import {
 } from "../states/completedLevelsContext";
 import HeartsDisplay from "../components/HeartsComponent";
 import CoinDisplay from "../components/CoinComponent";
+import EvolveAnimation from "../components/EvolveAnimation";
 
 const quizBackground = require("../assets/backgrounds/misc/quiz_screen.png");
-const congratsBackground = require("../assets/backgrounds/misc/congrats_screen.png");
 const textBox = require("../assets/icons/text_box.png");
 
 const deviceWidth = Dimensions.get("window").width;
@@ -37,16 +38,16 @@ const deviceHeight = Dimensions.get("window").height;
 const textSize = RFValue(deviceHeight * 0.013);
 const buttonFontSize = RFValue(deviceHeight * 0.009);
 
-  const aspectRatio = deviceHeight / deviceWidth;
-  let heartsAndCoinsTop;
+const aspectRatio = deviceHeight / deviceWidth;
+let heartsAndCoinsTop;
 
-  if (aspectRatio < 2.1) {
-    // Adjust the top position for wider aspect ratios
-    heartsAndCoinsTop = "4%";
-  } else {
-    // Adjust the top position for narrower aspect ratios
-    heartsAndCoinsTop = "8%";
-  }
+if (aspectRatio < 2.1) {
+  // Adjust the top position for wider aspect ratios
+  heartsAndCoinsTop = "4%";
+} else {
+  // Adjust the top position for narrower aspect ratios
+  heartsAndCoinsTop = "8%";
+}
 
 const QuizScreen = ({ navigation, route }) => {
   const { plantsConfig } = usePlantContext();
@@ -63,9 +64,13 @@ const QuizScreen = ({ navigation, route }) => {
   const [currentInstructions, setCurrentInstructions] = useState("");
   const [currentLevel, setCurrentLevel] = useState("");
   const [currentPlant, setCurrentPlant] = useState("");
-   const [feedbackModalVisible, setFeedbackModalVisible] = useState(false);
+  const [feedbackModalVisible, setFeedbackModalVisible] = useState(false);
   const [showCongratsBackground, setShowCongratsBackground] = useState(false);
   const [isLevelCompleted, setIsLevelCompleted] = useState(false);
+  const [showEvolveModal, setShowEvolveModal] = useState(false);
+  const [storedGrowthStage, setStoredGrowthStage] = useState(null);
+  const [levelUpGrowthStage, setlevelUpGrowthStage] = useState(null);
+
 
   const [correctAnswersCount, setCorrectAnswersCount] = useState(0);
   const [incorrectAnswersCount, setIncorrectAnswersCount] = useState(0);
@@ -76,6 +81,20 @@ const QuizScreen = ({ navigation, route }) => {
   const { speciesProgress, updateSpeciesProgress } = useProgressContext();
   const { completedLevels, updateCompletedLevels } =
     useCompletedLevelsContext();
+
+    const getGrowthIndex = (growthStage) => {
+      if (growthStage <= 0) {
+        return 1;
+      } else if (growthStage <= 0.33) {
+        return 2;
+      } else if (growthStage <= 0.66) {
+        return 3;
+      } else {
+        return 4;
+      }
+    };
+
+    const masteryLevel = getGrowthIndex(levelUpGrowthStage);
 
   useEffect(() => {
     const trivia = plantsTriviaConfig[plant]?.[level];
@@ -112,6 +131,13 @@ const QuizScreen = ({ navigation, route }) => {
         const shuffledAnswers = question.answers.sort(
           () => Math.random() - 0.5
         );
+
+         const initialStage = getCurrentGrowthStage(
+           plant,
+           plantsConfig,
+           speciesProgress
+         );
+         setStoredGrowthStage(initialStage ? initialStage.growthStage : null);
 
         // Return the question with shuffled answers
         return {
@@ -154,11 +180,8 @@ const QuizScreen = ({ navigation, route }) => {
           setCurrentQuestionIndex(currentQuestionIndex + 1);
           setFeedbackMessage("");
         } else {
-          // Calculate bonus coins here
-          const newBonusCoins = Math.max(0, 5 - incorrectAnswersCount);
-          setBonusCoins(newBonusCoins); // Update the state
-          addCoins(newBonusCoins); // Add the calculated bonus coins
-          completeQuiz(newCorrectAnswersCount, newBonusCoins);
+          // Move the bonus coin calculation to completeQuiz function
+          completeQuiz(newCorrectAnswersCount);
         }
       }, 1000);
     } else {
@@ -203,6 +226,104 @@ const QuizScreen = ({ navigation, route }) => {
     }
   }, [plant, level, completedLevels]);
 
+  const getCurrentGrowthStage = (plantID, plants, speciesProgress) => {
+    const plantProgress = speciesProgress[plantID];
+
+    const plant = plants[plantID];
+    if (!plant || !plant.skins) {
+      return null;
+    }
+
+    // Assuming 'default' skin is used. Modify as needed to support different skins
+    const growthStages = plant.skins.find(
+      (skin) => skin.name === plant.selectedSkin
+    )?.growth;
+
+    if (!growthStages) {
+      return null;
+    }
+
+    // Find the current growth stage based on the plant's progress
+    const currentStage = growthStages.reduce((prev, current) => {
+      return plantProgress >= current.growthStage ? current : prev;
+    });
+
+    return currentStage;
+  };
+
+  const getPreviousGrowthStage = (plantID, currentGrowthStage, plants) => {
+    const plant = plants[plantID];
+    if (!plant || !plant.skins) {
+      return null;
+    }
+
+    const growthStages = plant.skins.find(
+      (skin) => skin.name === plant.selectedSkin
+    )?.growth;
+    if (!growthStages) {
+      return null;
+    }
+
+    let previousStage = null;
+    for (let i = 0; i < growthStages.length; i++) {
+      if (growthStages[i].growthStage < currentGrowthStage) {
+        previousStage = growthStages[i];
+      } else {
+        break; // Break the loop once a stage larger than the current stage is found
+      }
+    }
+
+    return previousStage;
+  };
+
+  const handleGoHome = () => {
+    const numericPlant = parseInt(plant, 10);
+
+    // Get the current growth stage of the plant
+    const currentStage = getCurrentGrowthStage(
+      numericPlant,
+      plantsConfig,
+      speciesProgress
+    );
+    let previousStage = null;
+
+    // Determine if there is a next stage for evolution
+    if (currentStage && currentStage.growthStage < 1) {
+      previousStage = getPreviousGrowthStage (
+        numericPlant,
+        currentStage.growthStage,
+        plantsConfig
+      );
+    }
+
+    // Update the currentPlant state with necessary data
+    setCurrentPlant({
+      ...currentPlant,
+      currentStageImage: currentStage ? currentStage.imagePath : null,
+      previousStageImage: previousStage ? previousStage.imagePath : null,
+    });
+
+    // Check if the growth stage has increased
+    if (
+      currentStage &&
+      storedGrowthStage !== null &&
+      currentStage.growthStage > storedGrowthStage
+    ) {
+      // Show evolve modal if growth stage has increased
+      setlevelUpGrowthStage(currentStage.growthStage)
+      setShowModal(false);
+      setShowCongratsBackground(false);
+      setShowEvolveModal(true);
+    } else {
+      // Navigate to home if no growth progress
+      setShowModal(false);
+      setShowCongratsBackground(false);
+      setShowEvolveModal(false); // Ensure evolve modal is not shown
+      navigation.navigate("Home", { updatedList: updatedList });
+    }
+  };
+
+
   const completeQuiz = (newCorrectAnswersCount, newBonusCoins) => {
     setShowModal(true);
     setShowCongratsBackground(true);
@@ -210,7 +331,9 @@ const QuizScreen = ({ navigation, route }) => {
     const levelIndex = parseInt(level.slice(-1), 10);
 
     // Check if the level is not completed before
-    if (!isLevelCompleted) {
+    if (completedLevels[numericPlant] < levelIndex) {
+      // Find the bonus coins for the level
+      const newBonusCoins = Math.max(0, 5 - incorrectAnswersCount);
       // Find the XP reward for the current level
       const xpReward = levelsConfig[numericPlant].levels.find(
         (l) => l.levelNumber === levelIndex
@@ -218,6 +341,8 @@ const QuizScreen = ({ navigation, route }) => {
 
       updateCompletedLevels(numericPlant, levelIndex);
       addXP(xpReward);
+      setBonusCoins(newBonusCoins); // Update the state
+      addCoins(newBonusCoins); // Add the calculated bonus coins
 
       // Check if all levels are completed for extra rewards
       if (
@@ -237,7 +362,9 @@ const QuizScreen = ({ navigation, route }) => {
     } else {
       // Level is already completed, don't give bonus coins again
       addXP(10);
-      setFeedbackMessage(`Good practice! ${newCorrectAnswersCount} coins and 10xp earned!`);
+      setFeedbackMessage(
+        `Good practice! ${newCorrectAnswersCount} coins and 10 XP earned! No bonus coins for replaying completed levels.`
+      );
     }
   };
 
@@ -298,6 +425,10 @@ const QuizScreen = ({ navigation, route }) => {
       </View>
     </Modal>
   );
+
+  
+
+  
 
   return (
     <View style={styles.container}>
@@ -390,6 +521,41 @@ const QuizScreen = ({ navigation, route }) => {
           </View>
         )}
 
+        {/* Evolve Animation Modal */}
+        <Modal
+          visible={showEvolveModal}
+          onRequestClose={() => setShowEvolveModal(false)}
+          transparent={true}
+          animationType="fade"
+        >
+          <View style={styles.evolveModalContainer}>
+            <View style={styles.evolveModal}>
+              <View style={styles.evolveModalContent}>
+                <EvolveAnimation
+                  currentImage={currentPlant.currentStageImage}
+                  nextImage={currentPlant.previousStageImage}
+                  style={{ bottom: "100%" }}
+                />
+
+                <GameText style={styles.evolveMessage}>
+                  {`Oh, what's this..? Wow! You have reached ${plantsConfig[plant].name} Mastery ${masteryLevel}!`}
+                </GameText>
+                <TouchableScale
+                  style={styles.evolveModalButton}
+                  onPress={() => {
+                    setShowEvolveModal(false);
+                    navigation.navigate("Home", { updatedList: updatedList });
+                  }}
+                >
+                  <GameText style={styles.evolveModalButtonText}>
+                    Close
+                  </GameText>
+                </TouchableScale>
+              </View>
+            </View>
+          </View>
+        </Modal>
+
         <Modal
           visible={showCongratsBackground}
           animationType="fade"
@@ -405,11 +571,7 @@ const QuizScreen = ({ navigation, route }) => {
                   {feedbackMessage}
                 </GameText>
                 <TouchableScale
-                  onPress={() => {
-                    setShowModal(false);
-                    setShowCongratsBackground(false);
-                    navigation.navigate("Home", { updatedList: updatedList });
-                  }}
+                  onPress={handleGoHome}
                   style={styles.buttonTextWrapper}
                 >
                   <ImageBackground source={textBox} style={styles.textBox}>
@@ -461,7 +623,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     backgroundColor: "rgba(0, 0, 0, 0.8)", // Semi-transparent background
-    zIndex: 1
+    zIndex: 1,
   },
   congratsModalView: {
     zIndex: 1,
@@ -580,10 +742,64 @@ const styles = StyleSheet.create({
     padding: "5%",
     lineHeight: 20,
   },
+  evolveMessage: {
+    fontSize: textSize,
+    color: "orange",
+    textShadowColor: "black",
+    textShadowRadius: 1,
+    textShadowOffset: { width: -1, height: 1 },
+    textAlign: "center",
+    padding: "5%",
+    lineHeight: 26,
+  },
   feedbackText: {
     fontSize: textSize,
     color: "red",
     marginBottom: 20,
+  },
+  evolveModalContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "rgba(0, 0, 0, 0.8)", // A slightly darker background
+  },
+  evolveModal: {
+    backgroundColor: "#f0f0f0", // A light background color
+    padding: 20,
+    borderRadius: 25,
+    width: deviceWidth * 0.8, // 80% of device width
+    height: deviceHeight * 0.6,
+    alignItems: "center",
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 10 },
+    shadowOpacity: 0.5,
+    shadowRadius: 20,
+    borderWidth: 4, // Border width (if needed)
+    borderColor: "darkgray", // Border color (if needed)
+  },
+  evolveModalContent: {
+    marginVertical: 10,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  evolveModalButton: {
+    top: "3%",
+    borderRadius: 15,
+    padding: 10,
+    elevation: 2,
+    backgroundColor: "grey",
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.6,
+    shadowRadius: 3.84,
+  },
+
+  evolveModalButtonText: {
+    top: "10%",
+    padding: 5,
+    fontSize: RFValue(12),
+    color: "white",
+    textAlign: "center",
   },
 });
 
