@@ -473,7 +473,7 @@ const styles = StyleSheet.create({
   },
 
   careInstructionsContainer: {
-    width: "70%",
+    width: "100%",
   },
 
   tipsTitle: {
