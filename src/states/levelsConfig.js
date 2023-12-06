@@ -2,7 +2,7 @@ const levelsConfig = {
   1: {
     totalLevels: 3,
     levels: [
-      { levelNumber: 1, xpReward: 50 },
+      { levelNumber: 1, xpReward: 501 },
       { levelNumber: 2, xpReward: 55 },
       { levelNumber: 3, xpReward: 60 },
     ],

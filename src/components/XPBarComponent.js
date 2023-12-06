@@ -101,10 +101,7 @@ const XPBar = ({ animateLevelUp }) => {
           <Animated.Image
             source={xpImages[currentImage]}
             style={[
-              styles.xpBarImageAnimated,
-              {
-                opacity: glowAnimation, // Add opacity based on glowAnimation
-              },
+              styles.xpBarImageAnimated
             ]}
           />
           <View style={styles.textContainer}>

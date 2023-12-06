@@ -287,7 +287,7 @@ const QuizScreen = ({ navigation, route }) => {
     );
     let previousStage = null;
 
-    // Determine if there is a previous stage of evolution
+    // Determine if there is a next stage for evolution
     if (currentStage && currentStage.growthStage < 1) {
       previousStage = getPreviousGrowthStage (
         numericPlant,
@@ -432,41 +432,97 @@ const QuizScreen = ({ navigation, route }) => {
 
   return (
     <View style={styles.container}>
-      {renderGameOverModal()}
-      {/* Evolve Animation Modal */}
       <Modal
-          visible={showEvolveModal}
-          onRequestClose={() => setShowEvolveModal(false)}
-          transparent={true}
-          animationType="fade"
-        >
-          <View style={styles.evolveModalContainer}>
-            <View style={styles.evolveModal}>
-              <View style={styles.evolveModalContent}>
-                <EvolveAnimation
-                  currentImage={currentPlant.currentStageImage}
-                  nextImage={currentPlant.previousStageImage}
-                  style={{ bottom: "100%" }}
-                />
-
-                <GameText style={styles.evolveMessage}>
-                  {`Oh, what's this..? Wow! You have reached ${plantsConfig[plant].name} Mastery ${masteryLevel}!`}
+        visible={showModal || showInstructions || showEvolveModal || showCongratsBackground}
+        animationType="fade"
+        transparent={true}
+        statusBarTranslucent={true}
+        onRequestClose={() => {
+          setShowModal(false);
+          setShowInstructions(false);
+          setShowEvolveModal(false);
+          setShowCongratsBackground(false);
+        }}
+      >
+        <View style={styles.modalContainer}>
+          {showInstructions && (
+            <View style={styles.modalBox}>
+              <GameText
+                style={[
+                  styles.congratsText,
+                  { paddingBottom: 20, paddingTop: 5 },
+                ]}
+              >
+                Instructions
+              </GameText>
+              <ScrollView style={styles.instructionsScrollView}>
+                <GameText style={styles.instructionsText}>
+                  {currentInstructions}
+                </GameText>
+              </ScrollView>
+              <ImageBackground source={textBox} style={styles.textBox}>
+                <TouchableScale
+                  style={styles.buttonTextWrapper}
+                  onPress={handleStartQuiz}
+                >
+                  <GameText style={styles.buttonText}>Start Quiz</GameText>
+                </TouchableScale>
+              </ImageBackground>
+            </View>
+          )}
+  
+          {showEvolveModal && (
+            <View style={styles.evolveModalContainer}>
+              <View style={styles.evolveModal}>
+                <View style={styles.evolveModalContent}>
+                  <EvolveAnimation
+                    currentImage={currentPlant.currentStageImage}
+                    nextImage={currentPlant.previousStageImage}
+                    style={{ bottom: "100%" }}
+                  />
+  
+                  <GameText style={styles.evolveMessage}>
+                    {`Oh, what's this..? Wow! You have reached ${plantsConfig[plant].name} Mastery ${masteryLevel}!`}
+                  </GameText>
+                  <TouchableScale
+                    style={styles.evolveModalButton}
+                    onPress={() => {
+                      setShowEvolveModal(false);
+                      navigation.navigate("Home", { updatedList: updatedList });
+                    }}
+                  >
+                    <GameText style={styles.evolveModalButtonText}>
+                      Close
+                    </GameText>
+                  </TouchableScale>
+                </View>
+              </View>
+            </View>
+          )}
+  
+          {showCongratsBackground && (
+            <View style={styles.modalContainer}>
+              <View style={styles.congratsModalView}>
+                <GameText style={styles.congratsText}>
+                  Great job! You've passed {currentPlant} level {currentLevel}!
+                </GameText>
+                <GameText style={styles.rewardMessage}>
+                  {feedbackMessage}
                 </GameText>
                 <TouchableScale
-                  style={styles.evolveModalButton}
-                  onPress={() => {
-                    setShowEvolveModal(false);
-                    navigation.navigate("Home", { updatedList: updatedList });
-                  }}
+                  onPress={handleGoHome}
+                  style={styles.congratsButtonTextWrapper}
                 >
-                  <GameText style={styles.evolveModalButtonText}>
-                    Close
-                  </GameText>
+                  <ImageBackground source={textBox} style={styles.textBox}>
+                    <GameText style={styles.congratsButtonText}>Go Home.</GameText>
+                  </ImageBackground>
                 </TouchableScale>
               </View>
             </View>
-          </View>
-        </Modal>
+          )}
+        </View>
+      </Modal>
+  
       <ImageBackground
         source={quizBackground}
         style={{ width: "100%", height: "100%", resizeMode: "contain" }}
@@ -501,41 +557,7 @@ const QuizScreen = ({ navigation, route }) => {
         >
           <CoinDisplay />
         </TouchableScale>
-        {showInstructions && (
-          <Modal
-            visible={showInstructions}
-            animationType="fade"
-            transparent={true}
-            statusBarTranslucent={true}
-          >
-            <View style={styles.modalContainer}>
-              <View style={styles.modalBox}>
-                <GameText
-                  style={[
-                    styles.congratsText,
-                    { paddingBottom: 20, paddingTop: 5 },
-                  ]}
-                >
-                  Instructions
-                </GameText>
-                <ScrollView style={styles.instructionsScrollView}>
-                  <GameText style={styles.instructionsText}>
-                    {currentInstructions}
-                  </GameText>
-                </ScrollView>
-                <ImageBackground source={textBox} style={styles.textBox}>
-                  <TouchableScale
-                    style={styles.buttonTextWrapper}
-                    onPress={handleStartQuiz}
-                  >
-                    <GameText style={styles.buttonText}>Start Quiz</GameText>
-                  </TouchableScale>
-                </ImageBackground>
-              </View>
-            </View>
-          </Modal>
-        )}
-
+        {renderGameOverModal()}
         {renderFeedbackModal()}
         {questions.length > 0 ? (
           <View style={styles.quizContainer}>
@@ -554,35 +576,6 @@ const QuizScreen = ({ navigation, route }) => {
             <GameText style={styles.centerText}>Loading questions...</GameText>
           </View>
         )}
-
-        
-
-        <Modal
-          visible={showCongratsBackground}
-          animationType="fade"
-          transparent={true}
-        >
-          <Modal visible={showModal} animationType="fade" transparent={true}>
-            <View style={styles.modalContainer}>
-              <View style={styles.congratsModalView}>
-                <GameText style={styles.congratsText}>
-                  Great job! You've passed {currentPlant} level {currentLevel}!
-                </GameText>
-                <GameText style={styles.rewardMessage}>
-                  {feedbackMessage}
-                </GameText>
-                <TouchableScale
-                  onPress={handleGoHome}
-                  style={styles.buttonTextWrapper}
-                >
-                  <ImageBackground source={textBox} style={styles.textBox}>
-                    <GameText style={styles.buttonText}>Go Home.</GameText>
-                  </ImageBackground>
-                </TouchableScale>
-              </View>
-            </View>
-          </Modal>
-        </Modal>
       </ImageBackground>
     </View>
   );
@@ -619,16 +612,19 @@ const styles = StyleSheet.create({
     alignItems: "center", // Center the content horizontally
     justifyContent: "center", // Center the content vertically
   },
+  congratsButtonTextWrapper: {
+    width: "100%", // Set the width to 100% to cover the entire button
+    justifyContent: "center", // Center the content vertically
+    alignContent: "center",
+  },
   modalContainer: {
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "rgba(0, 0, 0, 0.8)", // Semi-transparent background
     zIndex: 1,
   },
   congratsModalView: {
     zIndex: 1,
-    alignItems: "center",
     width: "70%",
     opacity: 0.9,
     backgroundColor: "white",
@@ -723,6 +719,13 @@ const styles = StyleSheet.create({
     textAlign: "center",
     margin: "10%",
   },
+  congratsButtonText: {
+    fontSize: buttonFontSize,
+    alignContent: "center",
+    color: "#333",
+    margin: "10%",
+    alignSelf: "center",
+  },
   textBox: {
     width: "100%",
     resizeMode: "contain",
@@ -762,7 +765,6 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "rgba(0, 0, 0, 0.8)", // A slightly darker background
   },
   evolveModal: {
     backgroundColor: "#f0f0f0", // A light background color
@@ -802,6 +804,7 @@ const styles = StyleSheet.create({
     color: "white",
     textAlign: "center",
   },
+  
 });
 
 export default QuizScreen;
