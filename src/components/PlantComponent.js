@@ -402,8 +402,10 @@ const Plant = ({ id, style, currentBackgroundID, isArchived = false }) => {
             </TouchableOpacity>
           )}
           {linked === 1 && (
-            <View style={buttonContent !== null ? styles.time : styles.timeNoPic}>
-              <GameText style={styles.label}>Water:</GameText>
+            <View
+              style={buttonContent !== null ? styles.time : styles.timeNoPic}
+            >
+              <GameText style={styles.timeText}>Water:</GameText>
               <GameText style={styles.timeText}>{countdownTime}</GameText>
               {buttonContent !== null && (
                 <View style={styles.bubble}>
@@ -492,40 +494,40 @@ const Plant = ({ id, style, currentBackgroundID, isArchived = false }) => {
         </Animated.View>
       )}
 
-    {isWaterButtonPressed && (
-      <Animated.View
-        style={{
-          opacity: xpAnimation.interpolate({
-            inputRange: [0, 1],
-            outputRange: [1, 0],
-          }),
-          transform: [
-            {
-              translateY: xpAnimation.interpolate({
-                inputRange: [0, 1],
-                outputRange: [0, -50], // Adjust the slide-up distance as needed
-              }),
-            },
-          ],
-          position: "absolute",
-          bottom: "-90%", // Position the view at the bottom of the container
-          alignItems: "center", // Center the text horizontally
-          justifyContent: "center", // Center the text vertically
-        }}
-      >
-        <GameText
+      {isWaterButtonPressed && (
+        <Animated.View
           style={{
-            color: "blue",
-            fontSize: RFValue(10),
-            position: "absolute", // Remove the absolute positioning
-            flexDirection: "row", // Remove the flexDirection property
-            flexWrap: "wrap", // Remove the flexWrap property
+            opacity: xpAnimation.interpolate({
+              inputRange: [0, 1],
+              outputRange: [1, 0],
+            }),
+            transform: [
+              {
+                translateY: xpAnimation.interpolate({
+                  inputRange: [0, 1],
+                  outputRange: [0, -50], // Adjust the slide-up distance as needed
+                }),
+              },
+            ],
+            position: "absolute",
+            bottom: "-90%", // Position the view at the bottom of the container
+            alignItems: "center", // Center the text horizontally
+            justifyContent: "center", // Center the text vertically
           }}
         >
-          Watered!
-        </GameText>
-      </Animated.View>
-    )}
+          <GameText
+            style={{
+              color: "blue",
+              fontSize: RFValue(10),
+              position: "absolute", // Remove the absolute positioning
+              flexDirection: "row", // Remove the flexDirection property
+              flexWrap: "wrap", // Remove the flexWrap property
+            }}
+          >
+            Watered!
+          </GameText>
+        </Animated.View>
+      )}
     </View>
   );
 };

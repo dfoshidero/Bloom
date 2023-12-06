@@ -125,22 +125,26 @@ const styles = StyleSheet.create({
     width: 40,
     height: 40,
     borderRadius: 20,
-    alignItems: 'center',
+    alignItems: "center",
     marginTop: 10,
     borderWidth: 2,
-    borderColor: 'black',
+    borderColor: "black",
   },
   buttonContentWrapper: {
     width: 36,
     height: 36,
     borderRadius: 18,
-    overflow: 'hidden',
+    overflow: "hidden",
   },
   timeText: {
-    fontSize: 10,
+    fontSize: 12,
+    color: "aquamarine",
+    textShadowColor: "black",
+    textShadowRadius: 1,
+    textShadowOffset: { width: -1, height: 1 },
   },
   xpGainedContainer: {
-    flex: 1
+    flex: 1,
   },
 });
 

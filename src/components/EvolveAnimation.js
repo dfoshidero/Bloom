@@ -59,7 +59,7 @@ const styles = StyleSheet.create({
   imageContainer: {
     width: 300, // Set as per your requirement
     height: 300, // Set as per your requirement
-    bottom: "15%",
+    bottom: "0%",
   },
   image: {
     width: "100%",
