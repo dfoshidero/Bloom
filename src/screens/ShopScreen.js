@@ -20,36 +20,34 @@ import CoinDisplay from "../components/CoinComponent";
 
 import { PlantDataContext } from "../states/plantsDataContext";
 
-
 const screenHeight = Dimensions.get("window").height;
 const screenWidth = Dimensions.get("window").width;
 
-  const aspectRatio = screenHeight / screenWidth;
-  let itemsTop;
-  let itemsPad;
-  let itemsRight;
-  let itemsGap;
-  let textTop;
-  let coinsBot;
+const aspectRatio = screenHeight / screenWidth;
+let itemsTop;
+let itemsPad;
+let itemsRight;
+let itemsGap;
+let textTop;
+let coinsBot;
 
-  if (aspectRatio < 2.1) {
-    // Adjust the top position for wider aspect ratios
-    itemsTop = "4%";
-    itemsPad = "25%";
-    itemsRight = "20%";
-    itemsGap = "105%";
-    textTop = "77%";
-    coinsBot = "140%";
-  } else {
-    // Adjust the top position for narrower aspect ratios
-    itemsTop = "8%";
-    itemsPad = "30%";
+if (aspectRatio < 2.1) {
+  // Adjust the top position for wider aspect ratios
+  itemsTop = "4%";
+  itemsPad = "25%";
+  itemsRight = "20%";
+  itemsGap = "105%";
+  textTop = "77%";
+  coinsBot = "140%";
+} else {
+  // Adjust the top position for narrower aspect ratios
+  itemsTop = "8%";
+  itemsPad = "30%";
   itemsRight = "15%";
   itemsGap = "105%";
   textTop = "110%";
   coinsBot = "140%";
-  }
-
+}
 
 // Example: setting textSize to be 2% of the screen height
 const textSize = RFValue(screenHeight * 0.01);
@@ -63,11 +61,10 @@ const itemWidth = windowWidth / numColumns - 20; // Adjust this as needed for pa
 
 const totalItemHorizontalMargin = numColumns * 3 * 2;
 
-const flatListWidth = (itemWidth * numColumns) + totalItemHorizontalMargin;
+const flatListWidth = itemWidth * numColumns + totalItemHorizontalMargin;
 
 const ShopScreen = ({ navigation }) => {
   const { playerState, updatePlayerConfig, coins, hearts } = usePlayerConfig();
-  
 
   const [items, setItems] = useState([]);
   const [selectedPlant, setSelectedPlant] = useState(null);
@@ -77,7 +74,7 @@ const ShopScreen = ({ navigation }) => {
 
   const [showOnlyUnowned, setShowOnlyUnowned] = useState(false); // New state variable
 
-    const { savePlantsConfig, plantsConfig } = useContext(PlantDataContext);
+  const { savePlantsConfig, plantsConfig } = useContext(PlantDataContext);
 
   useEffect(() => {
     if (plantsConfig) {
@@ -165,99 +162,91 @@ const ShopScreen = ({ navigation }) => {
     setSelectedPlant(null); // Set selectedPlant to null to show all items
   };
 
-   const handleBuyHearts = async (heartsToBuy) => {
-     const costPerHeart = 10; // Assuming each heart costs 10 coins
-     const totalCost = costPerHeart * heartsToBuy;
+  const handleBuyHearts = async (heartsToBuy) => {
+    const costPerHeart = 10; // Assuming each heart costs 10 coins
+    const totalCost = costPerHeart * heartsToBuy;
 
-     if (coins >= totalCost) {
-       setPurchaseType("heart");
-       setPurchaseItem({ heartsToBuy, totalCost }); // Save purchase details
-       setShowModal(true); // Show confirmation modal
-     } else {
-       // Handle not enough coins scenario
-     }
-   };
-   const handleSkinAction = async (item) => {
-     const plant = plantsConfig[item.plantId];
-     const skin = plant.skins.find((s) => s.name === item.skinId);
-     const skinCost = skin.unlockCondition; // Cost from the skin's unlock condition
+    if (coins >= totalCost) {
+      setPurchaseType("heart");
+      setPurchaseItem({ heartsToBuy, totalCost }); // Save purchase details
+      setShowModal(true); // Show confirmation modal
+    } else {
+      // Handle not enough coins scenario
+    }
+  };
+  
+  const handleSkinAction = async (item) => {
+    const plant = plantsConfig[item.plantId];
+    const skin = plant.skins.find((s) => s.name === item.skinId);
+    const skinCost = skin.unlockCondition; // Cost from the skin's unlock condition
 
-     if (!plant.skinsOwned.includes(skin.name) && coins >= skinCost) {
-       setPurchaseType("skin");
-       setPurchaseItem(item); // Save the selected item
-       setShowModal(true); // Show confirmation modal
-     } else if (plant.skinsOwned.includes(skin.name)) {
-       // If the skin is already owned, apply it
-       plantsConfig[item.plantId].selectedSkin = item.skinId; // Apply the new skin
-       const updatedPlants = { ...plantsConfig }; // Create a new object to trigger state update
-       updatedPlants[item.plantId].selectedSkin = item.skinId;
-       await savePlantsConfig(updatedPlants);
-     }
-   };
+    if (!plant.skinsOwned.includes(skin.name) && coins >= skinCost) {
+      setPurchaseType("skin");
+      setPurchaseItem(item); // Save the selected item
+      setShowModal(true); // Show confirmation modal
+    } else if (plant.skinsOwned.includes(skin.name)) {
+      // If the skin is already owned, apply it
+      plantsConfig[item.plantId].selectedSkin = item.skinId; // Apply the new skin
+      const updatedPlants = { ...plantsConfig }; // Create a new object to trigger state update
+      updatedPlants[item.plantId].selectedSkin = item.skinId;
+      await savePlantsConfig(updatedPlants);
+    }
+  };
 
-    const confirmPurchase = async () => {
-      if (purchaseType === "skin") {
-        const updatedCoins = coins - purchaseItem.unlockCondition;
-        const newOwnedSkins = [
-          ...plantsConfig[purchaseItem.plantId].skinsOwned,
-          purchaseItem.skinId,
-        ];
-        plantsConfig[purchaseItem.plantId].skinsOwned = newOwnedSkins; // Update the skinsOwned array for the plant
-        plantsConfig[purchaseItem.plantId].selectedSkin = purchaseItem.skinId; // Apply the new skin
+  const confirmPurchase = async () => {
+    if (purchaseType === "skin") {
+      const updatedCoins = coins - purchaseItem.unlockCondition;
+      const newOwnedSkins = [
+        ...plantsConfig[purchaseItem.plantId].skinsOwned,
+        purchaseItem.skinId,
+      ];
+      plantsConfig[purchaseItem.plantId].skinsOwned = newOwnedSkins; // Update the skinsOwned array for the plant
+      plantsConfig[purchaseItem.plantId].selectedSkin = purchaseItem.skinId; // Apply the new skin
 
-        const updatedPlants = { ...plantsConfig }; // Create a new object to trigger state update
-        updatedPlants[purchaseItem.plantId].selectedSkin = purchaseItem.skinId;
-        await savePlantsConfig(updatedPlants);
+      const updatedPlants = { ...plantsConfig }; // Create a new object to trigger state update
+      updatedPlants[purchaseItem.plantId].selectedSkin = purchaseItem.skinId;
+      await savePlantsConfig(updatedPlants);
 
-        await updatePlayerConfig({ ...playerState, coins: updatedCoins });
-        
-      } else if (purchaseType === "heart") {
-        const updatedCoins = coins - purchaseItem.totalCost;
-        const updatedHearts = hearts + purchaseItem.heartsToBuy;
+      await updatePlayerConfig({ ...playerState, coins: updatedCoins });
+    } else if (purchaseType === "heart") {
+      const updatedCoins = coins - purchaseItem.totalCost;
+      const updatedHearts = hearts + purchaseItem.heartsToBuy;
 
-        await updatePlayerConfig({
-          ...playerState,
-          coins: updatedCoins,
-          hearts: updatedHearts,
-        });
-      }
+      await updatePlayerConfig({
+        ...playerState,
+        coins: updatedCoins,
+        hearts: updatedHearts,
+      });
+    }
 
-      setShowModal(false); // Close the modal after purchase
-    };
+    setShowModal(false); // Close the modal after purchase
+  };
 
-   const ConfirmationModal = () => (
-     <Modal
-       animationType="fade"
-       transparent={true}
-       visible={showModal}
-       onRequestClose={() => {
-         setShowModal(!showModal);
-       }}
-     >
-       <View style={styles.centeredView}>
-         <View style={styles.modalView}>
-           <GameText style={styles.modalText}>
-             Are you sure you want to make this purchase?
-           </GameText>
-           <View style={styles.modalButtonContainer}>
-             <TouchableScale
-               style={[styles.button, styles.buttonClose]}
-               onPress={() => confirmPurchase()}
-             >
-               <GameText style={styles.textStyle}>Yes</GameText>
-             </TouchableScale>
-             <TouchableScale
-               style={[styles.button, styles.buttonClose]}
-               onPress={() => setShowModal(false)}
-             >
-               <GameText style={styles.textStyle}>No</GameText>
-             </TouchableScale>
-           </View>
-         </View>
-       </View>
-     </Modal>
-   );
-
+  const ConfirmationModal = () => (
+    <Modal animationType="none" transparent={true} visible={showModal}>
+      <View style={styles.centeredView}>
+        <View style={styles.modalView}>
+          <GameText style={styles.modalText}>
+            Are you sure you want to make this purchase?
+          </GameText>
+          <View style={styles.modalButtonContainer}>
+            <TouchableScale
+              style={[styles.button, styles.buttonClose]}
+              onPress={() => confirmPurchase()}
+            >
+              <GameText style={styles.textStyle}>Yes</GameText>
+            </TouchableScale>
+            <TouchableScale
+              style={[styles.button, styles.buttonClose]}
+              onPress={() => setShowModal(false)}
+            >
+              <GameText style={styles.textStyle}>No</GameText>
+            </TouchableScale>
+          </View>
+        </View>
+      </View>
+    </Modal>
+  );
 
   return (
     <View style={styles.container}>
@@ -598,6 +587,5 @@ const styles = StyleSheet.create({
     fontSize: buttonFontSize * 1.3,
   },
 });
-
 
 export default ShopScreen;
