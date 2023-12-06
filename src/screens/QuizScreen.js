@@ -433,7 +433,12 @@ const QuizScreen = ({ navigation, route }) => {
   return (
     <View style={styles.container}>
       <Modal
-        visible={showModal || showInstructions || showEvolveModal || showCongratsBackground}
+        visible={
+          showModal ||
+          showInstructions ||
+          showEvolveModal ||
+          showCongratsBackground
+        }
         animationType="fade"
         transparent={true}
         statusBarTranslucent={true}
@@ -470,7 +475,7 @@ const QuizScreen = ({ navigation, route }) => {
               </ImageBackground>
             </View>
           )}
-  
+
           {showEvolveModal && (
             <View style={styles.evolveModalContainer}>
               <View style={styles.evolveModal}>
@@ -480,7 +485,7 @@ const QuizScreen = ({ navigation, route }) => {
                     nextImage={currentPlant.previousStageImage}
                     style={{ bottom: "100%" }}
                   />
-  
+
                   <GameText style={styles.evolveMessage}>
                     {`Oh, what's this..? Wow! You have reached ${plantsConfig[plant].name} Mastery ${masteryLevel}!`}
                   </GameText>
@@ -499,7 +504,7 @@ const QuizScreen = ({ navigation, route }) => {
               </View>
             </View>
           )}
-  
+
           {showCongratsBackground && (
             <View style={styles.modalContainer}>
               <View style={styles.congratsModalView}>
@@ -511,10 +516,11 @@ const QuizScreen = ({ navigation, route }) => {
                 </GameText>
                 <TouchableScale
                   onPress={handleGoHome}
-                  style={styles.congratsButtonTextWrapper}
                 >
                   <ImageBackground source={textBox} style={styles.textBox}>
-                    <GameText style={styles.congratsButtonText}>Go Home.</GameText>
+                    <GameText style={styles.congratsButtonText}>
+                      Back to Home
+                    </GameText>
                   </ImageBackground>
                 </TouchableScale>
               </View>
@@ -522,7 +528,7 @@ const QuizScreen = ({ navigation, route }) => {
           )}
         </View>
       </Modal>
-  
+
       <ImageBackground
         source={quizBackground}
         style={{ width: "100%", height: "100%", resizeMode: "contain" }}
@@ -611,11 +617,6 @@ const styles = StyleSheet.create({
     width: "100%", // Set the width to 100% to cover the entire button
     alignItems: "center", // Center the content horizontally
     justifyContent: "center", // Center the content vertically
-  },
-  congratsButtonTextWrapper: {
-    width: "100%", // Set the width to 100% to cover the entire button
-    justifyContent: "center", // Center the content vertically
-    alignContent: "center",
   },
   modalContainer: {
     flex: 1,
@@ -725,10 +726,13 @@ const styles = StyleSheet.create({
     color: "#333",
     margin: "10%",
     alignSelf: "center",
+    textAlign: "center",
+    width: "100%",
   },
   textBox: {
     width: "100%",
     resizeMode: "contain",
+    
   },
   congratsText: {
     fontSize: textSize,
@@ -804,7 +808,6 @@ const styles = StyleSheet.create({
     color: "white",
     textAlign: "center",
   },
-  
 });
 
 export default QuizScreen;
