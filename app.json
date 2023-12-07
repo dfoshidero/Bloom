@@ -1,30 +1,48 @@
 {
   "expo": {
-    "name": "Bloom_WIP",
-    "slug": "Bloom_WIP",
+    "name": "Bloom",
+    "slug": "Bloom",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./src/assets/icon.png",
     "userInterfaceStyle": "light",
     "splash": {
-      "image": "./src/assets/splash.png",
-      "resizeMode": "contain",
+      "image": "./src/assets/backgrounds/misc/loading_screen2.png",
+      "resizeMode": "cover",
       "backgroundColor": "#ffffff"
     },
     "assetBundlePatterns": [
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": false,
+      "bundleIdentifier": "com.teamPlum.bloom",
+      "buildNumber": "1.0.0"
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./src/assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.teamPlum.bloom",
+      "versionCode": 1
     },
     "web": {
-      "favicon": "./src/assets/favicon.png"
+      "favicon": "./src/assets/icon.png"
+    },
+    "updates": {
+      "fallbackToCacheTimeout": 0
+    },
+    "platforms": [
+      "ios",
+      "android"
+    ],
+    "privacy": "public",
+    "description": "'Bloom' is a mobile edutainment app developed for a CM50109 Software Engineering CS module. It combines education and entertainment to teach users about indoor plant care. Featuring an interactive hub, educational quizzes, and real-time plant maintenance tasks, Bloom helps players learn and manage virtual plants, reflecting real-life care.",
+    "extra": {
+      "eas": {
+        "projectId": "0431845d-aee9-46a4-acfb-468504b8b0a4"
+      }
     }
   }
 }

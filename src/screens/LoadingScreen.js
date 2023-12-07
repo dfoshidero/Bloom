@@ -20,25 +20,42 @@ const LoadingScreen = ({ onFinishLoading }) => {
   const [fadeAnim] = useState(new Animated.Value(1)); // Initial opacity is set to 1
 
   useEffect(() => {
+  const loadAllData = async () => {
+    try {
+      setLoadingMessage("Loading data...");
 
-    // Simulate loading process with a delay
-    const delay = async () => {
-      setLoadingMessage("Loading plant data...");
-      await new Promise((resolve) => setTimeout(resolve, 300)); // Adjust the delay as needed
-      
-      // Delay before fading out
-      setTimeout(() => {
-        // Fade out animation
-        Animated.timing(fadeAnim, {
-          toValue: 0, // Animate to opacity 0 (fully transparent)
-          duration: 200, // Animation duration in milliseconds
-          useNativeDriver: true, // Use native driver for better performance
-        }).start(() => {
-          // Animation complete callback
-          onFinishLoading();
-        });
-      }, 50); // 2 seconds delay
-    };
+      // List of all your loading functions
+      const loadingFunctions = [
+        loadPlantData(),
+        loadFonts(),
+        loadPlayerState(),
+        loadCompletedLevels(),
+        loadSpeciesProgress(),
+        loadPlantsConfig()
+      ];
+
+      // Wait for all loading functions to complete
+      await Promise.all(loadingFunctions);
+
+      // After all data is loaded, start the fade out animation
+      Animated.timing(fadeAnim, {
+        toValue: 0,
+        duration: 200,
+        useNativeDriver: true,
+      }).start(() => {
+        // Call onFinishLoading after the animation completes
+        onFinishLoading();
+      });
+
+    } catch (error) {
+      console.error("Error loading data:", error);
+    }
+  };
+
+  // Execute the loadAllData function
+  loadAllData();
+}, []);
+
 
     const loadPlantData = async () => {
       try {
@@ -119,16 +136,6 @@ const LoadingScreen = ({ onFinishLoading }) => {
         console.error("Failed to load species progress data:", error);
       }
     };
-
-    // Load everything
-    loadPlantData();
-    loadFonts();
-    loadPlayerState();
-    loadCompletedLevels();
-    loadSpeciesProgress();
-    loadPlantsConfig();
-    delay();
-  }, []);
 
   return (
     <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
