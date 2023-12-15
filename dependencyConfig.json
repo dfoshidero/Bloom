@@ -1,0 +1,64 @@
+{
+  "$schema": "https://arkit.pro/schema.json",
+  "components": [
+    {
+      "type": "Assets",
+      "patterns": ["src/assets/**/*.js"]
+    },
+    {
+      "type": "Components",
+      "patterns": ["src/components/**/*.js"]
+    },
+    {
+      "type": "Navigation",
+      "patterns": ["src/navigation/**/*.js"]
+    },
+    {
+      "type": "Screens",
+      "patterns": ["src/screens/**/*.js"]
+    },
+    {
+      "type": "States",
+      "patterns": ["src/states/**/*.js"]
+    },
+    {
+      "type": "Utilities",
+      "patterns": ["src/utilities/**/*.js"]
+    }
+  ],
+  "output": {
+    "path": "moduleDependencies.png",
+    "groups": [
+      {
+        "type": "Assets",
+        "patterns": ["src/assets/**/*.js"]
+      },
+      {
+        "type": "Components",
+        "patterns": ["src/components/**/*.js"]
+      },
+      {
+        "type": "Navigation",
+        "patterns": ["src/navigation/**/*.js"]
+      },
+      {
+        "type": "Screens",
+        "patterns": ["src/screens/**/*.js"]
+      },
+      {
+        "type": "States",
+        "patterns": ["src/states/**/*.js"]
+      },
+      {
+        "type": "Utilities",
+        "patterns": ["src/utilities/**/*.js"]
+      }
+    ],
+    "graphviz": {
+      "rankdir": "LR",
+      "concentrate": true,
+      "nodesep": 1.0,
+      "ranksep": 1.5
+    }
+  }
+}

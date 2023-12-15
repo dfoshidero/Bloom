@@ -34,7 +34,8 @@
     "react-navigation": "^5.0.0"
   },
   "devDependencies": {
-    "@babel/core": "^7.20.0"
+    "@babel/core": "^7.20.0",
+    "arkit": "^1.6.4"
   },
   "private": true
 }
