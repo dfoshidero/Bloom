@@ -35,7 +35,7 @@
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",
-    "arkit": "^1.6.4"
+    "dependency-cruiser": "^15.5.0"
   },
   "private": true
 }
