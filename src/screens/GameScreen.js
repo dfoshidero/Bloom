@@ -31,7 +31,6 @@ const GameScreen = ({ route }) => {
   const navigation = useNavigation();
   const [musicEnabled, setMusicEnabled] = useState(true);
 
-
   const [menuVisible, setMenuVisible] = useState(false);
 
   const [levelUpModalVisible, setLevelUpModalVisible] = useState(false);
@@ -71,18 +70,22 @@ const GameScreen = ({ route }) => {
   const applyMusicSetting = async () => {
     try {
       const savedMusicSetting = await AsyncStorage.getItem('musicEnabled');
-      const isMusicEnabled = savedMusicSetting === 'true';
+      // Use the saved setting if available, otherwise default to true
+      const isMusicEnabled = savedMusicSetting !== null ? savedMusicSetting === 'true' : true;
       setMusicEnabled(isMusicEnabled);
 
-      if (isMusicEnabled) {
+      if (savedMusicSetting !== null && isMusicEnabled) {
         playRandomBackgroundMusic();
-      } else {
+      } else if (savedMusicSetting !== null) {
         stopBackgroundMusic();
+      } else {
+        playRandomBackgroundMusic();
       }
     } catch (error) {
       console.error("Failed to load music setting from storage", error);
     }
   };
+
 
   // useEffect to setup the player
   useEffect(() => {
