@@ -1,5 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { View, Text, Switch, StyleSheet } from "react-native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import {
   playRandomBackgroundMusic,
@@ -13,18 +14,33 @@ import GameText from "../styles/GameText";
 const SettingsScreen = () => {
   const [musicEnabled, setMusicEnabled] = useState(true);
 
-  const toggleMusicSwitch = () => {
-    setMusicEnabled((prevState) => {
-        if (!prevState) {
-          playRandomBackgroundMusic();
-        } else {
-          stopBackgroundMusic();
-        }
-        return !prevState;
-      });
+  useEffect(() => {
+    const loadMusicSetting = async () => {
+      const savedMusicSetting = await AsyncStorage.getItem('musicEnabled');
+      if (savedMusicSetting !== null) {
+        setMusicEnabled(savedMusicSetting === 'true');
+      }
+    };
+
+    loadMusicSetting();
+  }, []);
+
+  const toggleMusicSwitch = async () => {
+    await setMusicEnabled((prevState) => {
+      const newState = !prevState;
+
+      if (newState) {
+        playRandomBackgroundMusic();
+      } else {
+        stopBackgroundMusic();
+      }
+
+      // Save the new setting
+      AsyncStorage.setItem('musicEnabled', newState.toString());
+
+      return newState;
+    });
   };
-
-
 
   return (
     <View style={styles.container}>

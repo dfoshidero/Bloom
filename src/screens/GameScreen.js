@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { View, Image, Modal, TouchableOpacity } from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome";
 import TouchableScale from "react-native-touchable-scale";
@@ -29,6 +29,8 @@ import { usePlayerConfig } from "../states/playerConfigContext";
 
 const GameScreen = ({ route }) => {
   const navigation = useNavigation();
+  const [musicEnabled, setMusicEnabled] = useState(true);
+
 
   const [menuVisible, setMenuVisible] = useState(false);
 
@@ -65,10 +67,27 @@ const GameScreen = ({ route }) => {
     setMenuVisible(toggleMenu(menuVisible));
   };
 
+  // Function to load and apply the music setting
+  const applyMusicSetting = async () => {
+    try {
+      const savedMusicSetting = await AsyncStorage.getItem('musicEnabled');
+      const isMusicEnabled = savedMusicSetting === 'true';
+      setMusicEnabled(isMusicEnabled);
+
+      if (isMusicEnabled) {
+        playRandomBackgroundMusic();
+      } else {
+        stopBackgroundMusic();
+      }
+    } catch (error) {
+      console.error("Failed to load music setting from storage", error);
+    }
+  };
+
+  // useEffect to setup the player
   useEffect(() => {
     setupPlayer().then(() => {});
-
-    playRandomBackgroundMusic();
+    applyMusicSetting();
 
     return () => {
       stopBackgroundMusic();
