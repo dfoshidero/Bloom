@@ -35,6 +35,8 @@ const GameScreen = ({ route }) => {
   const [levelUpModalVisible, setLevelUpModalVisible] = useState(false);
   const [shouldShowLevelUpModal, setShouldShowLevelUpModal] = useState(false);
 
+  const [forceUpdate, setForceUpdate] = useState(false);
+
   const { level, getUnlockedRooms, hearts, increaseHearts } = usePlayerConfig();
   const unlockedRooms = getUnlockedRooms(level);
 
