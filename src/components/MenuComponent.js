@@ -34,27 +34,32 @@ const MenuComponent = ({ menuVisible, closeMenu }) => {
     setConfirmModalVisible(false); // Hide the confirmation modal
 
     try {
-      // Fetch all AsyncStorage keys and remove them
+      // Wait for all AsyncStorage keys to be fetched
       const keys = await AsyncStorage.getAllKeys();
+
+      // Wait for all AsyncStorage data to be removed
       await AsyncStorage.multiRemove(keys);
 
-      // Reset states
+      // Resetting the states, ensure these operations are synchronous or await async ones
       updatePlantData([]);
       resetPlayerConfig();
 
-      // Ensure all speciesProgress and completedLevels are reset
-      await Promise.all([
-        ...Object.keys(speciesProgress).map(key => updateSpeciesProgress(key, 0)),
-        ...Object.keys(completedLevels).map(key => updateCompletedLevels(key, 0))
-      ]);
+      for (const key of Object.keys(speciesProgress)) {
+        updateSpeciesProgress(key, 0);
+      }
 
-      // After all data is cleared, reload the app
-      NativeModules.DevSettings.reload();
+      for (const key of Object.keys(completedLevels)) {
+        updateCompletedLevels(key, 0);
+      }
+
+      // Reload the app after a brief delay
+      setTimeout(() => {
+        NativeModules.DevSettings.reload();
+      }, 500);
     } catch (e) {
       console.error("Error clearing data:", e);
     }
-};
-
+  };
 
   const handleClear = () => {
     setConfirmModalVisible(false);
