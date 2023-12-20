@@ -45,7 +45,7 @@ Team members can contribute by pulling the latest changes from the main branch, 
 ## Developers
 
 - Udit Bhatia
-- Pang Hoi (Eddy) Chan
+- Pang Hoi (Eddie) Chan
 - Marat Danyarov
 - Siqi (Claire) He
 - Alec Mason

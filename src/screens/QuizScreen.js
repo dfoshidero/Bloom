@@ -101,7 +101,7 @@ const QuizScreen = ({ navigation, route }) => {
     if (trivia) {
       const currentLevelIndex = parseInt(level.slice(-1)); // Extract the level number
       setCurrentLevel(level.slice(-1));
-      setCurrentPlant(plantsConfig[1].name);
+      setCurrentPlant(plantsConfig[plant].name);
       // Collect questions from all previous levels
       const allPreviousQuestions = [];
       for (let i = 1; i < currentLevelIndex; i++) {

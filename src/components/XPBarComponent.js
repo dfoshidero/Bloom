@@ -9,9 +9,6 @@ const XPBar = ({ animateLevelUp }) => {
   const { xp, level } = usePlayerConfig();
   const [currentImage, setCurrentImage] = useState(0);
   const [displayLevel, setDisplayLevel] = useState(level);
-  const [glowAnimation] = useState(new Animated.Value(0));
-
-  const animation = new Animated.Value(0);
 
   const lvlImage = require("../assets/icons/xp/lvl_container.png");
   const xpImages = [
@@ -68,7 +65,7 @@ const XPBar = ({ animateLevelUp }) => {
       // For non-animated, set the current image based on XP percentage
       setCurrentImage(getImageIndex());
     }
-  }, [animateLevelUp, level, xpImages.length]);
+  }, [animateLevelUp, level, xpImages.length, xp]);
 
   const getCurrentLevelXP = () => requiredXP[level]?.xpRequired || 0;
   const getNextLevelXP = () =>

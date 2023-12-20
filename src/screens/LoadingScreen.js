@@ -17,6 +17,7 @@ const LoadingScreen = ({ onFinishLoading }) => {
   const { updateCompletedLevels } = useContext(CompletedLevelsContext);
   const { updateSpeciesProgress } = useContext(SpeciesProgressContext);
   const [loadingMessage, setLoadingMessage] = useState("Loading...");
+  const [fontsLoaded, setFontsLoaded] = useState(false); // New state for font loading status
   const [fadeAnim] = useState(new Animated.Value(1)); // Initial opacity is set to 1
 
   useEffect(() => {
@@ -24,14 +25,14 @@ const LoadingScreen = ({ onFinishLoading }) => {
     // Simulate loading process with a delay
     const delay = async () => {
       setLoadingMessage("Loading plant data...");
-      await new Promise((resolve) => setTimeout(resolve, 300)); // Adjust the delay as needed
+      await new Promise((resolve) => setTimeout(resolve, 2500)); // Adjust the delay as needed
       
       // Delay before fading out
       setTimeout(() => {
         // Fade out animation
         Animated.timing(fadeAnim, {
           toValue: 0, // Animate to opacity 0 (fully transparent)
-          duration: 200, // Animation duration in milliseconds
+          duration: 500, // Animation duration in milliseconds
           useNativeDriver: true, // Use native driver for better performance
         }).start(() => {
           // Animation complete callback
@@ -73,6 +74,7 @@ const LoadingScreen = ({ onFinishLoading }) => {
           "PressStart2P-Regular": require("../assets/fonts/PressStart2P-Regular.ttf"),
           "DotGothic16": require("../assets/fonts/DotGothic16-Regular.ttf"),
         });
+        setFontsLoaded(true);
       } catch (error) {
         console.error("Error loading fonts:", error);
       }
@@ -129,6 +131,14 @@ const LoadingScreen = ({ onFinishLoading }) => {
     loadPlantsConfig();
     delay();
   }, []);
+
+  if (!fontsLoaded) {
+    return (
+      <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+        <Text>Loading Fonts...</Text>
+      </View>
+    );
+  }
 
   return (
     <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>

@@ -34,18 +34,25 @@ const MenuComponent = ({ menuVisible, closeMenu }) => {
     setConfirmModalVisible(false); // Hide the confirmation modal
 
     try {
-      await AsyncStorage.getAllKeys()
-        .then((keys) => AsyncStorage.multiRemove(keys))
+      // Wait for all AsyncStorage keys to be fetched
+      const keys = await AsyncStorage.getAllKeys();
 
+      // Wait for all AsyncStorage data to be removed
+      await AsyncStorage.multiRemove(keys);
+
+      // Resetting the states, ensure these operations are synchronous or await async ones
       updatePlantData([]);
       resetPlayerConfig();
-      Object.keys(speciesProgress).forEach((key) =>
-        updateSpeciesProgress(key, 0)
-      );
-      Object.keys(completedLevels).forEach((key) =>
-        updateCompletedLevels(key, 0)
-      );
 
+      for (const key of Object.keys(speciesProgress)) {
+        updateSpeciesProgress(key, 0);
+      }
+
+      for (const key of Object.keys(completedLevels)) {
+        updateCompletedLevels(key, 0);
+      }
+
+      // Reload the app after a brief delay
       setTimeout(() => {
         NativeModules.DevSettings.reload();
       }, 500);
