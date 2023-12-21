@@ -20,9 +20,11 @@
 - **Additional Tools:** Node.js, Git
 
 ## Demo Video
+Explore the features of "Bloom" through our demonstration video. Click on the image below to view the video on YouTube:
 
-<iframe width="560" height="315" src="https://www.youtube.com/embed/v2pALOEpWOQ" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+[![Watch the Bloom Demo](http://img.youtube.com/vi/v2pALOEpWOQ/0.jpg)](http://www.youtube.com/watch?v=v2pALOEpWOQ "Watch the Bloom Demo")
 
+For direct access, visit the [Bloom Demonstration Video on YouTube](http://www.youtube.com/watch?v=v2pALOEpWOQ).
 
 
 #### First-Time Installations:
