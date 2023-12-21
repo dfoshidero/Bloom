@@ -21,7 +21,8 @@
 
 ## Demo Video
 
-[![Bloom Demo](http://img.youtube.com/vi/v2pALOEpWOQ/0.jpg)](http://www.youtube.com/watch?v=v2pALOEpWOQ "Bloom Demo")
+<iframe width="560" height="315" src="https://www.youtube.com/embed/v2pALOEpWOQ" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
 
 
 #### First-Time Installations:
