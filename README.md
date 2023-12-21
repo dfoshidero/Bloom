@@ -19,6 +19,11 @@
 - **Frameworks:** React, React-Native, Expo
 - **Additional Tools:** Node.js, Git
 
+## Demo Video
+
+[![Bloom Demo](http://img.youtube.com/vi/v2pALOEpWOQ/0.jpg)](http://www.youtube.com/watch?v=v2pALOEpWOQ "Bloom Demo")
+
+
 #### First-Time Installations:
 1. Install [Node.js](https://nodejs.org/en/download)
 2. Install [Git](https://git-scm.com/download/win)
