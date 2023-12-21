@@ -24,7 +24,7 @@ Explore the features of "Bloom" through our demonstration video. Click on the im
 
 [![Watch the Bloom Demo](http://img.youtube.com/vi/v2pALOEpWOQ/0.jpg)](http://www.youtube.com/watch?v=v2pALOEpWOQ "Watch the Bloom Demo")
 
-For direct access, visit the [Bloom Demonstration Video on YouTube](http://www.youtube.com/watch?v=v2pALOEpWOQ).
+If that does not work, visit the link here: [Bloom Demonstration Video on YouTube](http://www.youtube.com/watch?v=v2pALOEpWOQ).
 
 
 #### First-Time Installations:
