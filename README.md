@@ -51,7 +51,7 @@ Contributions are welcome! Please fork the repository and submit a pull request 
 
 ![Contributors](https://contrib.rocks/image?repo=dfoshidero/Bloom)
 
-## Developers
+## Early Developers
 
 - Udit Bhatia
 - Pang Hoi (Eddie) Chan
