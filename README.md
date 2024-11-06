@@ -1,4 +1,4 @@
-# Bloom
+# Bloom (Prototype)
 
 ## Overview
 
@@ -46,10 +46,8 @@ If that does not work, visit the link here: [Bloom Demonstration Video on YouTub
 
 After setting up the project, use `npx expo start` to run the app. Scan the provided QR code with the Expo Go app on your mobile device to view the application.
 
-## Contributors
-Contributions are welcome! Please fork the repository and submit a pull request with your enhancements or bug fixes.
-
-![Contributors](https://contrib.rocks/image?repo=dfoshidero/Bloom)
+## Contributions
+If you are interested in supporting on this project, please take a look at the new repository: 
 
 ## Early Developers
 
@@ -60,6 +58,8 @@ Contributions are welcome! Please fork the repository and submit a pull request 
 - Alec Mason
 - Daniel-Favour Oshidero
 - Yan Chun (Ivan) Yeung
+  
+![Contributors](https://contrib.rocks/image?repo=dfoshidero/Bloom)
 
 ## Acknowledgments
 
